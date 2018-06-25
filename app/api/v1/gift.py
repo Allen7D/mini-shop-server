@@ -4,8 +4,9 @@
 """
 from flask import g
 
-from app.libs.error_code import RenewSuccess, DuplicateGift
+from app.libs.error_code import DuplicateGift
 from app.libs.redprint import RedPrint
+from app.libs.success_message import RenewSuccess
 from app.libs.token_auth import auth
 from app.models.base import db
 from app.models.book import Book

@@ -4,7 +4,7 @@
 """
 
 from app.libs.enums import ClientTypeEnum
-from app.libs.error_code import RenewSuccess
+from app.libs.success_message import RenewSuccess
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientValidator, UserEmailValidator

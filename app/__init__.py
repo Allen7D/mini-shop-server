@@ -12,6 +12,7 @@ def create_app():
 	app = Flask(__name__)
 	app.config.from_object('app.config.secure')
 	app.config.from_object('app.config.setting')
+	app.config.from_object('app.config.wx')
 
 	register_blueprint(app)
 	register_plugin(app)

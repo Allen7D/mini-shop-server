@@ -2,7 +2,7 @@
 """
   Created by Alimazing on 2018/6/17.
 """
-from app.libs.error_code import Success
+from app.libs.success_message import Success
 from app.libs.redprint import RedPrint
 from app.models.category import Category
 

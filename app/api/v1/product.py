@@ -4,7 +4,7 @@
 """
 __author__ = 'Alimazing'
 
-from app.libs.error_code import Success, ProductException
+from app.libs.success_message import Success
 from app.libs.redprint import RedPrint
 from app.models.product import Product
 from app.validators.params import Count, IDMustBePositiveInt
@@ -25,3 +25,16 @@ def get_all_in_category():
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	products = Product.get_product_by_category_id(id=id)
 	return Success(products)
+
+@api.route('/<id>', methods=['GET'])
+def get_one(id):
+	id = IDMustBePositiveInt().validate_for_api().id.data
+	product = Product.get_product_detail(id=id)
+	return Success(product)
+
+@api.route('/<id>', methods=['DELETE'])
+def delete_one(id):
+	id = IDMustBePositiveInt().validate_for_api().id.data
+	product = Product.get_product_detail(id=id)
+	return Success()
+

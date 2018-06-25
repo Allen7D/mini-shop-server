@@ -28,7 +28,7 @@ class UserScope(Scope):
 
 class AdminScope(Scope):
 	# allow_api = ['v1.user+super_fetch_user', 'v1.user+super_delete_user']
-	allow_module = ['v1.user']  # 所有视图函数
+	allow_module = ['v1.user', 'v1.address']  # 所有视图函数
 
 	def __init__(self):
 		# self + (UserScope())

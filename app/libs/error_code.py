@@ -9,44 +9,6 @@ from app.libs.error import APIException
 __author__ = 'Alimazing'
 
 
-class Success(APIException):
-	code = 200
-	error_code = 0
-	data = None  # 结果可以是{} 或 []
-	msg = 'fetch success'
-
-	def __init__(self, data=None, code=None, error_code=None, msg=None):
-		if data:
-			self.data = jsonify(data)
-		super(Success, self).__init__(code, error_code, msg)
-
-	def get_body(self, environ=None):
-		body = dict(
-			error_code=self.error_code,
-			data=self.data
-		)
-		text = json.dumps(body)  # 返回文本
-		return text
-
-
-class RenewSuccess(Success):
-	code = 201
-	error_code = 1
-	msg = 'renew data success'
-
-
-class DeleteSuccess(Success):
-	code = 202
-	error_code = 2
-	msg = 'delete success'
-
-
-class TokenException(APIException):
-	code = 400
-	error_code = 1001
-	msg = 'Token已过期或无效Token'
-
-
 class ClientTypeError(APIException):
 	code = 400
 	error_code = 1006
@@ -69,6 +31,12 @@ class ParameterException(APIException):
 	code = 400
 	error_code = 1000
 	msg = 'invalid parameter'
+
+
+class TokenException(APIException):
+	code = 401
+	error_code = 1001
+	msg = 'Token已过期或无效Token'
 
 
 class AuthFailed(APIException):

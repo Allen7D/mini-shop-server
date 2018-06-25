@@ -4,7 +4,7 @@
 """
 from flask import g
 
-from app.libs.error_code import DeleteSuccess, Success, RenewSuccess
+from app.libs.success_message import Success, RenewSuccess, DeleteSuccess
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db

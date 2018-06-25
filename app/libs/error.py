@@ -26,7 +26,7 @@ class APIException(HTTPException):
 		body = dict(
 			msg= self.msg,
 			error_code = self.error_code,
-			request = request.method + ' ' + self.get_url_no_param()
+			request_url = request.method + ' ' + self.get_url_no_param()
 		)
 		text = json.dumps(body) #返回文本
 		return text

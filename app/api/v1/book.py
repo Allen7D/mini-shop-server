@@ -4,7 +4,7 @@
 """
 from sqlalchemy import or_
 
-from app.libs.error_code import Success
+from app.libs.success_message import Success
 from app.libs.redprint import RedPrint
 from app.models.book import Book
 from app.validators.forms import BookSearchValidator

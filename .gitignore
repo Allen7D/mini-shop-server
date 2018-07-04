@@ -1,5 +1,8 @@
+# Editor directories and files
 __pycache__/
 *.py[cod]
 *$py.class
-.idea
 .DS_Store
+
+# Test code
+/test/

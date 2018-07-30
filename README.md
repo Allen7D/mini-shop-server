@@ -29,7 +29,7 @@ pipenv install
 * [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
 
 #### 伪造用户信息 
-python fake.py
+> $ python fake.py
 
 #### 本地启动
 > $ git clone https://github.com/bodanli159951/mini-shop-server.git <br>

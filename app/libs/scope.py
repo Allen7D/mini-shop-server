@@ -19,16 +19,17 @@ class Scope:
 
 
 class UserScope(Scope):
-	forbidden = ['v1.user+super_fetch_user', 'v1.user+super_delete_user',
-				 'v1.user+super_update_user']
+	forbidden = ['v1.user+super_get_user', 'v1.user+super_delete_user',
+				 'v1.user+super_update_user'] + \
+				[]
 
 	def __init__(self):
 		self + AdminScope()
 
 
 class AdminScope(Scope):
-	# allow_api = ['v1.user+super_fetch_user', 'v1.user+super_delete_user']
-	allow_module = ['v1.user', 'v1.address']  # 所有视图函数
+	# allow_api = ['v1.user+super_get_user', 'v1.user+super_delete_user']
+	allow_module = ['v1.user', 'v1.address', 'v1.upload']  # 所有视图函数
 
 	def __init__(self):
 		# self + (UserScope())
@@ -40,7 +41,7 @@ class SuperScope(Scope):
 	allow_module = []
 
 	def __init__(self):
-		self + UserScope() + AdminScope()
+		self + AdminScope()
 
 
 def is_in_scope(scope, endpoint):

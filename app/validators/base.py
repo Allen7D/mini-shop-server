@@ -24,4 +24,4 @@ class BaseValidator(Form):
 		return self
 
 	def isPositiveInteger(self, value):
-		return True if (value.isdigit() and int(value) > 0) else False
+		return True if (isinstance(value, int) and value > 0) else False

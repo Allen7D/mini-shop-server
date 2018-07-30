@@ -13,7 +13,7 @@ class Success(APIException):
 	code = 200
 	error_code = 0
 	data = None  # 结果可以是{} 或 []
-	msg = 'fetch success'
+	msg = 'get success'
 
 	def __init__(self, data=None, code=None, error_code=None, msg=None):
 		if data:

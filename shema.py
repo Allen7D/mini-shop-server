@@ -12,6 +12,7 @@ __author__ = 'Alimazing'
 
 app = create_app()
 
+
 @app.errorhandler(Exception)
 def framework_error(e):
 	if isinstance(e, APIException):
@@ -26,6 +27,7 @@ def framework_error(e):
 			return ServerError()
 		else:
 			raise e
+
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=5001)

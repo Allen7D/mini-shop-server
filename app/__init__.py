@@ -4,6 +4,7 @@
 """
 
 from .app import Flask
+from flask_cors import CORS
 
 __author__ = 'Alimazing'
 
@@ -16,6 +17,9 @@ def create_app():
 
 	register_blueprint(app)
 	register_plugin(app)
+
+	cors = CORS()
+	cors.init_app(app, resources={"/*": {"origins": "*"}})
 
 	return app
 

@@ -24,7 +24,7 @@ class Product2Image(Base):
 	product_id = Column(Integer, ForeignKey('product.id'), nullable=False)
 
 	def keys(self):
-		self.hide('img_id', 'product_id', 'order').append('img_url')
+		self.hide('id', 'img_id', 'product_id', 'order').append('img_url')
 		return self.fields
 
 	@property
@@ -38,3 +38,10 @@ class Product2Property(Base):
 	name = Column(String(30))
 	detail = Column(String(255), nullable=False)
 	product_id = Column(Integer, ForeignKey('product.id'), nullable=False)
+
+
+class Order2Product(Base):
+	__tablename__ = 'order_product'
+	order_id = Column(Integer, primary_key=True)
+	product_id = Column(Integer, primary_key=True)
+	count = Column(Integer, nullable=False)

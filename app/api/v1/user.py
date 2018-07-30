@@ -18,7 +18,7 @@ api = RedPrint('user')
 # 管理员
 @api.route('/<int:uid>', methods=['GET'])
 @auth.login_required
-def super_fetch_user(uid):
+def super_get_user(uid):
 	# user = User.query.get_or_404(uid) # 会查询到已经被删除的数据
 	user = User.query.filter_by(id=uid).first_or_404()
 	return Success(user)
@@ -36,7 +36,7 @@ def super_delete_user(uid):
 
 @api.route('', methods=['GET'])
 @auth.login_required
-def fetch_user():
+def get_user():
 	uid = g.user.uid  # g变量是「线程隔离」的
 	user = User.query.filter_by(id=uid).first_or_404()
 	return Success(user)

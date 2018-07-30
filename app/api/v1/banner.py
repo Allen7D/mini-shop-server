@@ -13,7 +13,7 @@ __author__ = 'Alimazing'
 api = RedPrint('banner')
 
 
-@api.route('/<id>', methods=['GET'])
+@api.route('/<int:id>', methods=['GET'])
 def get_banner(id):
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	banner = Banner.get_banner_by_id(id=id)

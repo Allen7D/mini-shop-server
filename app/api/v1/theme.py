@@ -24,7 +24,7 @@ def get_simple_list():
 	return Success(theme)
 
 
-@api.route('/<id>', methods=['GET'])
+@api.route('/<int:id>', methods=['GET'])
 def get_complex_one(id):
 	'''
 	Theme详情接口

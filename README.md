@@ -6,17 +6,17 @@
 
 
 #### 三端分离
-客户端: mini-shop-wx，基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。
+客户端: mini-shop-wx，基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
-服务端: mini-shop-server，基于 Flask框架构建RESTful API。
+服务端: mini-shop-server，基于 Flask框架构建RESTful API。（正在实现）
 
-CMS: mini-shop-cms, 基于 Flask框架。
+CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）
 
-####
-Python 3.6（虚拟环境：pipenv）
-MySQL
-PyCharm（开发工具）
-Navicat（数据库可视化管理工具）
+#### 开发工具
+* Python 3.6（虚拟环境：pipenv）
+* MySQL
+* PyCharm（开发工具）
+* Navicat（数据库可视化管理工具）
 
 #### 安装包依赖
 [pipenv的用法指南](https://www.jianshu.com/p/00af447f0005)

@@ -20,10 +20,10 @@ CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）
 
 #### 安装包依赖
 [pipenv的用法指南](https://www.jianshu.com/p/00af447f0005)
-> $ sudo apt install python3-pip
-pip3 install pipenv
-pipenv shell
-pipenv install
+> $ sudo apt install python3-pip <br>
+pip3 install pipenv <br>
+pipenv shell <br>
+pipenv install <br>
 
 #### 导入 mysql 数据
 * [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)

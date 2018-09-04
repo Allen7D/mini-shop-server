@@ -24,4 +24,8 @@ class BaseValidator(Form):
 		return self
 
 	def isPositiveInteger(self, value):
+		try:
+			value=int(value)
+		except ValueError:
+			return False
 		return True if (isinstance(value, int) and value > 0) else False

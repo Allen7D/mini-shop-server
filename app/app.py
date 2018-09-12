@@ -21,10 +21,9 @@ class JSONEncoder(_JSONEncoder):
 		raise ServerError()
 
 
-
-
 class Flask(_Flask):
 	json_encoder = JSONEncoder
+
 	def dispatch_request(self):
 		req = _request_ctx_stack.top.request
 		if req.routing_exception is not None:

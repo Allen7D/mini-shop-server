@@ -12,7 +12,6 @@ __author__ = 'Alimazing'
 
 class BannerItem(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)
-	banner = relationship('Banner')
 	banner_id = Column(Integer, ForeignKey('banner.id'))
 	image = relationship('Image')
 	img_id = Column(Integer, ForeignKey('image.id'))

@@ -21,14 +21,21 @@ class User(Base):
 	nickname = Column(String(24), unique=True)
 	extend = Column(String(255))
 	auth = Column(SmallInteger, default=1)
+	_user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')
 	_password = Column('password', String(100))
 
 	def keys(self):
-		return ['id', 'email', 'nickname', 'auth']
+		# return ['id', 'email', 'nickname', 'auth', 'user_address']
+		self.hide('openid', '_password', 'extend').append('user_address')
+		return self.fields
 
 	@property
 	def password(self):
 		return self._password
+
+	@property
+	def user_address(self):
+		return self._user_address.first()
 
 	@password.setter
 	def password(self, raw):
@@ -36,10 +43,10 @@ class User(Base):
 
 	def save_address(self, address_info):
 		with db.auto_commit():
-			address = UserAddress.query.filter_by(user_id=self.id).first()
+			# address = UserAddress.query.filter_by(user_id=self.id).first()
+			address = self._user_address.first()
 			if not address:
-				address = UserAddress()
-			address.user_id = self.id
+				address = UserAddress(author=self)
 			address.name = address_info.name
 			address.mobile = address_info.mobile
 			address.province = address_info.province

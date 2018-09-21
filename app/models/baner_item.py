@@ -19,9 +19,9 @@ class BannerItem(Base):
 	type = Column(SmallInteger, default=1)
 
 	def keys(self):
-		self.hide('banner_id', 'img_id').append('img')
+		self.hide('banner_id', 'img_id').append('img_url')
 		return self.fields
 
 	@property
-	def img(self):
-		return Image.get_img_by_id(id=self.img_id)
+	def img_url(self):
+		return Image.get_img_by_id(id=self.img_id).url

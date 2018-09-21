@@ -28,6 +28,4 @@ class Banner(Base):
 	@staticmethod
 	def get_banner_by_id(id):
 		with db.auto_check_empty(BannerMissException):
-			# banner = Banner.query.filter_by(id=id).first_or_404()
-			# items = banner.items.all()
 			return Banner.query.filter_by(id=id).first_or_404()

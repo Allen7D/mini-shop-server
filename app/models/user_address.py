@@ -2,7 +2,7 @@
 """
   Created by Alimazing on 2018/6/25.
 """
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 
 from app.models.base import Base
 
@@ -16,5 +16,5 @@ class UserAddress(Base):
 	city =  Column(String(20))
 	country =  Column(String(20))
 	detail =  Column(String(100))
-	user_id = Column(Integer, nullable=False)
+	user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 

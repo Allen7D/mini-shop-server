@@ -8,7 +8,7 @@
 #### 三端分离
 客户端: mini-shop-wx，基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
-服务端: mini-shop-server，基于 Flask框架构建RESTful API。（正在实现中）
+服务端: mini-shop-server，基于 Flask框架构建 RESTful API。（正在实现中）
 
 CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）
 
@@ -18,22 +18,27 @@ CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）
 * PyCharm（开发工具）
 * Navicat（数据库可视化管理工具）
 
-#### 安装包依赖
-[pipenv的用法指南](https://www.jianshu.com/p/00af447f0005)
-> $ sudo apt install python3-pip <br>
-$ pip3 install pipenv <br>
-$ pipenv shell <br>
-$ pipenv install <br>
+#### pipenv的安装
+[《pipenv 的用法指南》](https://www.jianshu.com/p/00af447f0005)
+
+如果还未安装pip3包管理工具，请先执行如下语句
+> $ sudo apt install python3-pip
+
+安装 pipenv
+> $ pip3 install pipenv
 
 #### 导入 mysql 数据
 * [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
 
-#### 伪造用户信息 
-> $ python fake.py
-
 #### 本地启动
-> $ git clone https://github.com/bodanli159951/mini-shop-server.git <br>
-$ python shema.py
+> $ git clone https://github.com/Alimazing/mini-shop-server.git <br>
+$ cd mini-shop-server <br>
+$ pipenv shell # 进入虚拟环境 or 构建新的虚拟环境<br>
+$ pipenv install # 安装包依赖<br>
+$ python shema.py # 启动入口文件
+
+#### 生成临时管理员信息 
+> $ python fake.py
 
 #### 自动生成 api 接口文档
 具体api用法暂时查看 app/api/v1 目录下的py文件

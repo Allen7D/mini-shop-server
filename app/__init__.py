@@ -21,15 +21,16 @@ def create_app():
 
 
 def register_plugin(app):
-	from app.models.base import db
+	# 解决跨域问题
 	from flask_cors import CORS
-
 	cors = CORS()
 	cors.init_app(app, resources={"/*": {"origins": "*"}})
 
+	# 连接数据库
+	from app.models.base import db
 	db.init_app(app)
-	with app.app_context():
-		db.create_all()
+	with app.app_context(): # 手动将app推入栈
+		db.create_all() # 首次模型映射(ORM ==> SQL),若无则建表; 初始化使用
 
 
 def register_blueprint(app):

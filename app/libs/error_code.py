@@ -2,8 +2,7 @@
 """
   Created by Alimazing on 2018/6/12.
 """
-from flask import json
-from app.libs.utils import jsonify
+
 from app.libs.error import APIException
 
 __author__ = 'Alimazing'

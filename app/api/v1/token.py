@@ -6,7 +6,7 @@ from flask import current_app
 
 from app.libs.enums import ClientTypeEnum
 from app.libs.error_code import AuthFailed
-from app.libs.success_message import Success
+from app.libs.success_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientValidator, TokenValidator

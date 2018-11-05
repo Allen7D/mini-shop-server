@@ -14,4 +14,3 @@ class HTTP:
 		if res.status_code != 200:
 			return {} if return_json else ''
 		return res.json() if return_json else res.text
-

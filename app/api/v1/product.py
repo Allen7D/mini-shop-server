@@ -4,7 +4,7 @@
 """
 __author__ = 'Alimazing'
 
-from app.libs.success_message import Success
+from app.libs.success_code import Success
 from app.libs.redprint import RedPrint
 from app.models.product import Product
 from app.validators.params import Count, IDMustBePositiveInt

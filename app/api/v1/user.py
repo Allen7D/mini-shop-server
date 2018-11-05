@@ -4,7 +4,7 @@
 """
 from flask import g
 
-from app.libs.success_message import Success, RenewSuccess, DeleteSuccess
+from app.libs.success_code import Success, RenewSuccess, DeleteSuccess
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db
@@ -37,7 +37,7 @@ def super_delete_user(uid):
 @api.route('', methods=['GET'])
 @auth.login_required
 def get_user():
-	uid = g.user.uid  # g变量是「线程隔离」的
+	uid = g.user.uid  # g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
 	user = User.query.filter_by(id=uid).first_or_404()
 	return Success(user)
 

@@ -37,10 +37,47 @@ $ pipenv shell # 进入虚拟环境 or 构建新的虚拟环境<br>
 $ pipenv install # 安装包依赖<br>
 $ python shema.py # 启动入口文件
 
+#### 目录结构
+```
+| |____app.py
+| |____api
+| | |______init__.py
+| | |____v1
+| | | |______init__.py
+| | | |____address.py
+| | | |____user.py
+| | | |____token.py
+| | | |____theme.py
+| | | |____client.py
+| | | |____order.py
+| | | |____product.py
+| | | |____banner.py
+| | | |____category.py
+| |____validators
+| | |____params.py
+| | |______init__.py
+| | |____forms.py
+| | |____base.py
+| |____service
+| | |______init__.py
+| | |____app_token.py
+| | |____token.py
+| | |____order.py
+| | |____user_token.py
+|____fake.py
+|____README.md
+|____code.md
+|____Pipfile
+|____.gitignore
+```
+
 #### 生成临时管理员信息 
 > $ python fake.py
 
 #### 自动生成 api 接口文档
-具体api用法暂时查看 app/api/v1 目录下的py文件
+[Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。
 
-待完成...
+本项目使用[flasgger库](https://github.com/rochacbruno/flasgger)自动生成 Swagger风格[(Demo)](https://editor.swagger.io/?_ga=2.211085136.492521077.1539840591-1920768432.1536803925)的API文档。
+
+查阅API文档
+> 在浏览器端输入：http://localhost:5001/apidocs/#/

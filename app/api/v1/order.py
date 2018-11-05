@@ -3,7 +3,7 @@
   Created by Alimazing on 2018/7/5.
 """
 from app.libs.redprint import RedPrint
-from app.libs.success_message import Success
+from app.libs.success_code import Success
 from app.validators.params import OrderPlace
 
 __author__ = 'Alimazing'

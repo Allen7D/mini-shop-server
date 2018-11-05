@@ -23,7 +23,7 @@ def verify_password(token, password):
 	if not user_info:
 		return False
 	else:
-		g.user = user_info
+		g.user = user_info # 用「g.user」来记录登录的状态；g只能用于一次请求
 		return True
 
 def verify_auth_token(token):

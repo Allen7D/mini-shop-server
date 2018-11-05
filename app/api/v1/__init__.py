@@ -24,3 +24,13 @@ def create_blueprint_v1():
 	order.api.register(bp_v1)
 
 	return bp_v1
+
+
+template = {
+	"tags": [
+		{
+			"name": "banner",
+			"description": "banner的数据"
+		}
+	]
+}

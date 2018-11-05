@@ -10,9 +10,10 @@ flask-wtf = "==0.14.2"
 cymysql = "==0.9.1"
 flask-httpauth = "==2.7.0"
 requests = "==2.18.4"
-flask-cors = "*"
+flask-cors = "==3.0.6"
 
 [dev-packages]
+flasgger = "==0.9.1"
 
 [requires]
 python_version = "3.6"

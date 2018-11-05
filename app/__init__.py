@@ -32,6 +32,13 @@ def register_plugin(app):
 	with app.app_context(): # 手动将app推入栈
 		db.create_all() # 首次模型映射(ORM ==> SQL),若无则建表; 初始化使用
 
+	# Debug模式下可以查阅 API文档
+	if app.config['DEBUG']:
+		from flasgger import Swagger
+		from app.api.v1 import template
+		swagger = Swagger(template=template) # 可以将secure.py中的SWAGGER全部写入template
+		swagger.init_app(app)
+
 
 def register_blueprint(app):
 	from app.api.v1 import create_blueprint_v1

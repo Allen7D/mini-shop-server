@@ -8,9 +8,13 @@
 ### 三端分离
 客户端: mini-shop-wx，基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
-服务端: mini-shop-server，基于 Flask框架构建 RESTful API。（正在实现中）
+服务端: mini-shop-server，基于 Flask框架构建 RESTful API。（正在实现中）<br>
+[API后端文档(Swagger风格)](http://www.ivinetrue.com/apidocs/#/)
+![]()
+
 
 CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）
+
 
 ### 开发工具
 * Python 3.6（虚拟环境：pipenv）
@@ -120,8 +124,8 @@ http://www.it610.com/article/4325344.htm
 三、导入
 mysql的每条执行以「分号」结尾
 ```
-mysql> create database yezi; # 建立数据库(名为yezi)
-mysql> use yezi; 进入该数据库
+mysql> create database zerd; # 建立数据库(zerd)
+mysql> use zerd; # 进入该数据库
 mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 ```
 导入成功，可以直接查询

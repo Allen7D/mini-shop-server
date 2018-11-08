@@ -11,9 +11,9 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 SWAGGER = {
 	"swagger_version": "2.0",
 	"info": {
-		# "微信小程序商城
-		"title": "练习前后端通信 API",
-		"version": "0.1.1",
+		# "
+		"title": "微信小程序商城: API",
+		"version": "0.3.0",
 		"description": "简要描述一下这个api文档的功能",
 		"contact": {
 			"responsibleOrganization": "Shema(聆听)",

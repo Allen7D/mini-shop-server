@@ -10,7 +10,7 @@
 
 服务端: mini-shop-server，基于 Flask框架构建 RESTful API。（正在实现中）<br>
 [API后端文档(Swagger风格)](http://www.ivinetrue.com/apidocs/#/)
-![]()
+![](https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif)
 
 
 CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）

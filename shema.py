@@ -3,6 +3,7 @@
   Created by Alimazing on 2018/5/12.
 """
 from werkzeug.exceptions import HTTPException
+from flask_script import Manager, Command, Server
 
 from app import create_app
 from app.libs.error import APIException
@@ -28,6 +29,8 @@ def framework_error(e):
 		else:
 			raise e
 
+manager = Manager(app)
+manager.add_command("run", Server())
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=5001)
+	manager.run()

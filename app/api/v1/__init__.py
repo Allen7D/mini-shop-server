@@ -30,7 +30,15 @@ template = {
 	"tags": [
 		{
 			"name": "banner",
-			"description": "banner的数据"
+			"description": "首页轮播图"
+		},
+		{
+			"name": "address",
+			"description": "用户地址"
+		},
+		{
+			"name": "token",
+			"description": "登录令牌"
 		}
 	]
 }

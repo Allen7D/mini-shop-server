@@ -7,10 +7,12 @@ __author__ = 'Alimazing'
 DEBUG = True
 SQLALCHEMY_DATABASE_URI = 'mysql+cymysql://root:159951@localhost:3306/zerd?charset=utf8'
 SECRET_KEY = 'But you, Lord , are a shield around me, my glory, the One who lifts my head high.'
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 SWAGGER = {
 	"swagger_version": "2.0",
 	"info": {
-		"title": "微信小程序商城 API",
+		# "微信小程序商城
+		"title": "练习前后端通信 API",
 		"version": "0.1.1",
 		"description": "简要描述一下这个api文档的功能",
 		"contact": {
@@ -26,7 +28,7 @@ SWAGGER = {
 	"tags": [
 		{
 			"name": "banner",
-			"description": "banner的数据"
+			"description": "***tags可以去掉***"
 		}
 	],
 	"schemes": [
@@ -35,10 +37,8 @@ SWAGGER = {
 	],
 	"operationId": "getmyData",
 	"securityDefinitions": {
-		"token": {
-			"type": "apiKey",
-			"name": "token",
-			"in": "header"
+		'basicAuth': {
+			'type': 'basic'
 		}
 	}
 }

@@ -13,6 +13,7 @@ requests = "==2.18.4"
 flask-cors = "==3.0.6"
 flask-script = "==2.0.6"
 flasgger = "*"
+uwsgi = "*"
 
 [dev-packages]
 

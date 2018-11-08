@@ -89,3 +89,44 @@ $ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
 
 ### pycharm的配置
 http://www.it610.com/article/4325344.htm
+
+### 服务器部署
+
+#### Mysql的安装和数据导入
+一、安装
+```
+> sudo apt-get install mysql-server
+> sudo apt-get install mysql-client
+> sudo apt-get install libmysqlclient-dev
+```
+安装过程中，会让你输入密码。<br>
+请务必记住密码!<br>
+务必记住密码！<br>
+必记住密码！<br>
+
+查看是否安装成功
+
+`sudo netstat -tap | grep mysql`
+
+
+二、运行
+
+`> mysql -u root -p`
+
+-u 表示选择登陆的用户名， -p 表示登陆的用户密码，上面命令输入之后会提示输入密码
+
+接着输入密码(Enter password)
+
+三、导入
+mysql的每条执行以「分号」结尾
+```
+mysql> create database yezi; # 建立数据库(名为yezi)
+mysql> use yezi; 进入该数据库
+mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
+```
+导入成功，可以直接查询
+`mysql> select * from user;`
+
+
+#### 启动Server端
+`python shema.py run -h 0.0.0.0 -p 8080`

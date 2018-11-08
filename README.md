@@ -9,9 +9,8 @@
 客户端: mini-shop-wx，基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
 服务端: mini-shop-server，基于 Flask框架构建 RESTful API。（正在实现中）<br>
-[API后端文档(Swagger风格)](http://www.ivinetrue.com/apidocs/#/)
+[API后端文档(Swagger风格)](http://api.ivinetrue.com/apidocs/#/)<br>
 ![](https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif)
-
 
 CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）
 
@@ -88,13 +87,14 @@ $ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
 
 查阅API文档(本项目)
 > 启动服务(DEBUG模式下)
-> 在浏览器端输入：http://localhost:5001/apidocs/#/
+> 在浏览器端输入：http://localhost:8080/apidocs/#/
 ![]
 
 ### pycharm的配置
 http://www.it610.com/article/4325344.htm
 
 ### 服务器部署
+[文章链接]()
 
 #### Mysql的安装和数据导入
 一、安装

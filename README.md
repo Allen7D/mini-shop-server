@@ -6,13 +6,16 @@
 
 
 ### 三端分离
-客户端: mini-shop-wx，基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
+#### 1.客户端: mini-shop-wx
+基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
-服务端: mini-shop-server，基于 Flask框架构建 RESTful API。（正在实现中）<br>
+#### 2.服务端: mini-shop-server
+基于 Flask框架构建 RESTful API。（正在实现中）<br>
 [API后端文档(Swagger风格)](http://api.ivinetrue.com/apidocs/#/)<br>
 ![](https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif)
 
-CMS: mini-shop-cms, 基于 Flask框架。（未开始，占坑）
+#### 3.CMS: mini-shop-cms
+基于 Flask框架。（未开始，占坑）
 
 
 ### 开发工具
@@ -88,7 +91,7 @@ $ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
 查阅API文档(本项目)
 > 启动服务(DEBUG模式下)
 > 在浏览器端输入：http://localhost:8080/apidocs/#/
-![]
+![]()
 
 ### pycharm的配置
 http://www.it610.com/article/4325344.htm
@@ -122,6 +125,7 @@ http://www.it610.com/article/4325344.htm
 接着输入密码(Enter password)
 
 三、导入
+
 mysql的每条执行以「分号」结尾
 ```
 mysql> create database zerd; # 建立数据库(zerd)

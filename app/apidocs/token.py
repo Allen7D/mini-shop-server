@@ -17,7 +17,7 @@ get_token = {
 					"account": {
 						"type": "string",
 						"description": "用户名",
-						"enum": ["999@qq.com", "888@qq.com"],
+						"enum": ["999@qq.com"],
 						"default": "999@qq.com"
 					},
 					"secret": {

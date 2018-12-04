@@ -2,7 +2,8 @@
   mini-shop-server
 </h1>
 <h4 align="center">
-	构建微信小程序(商城)后端<br>🤜基于 Flask框架开发的=🤛
+	构建微信小程序(商城)后端
+	<br>🤜基于 Flask框架开发🤛
 </h4>
 <div align="center">
   <img alt="Header" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="88%">
@@ -42,6 +43,7 @@
 * MySQL
 * PyCharm（开发工具）
 * Navicat（数据库可视化管理工具）
+
 
 ### pipenv的安装
 [《pipenv 的用法指南》](https://www.jianshu.com/p/00af447f0005)

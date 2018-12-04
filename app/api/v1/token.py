@@ -21,7 +21,7 @@ api = RedPrint(name='token', description='令牌')
 @api.route('/user', methods=['POST'])
 @api.doc()
 def get_token():
-	'''获取「令牌信息(登录)」'''
+	'''生成「令牌」'''
 	form = ClientValidator().validate_for_api()
 	promise = {
 		ClientTypeEnum.USER_EMAIL: User.verify_by_email,
@@ -47,7 +47,7 @@ def get_app_token():
 @api.route('/secret', methods=['POST'])
 @api.doc()
 def get_token_info():
-	"""获取「令牌信息(更新)」"""
+	"""解析「令牌」"""
 	form = TokenValidator().validate_for_api()
 	s = Serializer(current_app.config['SECRET_KEY'])
 	try:

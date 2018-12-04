@@ -8,7 +8,7 @@ from app.validators.params import OrderPlace
 
 __author__ = 'Alimazing'
 
-api = RedPrint('order')
+api = RedPrint(name='order', description='订单')
 
 
 @api.route('', methods=['POST'])

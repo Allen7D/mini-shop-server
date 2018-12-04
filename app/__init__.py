@@ -43,3 +43,5 @@ def register_plugin(app):
 def register_blueprint(app):
 	from app.api.v1 import create_blueprint_v1
 	app.register_blueprint(create_blueprint_v1(), url_prefix='/v1')
+	from app.web import web
+	app.register_blueprint(web)

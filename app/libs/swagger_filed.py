@@ -67,6 +67,7 @@ class BooleanPathFiled(ParamFiled):
 		self.site = 'path'
 		super().__init__(name, description, enum, required, default)
 
+
 class BodyFiled(ParamFiled):
 	def __init__(self, name, description, enum=None, required=None, default=None):
 		self.site = 'body'

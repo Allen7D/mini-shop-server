@@ -8,10 +8,12 @@ from app.models.category import Category
 
 __author__ = 'Alimazing'
 
-api = RedPrint('category')
+api = RedPrint(name='category', description='产品分类')
 
 
 @api.route('/all', methods=['GET'])
+@api.doc()
 def get_all_categories():
+	'''获取所有产品的分类'''
 	categories = Category.get_all_categories()
 	return Success(categories)

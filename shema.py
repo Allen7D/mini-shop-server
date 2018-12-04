@@ -3,7 +3,7 @@
   Created by Alimazing on 2018/5/12.
 """
 from werkzeug.exceptions import HTTPException
-from flask_script import Manager, Command, Server
+from flask_script import Manager, Server
 
 from app import create_app
 from app.libs.error import APIException

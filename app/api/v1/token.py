@@ -12,15 +12,14 @@ from app.libs.success_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientValidator, TokenValidator
-from app import doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint('token')
+api = RedPrint(name='token', description='令牌')
 
 
 @api.route('/user', methods=['POST'])
-@api.doc(doc.get_token)
+@api.doc()
 def get_token():
 	'''获取「令牌信息(登录)」'''
 	form = ClientValidator().validate_for_api()
@@ -46,7 +45,7 @@ def get_app_token():
 
 
 @api.route('/secret', methods=['POST'])
-@api.doc(doc.get_token_info)
+@api.doc()
 def get_token_info():
 	"""获取「令牌信息(更新)」"""
 	form = TokenValidator().validate_for_api()

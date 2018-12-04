@@ -12,7 +12,7 @@ from app.models.user import User
 
 __author__ = 'Alimazing'
 
-api = RedPrint('user')
+api = RedPrint(name='user', description='用户')
 
 
 # 管理员

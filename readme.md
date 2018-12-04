@@ -1,24 +1,43 @@
-# mini-shop-server
-基于 Flask框架开发的微信小程序后端，用于构建小程序商城。
+<h1 align="center">
+  mini-shop-server
+</h1>
+<h4 align="center">
+	构建微信小程序(商城)后端<br>🤜基于 Flask框架开发的=🤛
+</h4>
+<div align="center">
+  <img alt="Header" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="88%">
+</div>
+
+
 * 借鉴慕课网的[《Python Flask构建可扩展的RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * QQ 交流群 163801325（聊天，斗图，学习，交流。伸手党勿进）
 
+## 
 
-### 三端分离
+## 亮点
+- 基于原生的 Flask构建 RESTfull API
+- 更灵活的 API文档生成方式
+- AOP(面向切面编程)设计，实现**参数校验层**&**异常统一处理层**
+
+
+## 目录
+- [亮点](#亮点)
+- [服务器部署](#服务器部署)
+
+## 三端分离
 #### 1.客户端: mini-shop-wx
 基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
 #### 2.服务端: mini-shop-server
 基于 Flask框架构建 RESTful API。（正在实现中）<br>
-[API后端文档(Swagger风格)](http://api.ivinetrue.com/apidocs/#/)<br>
-![](https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif)
+点击查阅 [API文档](http://api.ivinetrue.com/apidocs/#/)(Swagger风格，可以带token)
 
 #### 3.CMS: mini-shop-cms
 基于 Flask框架。（未开始，占坑）
 
 
-### 开发工具
+## 开发工具
 * Python 3.6（虚拟环境：pipenv）
 * MySQL
 * PyCharm（开发工具）
@@ -32,9 +51,6 @@
 
 安装 pipenv
 > $ pip3 install pipenv
-
-### 导入 mysql 数据
-* [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
 
 ### 本地启动
 > $ git clone https://github.com/Alimazing/mini-shop-server.git <br>
@@ -115,7 +131,6 @@ http://www.it610.com/article/4325344.htm
 
 `sudo netstat -tap | grep mysql`
 
-
 二、运行
 
 `> mysql -u root -p`
@@ -126,6 +141,8 @@ http://www.it610.com/article/4325344.htm
 
 三、导入
 
+下载 Mysql 数据  [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
+
 mysql的每条执行以「分号」结尾
 ```
 mysql> create database zerd; # 建立数据库(zerd)
@@ -135,6 +152,11 @@ mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 导入成功，可以直接查询
 `mysql> select * from user;`
 
+删除数据库
+`mysql>  drop database zerd;`
+
 
 #### 启动Server端
 `python shema.py run -h 0.0.0.0 -p 8080`
+
+

@@ -11,7 +11,7 @@ from app.validators.forms import ClientValidator, UserEmailValidator
 
 __author__ = 'Alimazing'
 
-api = RedPrint('client')
+api = RedPrint(name='client', description='客户端')
 
 
 @api.route('/register', methods=['POST'])

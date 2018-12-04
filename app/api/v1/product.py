@@ -11,7 +11,7 @@ from app.validators.params import Count, IDMustBePositiveInt
 
 __author__ = 'Alimazing'
 
-api = RedPrint('product')
+api = RedPrint(name='product', description='产品')
 
 
 @api.route('/recent', methods=['GET'])

@@ -12,10 +12,9 @@ flask-httpauth = "==2.7.0"
 requests = "==2.18.4"
 flask-cors = "==3.0.6"
 flask-script = "==2.0.6"
-flasgger = "*"
-uwsgi = "*"
+flasgger = "==0.9.1"
 
-[dev-packages]user
+[dev-packages]
 
 [requires]
 python_version = "3.6"

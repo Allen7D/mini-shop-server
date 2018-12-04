@@ -9,7 +9,7 @@ from app.validators.params import IDCollection, IDMustBePositiveInt
 
 __author__ = 'Alimazing'
 
-api = RedPrint('theme')
+api = RedPrint(name='theme', description='主题')
 
 @api.route('', methods=['GET'])
 def get_simple_list():

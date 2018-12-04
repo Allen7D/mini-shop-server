@@ -12,16 +12,14 @@ from app.models.base import db
 from app.models.user import User
 from app.models.user_address import UserAddress
 from app.validators.forms import AddressNew
-from app import doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint('address')
-
+api = RedPrint(name='address', description='用户地址')
 
 @api.route('', methods=['GET'])
 @auth.login_required
-@api.doc(doc.get_address)
+@api.doc()
 def get_address():
 	'''获取「用户自身的地址」'''
 	uid = g.user.uid
@@ -32,7 +30,7 @@ def get_address():
 
 @api.route('', methods=['POST'])
 @auth.login_required
-@api.doc(doc.renew_address)
+@api.doc()
 def renew_address():
 	'''更新「用户自身的地址」'''
 	address_info = AddressNew().validate_for_api().data

@@ -1,57 +1,9 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/11/5.
+  Created by Alimazing on 2018/12/4.
 """
-from app.libs.param_filed import IntegerQueryFiled, StringQueryFiled, BooleanQueryFiled, \
-	IntegerPathFiled, StringPathFiled, BooleanPathFiled
-
 __author__ = 'Alimazing'
 
-banner_id_in_path = StringPathFiled(
-	name='id', description="banner id", enum=['1'], default='1', required=True).data
-
-get_banner = {
-	"parameters": [banner_id_in_path],
-	"responses": {
-		"200": {
-			"description": "轮播图",
-			"examples": {}
-		}
-	}
-}
-
-# address
-get_address = {
-	"parameters": [],
-	"security": [
-		{
-			"basicAuth": []
-		}
-	],
-	"responses": {
-		"200": {
-			"description": "用户地址信息",
-			"examples": {}
-		}
-	}
-}
-
-renew_address = {
-	"parameters": [],
-	"security": [
-		{
-			"basicAuth": []
-		}
-	],
-	"responses": {
-		"200": {
-			"description": "更新成功: 用户地址",
-			"examples": {}
-		}
-	}
-}
-
-# token
 get_token = {
 	"parameters": [
 		{
@@ -65,7 +17,7 @@ get_token = {
 					"account": {
 						"type": "string",
 						"description": "用户名",
-						"enum": ["999@qq.com"],
+						"enum": ["999@qq.com", "888@qq.com"],
 						"default": "999@qq.com"
 					},
 					"secret": {

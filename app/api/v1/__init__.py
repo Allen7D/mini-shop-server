@@ -6,7 +6,7 @@ from flask import Blueprint
 
 from app.api.v1 import user, client, token, \
 						banner, theme, product, category, \
-						address, order
+						address, order, file
 
 __author__ = 'Alimazing'
 
@@ -22,6 +22,7 @@ def create_blueprint_v1():
 	category.api.register(bp_v1)
 	address.api.register(bp_v1)
 	order.api.register(bp_v1)
+	file.api.register(bp_v1)
 
 	return bp_v1
 

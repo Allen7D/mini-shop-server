@@ -1,12 +1,14 @@
 <h1 align="center">
   mini-shop-server
 </h1>
+
 <h4 align="center">
 	构建微信小程序(商城)后端
-	<br>🤜基于 Flask框架开发🤛
+	<br>🤜基于 Flask框架🤛
 </h4>
+
 <div align="center">
-  <img alt="Header" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="88%">
+  <img alt="Header" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
 </div>
 
 
@@ -14,28 +16,17 @@
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * QQ 交流群 163801325（聊天，斗图，学习，交流。伸手党勿进）
 
-## 
-
 ## 亮点
 - 基于原生的 Flask构建 RESTfull API
 - 更灵活的 API文档生成方式
-- AOP(面向切面编程)设计，实现**参数校验层**&**异常统一处理层**
+- AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
 
 
 ## 目录
 - [亮点](#亮点)
+- [开发工具](#开发工具)
 - [服务器部署](#服务器部署)
-
-## 三端分离
-#### 1.客户端: mini-shop-wx
-基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
-
-#### 2.服务端: mini-shop-server
-基于 Flask框架构建 RESTful API。（正在实现中）<br>
-点击查阅 [API文档](http://api.ivinetrue.com/apidocs/#/)(Swagger风格，可以带token)
-
-#### 3.CMS: mini-shop-cms
-基于 Flask框架。（未开始，占坑）
+- [三端分离](#三端分离)
 
 
 ## 开发工具
@@ -160,5 +151,17 @@ mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 
 #### 启动Server端
 `python shema.py run -h 0.0.0.0 -p 8080`
+
+## 三端分离
+#### 1.客户端: mini-shop-wx
+基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
+
+#### 2.服务端: mini-shop-server
+基于 Flask框架构建 RESTful API。（正在实现中）<br>
+点击查阅 [API文档](http://api.ivinetrue.com/apidocs/#/)(Swagger风格，可以带token)
+
+#### 3.CMS: mini-shop-cms
+基于 Flask框架。（未开始，占坑）
+
 
 

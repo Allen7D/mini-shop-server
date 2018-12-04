@@ -17,9 +17,11 @@
 * QQ 交流群 163801325（聊天，斗图，学习，交流。伸手党勿进）
 
 ## 亮点
+- 自动激活虚拟环境(autoenv)
 - 基于原生的 Flask构建 RESTfull API
-- 更灵活的 API文档生成方式
+- 更灵活的 API文档生成方式(可带 Token)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
+- Ubuntu 16.04上 nginx + uwsgi + pipenv部署
 
 
 ## 目录
@@ -35,7 +37,7 @@
 * PyCharm（开发工具）
 * Navicat（数据库可视化管理工具）
 
-
+## 开发环境搭建
 ### pipenv的安装
 [《pipenv 的用法指南》](https://www.jianshu.com/p/00af447f0005)
 
@@ -48,11 +50,44 @@
 ### 本地启动
 > $ git clone https://github.com/Alimazing/mini-shop-server.git <br>
 $ cd mini-shop-server <br>
-$ pipenv shell # 进入虚拟环境 or 构建新的虚拟环境<br>
+$ pipenv --python 3.6 # 指定某 Python版本创建环境<br>
+$ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)<br>
 $ pipenv install # 安装包依赖<br>
-$ python shema.py run # 启动入口文件(默认5000端口)
+$ python shema.py run # 启动入口文件(默认5000端口)<br>
 $ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
 
+#### 其他 pipenv操作
+> $ pipenv install flask # 安装指定模块，并写入到 Pipfile中<br>
+$ pipenv install flask==1.0.2 # 安装指定版本的模块<br>
+$ pipenv uninstall flask # 卸载指定模块<br>
+$ pipenv update flask # 更新指定模块<br>
+$ pip list # 查看安装列表<br>
+$ pipenv graph # 查看安装列表，及其相应的以来<br>
+$ pipenv --venv # 虚拟环境信息<br>
+$ pipenv --py # Python解释器信息<br>
+$ pipenv –rm # 卸载当前虚拟环境<br>
+$ exit # 退出当前虚拟环境<br>
+
+#### 骚操作
+1、进入项目目录时自动激活项目所需的虚拟环境
+1.1 全局安装<br>
+ `pip3 install autoenv`
+1.2 配置<br>
+项目根目录下创建.env文件
+写入`pipenv shell`
+1.3 将autoenv的激活脚本写入 profile文件中<br>
+bash模式
+
+```
+$ echo "source `which activate.sh`" >> ~/.bashrc
+$ source ~/.bashrc
+```
+zsh模式
+
+```
+$ echo "source `which activate.sh`" >> ~/.zshrc
+$ source ~/.zshrc
+```
 ### 目录结构
 ```
 | |____app.py
@@ -105,8 +140,6 @@ $ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
 ### pycharm的配置
 http://www.it610.com/article/4325344.htm
 
-### 服务器部署
-[文章链接]()
 
 #### Mysql的安装和数据导入
 一、安装

@@ -10,6 +10,9 @@
 <div align="center">
   <img alt="Header" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
 </div>
+<div align="center">
+  <a href="http://api.ivinetrue.com/apidocs/#/" target="_blank">API 文档</a>
+</div>
 
 
 * 借鉴慕课网的[《Python Flask构建可扩展的RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
@@ -41,41 +44,51 @@
 ### pipenv的安装
 [《pipenv 的用法指南》](https://www.jianshu.com/p/00af447f0005)
 
-如果还未安装pip3包管理工具，请先执行如下语句
-> $ sudo apt install python3-pip
+如果还未安装pip3包管理工具，请先执行如下语句<br>
+`$ sudo apt install python3-pip`
 
-安装 pipenv
-> $ pip3 install pipenv
+安装 pipenv<br>
+`$ pip3 install pipenv`
 
 ### 本地启动
-> $ git clone https://github.com/Alimazing/mini-shop-server.git <br>
-$ cd mini-shop-server <br>
-$ pipenv --python 3.6 # 指定某 Python版本创建环境<br>
-$ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)<br>
-$ pipenv install # 安装包依赖<br>
-$ python shema.py run # 启动入口文件(默认5000端口)<br>
+```
+$ git clone https://github.com/Alimazing/mini-shop-server.git
+$ cd mini-shop-server 
+$ pipenv --python 3.6 # 指定某 Python版本创建环境
+$ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
+$ pipenv install # 安装包依赖
+$ python shema.py run # 启动入口文件(默认5000端口)
 $ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
+```
 
 #### 其他 pipenv操作
-> $ pipenv install flask # 安装指定模块，并写入到 Pipfile中<br>
-$ pipenv install flask==1.0.2 # 安装指定版本的模块<br>
-$ pipenv uninstall flask # 卸载指定模块<br>
-$ pipenv update flask # 更新指定模块<br>
-$ pip list # 查看安装列表<br>
-$ pipenv graph # 查看安装列表，及其相应的以来<br>
-$ pipenv --venv # 虚拟环境信息<br>
-$ pipenv --py # Python解释器信息<br>
-$ pipenv –rm # 卸载当前虚拟环境<br>
-$ exit # 退出当前虚拟环境<br>
+```
+$ pipenv install flask # 安装指定模块，并写入到 Pipfile中
+$ pipenv install flask==1.0.2 # 安装指定版本的模块
+$ pipenv uninstall flask # 卸载指定模块
+$ pipenv update flask # 更新指定模块
+$ pip list # 查看安装列表
+$ pipenv graph # 查看安装列表，及其相应的以来
+$ pipenv --venv # 虚拟环境信息
+$ pipenv --py # Python解释器信息
+$ pipenv –rm # 卸载当前虚拟环境
+$ exit # 退出当前虚拟环境
+```
 
 #### 骚操作
-1、进入项目目录时自动激活项目所需的虚拟环境
-1.1 全局安装<br>
+1、进入项目目录时，自动激活项目所需的虚拟环境
+
+1.1 全局安装
+
  `pip3 install autoenv`
-1.2 配置<br>
-项目根目录下创建.env文件
+ 
+1.2 配置
+
+项目根目录下创建.env文件<br>
 写入`pipenv shell`
-1.3 将autoenv的激活脚本写入 profile文件中<br>
+
+1.3 将autoenv的激活脚本写入 profile文件中
+
 bash模式
 
 ```

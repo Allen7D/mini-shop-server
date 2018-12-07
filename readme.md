@@ -58,8 +58,8 @@ $ cd mini-shop-server
 $ pipenv --python 3.6 # 指定某 Python版本创建环境
 $ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
 $ pipenv install # 安装包依赖
-$ python shema.py run # 启动入口文件(默认5000端口)
-$ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
+$ python server.py run # 启动入口文件(默认5000端口)
+$ python server.py run -p 8080 # 启动入口文件(改为8080端口)
 ```
 
 ### 其他 pipenv操作
@@ -106,6 +106,7 @@ $ exit # 退出当前虚拟环境
 | | |____order.py
 | | |____app_token.py
 | | |____user_token.py
+|____server.py					# 启动程序
 |____fake.py						# 生成临时用户
 |____code.md						# 错误码(用于前后端开发)
 |____Pipfile						# 包依赖文件
@@ -132,14 +133,17 @@ $ exit # 退出当前虚拟环境
 [链接](http://www.it610.com/article/4325344.htm)
 使用**`指定端口`**开启「Debug模式」
 
-1. 配置指定端口号
-**`Run > Edit Configurations`**
+1. 配置指定端口号**`Run > Edit Configurations`**<br>
+写入`run -h 0.0.0.0 8080`<br>
+等同于在终端执行 `python server.py run -h 0.0.0.0 -p 8080`
+
 <div align="center">
-  <img alt="img" src="./media/debug_configurations.jpg" width="60%">
+  <img alt="img" src="./media/debug_configurations.jpg" width="80%">
 </div>
 
+
 2. 开启 Debug
-**`Run > Debug 'shema'`**
+**`Run > Debug 'server'`**
 
 
 #### Mysql的安装和数据导入
@@ -182,7 +186,7 @@ mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 
 
 #### 启动Server端
-```$ python shema.py run -h 0.0.0.0 -p 8080```
+```$ python server.py run -h 0.0.0.0 -p 8080```
 
 
 ## 骚操作
@@ -197,7 +201,7 @@ mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 1.2 配置
 
 项目根目录下创建.env文件<br>
-写入```$ pipenv shell```
+写入`pipenv shell`
 
 1.3 将autoenv的激活脚本写入 profile文件中
 

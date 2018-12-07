@@ -31,6 +31,7 @@
 - [亮点](#亮点)
 - [开发工具](#开发工具)
 - [服务器部署](#服务器部署)
+- [骚操作](#骚操作)
 - [三端分离](#三端分离)
 
 
@@ -42,7 +43,7 @@
 
 ## 开发环境搭建
 ### pipenv的安装
-[《pipenv 的用法指南》](https://www.jianshu.com/p/00af447f0005)
+[《pipenv 的用法指北》](https://www.jianshu.com/p/00af447f0005)
 
 如果还未安装pip3包管理工具，请先执行如下语句<br>
 ```$ sudo apt install python3-pip```
@@ -61,7 +62,7 @@ $ python shema.py run # 启动入口文件(默认5000端口)
 $ python shema.py run -p 8080 # 启动入口文件(改为8080端口)
 ```
 
-#### 其他 pipenv操作
+### 其他 pipenv操作
 ```
 $ pipenv install flask # 安装指定模块，并写入到 Pipfile中
 $ pipenv install flask==1.0.2 # 安装指定版本的模块
@@ -75,65 +76,42 @@ $ pipenv –rm # 卸载当前虚拟环境
 $ exit # 退出当前虚拟环境
 ```
 
-#### 骚操作
-1、<span id="auto_active">**`自动激活`**<span> <br>
-进入项目目录时，自动激活项目所需的虚拟环境
-
-1.1 全局安装
-
- ```$ pip3 install autoenv```
- 
-1.2 配置
-
-项目根目录下创建.env文件<br>
-写入```$ pipenv shell```
-
-1.3 将autoenv的激活脚本写入 profile文件中
-
-bash模式
-
-```
-$ echo "source `which activate.sh`" >> ~/.bashrc
-$ source ~/.bashrc
-```
-zsh模式
-
-```
-$ echo "source `which activate.sh`" >> ~/.zshrc
-$ source ~/.zshrc
-```
-### 目录结构
+## 目录结构
 ```
 | |____app.py
-| |____api
+| |____api						# 所有 API接口
 | | |______init__.py
-| | |____v1
+| | |____v1						# v1 API接口
 | | | |______init__.py
-| | | |____address.py
-| | | |____user.py
-| | | |____token.py
-| | | |____theme.py
+| | | |____token.py				# 令牌
+| | | |____user.py				# 用户
+| | | |____address.py			# 用户地址
+| | | |____banner.py			# 横幅
+| | | |____theme.py				# 主题
 | | | |____client.py
-| | | |____order.py
-| | | |____product.py
-| | | |____banner.py
-| | | |____category.py
-| |____validators
-| | |____params.py
+| | | |____product.py			# 产品
+| | | |____category.py			# 分类
+| | | |____order.py				#订单
+| | |____v2						# v2 API接口
+| | | |______init__.py
+| | | |____file.py				# 文件处理
+| |____validators				# 参数校验层 
 | | |______init__.py
-| | |____forms.py
 | | |____base.py
+| | |____params.py
+| | |____forms.py
 | |____service
 | | |______init__.py
-| | |____app_token.py
 | | |____token.py
 | | |____order.py
+| | |____app_token.py
 | | |____user_token.py
-|____fake.py
-|____README.md
-|____code.md
-|____Pipfile
-|____.gitignore
+|____fake.py						# 生成临时用户
+|____code.md						# 错误码(用于前后端开发)
+|____Pipfile						# 包依赖文件
+|____.env							# 自动激活虚拟环境
+|____.gitignore					# git ignore配置
+|____readme.md					# 项目说明文档
 ```
 
 ### 生成临时管理员信息 
@@ -196,6 +174,39 @@ mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 
 #### 启动Server端
 ```$ python shema.py run -h 0.0.0.0 -p 8080```
+
+
+## 骚操作
+### Python相关
+#### 1、<span id="auto_active">自动激活<span> <br>
+进入项目目录时，自动激活项目所需的虚拟环境
+
+1.1 全局安装
+
+ ```$ pip3 install autoenv```
+ 
+1.2 配置
+
+项目根目录下创建.env文件<br>
+写入```$ pipenv shell```
+
+1.3 将autoenv的激活脚本写入 profile文件中
+
+bash模式
+
+```
+$ echo "source `which activate.sh`" >> ~/.bashrc
+$ source ~/.bashrc
+```
+zsh模式
+
+```
+$ echo "source `which activate.sh`" >> ~/.zshrc
+$ source ~/.zshrc
+```
+
+1.4 完成
+
 
 ## 三端分离
 #### 1.客户端: mini-shop-wx

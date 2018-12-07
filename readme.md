@@ -11,7 +11,7 @@
   <img alt="Header" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
 </div>
 <div align="center">
-  <a href="http://api.ivinetrue.com/apidocs/#/" target="_blank">API 文档</a>
+  <a href="http://api.ivinetrue.com/apidocs/#/">API 文档</a>
 </div>
 
 
@@ -45,10 +45,10 @@
 [《pipenv 的用法指南》](https://www.jianshu.com/p/00af447f0005)
 
 如果还未安装pip3包管理工具，请先执行如下语句<br>
-`$ sudo apt install python3-pip`
+```$ sudo apt install python3-pip```
 
 安装 pipenv<br>
-`$ pip3 install pipenv`
+```$ pip3 install pipenv```
 
 ### 本地启动
 ```
@@ -80,12 +80,12 @@ $ exit # 退出当前虚拟环境
 
 1.1 全局安装
 
- `pip3 install autoenv`
+ ```$ pip3 install autoenv```
  
 1.2 配置
 
 项目根目录下创建.env文件<br>
-写入`pipenv shell`
+写入```$ pipenv shell```
 
 1.3 将autoenv的激活脚本写入 profile文件中
 
@@ -136,7 +136,7 @@ $ source ~/.zshrc
 ```
 
 ### 生成临时管理员信息 
-> $ python fake.py
+```$ python fake.py```
 
 ### 自动生成 api 接口文档
 [Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。
@@ -155,7 +155,7 @@ http://www.it610.com/article/4325344.htm
 
 
 #### Mysql的安装和数据导入
-一、安装
+##### 一、安装
 ```
 > sudo apt-get install mysql-server
 > sudo apt-get install mysql-client
@@ -168,18 +168,16 @@ http://www.it610.com/article/4325344.htm
 
 查看是否安装成功
 
-`sudo netstat -tap | grep mysql`
+```$ sudo netstat -tap | grep mysql```
 
-二、运行
-
-`> mysql -u root -p`
+##### 二、运行
+```$ mysql -u root -p```
 
 -u 表示选择登陆的用户名， -p 表示登陆的用户密码，上面命令输入之后会提示输入密码
 
 接着输入密码(Enter password)
 
-三、导入
-
+##### 三、导入
 下载 Mysql 数据  [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
 
 mysql的每条执行以「分号」结尾
@@ -189,21 +187,22 @@ mysql> use zerd; # 进入该数据库
 mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 ```
 导入成功，可以直接查询
-`mysql> select * from user;`
+```mysql> select * from user;```
 
 删除数据库
-`mysql>  drop database zerd;`
+```mysql>  drop database zerd;```
 
 
 #### 启动Server端
-`python shema.py run -h 0.0.0.0 -p 8080`
+```$ python shema.py run -h 0.0.0.0 -p 8080```
 
 ## 三端分离
 #### 1.客户端: mini-shop-wx
 基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
 #### 2.服务端: mini-shop-server
-基于 Flask框架构建 RESTful API。（正在实现中）<br>
+基于 Flask框架构建 RESTful API。（正在实现中）
+
 点击查阅 [API文档](http://api.ivinetrue.com/apidocs/#/)(Swagger风格，可以带token)
 
 #### 3.CMS: mini-shop-cms

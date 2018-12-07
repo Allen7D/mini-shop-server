@@ -9,7 +9,7 @@ __author__ = 'Alimazing'
 
 
 def create_app():
-	app = Flask(__name__)
+	app = Flask(__name__, static_folder="../static", template_folder="../static/views")
 	app.config.from_object('app.config.secure')
 	app.config.from_object('app.config.setting')
 	app.config.from_object('app.config.wx')
@@ -43,5 +43,7 @@ def register_plugin(app):
 def register_blueprint(app):
 	from app.api.v1 import create_blueprint_v1
 	app.register_blueprint(create_blueprint_v1(), url_prefix='/v1')
+	from app.api.v2 import create_blueprint_v2
+	app.register_blueprint(create_blueprint_v2(), url_prefix='/v2')
 	from app.web import web
 	app.register_blueprint(web)

@@ -8,10 +8,10 @@
 </h4>
 
 <div align="center">
-  <img alt="Header" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
+  <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
 </div>
 <div align="center">
-  <a href="http://api.ivinetrue.com/apidocs/#/">API 文档</a>
+  <a href="http://api.ivinetrue.com/apidocs/#/">线上 API文档</a>
 </div>
 
 
@@ -124,21 +124,30 @@ $ exit # 退出当前虚拟环境
 
 1、[Swagger Editor](http://editor.swagger.io/) 在网页端直接编辑 API文档
 
-查阅API文档(本项目)
-> 启动服务(DEBUG模式下)
-> 在浏览器端输入：http://localhost:8080/apidocs/#/
-![]()
+查阅 API文档(本项目)
+> 启动服务(DEBUG模式下)<br>
+在浏览器端输入：http://localhost:8080/apidocs/#/
 
-### pycharm的配置
-http://www.it610.com/article/4325344.htm
+### Pycharm的配置
+[链接](http://www.it610.com/article/4325344.htm)
+使用**`指定端口`**开启「Debug模式」
+
+1. 配置指定端口号
+**`Run > Edit Configurations`**
+<div align="center">
+  <img alt="img" src="./media/debug_configurations.jpg" width="60%">
+</div>
+
+2. 开启 Debug
+**`Run > Debug 'shema'`**
 
 
 #### Mysql的安装和数据导入
 ##### 一、安装
 ```
-> sudo apt-get install mysql-server
-> sudo apt-get install mysql-client
-> sudo apt-get install libmysqlclient-dev
+$ sudo apt-get install mysql-server
+$ sudo apt-get install mysql-client
+$ sudo apt-get install libmysqlclient-dev
 ```
 安装过程中，会让你输入密码。<br>
 请务必记住密码!<br>

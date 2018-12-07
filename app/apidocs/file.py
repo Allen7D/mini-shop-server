@@ -26,3 +26,23 @@ upload_file = {
 		}
 	}
 }
+
+
+download_file = {
+	"parameters": [
+		{
+			"file_name": "",
+			"in": "path",
+			"type": "string",
+			"enum": ['Python面向对象编程指南.epub'],
+			"default": 'Python面向对象编程指南.epub',
+			"required": 'true'
+		},
+	],
+	"responses": {
+		"200": {
+			"description": "下载文件成功",
+			"examples": {}
+		}
+	}
+}

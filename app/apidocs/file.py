@@ -7,13 +7,13 @@ __author__ = 'Alimazing'
 upload_file = {
 	"parameters": [
 		{
-			"name": "源文件",
+			"name": "origin",
 			"in": "formData",
 			"type": "file",
 			"required": 'false'
 		},
 		{
-			"name": "对比件",
+			"name": "comparer",
 			"in": "formData",
 			"type": "file",
 			"required": 'false'

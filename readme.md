@@ -21,6 +21,7 @@
 
 ## 亮点
 - [自动激活](#auto_active)虚拟环境(autoenv)
+- [装饰器的扩展](#extend_decorator)
 - 基于原生的 Flask构建 RESTfull API
 - 更灵活的 API文档生成方式(可带 Token)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
@@ -31,6 +32,7 @@
 - [亮点](#亮点)
 - [开发工具](#开发工具)
 - [服务器部署](#服务器部署)
+- [上传&下载](#上传&下载)
 - [骚操作](#骚操作)
 - [三端分离](#三端分离)
 
@@ -42,9 +44,46 @@
 * Navicat（数据库可视化管理工具）
 
 ## 开发环境搭建
-### pipenv的安装
-[《pipenv 的用法指北》](https://www.jianshu.com/p/00af447f0005)
 
+### Mysql的安装和数据导入
+#### 一、安装
+```
+$ sudo apt-get install mysql-server
+$ sudo apt-get install mysql-client
+$ sudo apt-get install libmysqlclient-dev
+```
+安装过程中，会让你输入密码。<br>
+请务必记住密码!<br>
+务必记住密码！<br>
+记住密码！<br>
+
+查看是否安装成功
+
+```$ sudo netstat -tap | grep mysql```
+
+#### 二、运行
+```$ mysql -u root -p```
+
+-u 表示选择登陆的用户名， -p 表示登陆的用户密码，上面命令输入之后会提示输入密码
+
+接着输入密码(Enter password)
+
+#### 三、导入
+下载 Mysql 数据  [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
+
+mysql的每条执行以「分号」结尾
+```
+mysql> create database zerd; # 建立数据库(zerd)
+mysql> use zerd; # 进入该数据库
+mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
+```
+导入成功，可以直接查询
+```mysql> select * from user;```
+
+删除数据库
+```mysql>  drop database zerd;```
+
+### pipenv的安装
 如果还未安装pip3包管理工具，请先执行如下语句<br>
 ```$ sudo apt install python3-pip```
 
@@ -58,9 +97,29 @@ $ cd mini-shop-server
 $ pipenv --python 3.6 # 指定某 Python版本创建环境
 $ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
 $ pipenv install # 安装包依赖
-$ python server.py run # 启动入口文件(默认5000端口)
-$ python server.py run -p 8080 # 启动入口文件(改为8080端口)
+$ python server.py run # 启动方式1:默认5000端口
+$ python server.py run -p 8080 # 启动方式2:改为8080端口
+$ python server.py run -h 0.0.0.0 -p 8080 # 启动方式3:以本地ip地址访问
 ```
+
+### 生成临时管理员信息 
+```$ python fake.py```
+
+### Pycharm的配置<sup></sup>
+使用 **`指定端口`** 开启「Debug模式」
+
+1. 配置指定端口号
+**`Run > Edit Configurations`** <br>
+写入 `run -h 0.0.0.0 8080` <br>
+等同于，在终端执行 `python server.py run -h 0.0.0.0 -p 8080`
+
+<div align="center">
+  <img alt="img" src="./media/debug_configurations.jpg" width="80%">
+</div>
+
+
+2. 开启 Debug
+**`Run > Debug 'server'`**
 
 ### 其他 pipenv操作
 ```
@@ -115,9 +174,6 @@ $ exit # 退出当前虚拟环境
 |____readme.md					# 项目说明文档
 ```
 
-### 生成临时管理员信息 
-```$ python fake.py```
-
 ### 自动生成 api 接口文档
 [Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。
 
@@ -129,69 +185,31 @@ $ exit # 退出当前虚拟环境
 > 启动服务(DEBUG模式下)<br>
 在浏览器端输入：http://localhost:8080/apidocs/#/
 
-### Pycharm的配置
-[链接](http://www.it610.com/article/4325344.htm)
-使用**`指定端口`**开启「Debug模式」
 
-1. 配置指定端口号**`Run > Edit Configurations`**<br>
-写入`run -h 0.0.0.0 8080`<br>
-等同于在终端执行 `python server.py run -h 0.0.0.0 -p 8080`
+## 上传&下载
+### 上传
+具体查看 **`app/api/v2/file.py`** 的 **`upload_file`** 视图函数
 
-<div align="center">
-  <img alt="img" src="./media/debug_configurations.jpg" width="80%">
-</div>
+### 下载
+#### 1. 「静态资源文件」下载
 
-
-2. 开启 Debug
-**`Run > Debug 'server'`**
-
-
-#### Mysql的安装和数据导入
-##### 一、安装
+默认下载路径前缀 **`http://0.0.0.0:8080/static/`**
+访问 **`app/static/images`** 目录下的资源
 ```
-$ sudo apt-get install mysql-server
-$ sudo apt-get install mysql-client
-$ sudo apt-get install libmysqlclient-dev
+http://0.0.0.0:8080/static/images/1@theme.png
 ```
-安装过程中，会让你输入密码。<br>
-请务必记住密码!<br>
-务必记住密码！<br>
-必记住密码！<br>
-
-查看是否安装成功
-
-```$ sudo netstat -tap | grep mysql```
-
-##### 二、运行
-```$ mysql -u root -p```
-
--u 表示选择登陆的用户名， -p 表示登陆的用户密码，上面命令输入之后会提示输入密码
-
-接着输入密码(Enter password)
-
-##### 三、导入
-下载 Mysql 数据  [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
-
-mysql的每条执行以「分号」结尾
+访问 **`app/static/files`** 目录下的资源
 ```
-mysql> create database zerd; # 建立数据库(zerd)
-mysql> use zerd; # 进入该数据库
-mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
+http://0.0.0.0:8080/static/files/Python面向对象编程指南.epub
 ```
-导入成功，可以直接查询
-```mysql> select * from user;```
 
-删除数据库
-```mysql>  drop database zerd;```
-
-
-#### 启动Server端
-```$ python server.py run -h 0.0.0.0 -p 8080```
-
+#### 2. 「数据库内存储的文件」下载
+send_from_directory
+(占坑)
 
 ## 骚操作
 ### Python相关
-#### 1、<span id="auto_active">自动激活<span> <br>
+#### 1、<span id="auto_active">自动激活<span>
 进入项目目录时，自动激活项目所需的虚拟环境
 
 1.1 全局安装
@@ -220,6 +238,12 @@ $ source ~/.zshrc
 
 1.4 完成
 
+#### 2、<span id="extend_decorator">对第三方库的装饰器的扩展<span>
+具体查看 **`app/lib/redprint.py`** 的 **`doc`** 函数
+
+对第三方库Flasgger的swag_from装饰器进行了功能的扩展
+
+
 
 ## 三端分离
 #### 1.客户端: mini-shop-wx
@@ -233,5 +257,7 @@ $ source ~/.zshrc
 #### 3.CMS: mini-shop-cms
 基于 Flask框架。（未开始，占坑）
 
+## 参考
+【1】[<span id="ref_1">PyCharm配置使用Flask-Script启动以及开启Debug模式</span>](http://www.it610.com/article/4325344.htm)
 
 

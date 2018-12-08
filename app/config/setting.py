@@ -6,3 +6,4 @@ __author__ = 'Alimazing'
 
 TOKEN_EXPIRATION = 30 * 24 * 3600
 IMG_PREFIX = 'http://localhost:5001/static/images'
+UPLOAD_FOLDER = 'app/static/uploads'

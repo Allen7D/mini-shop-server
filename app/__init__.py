@@ -9,7 +9,7 @@ __author__ = 'Alimazing'
 
 
 def create_app():
-	app = Flask(__name__, static_folder="../static", template_folder="../static/views")
+	app = Flask(__name__, static_folder="./static", template_folder="./static/views")
 	app.config.from_object('app.config.secure')
 	app.config.from_object('app.config.setting')
 	app.config.from_object('app.config.wx')

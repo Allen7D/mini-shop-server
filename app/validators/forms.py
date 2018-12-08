@@ -55,9 +55,14 @@ class BookSearchValidator(BaseValidator):
 	q = StringField(validators=[DataRequired()])
 
 
+class UploadFileValidator(BaseValidator):
+	# ref==> https://wtforms.readthedocs.io/en/latest/fields.html
+	file = FileField(validators=[DataRequired()])
+
+
 class UploadPDFValidator(BaseValidator):
-	origin = FileField()
-	comparer = FileField()
+	origin = FileField(validators=[DataRequired()])
+	comparer = FileField(validators=[DataRequired()])
 
 
 class AddressNew(BaseValidator):

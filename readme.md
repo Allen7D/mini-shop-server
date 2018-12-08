@@ -21,9 +21,9 @@
 
 ## 亮点
 - [自动激活](#auto_active)虚拟环境(autoenv)
-- [装饰器的扩展](#extend_decorator)
+- [装饰器的扩展](#extend_decorator)(对第三方库)
 - 基于原生的 Flask构建 RESTfull API
-- 更灵活的 API文档生成方式(可带 Token)
+- 更灵活的 API文档生成方式(可带 **`Token`**)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
 - Ubuntu 16.04上 nginx + uwsgi + pipenv部署
 
@@ -34,7 +34,7 @@
 - [服务器部署](#服务器部署)
 - [上传&下载](#上传&下载)
 - [骚操作](#骚操作)
-- [三端分离](#三端分离)
+-  [三端分离](#三端分离): 后续
 
 
 ## 开发工具
@@ -177,7 +177,7 @@ $ exit # 退出当前虚拟环境
 ### 自动生成 api 接口文档
 [Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。
 
-本项目使用[flasgger库](https://github.com/rochacbruno/flasgger)自动生成 Swagger风格[(Demo)](https://editor.swagger.io/?_ga=2.211085136.492521077.1539840591-1920768432.1536803925)的API文档。
+本项目使用 [Flasgger库](https://github.com/rochacbruno/flasgger)自动生成 Swagger风格[(Demo)](https://editor.swagger.io/?_ga=2.211085136.492521077.1539840591-1920768432.1536803925)的API文档。
 
 1、[Swagger Editor](http://editor.swagger.io/) 在网页端直接编辑 API文档
 
@@ -241,8 +241,7 @@ $ source ~/.zshrc
 #### 2、<span id="extend_decorator">对第三方库的装饰器的扩展<span>
 具体查看 **`app/lib/redprint.py`** 的 **`doc`** 函数
 
-对第三方库Flasgger的swag_from装饰器进行了功能的扩展
-
+不改动第三方库 Flasgger的 swag_from(装饰器函数)的源码，对其进行了功能的扩展
 
 
 ## 三端分离
@@ -252,12 +251,13 @@ $ source ~/.zshrc
 #### 2.服务端: mini-shop-server
 基于 Flask框架构建 RESTful API。（正在实现中）
 
-点击查阅 [API文档](http://api.ivinetrue.com/apidocs/#/)(Swagger风格，可以带token)
+点击查阅 [API文档](http://api.ivinetrue.com/apidocs/#/)(Swagger风格)
 
 #### 3.CMS: mini-shop-cms
 基于 Flask框架。（未开始，占坑）
 
 ## 参考
 【1】[<span id="ref_1">PyCharm配置使用Flask-Script启动以及开启Debug模式</span>](http://www.it610.com/article/4325344.htm)
+【2】[<span id="ref_2">Flask 上传文件</span>](https://dormousehole.readthedocs.io/en/latest/patterns/fileuploads.html)
 
 

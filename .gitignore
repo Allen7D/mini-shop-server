@@ -6,7 +6,7 @@ __pycache__/
 Pipfile.lock
 .idea/
 
-/app/static/uploads
+/app/static/uploads/
 
 # Test code
 /test/

@@ -243,7 +243,8 @@ $ source ~/.zshrc
 不改动第三方库 Flasgger的 swag_from(装饰器函数)的源码，对其进行了功能的扩展
 
 
-## 三端分离
+## 后续
+### 三端分离
 #### 1.客户端: mini-shop-wx
 基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
@@ -257,6 +258,7 @@ $ source ~/.zshrc
 
 ## 参考
 【1】[<span id="ref_1">PyCharm配置使用Flask-Script启动以及开启Debug模式</span>](http://www.it610.com/article/4325344.htm)
+
 【2】[<span id="ref_2">Flask 上传文件</span>](https://dormousehole.readthedocs.io/en/latest/patterns/fileuploads.html)
 
 

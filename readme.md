@@ -23,7 +23,7 @@
 - [自动激活](#auto_active)虚拟环境(autoenv)
 - [装饰器的扩展](#extend_decorator)(对第三方库)
 - 基于原生的 Flask构建 RESTfull API
-- 更灵活的 API文档生成方式(可带 **`Token`**)
+- 更灵活的 API文档生成方式(可带 **Token**)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
 - Ubuntu 16.04上 nginx + uwsgi + pipenv部署
 
@@ -257,8 +257,13 @@ $ source ~/.zshrc
 基于 Flask框架。（未开始，占坑）
 
 ## 参考
-【1】[<span id="ref_1">PyCharm配置使用Flask-Script启动以及开启Debug模式</span>](http://www.it610.com/article/4325344.htm)
+【1】<span id="ref_1"></span>[PyCharm配置使用Flask-Script启动以及开启Debug模式](http://www.it610.com/article/4325344.htm)
 
-【2】[<span id="ref_2">Flask 上传文件</span>](https://dormousehole.readthedocs.io/en/latest/patterns/fileuploads.html)
+【2】<span id="ref_2"></span>[Flask 上传文件](https://dormousehole.readthedocs.io/en/latest/patterns/fileuploads.html)
 
+【3】<span id="ref_3"></span>[阿里云部署 Flask + WSGI + Nginx 详解](https://www.cnblogs.com/Ray-liang/p/4173923.html)
+
+【4】<span id="ref_4"></span>[centos7 下通过nginx+uwsgi部署django应用](http://projectsedu.com/2017/08/15/centos7-%E4%B8%8B%E9%80%9A%E8%BF%87nginx-uwsgi%E9%83%A8%E7%BD%B2django%E5%BA%94%E7%94%A8/)
+
+【5】<span id="ref_5"></span>[Nginx的https配置记录以及http强制跳转到https的方法梳理](https://www.cnblogs.com/kevingrace/p/6187072.html)
 

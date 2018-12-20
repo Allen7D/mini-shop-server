@@ -23,7 +23,7 @@ SWAGGER = {
 		},
 		"termsOfService": "http://ivinetrue.com"
 	},
-	"host": 'SERVER_URL', #"api.ivinetrue.com",
+	"host": SERVER_URL, #"api.ivinetrue.com",
 	"basePath": "/",  # base bash for blueprint registration
 	"tags": [],
 	"schemes": [

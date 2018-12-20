@@ -27,7 +27,6 @@ SWAGGER = {
 	"basePath": "/",  # base bash for blueprint registration
 	"tags": [],
 	"schemes": [
-		"http",
 		"https"
 	],
 	"operationId": "getmyData",

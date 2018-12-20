@@ -19,14 +19,15 @@ SWAGGER = {
 			"responsibleOrganization": "Shema(聆听)",
 			"responsibleDeveloper": "A粒麦子",
 			"email": "bodanli159951@163.com",
-			"url": "www.me.com"
+			"url": "http://ivinetrue.com"
 		},
-		"termsOfService": "http://me.com/terms"
+		"termsOfService": "http://ivinetrue.com"
 	},
 	"host": 'SERVER_URL', #"api.ivinetrue.com",
 	"basePath": "/",  # base bash for blueprint registration
 	"tags": [],
 	"schemes": [
+		"http",
 		"https"
 	],
 	"operationId": "getmyData",

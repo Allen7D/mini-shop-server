@@ -11,7 +11,7 @@
   <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
 </div>
 <div align="center">
-  <a href="http://api.ivinetrue.com/apidocs/#/">线上 API文档</a>
+  <a href="http://118.25.25.229">线上 API文档</a>
 </div>
 
 
@@ -264,7 +264,7 @@ $ source ~/.zshrc
 #### 2.服务端: mini-shop-server
 基于 Flask框架构建 RESTful API。（正在实现中）
 
-点击查阅 [API文档](http://api.ivinetrue.com/apidocs/#/)(Swagger风格)
+点击查阅 [API文档](http://118.25.25.229/apidocs/#/)(Swagger风格)
 
 #### 3.CMS: mini-shop-cms
 基于 Flask框架。（未开始，占坑）

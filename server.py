@@ -3,6 +3,7 @@
   Created by Alimazing on 2018/5/12.
 """
 from werkzeug.exceptions import HTTPException
+from werkzeug.contrib.fixers import ProxyFix
 from flask_script import Manager, Server
 
 from app import create_app
@@ -29,6 +30,8 @@ def framework_error(e):
 		else:
 			raise e
 
+
+app.wsgi_app = ProxyFix(app.wsgi_app)
 manager = Manager(app)
 manager.add_command("run", Server())
 

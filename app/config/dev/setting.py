@@ -25,7 +25,12 @@ SWAGGER = {
 	},
 	"host": 'SERVER_URL', #"api.ivinetrue.com",
 	"basePath": "/",  # base bash for blueprint registration
-	"tags": [],
+	"tags": [
+		{
+			"name": "banner",
+			"description": "***tags可以去掉***"
+		}
+	],
 	"schemes": [
 		"http",
 		"https"

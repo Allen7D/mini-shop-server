@@ -2,7 +2,7 @@
 """
   Created by Alimazing on 2018/5/12.
 """
-
+import os
 from .app import Flask
 
 __author__ = 'Alimazing'
@@ -10,9 +10,15 @@ __author__ = 'Alimazing'
 
 def create_app():
 	app = Flask(__name__, static_folder="./static", template_folder="./static/views")
-	app.config.from_object('app.config.secure')
-	app.config.from_object('app.config.setting')
-	app.config.from_object('app.config.wx')
+	isDevMode = os.path.exists('app/config/dev')
+	if isDevMode:
+		app.config.from_object('app.config.dev.secure')
+		app.config.from_object('app.config.dev.setting')
+		app.config.from_object('app.config.dev.wx')
+	else:
+		app.config.from_object('app.config.secure')
+		app.config.from_object('app.config.setting')
+		app.config.from_object('app.config.wx')
 
 	register_blueprint(app)
 	register_plugin(app)

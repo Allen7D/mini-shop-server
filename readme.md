@@ -25,7 +25,7 @@
 - 基于原生的 Flask构建 RESTfull API
 - 更灵活的 API文档生成方式(可带 **Token**)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
-- Ubuntu 16.04上 nginx + uwsgi + pipenv部署
+- Ubuntu 16.04上 Nginx + Gunicorn + Pipenv部署
 
 
 ## 目录
@@ -105,9 +105,15 @@ $ python server.py run -h 0.0.0.0 -p 8080 # 启动方式3:以本地ip地址访�
 ```$ python fake.py```
 
 ### Pycharm的配置<sup>[[1]](#ref_1)</sup>
-使用 **`指定端口`** 开启「Debug模式」
+Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开启「Debug模式」
 
-1. 配置指定端口号
+1. 获取该虚拟环境下 Python的解释器的路径
+
+<div align="center">
+  <img alt="img" src="./media/python_interpreter.jpg" width="80%">
+</div>
+
+2. 配置指定端口号
 **`Run > Edit Configurations`** <br>
 写入 `run -h 0.0.0.0 8080` <br>
 等同于，在终端执行 `python server.py run -h 0.0.0.0 -p 8080`
@@ -116,8 +122,7 @@ $ python server.py run -h 0.0.0.0 -p 8080 # 启动方式3:以本地ip地址访�
   <img alt="img" src="./media/debug_configurations.jpg" width="80%">
 </div>
 
-
-2. 开启 Debug
+3. 开启 Debug
 **`Run > Debug 'server'`**
 
 ### 其他 pipenv操作
@@ -184,6 +189,14 @@ $ exit # 退出当前虚拟环境
 > 启动服务(DEBUG模式下)<br>
 在浏览器端输入：http://localhost:8080/apidocs/#/
 
+## 服务器部署
+本项目选择在 Ubuntu 16.04上，用 Nginx + Gunicorn + Pipenv部署<sup>[[3]](#ref_3)</sup>，其中 Gunicorn取代 uWsgi。
+> Flask与 uWsgi结合有许多难以处理的 bug
+
+```
+gunicorn -w 4 -b 127.0.0.1:8080 shema:app # 在8080端口开启 gunicorn
+fuser -k 8080/tcp # 关闭占用8080端口的服务
+```
 
 ## 上传&下载
 ### 上传<sup>[[2]](#ref_2)</sup>
@@ -261,9 +274,11 @@ $ source ~/.zshrc
 
 【2】<span id="ref_2"></span>[Flask 上传文件](https://dormousehole.readthedocs.io/en/latest/patterns/fileuploads.html)
 
-【3】<span id="ref_3"></span>[阿里云部署 Flask + WSGI + Nginx 详解](https://www.cnblogs.com/Ray-liang/p/4173923.html)
+【3】<span id="ref_3"></span>[Flask + Gunicorn + Nginx 部署](https://www.cnblogs.com/Ray-liang/p/4837850.html)
 
 【4】<span id="ref_4"></span>[centos7 下通过nginx+uwsgi部署django应用](http://projectsedu.com/2017/08/15/centos7-%E4%B8%8B%E9%80%9A%E8%BF%87nginx-uwsgi%E9%83%A8%E7%BD%B2django%E5%BA%94%E7%94%A8/)
 
 【5】<span id="ref_5"></span>[Nginx的https配置记录以及http强制跳转到https的方法梳理](https://www.cnblogs.com/kevingrace/p/6187072.html)
+
+【6】<span id="ref_6"></span>[https://blog.csdn.net/cloume/article/details/78252319](https://blog.csdn.net/cloume/article/details/78252319)
 

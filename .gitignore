@@ -7,7 +7,6 @@ Pipfile.lock
 .idea/
 
 /app/static/uploads/
-/app/config/dev
 
 # Test code
 /test/

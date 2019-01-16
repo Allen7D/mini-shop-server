@@ -5,13 +5,13 @@
 <h4 align="center">
 	构建微信小程序(商城)后端
 	<br>🤜基于 Flask框架🤛
-</h4>
+</h4>f
 
 <div align="center">
   <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
 </div>
 <div align="center">
-  <a href="http://118.25.25.229">线上 API文档</a>
+  <a href="http://api.ivinetrue.com/apidocs/#/">线上 API文档</a>
 </div>
 
 
@@ -34,7 +34,8 @@
 - [服务器部署](#服务器部署)
 - [上传&下载](#上传&下载)
 - [骚操作](#骚操作)
--  [三端分离](#三端分离): 后续
+- [三端分离](#三端分离): 后续
+- [nginx部署](#nginx部署)
 
 
 ## 开发工具
@@ -62,7 +63,10 @@ $ sudo apt-get install libmysqlclient-dev
 ```$ sudo netstat -tap | grep mysql```
 
 #### 二、运行
-```$ mysql -u root -p```
+```
+$ mysql -u root -p # 之后，输入密码
+$ mysql -u root -p123456 # 直接输入密码，进入(我的密码是: 123456)
+```
 
  **`-u`** 表示选择登陆的用户名，  **`-p`** 表示登陆的用户密码<br>
  上面命令输入之后，会提示输入密码(Enter password)
@@ -135,7 +139,7 @@ $ pip list # 查看安装列表
 $ pipenv graph # 查看安装列表，及其相应的以来
 $ pipenv --venv # 虚拟环境信息
 $ pipenv --py # Python解释器信息
-$ pipenv –rm # 卸载当前虚拟环境
+$ pipenv --rm # 卸载当前虚拟环境
 $ exit # 退出当前虚拟环境
 ```
 
@@ -256,6 +260,76 @@ $ source ~/.zshrc
 不改动第三方库 Flasgger的 swag_from(装饰器函数)的源码，对其进行了功能的扩展
 
 
+## Nginx部署
+
+```
+$ nginx -s stop # 停止nginx
+$ nginx -s reload # 重启nginx
+```
+
+### Nginx配置
+`/etc/nginx/sites-available/server`
+`/etc/nginx/sites-enabled/server`
+
+`ln -s /etc/nginx/sites-available/server /etc/nginx/sites-enabled/server`
+
+```bash
+server {
+    listen 443 default;
+    server_name www.ivinetrue.com ivinetrue.com;
+    ssl on;
+    root html;
+    index index.html index.htm;
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+    ssl_certificate cert/ivinetrue.pem;
+    ssl_certificate_key cert/ivinetrue.key;
+    ssl_session_timeout 10m;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/workspace/mini-shop-server/server.sock; #http://127.0.0.1:8080;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_headers_hash_max_size 51200;
+        proxy_headers_hash_bucket_size 6400;
+    }
+    location /static/ {
+        alias /home/workspace/mini-shop-server/app/static/;
+    }
+
+}
+
+server {
+      listen  80;
+      server_name www.ivinetrue.com ivinetrue.com;
+      rewrite ^(.*)$  https://$host$1 permanent;
+}
+
+```
+
+## supervisor配置
+路径 `/etc/supervisor/conf.d/shema.conf`
+
+配置文件
+
+```bash
+[program:shema]
+environment=PATH='/root/.local/share/virtualenvs/server-4o3oDD8t/bin/python'
+command = /root/.local/share/virtualenvs/server-4o3oDD8t/bin/gunicorn -w 4 -b unix:/home/workspace/morning-star/server/server.sock shema:app
+directory = /home/workspace/morning-star/server
+user = root
+#日志输出
+stderr_logfile=/tmp/blog_stderr.log
+stdout_logfile=/tmp/blog_stdout.log
+```
+
+运行`supervisorctl restart shema`
+
 ## 后续
 ### 三端分离
 #### 1.客户端: mini-shop-wx
@@ -280,5 +354,9 @@ $ source ~/.zshrc
 
 【5】<span id="ref_5"></span>[Nginx的https配置记录以及http强制跳转到https的方法梳理](https://www.cnblogs.com/kevingrace/p/6187072.html)
 
-【6】<span id="ref_6"></span>[https://blog.csdn.net/cloume/article/details/78252319](https://blog.csdn.net/cloume/article/details/78252319)
+【6】<span id="ref_6"></span>[Nginx配置HTTPS](https://blog.csdn.net/cloume/article/details/78252319)
+
+【7】<span id="ref_7"></span>[Linux下导入、导出mysql数据库命令的实现方法](https://www.jb51.net/article/131791.htm)
+
+【8】<span id="ref_8"></span>[Automatically enable HTTPS on your website with EFF's Certbot.](https://certbot.eff.org/lets-encrypt/ubuntuxenial-nginx)
 

@@ -5,7 +5,7 @@
 __author__ = 'Alimazing'
 
 TOKEN_EXPIRATION = 30 * 24 * 3600
-SERVER_URL = '118.25.25.229'
+SERVER_URL = 'api.ivinetrue.com'
 IMG_PREFIX = SERVER_URL + '/static/images'
 UPLOAD_FOLDER = 'app/static/uploads'
 SWAGGER = {

@@ -17,6 +17,7 @@
 
 * 借鉴慕课网的[《Python Flask构建可扩展的RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
+* 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
 * QQ 交流群 163801325（聊天，斗图，学习，交流。伸手党勿进）
 
 ## 亮点
@@ -31,11 +32,13 @@
 ## 目录
 - [亮点](#亮点)
 - [开发工具](#开发工具)
+- [开发环境搭建](#开发环境搭建)
 - [服务器部署](#服务器部署)
 - [上传&下载](#上传&下载)
 - [骚操作](#骚操作)
 - [三端分离](#三端分离): 后续
 - [nginx部署](#nginx部署)
+- [Python学习路线](#Python学习路线)
 
 
 ## 开发工具
@@ -45,13 +48,13 @@
 * Navicat（数据库可视化管理工具）
 
 ## 开发环境搭建
+* MySQL安装、运行，数据库的导入
+* Python 3.6
 
-### Mysql的安装和数据导入
+### MySQL的安装和数据导入
 #### 一、安装
 ```
 $ sudo apt-get install mysql-server
-$ sudo apt-get install mysql-client
-$ sudo apt-get install libmysqlclient-dev
 ```
 安装过程中，会让你输入密码。<br>
 请务必记住密码!<br>
@@ -72,19 +75,31 @@ $ mysql -u root -p123456 # 直接输入密码，进入(我的密码是: 123456)
  上面命令输入之后，会提示输入密码(Enter password)
 
 #### 三、导入
-下载 Mysql 数据  [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
+下载 MySQL数据  [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
 
-mysql的每条执行以「分号」结尾
+> mysql的每条执行以「分号」结尾
 ```
 mysql> create database zerd; # 建立数据库(zerd)
 mysql> use zerd; # 进入该数据库
-mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
+mysql> source /home/ubuntu/mini-shop-server/zerd.sql; # 导入「mini-shop-server」目录下的sql文件
 ```
+> Tips: 其他数据库操作
 导入成功，可以直接查询
 ```mysql> select * from user;```
-
 删除数据库
 ```mysql>  drop database zerd;```
+
+### Python3.6版本的安装
+查询本地的python3的版本 
+```$ python3 --version```
+如果不是python3.6的版本，则如下操作
+
+```
+$ sudo apt-get update 
+$ sudo apt-get install software-properties-common
+$ sudo add-apt-repository ppa:jonathonf/python-3.6 
+$ sudo apt-get install python3.6
+```
 
 ### pipenv的安装
 如果还未安装pip3包管理工具，请先执行如下语句<br>
@@ -92,6 +107,20 @@ mysql> source /home/ubuntu/zerd.sql; # 导入某目录下的sql文件
 
 安装 pipenv<br>
 ```$ pip3 install pipenv```
+
+> Tips: 其他 pipenv操作
+```
+$ pipenv install flask # 安装指定模块，并写入到 Pipfile中
+$ pipenv install flask==1.0.2 # 安装指定版本的模块
+$ pipenv uninstall flask # 卸载指定模块
+$ pipenv update flask # 更新指定模块
+$ pip list # 查看安装列表
+$ pipenv graph # 查看安装列表，及其相应的以来
+$ pipenv --venv # 虚拟环境信息
+$ pipenv --py # Python解释器信息
+$ pipenv --rm # 卸载当前虚拟环境
+$ exit # 退出当前虚拟环境
+```
 
 ### 本地启动
 ```
@@ -128,20 +157,6 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 
 3. 开启 Debug
 **`Run > Debug 'server'`**
-
-### 其他 pipenv操作
-```
-$ pipenv install flask # 安装指定模块，并写入到 Pipfile中
-$ pipenv install flask==1.0.2 # 安装指定版本的模块
-$ pipenv uninstall flask # 卸载指定模块
-$ pipenv update flask # 更新指定模块
-$ pip list # 查看安装列表
-$ pipenv graph # 查看安装列表，及其相应的以来
-$ pipenv --venv # 虚拟环境信息
-$ pipenv --py # Python解释器信息
-$ pipenv --rm # 卸载当前虚拟环境
-$ exit # 退出当前虚拟环境
-```
 
 ## 目录结构
 ```
@@ -182,6 +197,13 @@ $ exit # 退出当前虚拟环境
 |____readme.md					# 项目说明文档
 ```
 
+### 开发思路
+业务逻辑主要放在 model 层
+> 如图
+<div align="center">
+  <img alt="img" src="./media/arch.jpg" width="400px">
+</div>
+
 ### 自动生成 api 接口文档
 [Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。
 
@@ -197,6 +219,8 @@ $ exit # 退出当前虚拟环境
 本项目选择在 Ubuntu 16.04上，用 Nginx + Gunicorn + Pipenv部署<sup>[[3]](#ref_3)</sup>，其中 Gunicorn取代 uWsgi。
 > Flask与 uWsgi结合有许多难以处理的 bug
 
+
+### 运行
 ```
 gunicorn -w 4 -b 127.0.0.1:8080 shema:app # 在8080端口开启 gunicorn
 fuser -k 8080/tcp # 关闭占用8080端口的服务
@@ -343,6 +367,20 @@ stdout_logfile=/tmp/blog_stdout.log
 #### 3.CMS: mini-shop-cms
 基于 Flask框架。（未开始，占坑）
 
+## Python学习路线
+1. [《全面系统 Python3 入门+进阶课程》](https://coding.imooc.com/class/136.html)
+2. [《Python Flask 高级编程》](https://coding.imooc.com/class/194.html)
+3. [《Python Flask 构建可扩展的 RESTful API》](https://coding.imooc.com/class/220.html)
+4. [《微信小程序商城构建全栈应用》](https://coding.imooc.com/class/97.html)
+
+### 买课优惠码(8.8折扣)
+> PC端请复制对应的链接
+> 移动端可以扫描二维码
+
+1. 《全面系统 Python3 入门+进阶课程》
+https://s.imooc.com/Su1q40U
+![python3_海报]('')
+
 ## 参考
 【1】<span id="ref_1"></span>[PyCharm配置使用Flask-Script启动以及开启Debug模式](http://www.it610.com/article/4325344.htm)
 
@@ -360,3 +398,7 @@ stdout_logfile=/tmp/blog_stdout.log
 
 【8】<span id="ref_8"></span>[Automatically enable HTTPS on your website with EFF's Certbot.](https://certbot.eff.org/lets-encrypt/ubuntuxenial-nginx)
 
+【9】<span id="ref_9"></span>[ubuntu16.04 64bit 升级 python3.5 python3.6](https://blog.csdn.net/zhao__zhen/article/details/81584933)
+
+## 捐赠
+如果你觉得该项目有用，你可以扫

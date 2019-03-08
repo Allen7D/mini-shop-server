@@ -5,7 +5,7 @@
 <h4 align="center">
 	构建微信小程序(商城)后端
 	<br>🤜基于 Flask框架🤛
-</h4>f
+</h4>
 
 <div align="center">
   <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
@@ -201,7 +201,7 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 业务逻辑主要放在 model 层
 > 如图
 <div align="center">
-  <img alt="img" src="./media/arch.jpg" width="400px">
+  <img alt="img" src="./media/arch.png" width="400px">
 </div>
 
 ### 自动生成 api 接口文档

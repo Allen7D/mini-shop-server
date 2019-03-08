@@ -199,9 +199,9 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 
 ### 开发思路
 业务逻辑主要放在 model 层
-> 如图
 <div align="center">
-  <img alt="img" src="./media/arch.png" width="400px">
+  <img alt="img" src="./media/arch.png" width="700px">
+  <p>项目架构体系</p>
 </div>
 
 ### 自动生成 api 接口文档

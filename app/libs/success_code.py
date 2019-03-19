@@ -13,11 +13,17 @@ class Success(APIException):
 	code = 200
 	error_code = 0
 	data = None  # 结果可以是{} 或 []
-	msg = 'get success'
+	msg = '成功'
 
 	def __init__(self, data=None, code=None, error_code=None, msg=None):
 		if data:
 			self.data = jsonify(data)
+		if error_code == 1:
+			code = code if code else 201
+			msg = msg if msg else '创建 | 更新成功'
+		if error_code == 2:
+			code = code if code else 201
+			msg = msg if msg else '删除成功'
 		super(Success, self).__init__(code, error_code, msg)
 
 	def get_body(self, environ=None):

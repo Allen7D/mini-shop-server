@@ -6,8 +6,6 @@ __pycache__/
 Pipfile.lock
 .idea/
 
+# Local working file
 /app/static/uploads/
 /app/config/dev
-
-# Test code
-/test/

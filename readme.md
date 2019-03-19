@@ -18,7 +18,12 @@
 * 借鉴慕课网的[《Python Flask构建可扩展的RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
-* QQ 交流群 163801325（聊天，斗图，学习，交流。伸手党勿进）
+* QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
+<div align="center">
+  <img alt="img" src="./media/qq_group.jpg" width="300px">
+  <div>👆QQ 扫码👆</div>
+</div>
+
 
 ## 亮点
 - [自动激活](#auto_active)虚拟环境(autoenv)
@@ -34,6 +39,7 @@
 - [开发工具](#开发工具)
 - [开发环境搭建](#开发环境搭建)
 - [服务器部署](#服务器部署)
+- [本地&线上同步推进](#本地&线上同步推进)：针对个人玩具项目
 - [上传&下载](#上传&下载)
 - [骚操作](#骚操作)
 - [三端分离](#三端分离): 后续
@@ -126,12 +132,12 @@ $ exit # 退出当前虚拟环境
 ```
 $ git clone https://github.com/Alimazing/mini-shop-server.git
 $ cd mini-shop-server 
-$ pipenv --python 3.6 # 指定某 Python版本创建环境
+$ pipenv --python 3.6 # 指定某 Python 版本创建环境
 $ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
 $ pipenv install # 安装包依赖
 $ python server.py run # 启动方式1:默认5000端口
 $ python server.py run -p 8080 # 启动方式2:改为8080端口
-$ python server.py run -h 0.0.0.0 -p 8080 # 启动方式3:以本地ip地址访问
+$ python server.py run -h 0.0.0.0 -p 8080 # 启动方式3:以本地IP地址访问
 ```
 
 ### 生成临时管理员信息 
@@ -189,10 +195,10 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 | | |____app_token.py
 | | |____user_token.py
 |____server.py					# 启动程序
-|____fake.py						# 生成临时用户
-|____code.md						# 错误码(用于前后端开发)
-|____Pipfile						# 包依赖文件
-|____.env							# 自动激活虚拟环境
+|____fake.py			        # 生成临时用户
+|____code.md					# 错误码(用于前后端开发)
+|____Pipfile					# 包依赖文件
+|____.env						# 自动激活虚拟环境
 |____.gitignore					# git ignore配置
 |____readme.md					# 项目说明文档
 ```
@@ -222,9 +228,23 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 
 ### 运行
 ```
-gunicorn -w 4 -b 127.0.0.1:8080 shema:app # 在8080端口开启 gunicorn
+gunicorn -w 4 -b 127.0.0.1:8080 server:app # 在8080端口开启 gunicorn
 fuser -k 8080/tcp # 关闭占用8080端口的服务
 ```
+
+## 本地&线上同步推进
+### 业务场景
+本地与线上的 Swagger API 文档的接口的地址是不同的，但都依赖同一个配置文件 **`app\config\setting.py`**。<br>
+而个人项目有着本地和线上同步，开发和测试同步的需求，会不断修改 **`app\config\setting.py`** 文件，无法用 **`.gitignore`** 做到忽略配置文件，本地和线上配置隔离的效果。 
+
+### 解决
+**`本地`**和 **`线上`** 自动根据所处的环境(由 .gitignore 控制)不同，选择不同的配置文件。<br>
+那么， **`本地`** 可以比 **`线上`** 多了 **`app/config/dev.py`** 文件; 基于该文件的存在与否，可以用 **`if else`** 控制 **`app/config/`**中配置输出。
+
+### Demo
+1. `echo "/app/config/dev.py" >> .gitignore` # 追加 Git 忽略提交配置到 .gitignore
+2. 新建 **`app/config/dev.py`** 文件
+
 
 ## 上传&下载
 ### 上传<sup>[[2]](#ref_2)</sup>
@@ -261,17 +281,18 @@ send_from_directory
 项目根目录下创建.env文件<br>
 写入`pipenv shell`
 
-1.3 将autoenv的激活脚本写入 profile文件中
+1.3 将 autoenv 的激活脚本写入 profile 文件中
 
 bash模式
 
-```
-$ echo "source `which activate.sh`" >> ~/.bashrc
+```bash
+$ echo "source `which activate.sh`" >> ~/.bashrc # 追加到 .bashrc 文件
 $ source ~/.bashrc
 ```
+
 zsh模式
 
-```
+```bash
 $ echo "source `which activate.sh`" >> ~/.zshrc
 $ source ~/.zshrc
 ```
@@ -287,20 +308,20 @@ $ source ~/.zshrc
 ## Nginx部署
 
 ```
-$ nginx -s stop # 停止nginx
-$ nginx -s reload # 重启nginx
+$ nginx -s stop # 停止 nginx
+$ nginx -s reload # 重启 nginx
 ```
 
 ### Nginx配置
-`/etc/nginx/sites-available/server`
-`/etc/nginx/sites-enabled/server`
+`ln –s 源文件 目标文件`，类似快捷键。<br>
+以 `/etc/nginx/sites-available/server` 为源文件，以 `/etc/nginx/sites-enabled/server` 为目标文件，使得2个文件同步。<br>
+`ln -s /etc/nginx/sites-available/server /etc/nginx/sites-enabled/server` 
 
-`ln -s /etc/nginx/sites-available/server /etc/nginx/sites-enabled/server`
-
+`/etc/nginx/sites-available/server` 配置如下:
 ```bash
 server {
     listen 443 default;
-    server_name www.ivinetrue.com ivinetrue.com;
+    server_name www.ivinetrue.com ivinetrue.com; 
     ssl on;
     root html;
     index index.html index.htm;
@@ -337,14 +358,14 @@ server {
 ```
 
 ## supervisor配置
-路径 `/etc/supervisor/conf.d/shema.conf`
+路径 `/etc/supervisor/conf.d/server.conf`
 
 配置文件
 
 ```bash
-[program:shema]
+[program:server]
 environment=PATH='/root/.local/share/virtualenvs/server-4o3oDD8t/bin/python'
-command = /root/.local/share/virtualenvs/server-4o3oDD8t/bin/gunicorn -w 4 -b unix:/home/workspace/morning-star/server/server.sock shema:app
+command = /root/.local/share/virtualenvs/server-4o3oDD8t/bin/gunicorn -w 4 -b unix:/home/workspace/morning-star/server/server.sock server:app
 directory = /home/workspace/morning-star/server
 user = root
 #日志输出
@@ -352,7 +373,7 @@ stderr_logfile=/tmp/blog_stderr.log
 stdout_logfile=/tmp/blog_stdout.log
 ```
 
-运行`supervisorctl restart shema`
+运行`supervisorctl restart server`
 
 ## 后续
 ### 三端分离
@@ -400,5 +421,3 @@ https://s.imooc.com/Su1q40U
 
 【9】<span id="ref_9"></span>[ubuntu16.04 64bit 升级 python3.5 python3.6](https://blog.csdn.net/zhao__zhen/article/details/81584933)
 
-## 捐赠
-如果你觉得该项目有用，你可以扫

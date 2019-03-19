@@ -39,4 +39,4 @@ def get_one(id):
 def delete_one(id):
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	product = Product.get_product_detail(id=id)
-	return Success()
+	return Success(code=202, error_code=2, msg='删除成功')

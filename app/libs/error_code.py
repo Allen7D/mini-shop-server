@@ -38,22 +38,22 @@ class TokenException(APIException):
 	msg = 'Token已过期或无效Token'
 
 
-class AuthFailed(APIException):
-	code = 401
-	error_code = 1005
-	msg = 'authorization failed'
-
-
 class ForbiddenException(APIException):
 	code = 403
 	error_code = 1004
 	msg = 'forbidden, not in scope'
 
 
-class DuplicateGift(APIException):
+class AuthFailed(APIException):
+	code = 401
+	error_code = 1005
+	msg = 'authorization failed'
+
+
+class DuplicateException(APIException):
 	code = 400
 	error_code = 2001
-	msg = 'the current book has already in gift'
+	msg = '重复数据'
 
 
 class NotFound(APIException):

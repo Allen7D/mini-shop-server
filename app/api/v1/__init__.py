@@ -12,7 +12,7 @@ __author__ = 'Alimazing'
 
 def create_blueprint_v1():
 	bp_v1 = Blueprint('v1', __name__)
-	# 将 红图user.api注册进 蓝图bp_v1
+	# 将红图 user.api 注册进蓝图 bp_v1
 	user.api.register(bp_v1)
 	client.api.register(bp_v1)
 	token.api.register(bp_v1)

@@ -30,7 +30,7 @@ SWAGGER = {
 	},
 	"host": SERVER_URL, #"api.ivinetrue.com",
 	"basePath": "/",  # base bash for blueprint registration
-	"tags": [],
+	"tags": [], # 在'/app/api/v1/__init__.py'定义
 	"schemes": [
 		"http",
 		"https"

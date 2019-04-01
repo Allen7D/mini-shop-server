@@ -8,8 +8,10 @@ from . import web
 __author__ = 'Alimazing'
 
 
-@web.route('/', defaults={'path': ''})
-@web.route('/<path:path>')
-def index(path):
+# @web.route('/', defaults={'path': ''})
+# @web.route('/<path:path>')
+@web.route('/')
+def index():
+    '''默认跳转的 API 文档'''
     return redirect('/apidocs/#/')
     # return render_template("index.html")

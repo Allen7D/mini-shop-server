@@ -4,8 +4,7 @@
 """
 from flask import g
 
-from app.libs.error_code import UserException
-from app.libs.success_code import RenewSuccess, Success
+from app.libs.error_code import Success, UserException
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db
@@ -31,11 +30,11 @@ def get_address():
 @api.route('', methods=['POST'])
 @auth.login_required
 @api.doc()
-def renew_address():
+def update_address():
 	'''更新「用户自身的地址」'''
 	address_info = AddressNew().validate_for_api().data
 	uid = g.user.uid
 	with db.auto_check_empty(UserException):
 		user = User.query.filter_by(id=uid).first_or_404()
 	user.save_address(address_info)
-	return RenewSuccess()
+	return Success(error_code=1)

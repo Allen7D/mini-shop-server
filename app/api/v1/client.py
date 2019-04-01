@@ -4,7 +4,7 @@
 """
 
 from app.libs.enums import ClientTypeEnum
-from app.libs.success_code import RenewSuccess
+from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientValidator, UserEmailValidator
@@ -21,7 +21,7 @@ def create_client():
 		ClientTypeEnum.USER_EMAIL: __register_user_by_email
 	}
 	promise[form.type.data]()
-	return RenewSuccess()
+	return Success(error_code=1)
 
 
 def __register_user_by_email():

@@ -9,7 +9,7 @@ from flask import request, current_app
 from flask import send_from_directory
 
 from app.libs.redprint import RedPrint
-from app.libs.success_code import Success, RenewSuccess
+from app.libs.error_code import Success
 from app.validators.forms import UploadPDFValidator
 
 __author__ = 'Alimazing'
@@ -31,7 +31,7 @@ def upload_file():
 	comparer_file = request.files[form.comparer.name]
 	comparer_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], comparer_file.filename))
 
-	return RenewSuccess()
+	return Success(error_code=1)
 
 
 @api.route('/download/<string:file_name>', methods=['GET'])

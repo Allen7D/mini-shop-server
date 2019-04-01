@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Alimazing on 2018/5/31.
+  各种提交表单的验证
 """
 from collections import namedtuple
 

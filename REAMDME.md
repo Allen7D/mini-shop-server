@@ -8,10 +8,10 @@
 </h4>
 
 <div align="center">
-  <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="40%">
+  <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="550px">
 </div>
 <div align="center">
-  <a href="http://api.ivinetrue.com/apidocs/#/">线上 API文档</a>
+  <a href="http://api.ivinetrue.com/apidocs/#/">线上 API 文档</a>
 </div>
 
 
@@ -20,7 +20,7 @@
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
 * QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
 <div align="center">
-  <img alt="img" src="./media/qq_group.jpg" width="300px">
+  <img alt="img" src="./media/qq_group_qr_code.jpg" width="250px">
   <div>👆QQ 扫码👆</div>
 </div>
 
@@ -28,7 +28,7 @@
 ## 亮点
 - [自动激活](#auto_active)虚拟环境(autoenv)
 - [装饰器的扩展](#extend_decorator)(对第三方库)
-- 基于原生的 Flask构建 RESTfull API
+- 基于原生的 Flask 构建 RESTfull API
 - 更灵活的 API文档生成方式(可带 **Token**)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
 - Ubuntu 16.04上 Nginx + Gunicorn + Pipenv部署
@@ -39,9 +39,10 @@
 - [开发工具](#开发工具)
 - [开发环境搭建](#开发环境搭建)
 - [服务器部署](#服务器部署)
-- [本地&线上同步推进](#本地&线上同步推进)：针对个人玩具项目
+- [本地&线上同步推进](#本地&线上同步推进)：针对个人项目
 - [上传&下载](#上传&下载)
 - [骚操作](#骚操作)
+- [快捷脚本](#快捷脚本)
 - [三端分离](#三端分离): 后续
 - [nginx部署](#nginx部署)
 - [Python学习路线](#Python学习路线)
@@ -73,7 +74,7 @@ $ sudo apt-get install mysql-server
 
 #### 二、运行
 ```
-$ mysql -u root -p # 之后，输入密码
+$ mysql -u root -p # 执行完毕后输入密码
 $ mysql -u root -p123456 # 直接输入密码，进入(我的密码是: 123456)
 ```
 
@@ -89,15 +90,21 @@ mysql> create database zerd; # 建立数据库(zerd)
 mysql> use zerd; # 进入该数据库
 mysql> source /home/ubuntu/mini-shop-server/zerd.sql; # 导入「mini-shop-server」目录下的sql文件
 ```
-> Tips: 其他数据库操作
-导入成功，可以直接查询
-```mysql> select * from user;```
-删除数据库
-```mysql>  drop database zerd;```
+> Tips: 其他数据库操作<br>
+```
+// 1. 获取存在的所有表
+show tables; 
+// 2. 导入成功，可以直接查询(user表)
+mysql> select * from user;
+// 3. 删除数据库(zerd库)
+mysql> drop database zerd;
+// 4. 导出数据库
+mysql> 
+```
+
 
 ### Python3.6版本的安装
-查询本地的python3的版本 
-```$ python3 --version```
+查询本地的python3的版本 ```$ python3 --version```
 如果不是python3.6的版本，则如下操作
 
 ```
@@ -204,7 +211,7 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 ```
 
 ### 开发思路
-业务逻辑主要放在 model 层
+业务逻辑主要放在 Model 层
 <div align="center">
   <img alt="img" src="./media/arch.png" width="700px">
   <p>项目架构体系</p>
@@ -213,17 +220,17 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 ### 自动生成 api 接口文档
 [Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。
 
-本项目使用 [Flasgger库](https://github.com/rochacbruno/flasgger)自动生成 Swagger风格[(Demo)](https://editor.swagger.io/?_ga=2.211085136.492521077.1539840591-1920768432.1536803925)的API文档。
+本项目使用 [Flasgger库](https://github.com/rochacbruno/flasgger)自动生成 Swagger 风格[(Demo)](https://editor.swagger.io/?_ga=2.211085136.492521077.1539840591-1920768432.1536803925)的API文档。
 
-1、[Swagger Editor](http://editor.swagger.io/) 在网页端直接编辑 API文档
+1. [Swagger Editor](http://editor.swagger.io/) 在网页端直接编辑 API 文档
 
 查阅 API文档(本项目)
-> 启动服务(DEBUG模式下)<br>
+> 启动服务(DEBUG 模式下)<br>
 在浏览器端输入：http://localhost:8080/apidocs/#/
 
 ## 服务器部署
-本项目选择在 Ubuntu 16.04上，用 Nginx + Gunicorn + Pipenv部署<sup>[[3]](#ref_3)</sup>，其中 Gunicorn取代 uWsgi。
-> Flask与 uWsgi结合有许多难以处理的 bug
+本项目选择在 Ubuntu 16.04 上，用 Nginx + Gunicorn + Pipenv 部署<sup>[[3]](#ref_3)</sup>，其中 Gunicorn 取代 uWsgi。
+> Flask 与 uWsgi 结合有许多难以处理的 bug
 
 
 ### 运行
@@ -238,8 +245,8 @@ fuser -k 8080/tcp # 关闭占用8080端口的服务
 而个人项目有着本地和线上同步，开发和测试同步的需求，会不断修改 **`app\config\setting.py`** 文件，无法用 **`.gitignore`** 做到忽略配置文件，本地和线上配置隔离的效果。 
 
 ### 解决
-**`本地`**和 **`线上`** 自动根据所处的环境(由 .gitignore 控制)不同，选择不同的配置文件。<br>
-那么， **`本地`** 可以比 **`线上`** 多了 **`app/config/dev.py`** 文件; 基于该文件的存在与否，可以用 **`if else`** 控制 **`app/config/`**中配置输出。
+**`本地`** 和 **`线上`** 自动根据所处的环境(由 .gitignore 控制)不同，选择不同的配置文件。<br>
+那么， **`本地`** 可以比 **`线上`** 多了 **`app/config/dev.py`** 文件; 基于该文件的存在与否，可以用 **`if else`** 控制 **`app/config/`** 中配置输出。
 
 ### Demo
 1. `echo "/app/config/dev.py" >> .gitignore` # 追加 Git 忽略提交配置到 .gitignore
@@ -269,13 +276,13 @@ send_from_directory
 
 ## 骚操作
 ### Python相关
-#### 1、<span id="auto_active">自动激活<span>
+#### 1. <span id="auto_active">自动激活<span>
 进入项目目录时，自动激活项目所需的虚拟环境
 
 1.1 全局安装
 
  ```$ pip3 install autoenv```
- 
+  
 1.2 配置
 
 项目根目录下创建.env文件<br>
@@ -299,21 +306,21 @@ $ source ~/.zshrc
 
 1.4 完成
 
-#### 2、<span id="extend_decorator">对第三方库的装饰器的扩展<span>
+#### 2. <span id="extend_decorator">对第三方库的装饰器的扩展<span>
 具体查看 **`app/lib/redprint.py`** 的 **`doc`** 函数
 
 不改动第三方库 Flasgger的 swag_from(装饰器函数)的源码，对其进行了功能的扩展
 
 
-## Nginx部署
+## Nginx 部署
 
 ```
 $ nginx -s stop # 停止 nginx
 $ nginx -s reload # 重启 nginx
 ```
 
-### Nginx配置
-`ln –s 源文件 目标文件`，类似快捷键。<br>
+### Nginx 配置
+建立 **`文件A`** 快捷方式 **`文件B`** : `ln –s 源文件A 目标文件B` <br>
 以 `/etc/nginx/sites-available/server` 为源文件，以 `/etc/nginx/sites-enabled/server` 为目标文件，使得2个文件同步。<br>
 `ln -s /etc/nginx/sites-available/server /etc/nginx/sites-enabled/server` 
 
@@ -335,7 +342,8 @@ server {
     ssl_prefer_server_ciphers on;
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/workspace/mini-shop-server/server.sock; #http://127.0.0.1:8080;
+        proxy_pass http://unix:/home/workspace/mini-shop-server/server.sock;
+        # proxy_pass http://127.0.0.1:8080; # 弃用
         proxy_redirect off;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -344,7 +352,7 @@ server {
         proxy_headers_hash_bucket_size 6400;
     }
     location /static/ {
-        alias /home/workspace/mini-shop-server/app/static/;
+        alias /home/workspace/mini-shop-server/app/static/; # 静态资源文件路径
     }
 
 }
@@ -352,7 +360,7 @@ server {
 server {
       listen  80;
       server_name www.ivinetrue.com ivinetrue.com;
-      rewrite ^(.*)$  https://$host$1 permanent;
+      rewrite ^(.*)$  https://$host$1 permanent; # https 代理
 }
 
 ```
@@ -388,19 +396,21 @@ stdout_logfile=/tmp/blog_stdout.log
 #### 3.CMS: mini-shop-cms
 基于 Flask框架。（未开始，占坑）
 
-## Python学习路线
-1. [《全面系统 Python3 入门+进阶课程》](https://coding.imooc.com/class/136.html)
+## Python3 学习路线(皆亲测)
+路线: 1 -> 2 -> 3 -> 4
+
+1. [《全面系统 Python3 入门+进阶课程》](https://coding.imooc.com/class/136.html) 
 2. [《Python Flask 高级编程》](https://coding.imooc.com/class/194.html)
 3. [《Python Flask 构建可扩展的 RESTful API》](https://coding.imooc.com/class/220.html)
 4. [《微信小程序商城构建全栈应用》](https://coding.imooc.com/class/97.html)
 
-### 买课优惠码(8.8折扣)
-> PC端请复制对应的链接
-> 移动端可以扫描二维码
+### 买课优惠码(8.8折)
+> PC端请复制对应的链接; 移动端可以扫描二维码
 
-1. 《全面系统 Python3 入门+进阶课程》
-https://s.imooc.com/Su1q40U
-![python3_海报]('')
+1. 《全面系统 Python3 入门+进阶课程》- [优惠链接](https://s.imooc.com/Su1q40U)
+<div align="center">
+    <img src="./media/python3_poster.png" width="300px">
+</div>
 
 ## 参考
 【1】<span id="ref_1"></span>[PyCharm配置使用Flask-Script启动以及开启Debug模式](http://www.it610.com/article/4325344.htm)
@@ -421,3 +431,21 @@ https://s.imooc.com/Su1q40U
 
 【9】<span id="ref_9"></span>[ubuntu16.04 64bit 升级 python3.5 python3.6](https://blog.csdn.net/zhao__zhen/article/details/81584933)
 
+【10】[Lin-CMS](http://doc.cms.7yue.pro/)：Flask & Vue 结合的前后端分离的 CMS 解决方案
+
+
+## 学习
+统一 API 接口的命名规范
+- 看看七月写的接口
+- 'product/by_category' query中含有id，这种写法？？？
+- 业务逻辑很复杂，那么接口的命名该如何
+- 将 api_docs 改为类
+
+validator中对int类型的校验
+
+success 的 msg 前端无法获得，而Excepttion的可以
+
+返回结果可否为[], 而不只是 null
+
+
+搞定缓存

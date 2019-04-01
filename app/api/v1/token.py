@@ -7,15 +7,14 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
 	SignatureExpired, BadSignature
 
 from app.libs.enums import ClientTypeEnum
-from app.libs.error_code import AuthFailed
-from app.libs.success_code import Success
+from app.libs.error_code import Success, AuthFailed
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientValidator, TokenValidator
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='token', description='令牌')
+api = RedPrint(name='token', description='登录令牌')
 
 
 @api.route('/user', methods=['POST'])

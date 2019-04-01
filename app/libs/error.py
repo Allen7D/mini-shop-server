@@ -10,7 +10,7 @@ __author__ = 'Alimazing'
 
 class APIException(HTTPException):
 	code = 500
-	msg = 'sorry, we make a mistake!'
+	msg = '服务器未知错误'
 	error_code = 999
 
 	def __init__(self, code=None, error_code=None, msg=None, headers=None):

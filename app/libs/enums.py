@@ -18,7 +18,12 @@ class ClientTypeEnum(Enum):
 
 
 class ScopeEnum(Enum):
-	User = 1
-	Admin = 2
-	Super = 3
+	'''
+	「可读性」
+	逻辑：数字越大，权限越大
+	用法：ScopeEnum.User == ScopeEnum(1) # True
+	'''
+	User = 1 # 普通用户
+	Admin = 2 # 管理员
+	Super = 3 # 超级管理员
 

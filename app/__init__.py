@@ -2,7 +2,6 @@
 """
   Created by Alimazing on 2018/5/12.
 """
-import os
 from .app import Flask
 
 __author__ = 'Alimazing'
@@ -10,15 +9,10 @@ __author__ = 'Alimazing'
 
 def create_app():
 	app = Flask(__name__, static_folder="./static", template_folder="./static/views")
-	isDevMode = os.path.exists('app/config/dev')
-	if isDevMode:
-		app.config.from_object('app.config.dev.secure')
-		app.config.from_object('app.config.dev.setting')
-		app.config.from_object('app.config.dev.wx')
-	else:
-		app.config.from_object('app.config.secure')
-		app.config.from_object('app.config.setting')
-		app.config.from_object('app.config.wx')
+
+	app.config.from_object('app.config.secure')
+	app.config.from_object('app.config.setting')
+	app.config.from_object('app.config.wx')
 
 	register_blueprint(app)
 	register_plugin(app)
@@ -41,7 +35,11 @@ def register_plugin(app):
 	# Debug模式下可以查阅 API文档
 	if app.config['DEBUG']:
 		from flasgger import Swagger
-		from app.api.v1 import template
+		from app.api.v1 import create_api_tags_v1
+		from app.api.v2 import create_api_tags_v2
+		template = {
+			'tags': create_api_tags_v1()+ create_api_tags_v2()
+		}
 		swagger = Swagger(template=template) # 可以将secure.py中的SWAGGER全部写入template
 		swagger.init_app(app)
 

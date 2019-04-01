@@ -44,6 +44,12 @@ class Query(BaseQuery):
 			raise NotFound()
 		return rv
 
+	def all_or_404(self):
+		rv = list(self)
+		if not rv:
+			raise NotFound()
+		return rv
+
 	def get_or_404(self, ident):
 		rv = self.get(ident)  # 查询主键
 		if not rv:

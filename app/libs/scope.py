@@ -22,14 +22,19 @@ class UserScope(Scope):
 	forbidden = ['v1.user+super_get_user', 'v1.user+super_delete_user',
 				 'v1.user+super_update_user'] + \
 				[]
-
+	allow_api = ['v1.order+place_order']
 	def __init__(self):
 		self + AdminScope()
 
 
 class AdminScope(Scope):
 	# allow_api = ['v1.user+super_get_user', 'v1.user+super_delete_user']
-	allow_module = ['v1.user', 'v1.address', 'v1.upload']  # 所有视图函数
+	allow_module = [
+		'v1.user',
+		'v1.address',
+		'v1.product',
+		'v1.upload'
+	]  # 所有视图函数
 
 	def __init__(self):
 		# self + (UserScope())

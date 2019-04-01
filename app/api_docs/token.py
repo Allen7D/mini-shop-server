@@ -39,7 +39,12 @@ get_token = {
 	"responses": {
 		"200": {
 			"description": "登录成功",
-			"examples": {}
+			"examples": {
+				"data": {
+					"token": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU1MzE1OTE0MCwiZXhwIjoxNTU1NzUxMTQwfQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJVc2VyU2NvcGUifQ.5OHN-WF3ujKGcP3kT8lUbVZ-BIKFUgZLZL989X_ae-qjoxI1Sf7O7FRE10s9jk2I1ZRHdYfWdKY-TmSRmn0p-A"
+				},
+				"error_code": 0
+			}
 		}
 	}
 }

@@ -19,7 +19,7 @@ get_address = {
 	}
 }
 
-renew_address = {
+update_address = {
 	"parameters": [],
 	"security": [
 		{

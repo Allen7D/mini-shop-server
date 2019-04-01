@@ -16,8 +16,9 @@ class IDMustBePositiveInt(BaseValidator):
 	def validate_id(self, value):
 		id = value.data
 		if not self.isPositiveInteger(id):
-			raise ValidationError(message='id must be positive integer')
+			raise ValidationError(message='ID 必须为正整数')
 		self.id.data = id
+
 
 class IDCollection(BaseValidator):
 	ids = StringField(validators=[DataRequired()])
@@ -29,8 +30,9 @@ class IDCollection(BaseValidator):
 				raise ValidationError(message='ids must be positive integers which separated by dot')
 		self.ids.data = list(map(lambda x: int(x), ids))
 
+
 class Count(BaseValidator):
-	count = IntegerField(default='15')
+	count = IntegerField(default='15')  # 默认为15，可以省略 DataRequired()
 
 	def validate_count(self, value):
 		count = value.data
@@ -43,8 +45,11 @@ class OrderPlace(BaseValidator):
 	products = StringField()
 
 	def validate_products(self, value):
+		'''
+		数据格式: [{'product_id': 1, 'count': 10}, ...]
+		'''
 		products = value.data
-		if not isinstance(products, list):
+		if not self.isList(products):
 			raise ValidationError(message='商品参数不正确')
 		if len(products) == 0:
 			raise ValidationError(message='商品列表不能为空')
@@ -52,6 +57,5 @@ class OrderPlace(BaseValidator):
 			if not self.isPositiveInteger(product['product_id']) or \
 					not self.isPositiveInteger(product['count']):
 				raise ValidationError(message='商品列表参数错误')
+
 		self.products.data = products
-
-

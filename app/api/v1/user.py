@@ -4,7 +4,7 @@
 """
 from flask import g
 
-from app.libs.success_code import Success, RenewSuccess, DeleteSuccess
+from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db
@@ -14,9 +14,13 @@ __author__ = 'Alimazing'
 
 api = RedPrint(name='user', description='用户')
 
+'''
+	↓↓↓ 管理员接口 ↓↓↓
+'''
 
-# 管理员
+
 @api.route('/<int:uid>', methods=['GET'])
+@api.doc()
 @auth.login_required
 def super_get_user(uid):
 	# user = User.query.get_or_404(uid) # 会查询到已经被删除的数据
@@ -24,37 +28,56 @@ def super_get_user(uid):
 	return Success(user)
 
 
+@api.route('/<int:uid>', methods=['POST'])
+@api.doc()
+@auth.login_required
+def super_update_user(uid):
+	pass
+
+
 @api.route('/<int:uid>', methods=['DELETE'])
+@api.doc()
 @auth.login_required
 def super_delete_user(uid):
 	with db.auto_commit():
 		# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
 		user = User.query.filter_by(id=uid).first_or_404()
 		user.delete()
-	return DeleteSuccess()
+	return Success(error_code=2)
+
+
+'''
+	↓↓↓ 普通用户接口 ↓↓↓
+'''
 
 
 @api.route('', methods=['GET'])
+@api.doc()
 @auth.login_required
 def get_user():
+	'''用户获取自身信息'''
 	uid = g.user.uid  # g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
 	user = User.query.filter_by(id=uid).first_or_404()
 	return Success(user)
 
 
-@api.route('/<int:uid>', methods=['PUT'])
+@api.route('', methods=['PUT'])
+@api.doc()
 def update_user():
-	return RenewSuccess()
+	'''用户更改自身信息'''
+	return Success(error_code=1)
 
 
 @api.route('', methods=['DELETE'])
+@api.doc()
 @auth.login_required
 def delete_user():
+	'''用户注销'''
 	uid = g.user.uid  # g变量是「线程隔离」的
 	with db.auto_commit():
 		# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
 		user = User.query.filter_by(id=uid).first_or_404()
 		user.delete()
-	return DeleteSuccess()
+	return Success(error_code=2)
 
 # 创建用户在clinet.py中

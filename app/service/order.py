@@ -23,6 +23,7 @@ class Order():
 	uid = None
 
 	def palce(self, uid, o_products):
+		'''下单方法'''
 		self.o_products = o_products
 		self.s_products = self.__get_products_by_order(o_products)
 		self.uid = uid
@@ -71,7 +72,7 @@ class Order():
 		snap['total_count'] = status['total_count']
 		snap['p_status'] = status['p_status_array']
 		snap['snap_address'] = json.dumps(self.__get_user_address())  # 放在文档型数据库
-		snap['snap_name'] = self.s_products[0]['name'] + (' 等' if len(self.s_products) > 1 else '') # 订单缩略的名字：首个
+		snap['snap_name'] = self.s_products[0]['name'] + (' 等' if len(self.s_products) > 1 else '')  # 订单缩略的名字：首个
 		snap['snap_img'] = self.s_products[0]['main_img_url']  # 订单缩略的图片：首个
 
 	def __get_user_address(self):
@@ -80,16 +81,22 @@ class Order():
 		return jsonify(user_address)
 
 	def __get_order_status(self):
+		'''
+		基于检测一组商品的库存量(__get_product_status)，确定订单的状态
+		:return: 订单的状态
+		'''
 		status = {
 			'pass': True,
-			'order_price': 0,
-			'total_count': 0,
-			'p_status_array': []
+			'order_price': 0, # 订单的总价
+			'total_count': 0, # 订单中所有商品的总数
+			'p_status_array': [] # 保存所有商品的详细信息
 		}
+		# 查询每个 o_product 对应的库存量的状态(p_status)
+		# 将结果依次统计合并，写入 status 中
 		for o_product in self.o_products:
-			p_status = self.__get_product_status(
-				o_product['product_id'], o_product['count'], self.s_products
-			)
+			p_status = self.__get_product_status(o_pid = o_product['product_id'],
+												 o_count = o_product['count'],
+												 s_products = self.s_products)
 			if p_status['has_stock']:
 				status['pass'] = False
 			status['order_price'] += p_status['total_price']
@@ -99,17 +106,27 @@ class Order():
 		return status
 
 	def __get_product_status(self, o_pid, o_count, s_products):
+		'''
+		获取订单中某商品(基于o_pid查询)在对照库存量后的状态
+		:param o_pid: 订单中，某商品的ID
+		:param o_count: 订单中，某商品的数量
+		:param s_products: 订单中，所有商品对应的库存信息
+		:return: 对照库存后，某商品的订单信息
+		'''
 		p_index = -1
+		# 某商品的订单状态
 		p_status = {
-			'id': None,
-			'has_stock': False,
-			'count': 0,
-			'name': '',
-			'total_price': 0
+			'id': None, # 商品ID
+			'has_stock': False, # 是否有库存
+			'count': 0, # 总数
+			'name': '', # 商品名
+			'total_price': 0 # 某商品的总价
 		}
+		# 「o_pid的商品」处在提取后的库存中的第几个；
+		# 没有库存则不在s_products中，显示为0(找不到)
 		for i in range(len(s_products)):
 			if o_pid == s_products[i].id:
-				p_index = i  # 「o_pid的商品」处在提取后的库存空的第几个；找不到则为0
+				p_index = i
 
 		if p_index == -1:
 			raise OrderException(msg='id为' + o_pid + '的商品不存在，创建订单失败')
@@ -119,20 +136,29 @@ class Order():
 			p_status['name'] = s_product.name
 			p_status['count'] = o_count
 			p_status['total_price'] = s_product.price * o_count
+			# 如果库存量 >= 订单量，返回 True
 			if s_product.stock - o_count >= 0:
 				p_status['has_stock'] = True
 
 		return p_status
 
-	# 根据订单消息查找真实的商品信息
 	def __get_products_by_order(self, o_products):
+		'''
+		基于订单中的所有商品的ID，一次性获取库存中对应订单信息的商品
+		:param o_products: 订单中的所有商品
+		:return: 返回库存中对应订单信息的商品
+		'''
 		o_pids = list(map(lambda x: x['product_id'], o_products))
-		products = Product.query.filter(id.in_(o_pids)).all()
+		products = Product.query.filter(id.in_(o_pids)).all() # ??? 需要转数组么???
 		return products
 
-	# 生成唯一的订单标号
+
 	@staticmethod
 	def make_order_no():
+		'''
+		生成唯一的随机且递增的订单标号
+		:return: 订单标号
+		'''
 		now = datetime.now()
 		timestamp = time()
 		y_code = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']

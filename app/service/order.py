@@ -29,14 +29,16 @@ class Order():
 		self.uid = uid
 
 		status = self.__get_order_status()
+		# 库存未通过
 		if not status['pass']:
-			status['order_id'] = -1
+			status['order_id'] = -1 # 新增order_id属性
 			return status
+		# 库存量通过，开始创建订单
+		order_snap = self.__snap_order(status)
 
-		# 开始创建订单
-		order_snap = self.__snap_order()
 
 	def __create_order(self, snap):
+		'''将订单写入到数据库'''
 		order_no = Order.make_order_no()
 		from app.models.order import Order as ModelOrder
 		with db.auto_commit():
@@ -53,32 +55,40 @@ class Order():
 
 		order_id = order.id
 		for p in self.o_products:
+			# 每个p的格式 {'product_id': x, 'count': y, 'order_id': z}
 			p['order_id'] = order_id
 
 		with db.auto_commit():
-			order_product = Order2Product()
+			db.session.add_all(
+				[Order2Product(order_id=p['order_id'], product_id=p['product_id'], count=p['count']) for p in self.o_products]
+			)
+			# 添加c
 
-	# 生成订单快照
+
 	def __snap_order(self, status):
+		'''生成订单快照(写死)'''
 		snap = {
-			'order_price': 0,
-			'totalCount': 0,
-			'p_status': [],
-			'snap_address': '',
-			'snap_name': '',
-			'snap_img': ''
+			'order_price': 0, # 订单总价
+			'totalCount': 0, # 订单中商品总数
+			'p_status': [], # 所有商品的状态
+			'snap_address': '', # 用户收获地址
+			'snap_name': '', # 订单缩略的名字：首个
+			'snap_img': '' # 订单缩略的图片：首个
 		}
 		snap['order_price'] = status['order_price']
 		snap['total_count'] = status['total_count']
 		snap['p_status'] = status['p_status_array']
-		snap['snap_address'] = json.dumps(self.__get_user_address())  # 放在文档型数据库
-		snap['snap_name'] = self.s_products[0]['name'] + (' 等' if len(self.s_products) > 1 else '')  # 订单缩略的名字：首个
-		snap['snap_img'] = self.s_products[0]['main_img_url']  # 订单缩略的图片：首个
+		snap['snap_address'] = json.dumps(self.__get_user_address())  # 建议:放在非关系型数据库(MongoDB)
+		snap['snap_name'] = self.s_products[0]['name'] + (' 等' if len(self.s_products) > 1 else '')
+		snap['snap_img'] = self.s_products[0]['main_img_url']
+
+		return snap
 
 	def __get_user_address(self):
-		with db.auto_check_empty(UserException(error_code=6001, msg='用户地址不存在, 下单失败')):
-			user_address = UserAddress.query.filter_by(user_id=self.uid).first_or_404()
-		return jsonify(user_address)
+		user_address = UserAddress.query\
+			.filter_by(user_id=self.uid)\
+			.first_or_404(e=UserException(error_code=6001, msg='用户地址不存在, 下单失败'))
+		return jsonify(user_address) # 序列化，因为要存入到数据库
 
 	def __get_order_status(self):
 		'''

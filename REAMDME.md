@@ -15,7 +15,7 @@
 </div>
 
 
-* 借鉴慕课网的[《Python Flask构建可扩展的RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
+* 借鉴慕课网的[《Python Flask 构建可扩展的 RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
 * QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
@@ -44,8 +44,8 @@
 - [骚操作](#骚操作)
 - [快捷脚本](#快捷脚本)
 - [三端分离](#三端分离): 后续
-- [nginx部署](#nginx部署)
-- [Python学习路线](#Python学习路线)
+- [Nginx 部署](#nginx部署)
+- [Python 学习路线](#Python学习路线)
 
 
 ## 开发工具

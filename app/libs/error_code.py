@@ -90,6 +90,13 @@ class NotFound(APIException):
 	error_code = 1001 # 约定的异常码
 	msg = '未查询到数据' # 异常信息Z
 
+	def __init__(self, error_code=None, msg=None):
+		if error_code:
+			self.error_code = error_code
+		if msg:
+			self.msg = msg
+		super(NotFound, self).__init__()
+
 
 class ProductException(NotFound):
 	code = 404
@@ -116,7 +123,7 @@ class CategoryException(NotFound):
 
 
 class UserException(NotFound):
-	code = 400
+	code = 404
 	error_code = 6000
 	msg = '用户不存在'
 

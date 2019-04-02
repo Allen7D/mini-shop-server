@@ -22,5 +22,4 @@ class Category(Base):
 
 	@staticmethod
 	def get_all_categories():
-		with db.auto_check_empty(CategoryException):
-			return Category.query.all()
+		return Category.query.all_or_404(e=CategoryException)

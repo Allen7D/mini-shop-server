@@ -62,8 +62,7 @@ class Order():
 			db.session.add_all(
 				[Order2Product(order_id=p['order_id'], product_id=p['product_id'], count=p['count']) for p in self.o_products]
 			)
-			# 添加c
-
+			# 添加create_time
 
 	def __snap_order(self, status):
 		'''生成订单快照(写死)'''

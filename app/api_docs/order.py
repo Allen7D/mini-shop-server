@@ -18,7 +18,7 @@ place_order = {
 			"in": "body",
 			"require": "true",
 			"schema": {
-				"id": "Order", # 在Swagger中，可以显示Model; 全局唯一，否则会覆盖同ID处
+				"id": "Order",  # 在Swagger中，可以显示Model; 全局唯一，否则会覆盖同ID处
 				"required": ["products"],
 				"properties": {
 					"products": {
@@ -51,8 +51,17 @@ place_order = {
 	],
 	"responses": {
 		"200": {
-			"description": "提交订单的结果",
-			"examples": {}
+			"description": "提交成功",
+			"examples": {
+				"data": {
+					"create_time": 1554227821,
+					"order_id": 1,
+					"order_no": "B0X431741575422719",
+					"pass": True
+				},
+				"error_code": 0,
+				"msg": "成功"
+			}
 		}
 	}
 }

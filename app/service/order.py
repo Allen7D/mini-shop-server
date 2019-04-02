@@ -35,6 +35,10 @@ class Order():
 			return status
 		# 库存量通过，开始创建订单
 		order_snap = self.__snap_order(status)
+		order = self.__create_order(order_snap)
+		order['pass'] = True
+
+		return order
 
 
 	def __create_order(self, snap):
@@ -59,10 +63,21 @@ class Order():
 			p['order_id'] = order_id
 
 		with db.auto_commit():
-			db.session.add_all(
-				[Order2Product(order_id=p['order_id'], product_id=p['product_id'], count=p['count']) for p in self.o_products]
-			)
-			# 添加create_time
+			# order_product_list = [Order2Product(order_id=p['order_id'], product_id=p['product_id'], count=p['count']) for p in self.o_products]
+			op_list = []
+			for p in self.o_products:
+				order_product = Order2Product()
+				order_product.order_id = p['order_id']
+				order_product.product_id = p['product_id']
+				order_product.count = p['count']
+				op_list.append(order_product)
+			db.session.add_all(op_list)
+
+		return {
+			'order_no': order_no,
+			'order_id': order_id,
+			'create_time': order.create_time
+		}
 
 	def __snap_order(self, status):
 		'''生成订单快照(写死)'''
@@ -106,7 +121,7 @@ class Order():
 			p_status = self.__get_product_status(o_pid = o_product['product_id'],
 												 o_count = o_product['count'],
 												 s_products = self.s_products)
-			if p_status['has_stock']:
+			if not p_status['has_stock']:
 				status['pass'] = False
 			status['order_price'] += p_status['total_price']
 			status['total_count'] += p_status['count']
@@ -158,7 +173,7 @@ class Order():
 		:return: 返回库存中对应订单信息的商品
 		'''
 		o_pids = list(map(lambda x: x['product_id'], o_products))
-		products = Product.query.filter(id.in_(o_pids)).all() # ??? 需要转数组么???
+		products = Product.query.filter(Product.id.in_(o_pids)).all() # 需要转数组么
 		return products
 
 
@@ -171,7 +186,7 @@ class Order():
 		now = datetime.now()
 		timestamp = time()
 		y_code = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-		order_sn = y_code[now.year - 2018] + hex(now.month).upper() + now.day \
+		order_sn = y_code[now.year - 2018] + hex(now.month).upper() + str(now.day) \
 				   + str('%.6f' % timestamp)[-6:] + str(timestamp)[2: 7] \
 				   + str(randint(0, 99))
 		return order_sn

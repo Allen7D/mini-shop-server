@@ -35,14 +35,18 @@ class Order():
 			return status
 		# 库存量通过，开始创建订单
 		order_snap = self.__snap_order(status)
+		order = self.__create_order(order_snap)
+		order['pass'] = True
+
+		return order
 
 
 	def __create_order(self, snap):
 		'''将订单写入到数据库'''
 		order_no = Order.make_order_no()
-		from app.models.order import Order as ModelOrder
+		from app.models.order import Order as OrderModel
 		with db.auto_commit():
-			order = ModelOrder()
+			order = OrderModel()
 			order.user_id = self.uid
 			order.order_no = order_no
 			order.total_price = snap['order_price']
@@ -50,19 +54,21 @@ class Order():
 			order.snap_img = snap['snap_img']
 			order.snap_name = snap['snap_name']
 			order.snap_address = snap['snap_address']
-			order.snap_items = json.dumps(snap['p_status'])
+			order.snap_items = json.dumps(snap['p_status'], ensure_ascii=False)
 			db.session.add(order)
 
-		order_id = order.id
-		for p in self.o_products:
-			# 每个p的格式 {'product_id': x, 'count': y, 'order_id': z}
-			p['order_id'] = order_id
+			db.session.flush() # 进刷新数据库缓存，不操作事务
+			order_id = order.id
+			for p in self.o_products:
+				# 起初每个p的格式 {'product_id': x, 'count': y}
+				p['order_id'] = order_id
+			db.session.add_all([Order2Product(p['order_id'], p['product_id'], p['count']) for p in self.o_products])
 
-		with db.auto_commit():
-			db.session.add_all(
-				[Order2Product(order_id=p['order_id'], product_id=p['product_id'], count=p['count']) for p in self.o_products]
-			)
-			# 添加create_time
+		return {
+			'order_no': order_no,
+			'order_id': order_id,
+			'create_time': order.create_time
+		}
 
 	def __snap_order(self, status):
 		'''生成订单快照(写死)'''
@@ -77,7 +83,7 @@ class Order():
 		snap['order_price'] = status['order_price']
 		snap['total_count'] = status['total_count']
 		snap['p_status'] = status['p_status_array']
-		snap['snap_address'] = json.dumps(self.__get_user_address())  # 建议:放在非关系型数据库(MongoDB)
+		snap['snap_address'] = json.dumps(self.__get_user_address(), ensure_ascii=False)  # 建议:放在非关系型数据库(MongoDB)
 		snap['snap_name'] = self.s_products[0]['name'] + (' 等' if len(self.s_products) > 1 else '')
 		snap['snap_img'] = self.s_products[0]['main_img_url']
 
@@ -87,7 +93,8 @@ class Order():
 		user_address = UserAddress.query\
 			.filter_by(user_id=self.uid)\
 			.first_or_404(e=UserException(error_code=6001, msg='用户地址不存在, 下单失败'))
-		return jsonify(user_address) # 序列化，因为要存入到数据库
+		order_address =  jsonify(user_address) # 序列化，因为要存入到数据库
+		return order_address
 
 	def __get_order_status(self):
 		'''
@@ -106,7 +113,7 @@ class Order():
 			p_status = self.__get_product_status(o_pid = o_product['product_id'],
 												 o_count = o_product['count'],
 												 s_products = self.s_products)
-			if p_status['has_stock']:
+			if not p_status['has_stock']:
 				status['pass'] = False
 			status['order_price'] += p_status['total_price']
 			status['total_count'] += p_status['count']
@@ -158,7 +165,7 @@ class Order():
 		:return: 返回库存中对应订单信息的商品
 		'''
 		o_pids = list(map(lambda x: x['product_id'], o_products))
-		products = Product.query.filter(id.in_(o_pids)).all() # ??? 需要转数组么???
+		products = Product.query.filter(Product.id.in_(o_pids)).all() # 需要转数组么
 		return products
 
 
@@ -171,7 +178,7 @@ class Order():
 		now = datetime.now()
 		timestamp = time()
 		y_code = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-		order_sn = y_code[now.year - 2018] + hex(now.month).upper() + now.day \
+		order_sn = y_code[now.year - 2018] + hex(now.month).upper() + str(now.day) \
 				   + str('%.6f' % timestamp)[-6:] + str(timestamp)[2: 7] \
 				   + str(randint(0, 99))
 		return order_sn

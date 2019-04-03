@@ -16,9 +16,10 @@ place_order = {
 		{
 			"name": "body",
 			"in": "body",
+			"description": "订单中商品信息列表(商品ID&数量)",
 			"require": "true",
 			"schema": {
-				"id": "Order", # 在Swagger中，可以显示Model; 全局唯一，否则会覆盖同ID处
+				"id": "Order",  # 在Swagger中，可以显示Model; 全局唯一，否则会覆盖同ID处
 				"required": ["products"],
 				"properties": {
 					"products": {
@@ -29,11 +30,13 @@ place_order = {
 							"properties": {
 								'product_id': {
 									'type': 'integer',  # 不写 enum，则默认为数字0
+									"description": "商品ID",
 									"enum": [1, 2, 3, 4, 5],  # 在Swagger中，默认显示第0个
 									'default': 1  # 必须结合 enum 使用，否则无效; 可以自定义超出enum设置的范围
 								},
 								'count': {
 									'type': 'integer',
+									"description": "商品数量",
 									"enum": [10, 15, 20, 25, 30],
 									'default': 10
 								}
@@ -51,8 +54,17 @@ place_order = {
 	],
 	"responses": {
 		"200": {
-			"description": "提交订单的结果",
-			"examples": {}
+			"description": "提交成功",
+			"examples": {
+				"data": {
+					"create_time": 1554227821,
+					"order_id": 1,
+					"order_no": "B0X431741575422719",
+					"pass": True
+				},
+				"error_code": 0,
+				"msg": "成功"
+			}
 		}
 	}
 }

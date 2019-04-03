@@ -44,9 +44,9 @@ class Order():
 	def __create_order(self, snap):
 		'''将订单写入到数据库'''
 		order_no = Order.make_order_no()
-		from app.models.order import Order as ModelOrder
+		from app.models.order import Order as OrderModel
 		with db.auto_commit():
-			order = ModelOrder()
+			order = OrderModel()
 			order.user_id = self.uid
 			order.order_no = order_no
 			order.total_price = snap['order_price']
@@ -54,24 +54,15 @@ class Order():
 			order.snap_img = snap['snap_img']
 			order.snap_name = snap['snap_name']
 			order.snap_address = snap['snap_address']
-			order.snap_items = json.dumps(snap['p_status'])
+			order.snap_items = json.dumps(snap['p_status'], ensure_ascii=False)
 			db.session.add(order)
 
-		order_id = order.id
-		for p in self.o_products:
-			# 每个p的格式 {'product_id': x, 'count': y, 'order_id': z}
-			p['order_id'] = order_id
-
-		with db.auto_commit():
-			# order_product_list = [Order2Product(order_id=p['order_id'], product_id=p['product_id'], count=p['count']) for p in self.o_products]
-			op_list = []
+			db.session.flush() # 进刷新数据库缓存，不操作事务
+			order_id = order.id
 			for p in self.o_products:
-				order_product = Order2Product()
-				order_product.order_id = p['order_id']
-				order_product.product_id = p['product_id']
-				order_product.count = p['count']
-				op_list.append(order_product)
-			db.session.add_all(op_list)
+				# 起初每个p的格式 {'product_id': x, 'count': y}
+				p['order_id'] = order_id
+			db.session.add_all([Order2Product(p['order_id'], p['product_id'], p['count']) for p in self.o_products])
 
 		return {
 			'order_no': order_no,
@@ -92,7 +83,7 @@ class Order():
 		snap['order_price'] = status['order_price']
 		snap['total_count'] = status['total_count']
 		snap['p_status'] = status['p_status_array']
-		snap['snap_address'] = json.dumps(self.__get_user_address())  # 建议:放在非关系型数据库(MongoDB)
+		snap['snap_address'] = json.dumps(self.__get_user_address(), ensure_ascii=False)  # 建议:放在非关系型数据库(MongoDB)
 		snap['snap_name'] = self.s_products[0]['name'] + (' 等' if len(self.s_products) > 1 else '')
 		snap['snap_img'] = self.s_products[0]['main_img_url']
 
@@ -102,7 +93,8 @@ class Order():
 		user_address = UserAddress.query\
 			.filter_by(user_id=self.uid)\
 			.first_or_404(e=UserException(error_code=6001, msg='用户地址不存在, 下单失败'))
-		return jsonify(user_address) # 序列化，因为要存入到数据库
+		order_address =  jsonify(user_address) # 序列化，因为要存入到数据库
+		return order_address
 
 	def __get_order_status(self):
 		'''

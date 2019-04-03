@@ -9,6 +9,7 @@ get_token = {
 		{
 			"name": "body",
 			"in": "body",
+			"description": "登录的基本信息: 账号、密码、登录类型",
 			"require": "true",
 			"schema": {
 				"id": "Token",

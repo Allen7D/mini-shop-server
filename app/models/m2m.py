@@ -45,3 +45,9 @@ class Order2Product(Base):
 	order_id = Column(Integer, primary_key=True)
 	product_id = Column(Integer, primary_key=True)
 	count = Column(Integer, nullable=False)
+
+	def __init__(self, order_id=None, product_id=None, count=None):
+		self.order_id = order_id
+		self.product_id = product_id
+		self.count = count
+		super(Order2Product, self).__init__()

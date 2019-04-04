@@ -19,6 +19,7 @@ from app.api_docs import \
 	product, \
 	category, \
 	order, \
+	pay, \
 	file
 
 __author__ = 'Alimazing'

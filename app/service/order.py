@@ -96,6 +96,18 @@ class Order():
 		order_address =  jsonify(user_address) # 序列化，因为要存入到数据库
 		return order_address
 
+	def check_order_stock(self, order_id):
+		'''确定订单库存
+		用order_id查询o_product和s_products
+		:param order_id: 订单ID
+		:return:
+		'''
+		self.o_products = Order2Product.query.filter_by(order_id=order_id).all()
+		self.s_products = self.__get_products_by_order(self.o_products)
+		status = self.__get_order_status()
+
+		return status
+
 	def __get_order_status(self):
 		'''
 		基于检测一组商品的库存量(__get_product_status)，确定订单的状态

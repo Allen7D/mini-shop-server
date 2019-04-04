@@ -22,7 +22,8 @@ class UserScope(Scope):
 	forbidden = ['v1.user+super_get_user', 'v1.user+super_delete_user',
 				 'v1.user+super_update_user'] + \
 				[]
-	allow_api = ['v1.order+place_order']
+	allow_api = ['v1.order+place_order'] + \
+				['v1.pay+get_pre_order']
 	def __init__(self):
 		self + AdminScope()
 

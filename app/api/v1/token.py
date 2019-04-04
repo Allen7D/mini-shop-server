@@ -10,6 +10,7 @@ from app.libs.enums import ClientTypeEnum
 from app.libs.error_code import Success, AuthFailed
 from app.libs.redprint import RedPrint
 from app.models.user import User
+from app.service.token import Token
 from app.validators.forms import ClientValidator, TokenValidator
 
 __author__ = 'Alimazing'
@@ -31,7 +32,7 @@ def get_token():
 
 	# Token生成
 	expiration = current_app.config['TOKEN_EXPIRATION']
-	token = generate_auth_token(identity['uid'],
+	token = Token.generate_auth_token(identity['uid'],
 								form.type.data,
 								identity['scope'],
 								expiration)
@@ -63,14 +64,3 @@ def get_token_info():
 		'expire_in': data[1]['exp']  # 有效期
 	}
 	return Success(data=r)
-
-
-def generate_auth_token(uid, ac_type, scope=None, expiration=7200):
-	'''生成令牌'''
-	s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-	token = s.dumps({
-		'uid': uid,
-		'type': ac_type.value,
-		'scope': scope
-	})
-	return {'token': token.decode('ascii')}

@@ -4,7 +4,7 @@
 
 <h4 align="center">
 	构建微信小程序(商城)后端
-	<br>🤜基于 Flask框架🤛
+	<br>🤜基于 Flask 框架🤛
 </h4>
 
 <div align="center">
@@ -21,7 +21,7 @@
 * QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
 <div align="center">
   <img alt="img" src="./media/qq_group_qr_code.jpg" width="250px">
-  <div>👆QQ 扫码👆</div>
+  <div>👆QQ 扫码 👆</div>
 </div>
 
 

@@ -51,11 +51,38 @@ get_token = {
 }
 
 get_token_info = {
-	"parameters": [],
+	"parameters": [
+		{
+			"name": "body",
+			"in": "body",
+			"require": "true",
+			"schema": {
+				"required": ["token"],
+				"properties": {
+					"token": {
+						"type": "string",
+						"description": "token",
+						"enum": [
+							"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU1MzI0NTY3NywiZXhwIjoxNTU1ODM3Njc3fQ.eyJ1aWQiOiIwMDAwYWVmMDc3NGYxMWU4YmE5NTAwMTYzZTBjZTdlNiIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.js9yvuAQ5ia0I2Aw2qWVBiq7C7oMbQGYw5G5uGAn5JS70h_CShD_4SxF1Kpwf--S0ml5lZiWBsRcBgiJe0k4nQ"
+						],
+						"default": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU1MzI0NTY3NywiZXhwIjoxNTU1ODM3Njc3fQ.eyJ1aWQiOiIwMDAwYWVmMDc3NGYxMWU4YmE5NTAwMTYzZTBjZTdlNiIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.js9yvuAQ5ia0I2Aw2qWVBiq7C7oMbQGYw5G5uGAn5JS70h_CShD_4SxF1Kpwf--S0ml5lZiWBsRcBgiJe0k4nQ"
+					}
+				}
+			}
+		}
+	],
 	"responses": {
 		"200": {
 			"description": "获取成功",
-			"examples": {}
+			"examples": {
+				"data": {
+					"create_at": 1545142403,
+					"expire_in": 1547734403,
+					"scope": "UserScope",
+					"uid": "0017be56959511e8b34700163e0ce7e6"
+				},
+				"error_code": 0
+			}
 		}
 	}
 }

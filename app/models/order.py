@@ -2,7 +2,7 @@
 """
   Created by Alimazing on 2018/7/6.
 """
-from sqlalchemy import Column, Integer, String, Float, Text
+from sqlalchemy import Column, Integer, SmallInteger, String, Float, Text
 
 from app.models.base import Base
 
@@ -13,6 +13,7 @@ class Order(Base):
 	order_no = Column(String(20), unique=True)
 	user_id = Column(Integer, unique=True)
 	total_price = Column(Float, unique=True)
+	order_status = Column(SmallInteger, default=1)
 	snap_img = Column(String(255))
 	snap_name = Column(String(80))
 	total_count = Column(Integer, unique=True)

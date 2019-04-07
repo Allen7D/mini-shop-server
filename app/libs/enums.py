@@ -27,3 +27,8 @@ class ScopeEnum(Enum):
 	Admin = 2 # 管理员
 	Super = 3 # 超级管理员
 
+class OrderStatusEnum(Enum):
+	UNPAID = 1 # 待支付
+	PAID = 2 # 已支付
+	DELIVERED = 3 # 已发货
+	PAID_BUT_OUT_OF = 4 # 已支付，但库存不足

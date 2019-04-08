@@ -70,7 +70,9 @@ class User(Base):
 			user = User()
 			user.openid = account
 			db.session.add(user)
-		return User.query.filter_by(openid=account).first()
+		db.session.flush()
+		return user
+		# return User.query.filter_by(openid=account).first()
 
 	@staticmethod
 	def verify_by_email(email, password):

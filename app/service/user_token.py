@@ -21,7 +21,7 @@ class UserToken:
 		wx_result = HTTP.get(self.wx_login_url)
 		if not wx_result:
 			# 获取session_key及openID时异常，微信内部错误
-			raise Exception()
+			raise Exception() # 待完成
 		else:
 			if 'errcode' in wx_result.keys():
 				# loginFail

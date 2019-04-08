@@ -18,11 +18,7 @@ api = RedPrint(name='banner', description='首页轮播图')
 @api.doc()
 @cached()
 def get_banner(id):
-	'''获取「首页轮播图」
-	:param id: banner id
-	:return:
-	'''
-	print('暂未进入缓存')
+	'''获取「首页轮播图」'''
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	banner = Banner.get_banner_by_id(id=id)
 	# banner.hide('description') # 临时隐藏

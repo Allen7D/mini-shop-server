@@ -14,6 +14,11 @@ from app.libs.scope import is_in_scope
 
 __author__ = 'Alimazing'
 
+'''
+基于 HTTPBasicAuth 来传递token,
+所以, Postman 中 Authorization 设置使用 Basic Auth;
+Flassger 中 securityDefinitions 设置使用 basicAuth (详见config/setting.py)
+'''
 auth = HTTPBasicAuth()
 User = namedtuple('User', ['uid', 'ac_type', 'scope'])
 
@@ -29,7 +34,7 @@ def verify_password(token, password):
 def verify_auth_token(token):
 	s = Serializer(current_app.config['SECRET_KEY'])
 	try:
-		data = s.loads(token)
+		data = s.loads(token) # token在请求头
 	except BadSignature:
 		raise AuthFailed(msg='token is invalid', error_code=1002)
 	except SignatureExpired:

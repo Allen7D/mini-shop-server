@@ -9,3 +9,4 @@ Pipfile.lock
 # Local working file
 /app/static/uploads/
 /app/config/dev
+/guide

@@ -19,6 +19,7 @@
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
 * QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
+* 感谢慕课网的[七月老师](https://www.imooc.com/t/4294850)，本项目属于他课程思路的复现
 <div align="center">
   <img alt="img" src="./media/qq_group_qr_code.jpg" width="250px">
   <div>👆QQ 扫码 👆</div>
@@ -139,6 +140,7 @@ $ exit # 退出当前虚拟环境
 ```
 $ git clone https://github.com/Alimazing/mini-shop-server.git
 $ cd mini-shop-server 
+$ touch app/config/dev.py # 如果是在服务器上，则忽略执行此命令
 $ pipenv --python 3.6 # 指定某 Python 版本创建环境
 $ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
 $ pipenv install # 安装包依赖
@@ -188,8 +190,6 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 | | | |____category.py			# 分类
 | | | |____order.py				#订单
 | | |____v2						# v2 API接口
-| | | |______init__.py
-| | | |____file.py				# 文件处理
 | |____validators				# 参数校验层 
 | | |______init__.py
 | | |____base.py
@@ -431,23 +431,4 @@ stdout_logfile=/tmp/blog_stdout.log
 
 【9】<span id="ref_9"></span>[ubuntu16.04 64bit 升级 python3.5 python3.6](https://blog.csdn.net/zhao__zhen/article/details/81584933)
 
-【10】[Lin-CMS](http://doc.cms.7yue.pro/)：Flask & Vue 结合的前后端分离的 CMS 解决方案
-
-
-## 学习
-统一 API 接口的命名规范
-- 看看七月写的接口
-- 'product/by_category' query中含有id，这种写法？？？
-- 业务逻辑很复杂，那么接口的命名该如何
-- 将 api_docs 改为类
-
-validator中对int类型的校验
-
-success 的 msg 前端无法获得，而Excepttion的可以
-
-返回结果可否为[], 而不只是 null
-
-
-搞定缓存
-
-order订单部分环节错误，没有报错，都是返回正确的信息
+【10】[Lin-CMS](http://doc.cms.7yue.pro/)：优秀的 Flask & Vue 结合的前后端分离的 CMS 解决方案

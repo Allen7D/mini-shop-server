@@ -30,7 +30,7 @@ class Success(APIException):
 	def get_body(self, environ=None):
 		body = dict(
 			error_code=self.error_code,
-			msg = self.msg,
+			msg=self.msg,
 			data=self.data
 		)
 		text = json.dumps(body)  # 返回文本
@@ -46,7 +46,7 @@ class ClientTypeError(APIException):
 class ServerError(APIException):
 	code = 500
 	error_code = 999
-	msg = 'sorry, we make a mistake!'
+	msg = '服务器端异常'
 
 
 class WeChatException(ServerError):
@@ -86,16 +86,9 @@ class DuplicateException(APIException):
 
 
 class NotFound(APIException):
-	code = 404 # http 状态码
-	error_code = 1001 # 约定的异常码
-	msg = '未查询到数据' # 异常信息Z
-
-	# def __init__(self, error_code=None, msg=None):
-	# 	if error_code:
-	# 		self.error_code = error_code
-	# 	if msg:
-	# 		self.msg = msg
-	# 	super(NotFound, self).__init__()
+	code = 404  # http 状态码
+	error_code = 1001  # 约定的异常码
+	msg = '未查询到数据'  # 异常信息
 
 
 class ProductException(NotFound):

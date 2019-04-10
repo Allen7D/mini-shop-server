@@ -9,9 +9,9 @@
 
 <div align="center">
   <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="550px">
-</div>
-<div align="center">
-  <a href="http://api.ivinetrue.com/apidocs/#/">线上 API 文档</a>
+  <div>
+    <a href="http://server.mini-shop.ivinetrue.com/apidocs/#/" target="__blank">线上 API 文档</a>
+  </div>
 </div>
 
 
@@ -43,7 +43,6 @@
 - [本地&线上同步推进](#本地&线上同步推进)：针对个人项目
 - [上传&下载](#上传&下载)
 - [骚操作](#骚操作)
-- [快捷脚本](#快捷脚本)
 - [三端分离](#三端分离): 后续
 - [Nginx 部署](#nginx部署)
 - [Python 学习路线](#Python学习路线)

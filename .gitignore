@@ -8,6 +8,7 @@ Pipfile.lock
 
 # Local working file
 /app/static/uploads/
-/app/config/dev
+/app/config/secure.py
 /guide
 /demo
+/wx-tool

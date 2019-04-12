@@ -8,6 +8,7 @@ Pipfile.lock
 
 # Local working file
 /app/static/uploads/
+/app/config/dev.py
 /app/config/secure.py
 /guide
 /demo

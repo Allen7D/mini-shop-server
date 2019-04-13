@@ -10,10 +10,11 @@ from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.service.token import Token
 from app.validators.forms import ClientValidator, TokenValidator
+from app.api_docs import token as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='token', description='登录令牌')
+api = RedPrint(name='token', description='登录令牌', api_doc=api_doc)
 
 
 @api.route('/user', methods=['POST'])

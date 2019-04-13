@@ -11,6 +11,7 @@ from flask import send_from_directory
 from app.libs.redprint import RedPrint
 from app.libs.error_code import Success
 from app.validators.forms import UploadPDFValidator
+from app.api_docs import file as api_doc
 
 __author__ = 'Alimazing'
 
@@ -18,7 +19,7 @@ __author__ = 'Alimazing'
 # folder_path = '../../../static/files/'
 # os.chdir(folder_path)
 
-api = RedPrint(name='file', description='文件上传')
+api = RedPrint(name='file', description='文件上传', api_doc=api_doc)
 
 
 @api.route('/upload', methods=['POST'])

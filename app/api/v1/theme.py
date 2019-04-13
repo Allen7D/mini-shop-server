@@ -6,10 +6,11 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.theme import Theme
 from app.validators.params import IDCollection, IDMustBePositiveInt
+from app.api_docs import theme as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='theme', description='主题')
+api = RedPrint(name='theme', description='主题', api_doc=api_doc)
 
 @api.route('', methods=['GET'])
 @api.doc()

@@ -7,10 +7,11 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.product import Product
 from app.validators.params import Count, IDMustBePositiveInt
+from app.api_docs import product as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='product', description='产品')
+api = RedPrint(name='product', description='产品', api_doc=api_doc)
 
 
 @api.route('/recent', methods=['GET'])

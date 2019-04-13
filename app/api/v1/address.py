@@ -10,10 +10,11 @@ from app.libs.token_auth import auth
 from app.models.user import User
 from app.models.user_address import UserAddress
 from app.validators.forms import AddressNew
+from app.api_docs import address as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='address', description='用户地址')
+api = RedPrint(name='address', description='用户地址', api_doc=api_doc)
 
 @api.route('', methods=['GET'])
 @auth.login_required

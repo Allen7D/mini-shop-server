@@ -3,7 +3,6 @@
   Created by Alimazing on 2018/6/13.
 """
 from datetime import date
-
 from flask import Flask as _Flask, _request_ctx_stack
 from flask.json import JSONEncoder as _JSONEncoder
 

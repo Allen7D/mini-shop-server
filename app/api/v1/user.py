@@ -9,10 +9,12 @@ from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db
 from app.models.user import User
+from app.api_docs import user as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='user', description='用户')
+# 直接将api文档的内容放入RedPrint中
+api = RedPrint(name='user', description='用户', api_doc=api_doc)
 
 '''
 	↓↓↓ 管理员接口 ↓↓↓

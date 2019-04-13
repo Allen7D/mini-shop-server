@@ -13,16 +13,18 @@
 	成功后，进行库存量的检查
 	成功，进行库存量的扣除；失败，返回一个支付失败的结果
 """
+from flask import g
+
 from app.libs.redprint import RedPrint
 from app.libs.error_code import Success
 from app.libs.token_auth import auth
 from app.service.order import Order as OrderService
 from app.validators.params import OrderPlace
-from flask import g
+from app.api_docs import order as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='order', description='订单')
+api = RedPrint(name='order', description='订单', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])

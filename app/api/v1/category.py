@@ -5,10 +5,11 @@
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.category import Category
+from app.api_docs import category as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='category', description='产品分类')
+api = RedPrint(name='category', description='产品分类', api_doc=api_doc)
 
 
 @api.route('/all', methods=['GET'])

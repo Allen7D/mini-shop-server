@@ -6,10 +6,11 @@
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.validators.params import IDMustBePositiveInt
+from app.api_docs import pay as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='pay', description='支付')
+api = RedPrint(name='pay', description='支付', api_doc=api_doc)
 
 @api.route('pre_order', methods=['POST'])
 @api.doc()

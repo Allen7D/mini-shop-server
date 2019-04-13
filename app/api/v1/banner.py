@@ -8,10 +8,11 @@ from app.libs.redprint import RedPrint
 from app.models.banner import Banner
 from app.validators.params import IDMustBePositiveInt
 from app.libs.limiter import cached
+from app.api_docs import banner as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='banner', description='首页轮播图')
+api = RedPrint(name='banner', description='首页轮播图', api_doc=api_doc)
 
 
 @api.route('/<int:id>', methods=['GET'])

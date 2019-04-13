@@ -5,16 +5,15 @@
 from functools import wraps
 from flasgger import swag_from
 
-from app import api_docs
-
 __author__ = 'Alimazing'
 
 
 class RedPrint:
-	def __init__(self, name, description):
+	def __init__(self, name, description, api_doc=None):
 		self.name = name
 		self.description = description
 		self.mound = []
+		self.api_doc = api_doc
 
 	def route(self, rule, **options):
 		def decorator(f):
@@ -38,22 +37,32 @@ class RedPrint:
 			==> 能不能写一个修饰「装饰器」的函数
 	'''
 	def doc(self, *_args, **_kwargs):
+
 		def decorator(f):
-			api_doc = getattr(api_docs, self.name)
-			specs = getattr(api_doc, f.__name__)
-			specs['tags'] = [self.name]
-			# 对f.__doc__处理
-			if f.__doc__ and '\n\t' in f.__doc__:
-				f.__doc__ = f.__doc__.split('\n\t')[0]
+			specs = getattr(self.api_doc, f.__name__, None)
+			if specs:
+				specs['tags'] = [self.name]
+				# 对f.__doc__处理
+				if f.__doc__ and '\n\t' in f.__doc__:
+					f.__doc__ = f.__doc__.split('\n\t')[0]
 
-			@swag_from(specs=specs)
-			@wraps(f)
-			def wrapper(*args, **kwargs):
-				return f(*args, **kwargs)
+				@swag_from(specs=specs)
+				@wraps(f)
+				def wrapper(*args, **kwargs):
+					return f(*args, **kwargs)
 
-			return wrapper
+				return wrapper
+			else:
+				@wraps(f)
+				def wrapper(*args, **kwargs):
+					return f(*args, **kwargs)
+
+				return wrapper
 
 		return decorator
+
+	def register_api_doc(self, api_doc):
+		self.api_doc.extend(api_doc)
 
 	@property
 	def tag(self):

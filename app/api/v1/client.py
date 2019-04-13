@@ -8,10 +8,11 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientValidator, UserEmailValidator
+from app.api_docs import client as api_doc
 
 __author__ = 'Alimazing'
 
-api = RedPrint(name='client', description='客户端')
+api = RedPrint(name='client', description='客户端', api_doc=api_doc)
 
 
 @api.route('/register', methods=['POST'])

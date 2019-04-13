@@ -86,9 +86,10 @@ class User(Base):
 	@staticmethod
 	def verify_by_wx(code, *args):
 		ut = UserToken(code)
-		wx_result = ut.get()
+		wx_result = ut.get() # wx_result = {session_key, expires_in, openid}
 		openid = wx_result['openid']
 		user = User.query.filter_by(openid=openid).first()
+		# 如果不在数据库，则新建用户
 		if not user:
 			user = User.register_by_wx(openid)
 		scope = 'AdminScope' if user.auth == ScopeEnum.Admin else 'UserScope'

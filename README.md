@@ -137,7 +137,7 @@ $ exit # 退出当前虚拟环境
 
 ### 本地启动
 ```
-$ git clone https://github.com/Alimazing/mini-shop-server.git
+$ git clone https://github.com/Allen7D/mini-shop-server.git
 $ cd mini-shop-server 
 $ touch app/config/dev.py # 如果是在服务器上，则忽略执行此命令
 $ pipenv --python 3.6 # 指定某 Python 版本创建环境

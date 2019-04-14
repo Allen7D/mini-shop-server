@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/31.
+  Created by Allen7D on 2018/5/31.
 """
 from flask import g
 
@@ -11,7 +11,7 @@ from app.models.base import db
 from app.models.user import User
 from app.api_docs import user as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 # 直接将api文档的内容放入RedPrint中
 api = RedPrint(name='user', description='用户', api_doc=api_doc)

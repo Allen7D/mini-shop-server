@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/31.
+  Created by Allen7D on 2018/5/31.
 """
 from flask import Blueprint
 
@@ -8,7 +8,7 @@ from app.api.v1 import user, client, token, \
 	banner, theme, product, category, \
 	address, order, pay
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 def create_blueprint_v1():

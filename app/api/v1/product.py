@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/17.
+  Created by Allen7D on 2018/6/17.
 """
 from app.libs.token_auth import auth
 from app.libs.error_code import Success
@@ -9,7 +9,7 @@ from app.models.product import Product
 from app.validators.params import Count, IDMustBePositiveInt
 from app.api_docs import product as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 api = RedPrint(name='product', description='产品', api_doc=api_doc)
 

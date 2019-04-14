@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/13.
+  Created by Allen7D on 2018/6/13.
 """
 from datetime import date
 from flask import Flask as _Flask, _request_ctx_stack
@@ -8,7 +8,7 @@ from flask.json import JSONEncoder as _JSONEncoder
 
 from app.libs.error_code import ServerError
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class JSONEncoder(_JSONEncoder):

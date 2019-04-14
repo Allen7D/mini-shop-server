@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/13.
+  Created by Allen7D on 2018/6/13.
 """
 from flask import current_app
 
@@ -12,7 +12,7 @@ from app.service.token import Token
 from app.validators.forms import ClientValidator, TokenValidator
 from app.api_docs import token as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 api = RedPrint(name='token', description='登录令牌', api_doc=api_doc)
 

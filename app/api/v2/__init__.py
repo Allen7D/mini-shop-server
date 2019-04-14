@@ -1,12 +1,12 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/12/7.
+  Created by Allen7D on 2018/12/7.
 """
 from flask import Blueprint
 
 from app.api.v2 import file
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 def create_blueprint_v2():

@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/12/2.
+  Created by Allen7D on 2018/12/2.
   可以用来处理上传产品图片、Excel等
 """
 import os
@@ -13,7 +13,7 @@ from app.libs.error_code import Success
 from app.validators.forms import UploadPDFValidator
 from app.api_docs import file as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 # 改变「当前工作目录」到「static目录下」(指定的路径)
 # folder_path = '../../../static/files/'

@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/31.
+  Created by Allen7D on 2018/5/31.
 """
 from sqlalchemy import Column, Integer, String, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -11,7 +11,7 @@ from app.models.base import Base, db
 from app.models.user_address import UserAddress
 from app.service.user_token import UserToken
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class User(Base):

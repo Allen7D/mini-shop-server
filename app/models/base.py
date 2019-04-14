@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/4/10.
+  Created by Allen7D on 2018/4/10.
 """
 
 from contextlib import contextmanager
@@ -11,7 +11,7 @@ from sqlalchemy import Column, SmallInteger, Integer, orm, inspect
 
 from app.libs.error_code import NotFound
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class SQLAlchemy(_SQLAlchemy):

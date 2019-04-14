@@ -1,13 +1,13 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/22.
+  Created by Allen7D on 2018/6/22.
 """
 from flask import current_app
 
 from app.libs.error_code import WeChatException
 from app.libs.httper import HTTP
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class UserToken:

@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/25.
+  Created by Allen7D on 2018/6/25.
 """
 from flask import current_app
 from flask import g
@@ -9,7 +9,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
 
 from app.libs.error_code import AuthFailed
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 class Token():
 	@staticmethod

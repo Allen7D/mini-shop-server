@@ -1,11 +1,11 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/17.
+  Created by Allen7D on 2018/6/17.
 """
 from sqlalchemy import Column, Integer, String, SmallInteger
 
 from app.models.base import Base
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 class Image(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)

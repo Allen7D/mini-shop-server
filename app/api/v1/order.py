@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/7/5.
+  Created by Allen7D on 2018/7/5.
   业务逻辑：
   	用户在选择商品后，向 API 提交包含祂所选择的商品的相关信息
   	API 在接收到信息后，需要检查订单相关商品的库存量
@@ -22,7 +22,7 @@ from app.service.order import Order as OrderService
 from app.validators.params import OrderPlace
 from app.api_docs import order as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 api = RedPrint(name='order', description='订单', api_doc=api_doc)
 

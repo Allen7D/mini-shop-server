@@ -1,12 +1,12 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/25.
+  Created by Allen7D on 2018/6/25.
 """
 from sqlalchemy import Column, Integer, String, ForeignKey
 
 from app.models.base import Base
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 class UserAddress(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)

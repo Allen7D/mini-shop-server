@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/13.
+  Created by Allen7D on 2018/6/13.
 """
 from collections import namedtuple
 
@@ -12,7 +12,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer \
 from app.libs.error_code import AuthFailed, ForbiddenException
 from app.libs.scope import is_in_scope
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 '''
 基于 HTTPBasicAuth 来传递token,

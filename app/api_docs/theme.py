@@ -1,10 +1,10 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/12/4.
+  Created by Allen7D on 2018/12/4.
 """
 from app.libs.swagger_filed import IntegerPathFiled
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 theme_id_in_path = IntegerPathFiled(
 	name='id', description="theme id", enum=[1, 2, 3], default=1, required=True).data

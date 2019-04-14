@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/17.
+  Created by Allen7D on 2018/6/17.
 """
 from sqlalchemy import Column, Integer, Float, String, SmallInteger
 from sqlalchemy import desc, asc
@@ -11,7 +11,7 @@ from app.libs.utils import jsonify
 from app.models.m2m import Theme2Product, Product2Image
 from app.models.base import Base, db
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 class Product(Base):
 	__tablename__ = 'product'

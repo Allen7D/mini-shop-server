@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/12.
+  Created by Allen7D on 2018/5/12.
 """
 from werkzeug.exceptions import HTTPException
 from werkzeug.contrib.fixers import ProxyFix
@@ -10,7 +10,7 @@ from app import create_app
 from app.libs.error import APIException
 from app.libs.error_code import ServerError
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 app = create_app()
 

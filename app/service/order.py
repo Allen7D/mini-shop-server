@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/7/5.
+  Created by Allen7D on 2018/7/5.
 """
 import json
 from datetime import datetime
@@ -14,7 +14,7 @@ from app.models.product import Product
 from app.models.user_address import UserAddress
 from app.models.m2m import Order2Product
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class Order():

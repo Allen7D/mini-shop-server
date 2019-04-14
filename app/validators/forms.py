@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/31.
+  Created by Allen7D on 2018/5/31.
   各种提交表单的验证
 """
 from collections import namedtuple
@@ -12,7 +12,7 @@ from app.libs.enums import ClientTypeEnum
 from app.models.user import User
 from app.validators.base import BaseValidator
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 Address = namedtuple('Address', ['name', 'mobile', 'province', 'city', 'country', 'detail'])
 

@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/17.
+  Created by Allen7D on 2018/6/17.
 """
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 from app.libs.error_code import CategoryException
 from app.models.base import Base, db
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 class Category(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)

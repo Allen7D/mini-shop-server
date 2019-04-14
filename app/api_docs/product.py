@@ -1,10 +1,10 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/12/4.
+  Created by Allen7D on 2018/12/4.
 """
 from app.libs.swagger_filed import StringQueryFiled, StringPathFiled
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 category_id_in_query = StringQueryFiled(
 	name='id', description="category ID", enum=['1', '2', '3', '100'], default='1', required=True).data

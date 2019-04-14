@@ -1,8 +1,8 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/4/2.
+  Created by Allen7D on 2018/4/2.
 """
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 DEBUG = True
 SECRET_KEY = 'But you, Lord , are a shield around me, my glory, the One who lifts my head high.'

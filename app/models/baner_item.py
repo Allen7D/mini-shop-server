@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/16.
+  Created by Allen7D on 2018/6/16.
 """
 from sqlalchemy import Column, Integer, String, SmallInteger, ForeignKey
 from sqlalchemy.orm import relationship
@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 from app.models.base import Base
 from app.models.image import Image
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 class BannerItem(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)

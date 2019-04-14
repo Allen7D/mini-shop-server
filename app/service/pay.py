@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2019/4/4.
+  Created by Allen7D on 2019/4/4.
   https://blog.csdn.net/qq_34493908/article/details/81190057
 """
 from app.libs.enums import OrderStatusEnum
@@ -9,7 +9,7 @@ from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
 from app.service.token import Token
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 class Pay():
 	order_id = None

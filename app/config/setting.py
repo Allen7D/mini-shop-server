@@ -1,10 +1,10 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/4/2.
+  Created by Allen7D on 2018/4/2.
 """
 import os
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 is_dev_mode = os.path.exists('app/config/dev.py') # 'development' & 'product' (开发环境 or 生产环境)
 

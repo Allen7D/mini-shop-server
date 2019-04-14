@@ -1,8 +1,8 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/24.
+  Created by Allen7D on 2018/6/24.
 """
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 APP_ID = 'wx551ff8259cd7339b'
 APP_SECRET = '7773e41929841faf6aa9e68807f6e2cb'

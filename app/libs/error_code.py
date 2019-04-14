@@ -1,13 +1,13 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/12.
+  Created by Allen7D on 2018/6/12.
 """
 from flask import json
 
 from app.libs.utils import jsonify
 from app.libs.error import APIException
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class Success(APIException):

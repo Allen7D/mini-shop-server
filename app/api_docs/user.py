@@ -1,10 +1,10 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/11/25.
+  Created by Allen7D on 2018/11/25.
 """
 from app.libs.swagger_filed import IntegerQueryFiled, StringQueryFiled, IntegerPathFiled, StringPathFiled
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 uid_in_path = StringPathFiled(name='uid',
 							  description="用户ID",

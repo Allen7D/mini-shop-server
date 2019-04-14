@@ -1,11 +1,11 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/31.
+  Created by Allen7D on 2018/5/31.
 """
 from functools import wraps
 from flasgger import swag_from
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class RedPrint:
@@ -60,9 +60,6 @@ class RedPrint:
 				return wrapper
 
 		return decorator
-
-	def register_api_doc(self, api_doc):
-		self.api_doc.extend(api_doc)
 
 	@property
 	def tag(self):

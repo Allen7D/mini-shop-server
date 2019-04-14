@@ -1,13 +1,13 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/13.
+  Created by Allen7D on 2018/5/13.
 """
 from flask import request, _request_ctx_stack
 from wtforms import Form, ValidationError
 
 from app.libs.error_code import ParameterException
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 class BaseValidator(Form):

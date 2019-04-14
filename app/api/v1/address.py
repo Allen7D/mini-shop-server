@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/25.
+  Created by Allen7D on 2018/6/25.
 """
 from flask import g
 
@@ -12,7 +12,7 @@ from app.models.user_address import UserAddress
 from app.validators.forms import AddressNew
 from app.api_docs import address as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 api = RedPrint(name='address', description='用户地址', api_doc=api_doc)
 

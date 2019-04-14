@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/5/31.
+  Created by Allen7D on 2018/5/31.
 """
 
 from app.libs.enums import ClientTypeEnum
@@ -10,7 +10,7 @@ from app.models.user import User
 from app.validators.forms import ClientValidator, UserEmailValidator
 from app.api_docs import client as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 api = RedPrint(name='client', description='客户端', api_doc=api_doc)
 

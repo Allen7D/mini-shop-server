@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/17.
+  Created by Allen7D on 2018/6/17.
 """
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
@@ -8,7 +8,7 @@ from app.models.theme import Theme
 from app.validators.params import IDCollection, IDMustBePositiveInt
 from app.api_docs import theme as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 api = RedPrint(name='theme', description='主题', api_doc=api_doc)
 

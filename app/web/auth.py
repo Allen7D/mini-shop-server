@@ -1,11 +1,11 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/4/19.
+  Created by Allen7D on 2018/4/19.
 """
 from flask import render_template, redirect
 from . import web
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 
 # @web.route('/', defaults={'path': ''})

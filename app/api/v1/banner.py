@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Alimazing on 2018/6/16.
+  Created by Allen7D on 2018/6/16.
 """
 
 from app.libs.error_code import Success
@@ -10,7 +10,7 @@ from app.validators.params import IDMustBePositiveInt
 from app.libs.limiter import cached
 from app.api_docs import banner as api_doc
 
-__author__ = 'Alimazing'
+__author__ = 'Allen7D'
 
 api = RedPrint(name='banner', description='首页轮播图', api_doc=api_doc)
 

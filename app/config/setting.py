@@ -8,17 +8,17 @@ __author__ = 'Allen7D'
 
 is_dev_mode = os.path.exists('app/config/dev.py') # 'development' & 'product' (开发环境 or 生产环境)
 
-TOKEN_EXPIRATION = 30 * 24 * 3600
 EXTERNAL_URL = 'server.mini-shop.ivinetrue.com' # 外部（远程）地址
 INTERNAL_URL = '0.0.0.0:8080' # 内部（本地）地址
 SERVER_URL = INTERNAL_URL if is_dev_mode else EXTERNAL_URL
 IMG_PREFIX = SERVER_URL + '/static/images'
 UPLOAD_FOLDER = 'app/static/uploads'
+VERSION = "0.3.0" # 项目版本
 SWAGGER = {
 	"swagger_version": "2.0",
 	"info": {
 		"title": "微信小程序商城: API",
-		"version": "0.3.0",
+		"version": VERSION,
 		"description": "简要描述一下这个api文档的功能",
 		"contact": {
 			"responsibleOrganization": "Shema(聆听)",

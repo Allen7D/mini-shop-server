@@ -111,6 +111,8 @@ class Base(db.Model):
 			return url
 
 	def set_attrs(self, attrs_dict):
+		# 快速赋值
+		# 用法: set_attrs(form.data)
 		for key, value in attrs_dict.items():
 			if hasattr(self, key) and key != 'id':
 				setattr(self, key, value)

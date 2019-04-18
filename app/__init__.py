@@ -38,6 +38,7 @@ def register_plugin(app):
 		from app.api.v1 import create_api_tags_v1
 		from app.api.v2 import create_api_tags_v2
 		template = {
+			# 默认与 config/setting.py 的 SWAGGER 合并
 			'tags': create_api_tags_v1() + create_api_tags_v2() # 数组
 		}
 		swagger = Swagger(template=template) # 可以将secure.py中的SWAGGER全部写入template

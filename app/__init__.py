@@ -29,8 +29,8 @@ def register_plugin(app):
 	# 连接数据库
 	from app.models.base import db
 	db.init_app(app)
-	with app.app_context(): # 手动将app推入栈
-		db.create_all() # 首次模型映射(ORM ==> SQL),若无则建表; 初始化使用
+	with app.app_context():  # 手动将app推入栈
+		db.create_all()  # 首次模型映射(ORM ==> SQL),若无则建表; 初始化使用
 
 	# Debug模式下可以查阅 API文档
 	if app.config['DEBUG']:
@@ -39,10 +39,16 @@ def register_plugin(app):
 		from app.api.v2 import create_api_tags_v2
 		template = {
 			# 默认与 config/setting.py 的 SWAGGER 合并
-			'tags': create_api_tags_v1() + create_api_tags_v2() # 数组
+			'tags': create_api_tags_v1() + create_api_tags_v2()  # 数组
 		}
-		swagger = Swagger(template=template) # 可以将secure.py中的SWAGGER全部写入template
+		swagger = Swagger(template=template)  # 可以将secure.py中的SWAGGER全部写入template
 		swagger.init_app(app)
+
+	# 缓存 Cache
+	from app.libs.limiter import cache
+	cache.init_app(app, config={"CACHE_TYPE": "simple"})
+	with app.app_context():
+		cache.clear()
 
 
 def register_blueprint(app):

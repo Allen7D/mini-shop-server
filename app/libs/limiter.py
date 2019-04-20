@@ -3,52 +3,32 @@
   Created by Allen7D on 2019/1/21.
 """
 from functools import wraps
-
+from werkzeug.contrib.cache import SimpleCache # 新包地址 https://github.com/pallets/cachelib
 from flask import request
-from werkzeug.contrib.cache import SimpleCache
-from flask_caching import Cache
 
 __author__ = 'Allen7D'
 
-cache = Cache()
+cache = SimpleCache()
 
-# class Limiter(object):
-#     cache = SimpleCache()
-#
-#     def limited(self, callback):
-#         self.limited_callback = callback
-#         return callback
-#
-#     def limit(self, key='', key_func=None, time_delta=60):
-#         def decorator(f):
-#             key_prefix = "limiter/"
-#
-#             @wraps(f)
-#             def wrapper(*args, **kwargs):
-#                 # global cache
-#                 full_key = key_prefix + key_func() if key_func else key
-#                 value = Limiter.cache.get(full_key)
-#                 if not value:
-#                     Limiter.cache.set(full_key, time_delta, timeout=time_delta)
-#                     return f(*args, **kwargs)
-#                 else:
-#                     return self.limited_callback()
-#
-#             return wrapper
-#
-#         return decorator
 
-# cache = SimpleCache()
-#
-# def cached(timeout=5 * 60, key='view_%s'):
-#     def decorator(f):
-#         @wraps(f)
-#         def decorated_function(*args, **kwargs):
-#             cache_key = key % request.path
-#             value = cache.get(cache_key)
-#             if value is None:
-#                 value = f(*args, **kwargs)
-#                 cache.set(cache_key, value, timeout=timeout)
-#             return value
-#         return decorated_function
-#     return decorator
+def cached(timeout=5 * 60, key='cached_{}_{}'):
+	def decorator(f):
+		@wraps(f)
+		def decorated_function(*args, **kwargs):
+			# 以 { key:value } 的形式存到内存
+			query_args = dict(request.args.to_dict())
+			body_args = request.get_json(silent=True) or {}
+			req_args = {**query_args, **body_args}
+			suffix = ''
+			for (k, v) in req_args.items():
+				suffix = suffix + '&{}={}'.format(k, v)
+			cache_key = key.format(request.path, suffix)
+			value = cache.get(cache_key)  # 获取
+			if value is None:
+				value = f(*args, **kwargs)
+				cache.set(cache_key, value, timeout=timeout)  # 设置
+			return value
+
+		return decorated_function
+
+	return decorator

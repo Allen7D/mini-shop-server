@@ -28,13 +28,12 @@ def get_token():
 	}
 	# 微信登录则account为code(需要微信小程序调用wx.login接口获取), secret为空
 	identity = promise[ClientTypeEnum(form.type.data)](form.account.data, form.secret.data)
-
 	# Token生成
-	expiration = current_app.config['TOKEN_EXPIRATION'] # token有效期
+	expiration = current_app.config['TOKEN_EXPIRATION']  # token有效期
 	token = Token.generate_auth_token(identity['uid'],
-								form.type.data,
-								identity['scope'],
-								expiration)
+									  form.type.data,
+									  identity['scope'],
+									  expiration)
 	return Success(data=token)
 
 

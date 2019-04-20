@@ -2,12 +2,10 @@
 """
   Created by Allen7D on 2018/6/16.
 """
-
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.banner import Banner
 from app.validators.params import IDMustBePositiveInt
-from app.libs.limiter import cache
 from app.api_docs import banner as api_doc
 
 __author__ = 'Allen7D'
@@ -17,10 +15,8 @@ api = RedPrint(name='banner', description='首页轮播图', api_doc=api_doc)
 
 @api.route('/<int:id>', methods=['GET'])
 @api.doc()
-@cache.cached(timeout=10 * 60, query_string=True)
 def get_banner(id):
 	'''获取「首页轮播图」'''
-	print('id', id)
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	banner = Banner.get_banner_by_id(id=id)
 	# banner.hide('description') # 临时隐藏

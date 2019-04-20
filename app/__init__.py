@@ -44,12 +44,6 @@ def register_plugin(app):
 		swagger = Swagger(template=template)  # 可以将secure.py中的SWAGGER全部写入template
 		swagger.init_app(app)
 
-	# 缓存 Cache
-	from app.libs.limiter import cache
-	cache.init_app(app, config={"CACHE_TYPE": "simple"})
-	with app.app_context():
-		cache.clear()
-
 
 def register_blueprint(app):
 	from app.api.v1 import create_blueprint_v1

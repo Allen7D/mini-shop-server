@@ -2,6 +2,8 @@
 """
   Created by Allen7D on 2018/6/17.
 """
+from flask import request
+from app.libs.limiter import cached
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.theme import Theme
@@ -14,6 +16,7 @@ api = RedPrint(name='theme', description='主题', api_doc=api_doc)
 
 @api.route('', methods=['GET'])
 @api.doc()
+@cached()
 def get_simple_list():
 	'''一组 ID 的专题(Theme)
 	:arg /theme?ids=id1,id2,id3,...
@@ -26,6 +29,7 @@ def get_simple_list():
 
 @api.route('/<int:id>', methods=['GET'])
 @api.doc()
+@cached()
 def get_complex_one(id):
 	'''专题(Theme)详情接口
 	:param id: 专题theme的id

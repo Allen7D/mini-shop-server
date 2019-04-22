@@ -173,41 +173,98 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 **`Run > Debug 'server'`**
 
 ## 目录结构
-```
-| |____app.py
-| |____api						# 所有 API接口
-| | |______init__.py
-| | |____v1						# v1 API接口
-| | | |______init__.py
-| | | |____token.py				# 令牌
-| | | |____user.py				# 用户
-| | | |____address.py			# 用户地址
-| | | |____banner.py			# 横幅
-| | | |____theme.py				# 主题
-| | | |____client.py
-| | | |____product.py			# 产品
-| | | |____category.py			# 分类
-| | | |____order.py				#订单
-| | |____v2						# v2 API接口
-| |____validators				# 参数校验层 
-| | |______init__.py
-| | |____base.py
-| | |____params.py
-| | |____forms.py
-| |____service
-| | |______init__.py
-| | |____token.py
-| | |____order.py
-| | |____app_token.py
-| | |____user_token.py
-|____server.py					# 启动程序
-|____fake.py			        # 生成临时用户
-|____code.md					# 错误码(用于前后端开发)
-|____Pipfile					# 包依赖文件
-|____.env						# 自动激活虚拟环境
-|____.gitignore					# git ignore配置
-|____readme.md					# 项目说明文档
-```
+<details>
+<summary>展开查看</summary>
+<pre><code>
+.
+├── app
+│   ├── __init__.py
+│   ├── api
+│   │   ├── v1 # v1的API接口
+│   │   │   ├── __init__.py
+│   │   │   ├── address.py # 用户地址
+│   │   │   ├── banner.py # 推广横幅
+│   │   │   ├── category.py # 分类
+│   │   │   ├── client.py
+│   │   │   ├── order.py # 订单
+│   │   │   ├── pay.py # 支付
+│   │   │   ├── product.py # 产品
+│   │   │   ├── theme.py # 主题
+│   │   │   ├── token.py # 令牌
+│   │   │   └── user.py # 用户
+│   │   └── v2 # v2的API接口
+│   │       ├── __init__.py
+│   │       └── file.py # 文件上传
+│   ├── api_docs # 对应的 API文档
+│   │   ├── __init__.py
+│   │   ├── address.py
+│   │   ├── banner.py
+│   │   ├── base.py
+│   │   ├── category.py
+│   │   ├── client.py
+│   │   ├── file.py
+│   │   ├── order.py
+│   │   ├── pay.py
+│   │   ├── product.py
+│   │   ├── theme.py
+│   │   ├── token.py
+│   │   └── user.py
+│   ├── config # 配置文件
+│   │   ├── dev.py
+│   │   ├── secure.py
+│   │   ├── setting.py
+│   │   └── wx.py
+│   ├── libs # 自己的库
+│   │   ├── enums.py
+│   │   ├── error.py
+│   │   ├── error_code.py
+│   │   ├── httper.py
+│   │   ├── limiter.py
+│   │   ├── redprint.py
+│   │   ├── scope.py
+│   │   ├── swagger_filed.py
+│   │   ├── token_auth.py
+│   │   └── utils.py
+│   ├── models # Model 层
+│   │   ├── __init__.py
+│   │   ├── baner_item.py
+│   │   ├── banner.py
+│   │   ├── base.py
+│   │   ├── category.py
+│   │   ├── image.py
+│   │   ├── m2m.py
+│   │   ├── order.py
+│   │   ├── product.py
+│   │   ├── theme.py
+│   │   ├── user.py
+│   │   └── user_address.py
+│   ├── service # Service 层
+│   │   ├── __init__.py
+│   │   ├── app_token.py
+│   │   ├── order.py
+│   │   ├── pay.py
+│   │   ├── token.py
+│   │   └── user_token.py
+│   ├── validators # 参数校验层
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── forms.py
+│   │   └── params.py
+│   ├── web # 网页文件
+│   │   ├── __init__.py
+│   │   └── auth.py
+│   └── app.py
+├── fake.py # 生成临时用户
+├── server.py # 启动程序(项目入口)
+├── config.ini
+├── Pipfile # 包依赖文件
+├── Pipfile.lock
+├── code.md # 错误码(用于前后端开发)
+├── README.md # 项目说明文档
+├── zerd.sql
+└── LICENSE
+</code></pre>
+</details>
 
 ### 开发思路
 业务逻辑主要放在 Model 层

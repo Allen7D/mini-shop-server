@@ -9,6 +9,7 @@ from app.libs.enums import ScopeEnum
 from app.libs.error_code import AuthFailed, UserException
 from app.models.base import Base, db
 from app.models.user_address import UserAddress
+from app.service.open_token import OpenToken
 from app.service.user_token import UserToken
 
 __author__ = 'Allen7D'
@@ -72,7 +73,8 @@ class User(Base):
 			db.session.add(user)
 		db.session.flush()
 		return user
-		# return User.query.filter_by(openid=account).first()
+
+	# return User.query.filter_by(openid=account).first()
 
 	@staticmethod
 	def verify_by_email(email, password):
@@ -86,13 +88,25 @@ class User(Base):
 	@staticmethod
 	def verify_by_wx(code, *args):
 		ut = UserToken(code)
-		wx_result = ut.get() # wx_result = {session_key, expires_in, openid}
+		wx_result = ut.get()  # wx_result = {session_key, expires_in, openid}
 		openid = wx_result['openid']
 		user = User.query.filter_by(openid=openid).first()
 		# 如果不在数据库，则新建用户
 		if not user:
 			user = User.register_by_wx(openid)
 		scope = 'AdminScope' if user.auth == ScopeEnum.Admin else 'UserScope'
+		return {'uid': user.id, 'scope': scope}
+
+	@staticmethod
+	def verify_by_wx_open(code, *args):
+		# 微信开放平台(第三方)登录
+		ot = OpenToken(code)
+		open_result = ot.get()
+		openid = open_result['openid']  # 用户唯一标识
+		user = User.query.filter_by(openid=openid).first()
+		if not user:
+			user = User.register_by_wx(openid)
+		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.Admin else 'UserScope'
 		return {'uid': user.id, 'scope': scope}
 
 	def check_password(self, raw):

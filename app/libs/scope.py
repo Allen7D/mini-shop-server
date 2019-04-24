@@ -23,7 +23,8 @@ class UserScope(Scope):
 				 'v1.user+super_update_user'] + \
 				[]
 	allow_api = ['v1.order+place_order'] + \
-				['v1.pay+get_pre_order']
+				['v1.pay+get_pre_order'] + \
+				[]
 	def __init__(self):
 		self + AdminScope()
 

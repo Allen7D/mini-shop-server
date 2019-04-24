@@ -8,6 +8,7 @@ from app.libs.enums import ClientTypeEnum
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
+from app.service.open_token import OpenToken
 from app.service.token import Token
 from app.validators.forms import ClientValidator, TokenValidator
 from app.api_docs import token as api_doc
@@ -25,6 +26,7 @@ def get_token():
 	promise = {
 		ClientTypeEnum.USER_EMAIL: User.verify_by_email,
 		ClientTypeEnum.USER_WX: User.verify_by_wx,
+		ClientTypeEnum.USER_WX_OPEN: User.verify_by_wx_open
 	}
 	# 微信登录则account为code(需要微信小程序调用wx.login接口获取), secret为空
 	identity = promise[ClientTypeEnum(form.type.data)](form.account.data, form.secret.data)
@@ -37,9 +39,13 @@ def get_token():
 	return Success(data=token)
 
 
-@api.route('/app', methods=['POST'])
-def get_app_token():
-	pass
+@api.route('/open_auth_url', methods=['GET'])
+def get_open_auth_url():
+	'''
+	微信开发平台授权
+	:return: 跳转的链接，用于弹出「微信扫描页面」
+	'''
+	return Success(data=OpenToken('temporary').authorize_url)
 
 
 @api.route('/secret', methods=['POST'])

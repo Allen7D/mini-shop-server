@@ -13,8 +13,10 @@ class ClientTypeEnum(Enum):
 
 	# 微信小程序
 	USER_MINA = 200
+	# 微信第三方登录
+	USER_WX_OPEN = 201
 	# 微信公众号
-	USER_WX = 201
+	USER_WX = 202
 
 
 class ScopeEnum(Enum):

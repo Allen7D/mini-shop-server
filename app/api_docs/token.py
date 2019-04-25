@@ -86,3 +86,18 @@ get_token_info = {
 		}
 	}
 }
+
+get_open_redirect_url = {
+	"parameters": [],
+	"responses": {
+		"200": {
+			"description": "获取成功",
+			"examples": {
+				"data": {
+					"auth_url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx87186e0123456789&redirect_uri=https%3a%2f%2fapi.izjgk.com%2ftoken%2fuser&response_type=code&scope=snsapi_login&state=3d6be0a4035d839573b04816624a415e#wechat_redirect"
+				},
+				"error_code": 0
+			}
+		}
+	}
+}

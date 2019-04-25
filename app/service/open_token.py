@@ -9,13 +9,10 @@ from app.libs.httper import HTTP
 __author__ = 'Alimazing'
 
 
-class OpenToken:
+class OpenToken():
 	def __init__(self, code):
 		self.app_id = current_app.config['OPEN_APP_ID']
 		self.app_secret = current_app.config['OPEN_APP_SECRET']
-		self.scope = current_app.config['OPEN_SCOPE']
-		self.state = current_app.config['OPEN_STATE']
-		self.redirect_uri = current_app.config['REDIRECT_URI']
 		self.code = code
 		self.access_token = ''
 		self.openid = ''

@@ -8,7 +8,6 @@ from app.libs.enums import ClientTypeEnum
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
-from app.service.open_token import OpenToken
 from app.service.token import Token
 from app.validators.forms import ClientValidator, TokenValidator
 from app.api_docs import token as api_doc
@@ -39,13 +38,15 @@ def get_token():
 	return Success(data=token)
 
 
-@api.route('/open_auth_url', methods=['GET'])
-def get_open_auth_url():
+@api.route('/open_redirect_url', methods=['GET'])
+@api.doc()
+def get_open_redirect_url():
 	'''
-	微信开发平台授权
+	微信授权跳转链接
+	用于前端弹出微信扫描页面，获取code
 	:return: 跳转的链接，用于弹出「微信扫描页面」
 	'''
-	return Success(data=OpenToken('temporary').authorize_url)
+	return Success(data={'redirect_url': current_app.config['OPEN_AUTHORIZE_URL']})
 
 
 @api.route('/secret', methods=['POST'])

@@ -14,6 +14,8 @@ OPEN_APP_SECRET = '606d686fa91edc283d9cd00123456789'
 OPEN_SCOPE = 'snsapi_login'
 OPEN_STATE = '3d6be0a4035d839573b04816624a415e'
 REDIRECT_URI = 'https%3a%2f%2fapi.ivinetrue.com%2ftoken%2fuser'
-OPEN_AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope={2}&state={3}#wechat_redirect'
+OPEN_AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope={2}&state={3}#wechat_redirect'.format(
+	OPEN_APP_ID, OPEN_APP_SECRET, OPEN_SCOPE, OPEN_STATE
+)
 OPEN_ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code'
 OPEN_USER_INFO_URL = 'https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN'

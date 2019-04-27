@@ -18,10 +18,6 @@ class OpenToken():
 		self.openid = ''
 
 	@property
-	def authorize_url(self):
-		return current_app.config['OPEN_AUTHORIZE_URL'].format(self.app_id, self.redirect_uri, self.scope, self.state)
-
-	@property
 	def access_token_url(self):
 		return current_app.config['OPEN_ACCESS_TOKEN_URL'].format(self.app_id, self.app_secret, self.code)
 

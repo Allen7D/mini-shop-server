@@ -11,6 +11,11 @@ is_dev_mode = os.path.exists('app/config/dev.py') # 'development' & 'product' (�
 EXTERNAL_URL = 'server.mini-shop.ivinetrue.com' # 外部（远程）地址
 INTERNAL_URL = '0.0.0.0:8080' # 内部（本地）地址
 SERVER_URL = INTERNAL_URL if is_dev_mode else EXTERNAL_URL
+
+EXTERNAL_SCHEMES = ["https"]
+INTERNAL_SCHEMES = ["http"]
+SERVER_SCHEMES = INTERNAL_SCHEMES if is_dev_mode else EXTERNAL_SCHEMES
+
 IMG_PREFIX = SERVER_URL + '/static/images'
 UPLOAD_FOLDER = 'app/static/uploads'
 VERSION = "0.3.0" # 项目版本
@@ -31,10 +36,7 @@ SWAGGER = {
 	"host": SERVER_URL, #"api.ivinetrue.com",
 	"basePath": "/",  # base bash for blueprint registration
 	"tags": [], # 在'/app/api/v1/__init__.py'定义
-	"schemes": [
-		"http",
-		"https"
-	],
+	"schemes": SERVER_SCHEMES,
 	"operationId": "getmyData",
 	"securityDefinitions": {
 		'basicAuth': {

@@ -3,7 +3,7 @@
   Created by Allen7D on 2019/1/21.
 """
 from functools import wraps
-from werkzeug.contrib.cache import SimpleCache # 新包地址 https://github.com/pallets/cachelib
+from werkzeug.contrib.cache import SimpleCache  # 新包地址 https://github.com/pallets/cachelib
 from flask import request
 
 __author__ = 'Allen7D'
@@ -12,6 +12,12 @@ cache = SimpleCache()
 
 
 def cached(timeout=5 * 60, key='cached_{}_{}'):
+	'''
+	:param timeout: 缓存的秒数
+	:param key: 缓存的key的格式
+	:return:
+	'''
+
 	def decorator(f):
 		@wraps(f)
 		def decorated_function(*args, **kwargs):

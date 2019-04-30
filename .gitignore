@@ -9,7 +9,6 @@ Pipfile.lock
 # Local working file
 /app/static/uploads/
 /app/config/dev.py
-/app/config/wx.py
 /guide
 /demo
 /wx-tool

@@ -10,7 +10,7 @@ from app.libs.error_code import AuthFailed, UserException
 from app.models.base import Base, db
 from app.models.user_address import UserAddress
 from app.service.open_token import OpenToken
-from app.service.user_token import UserToken
+from app.service.wx_token import WxToken
 
 __author__ = 'Allen7D'
 
@@ -87,7 +87,7 @@ class User(Base):
 
 	@staticmethod
 	def verify_by_wx(code, *args):
-		ut = UserToken(code)
+		ut = WxToken(code)
 		wx_result = ut.get()  # wx_result = {session_key, expires_in, openid}
 		openid = wx_result['openid']
 		user = User.query.filter_by(openid=openid).first()

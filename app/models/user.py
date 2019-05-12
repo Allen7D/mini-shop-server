@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.enums import ScopeEnum
 from app.libs.error_code import AuthFailed, UserException
+from app.libs.httper import HTTP
 from app.models.base import Base, db
 from app.models.user_address import UserAddress
 from app.service.open_token import OpenToken
@@ -58,6 +59,7 @@ class User(Base):
 
 	@staticmethod
 	def register_by_email(nickname, account, secret):
+		"""邮箱注册"""
 		with db.auto_commit():
 			user = User()
 			user.nickname = nickname
@@ -67,14 +69,27 @@ class User(Base):
 
 	@staticmethod
 	def register_by_wx(account):
+		"""小程序注册"""
 		with db.auto_commit():
 			user = User()
 			user.openid = account
 			db.session.add(user)
-		db.session.flush()
+			db.session.flush()
 		return user
 
-	# return User.query.filter_by(openid=account).first()
+	@staticmethod
+	def register_by_wx_open(user_info):
+		"""微信第三方注册"""
+		img_filename = HTTP.download_pic(user_info['headimgurl'], type='avatar')
+		with db.auto_commit():
+			user = User()
+			user.openid = user_info['openid']
+			user.unionid = user_info['unionid']
+			user.nickname = user_info['nickname']
+			user.avatar = img_filename
+			db.session.add(user)
+			db.session.flush()
+		return user
 
 	@staticmethod
 	def verify_by_email(email, password):
@@ -101,11 +116,11 @@ class User(Base):
 	def verify_by_wx_open(code, *args):
 		# 微信开放平台(第三方)登录
 		ot = OpenToken(code)
-		open_result = ot.get()
-		openid = open_result['openid']  # 用户唯一标识
+		user_info = ot.get()
+		openid = user_info['openid']  # 用户唯一标识
 		user = User.query.filter_by(openid=openid).first()
 		if not user:
-			user = User.register_by_wx(openid)
+			user = User.register_by_wx_open(user_info)
 		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.Admin else 'UserScope'
 		return {'uid': user.id, 'scope': scope}
 

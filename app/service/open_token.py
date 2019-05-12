@@ -29,7 +29,10 @@ class OpenToken():
 
 	def get(self):
 		self.__get_access_token()
-		user_info = self.__get_user_info()
+		raw_user_info = self.__get_user_info()
+		# 解决乱码 encode('iso-8859-1').decode('utf-8')
+		user_info = {key: value.encode('iso-8859-1').decode('utf-8') if isinstance(value, str) else value
+					  for key, value in raw_user_info.items()}
 		return user_info
 
 	def __get_access_token(self):
@@ -40,8 +43,8 @@ class OpenToken():
 		self.openid = result['openid']
 
 	def __get_user_info(self):
-		'''
-		user_info = {openid: ***, }
+		'''获取用户信息
+		数据格式: user_info = {openid: ***, }
 		'''
 		return HTTP.get(self.user_info_url)
 

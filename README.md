@@ -18,8 +18,8 @@
 * 借鉴慕课网的[《Python Flask 构建可扩展的 RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
-* QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
 * 感谢慕课网的[七月老师](https://www.imooc.com/t/4294850)，本项目属于他课程思路的复现
+* QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
 <div align="center">
   <img alt="img" src="./media/qq_group_qr_code.jpg" width="250px">
   <div>👆QQ 扫码 👆</div>
@@ -466,6 +466,11 @@ stdout_logfile=/tmp/blog_stdout.log
 1. 《全面系统 Python3 入门+进阶课程》- [优惠链接](https://s.imooc.com/Su1q40U)
 <div align="center">
     <img src="./media/python3_poster.png" width="300px">
+</div>
+
+2. 《微信小程序入门与实战》- [优惠链接](https://s.imooc.com/Sz9vmF8)
+<div align="center">
+    <img src="./media/mina_junior_poster.png" width="300px">
 </div>
 
 ## 参考

@@ -20,7 +20,7 @@ api = RedPrint(name='token', description='登录令牌', api_doc=api_doc)
 @api.route('/user', methods=['POST'])
 @api.doc()
 def get_token():
-	'''生成「令牌」'''
+	'''生成「令牌」(3种登录方式)'''
 	form = ClientValidator().validate_for_api()
 	promise = {
 		ClientTypeEnum.USER_EMAIL: User.verify_by_email,
@@ -38,6 +38,15 @@ def get_token():
 	return Success(data=token)
 
 
+@api.route('/secret', methods=['POST'])
+@api.doc()
+def get_token_info():
+	"""解析「令牌」"""
+	token = TokenValidator().validate_for_api().token.data
+	result = Token.decrypt(token)
+	return Success(data=result)
+
+
 @api.route('/open_redirect_url', methods=['GET'])
 @api.doc()
 def get_open_redirect_url():
@@ -47,12 +56,3 @@ def get_open_redirect_url():
 	:return: 跳转的链接，用于弹出「微信扫描页面」
 	'''
 	return Success(data={'redirect_url': current_app.config['OPEN_AUTHORIZE_URL']})
-
-
-@api.route('/secret', methods=['POST'])
-@api.doc()
-def get_token_info():
-	"""解析「令牌」"""
-	token = TokenValidator().validate_for_api().token.data
-	result = Token.decrypt(token)
-	return Success(data=result)

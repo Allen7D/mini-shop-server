@@ -16,6 +16,7 @@ flasgger = "==0.9.1"
 gunicorn = "==19.9.0"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.6"

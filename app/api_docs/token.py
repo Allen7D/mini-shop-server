@@ -9,7 +9,7 @@ get_token = {
 		{
 			"name": "body",
 			"in": "body",
-			"description": "登录的基本信息: 账号、密码、登录类型",
+			"description": '''登录的基本信息: 账号、密码、登录类型\n邮箱账号登录(type:100)\n小程序登录(type:200)\n微信扫码登录(type:201)''',
 			"require": "true",
 			"schema": {
 				"id": "Token",

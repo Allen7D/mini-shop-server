@@ -40,8 +40,8 @@ class OpenToken():
 		self.openid = result['openid']
 
 	def __get_user_info(self):
-		'''
-		user_info = {openid: ***, }
+		'''获取用户信息
+		数据格式: user_info = {openid: ***, }
 		'''
 		return HTTP.get(self.user_info_url)
 

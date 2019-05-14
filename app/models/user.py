@@ -19,6 +19,7 @@ __author__ = 'Allen7D'
 class User(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	openid = Column(String(50), unique=True)
+	unionid = Column(String(50), unique=True)
 	email = Column(String(24), unique=True)
 	nickname = Column(String(24), unique=True)
 	extend = Column(String(255))
@@ -28,7 +29,7 @@ class User(Base):
 
 	def keys(self):
 		# return ['id', 'email', 'nickname', 'auth', 'user_address']
-		self.hide('openid', '_password', 'extend').append('user_address')
+		self.hide('openid', 'unionid', '_password', 'extend').append('user_address')
 		return self.fields
 
 	@property
@@ -86,7 +87,7 @@ class User(Base):
 			user.openid = user_info['openid']
 			user.unionid = user_info['unionid']
 			user.nickname = user_info['nickname']
-			user.avatar = img_filename
+			# user.avatar = img_filename
 			db.session.add(user)
 			db.session.flush()
 		return user

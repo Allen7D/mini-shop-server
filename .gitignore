@@ -4,12 +4,12 @@ __pycache__/
 *$py.class
 .DS_Store
 Pipfile.lock
-.idea/
+.idea
+.vscode
 
 # Local working file
 /app/static/uploads/
 /app/config/dev.py
-/app/config/wx.py
 /guide
 /demo
 /wx-tool

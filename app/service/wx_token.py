@@ -10,7 +10,8 @@ from app.libs.httper import HTTP
 __author__ = 'Allen7D'
 
 
-class UserToken:
+class WxToken:
+	'''微信·小程序的Token获取'''
 	def __init__(self, code):
 		self.code = code
 		self.wx_app_id = current_app.config['APP_ID']

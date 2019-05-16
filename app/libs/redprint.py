@@ -37,7 +37,6 @@ class RedPrint:
 			==> 能不能写一个修饰「装饰器」的函数
 	'''
 	def doc(self, *_args, **_kwargs):
-
 		def decorator(f):
 			specs = getattr(self.api_doc, f.__name__, None)
 			if specs:

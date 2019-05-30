@@ -421,7 +421,10 @@ server {
 
 ```
 
-## supervisor配置
+### Nginx 其他配置
+Nginx 的公共配置(例如: gzip)需要修改 `/etc/nginx/nginx.conf`
+
+## supervisor 配置
 路径 `/etc/supervisor/conf.d/server.conf`
 
 配置文件

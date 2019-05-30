@@ -421,7 +421,10 @@ server {
 
 ```
 
-## supervisor配置
+### Nginx 其他配置
+Nginx 的公共配置(例如: gzip)需要修改 `/etc/nginx/nginx.conf`
+
+## supervisor 配置
 路径 `/etc/supervisor/conf.d/server.conf`
 
 配置文件
@@ -445,7 +448,7 @@ stdout_logfile=/tmp/blog_stdout.log
 基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
 
 #### 2.服务端: mini-shop-server
-基于 Flask框架构建 RESTful API。（正在实现中）
+基于 Flask框架构建 RESTful API。
 
 点击查阅 [API文档](http://118.25.25.229/apidocs/#/)(Swagger风格)
 
@@ -471,6 +474,11 @@ stdout_logfile=/tmp/blog_stdout.log
 2. 《微信小程序入门与实战》- [优惠链接](https://s.imooc.com/Sz9vmF8)
 <div align="center">
     <img src="./media/mina_junior_poster.png" width="300px">
+</div>
+
+3. 《纯正商业级应用－Node.js Koa2开发微信小程序服务端》- [优惠链接](https://s.imooc.com/SlIXze6)
+<div align="center">
+    <img src="./media/node_koa2_poster.png" width="300px">
 </div>
 
 ## 参考

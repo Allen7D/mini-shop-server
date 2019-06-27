@@ -20,7 +20,7 @@ from app.libs.error_code import Success
 from app.libs.token_auth import auth
 from app.service.order import Order as OrderService
 from app.validators.params import OrderPlace
-from app.api_docs import order as api_doc
+from app.api_docs.v1 import order as api_doc
 
 __author__ = 'Allen7D'
 

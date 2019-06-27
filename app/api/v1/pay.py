@@ -6,7 +6,7 @@
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.validators.params import IDMustBePositiveInt
-from app.api_docs import pay as api_doc
+from app.api_docs.v1 import pay as api_doc
 
 __author__ = 'Allen7D'
 

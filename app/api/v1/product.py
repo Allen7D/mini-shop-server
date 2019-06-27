@@ -7,7 +7,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.product import Product
 from app.validators.params import Count, IDMustBePositiveInt
-from app.api_docs import product as api_doc
+from app.api_docs.v1 import product as api_doc
 
 __author__ = 'Allen7D'
 

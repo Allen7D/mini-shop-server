@@ -140,6 +140,7 @@ $ exit # 退出当前虚拟环境
 $ git clone https://github.com/Allen7D/mini-shop-server.git
 $ cd mini-shop-server 
 $ touch app/config/dev.py # 如果是在服务器上，则忽略执行此命令
+$ mkdir .venv # 生成.venv文件夹，用于存放该项目的python解释器(包括后续所有安装的包依赖)
 $ pipenv --python 3.6 # 指定某 Python 版本创建环境
 $ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
 $ pipenv install # 安装包依赖

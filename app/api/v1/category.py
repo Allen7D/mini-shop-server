@@ -5,7 +5,7 @@
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.category import Category
-from app.api_docs import category as api_doc
+from app.api_docs.v1 import category as api_doc
 
 __author__ = 'Allen7D'
 

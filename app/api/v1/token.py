@@ -10,7 +10,7 @@ from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.service.token import Token
 from app.validators.forms import ClientValidator, TokenValidator
-from app.api_docs import token as api_doc
+from app.api_docs.v1 import token as api_doc
 
 __author__ = 'Allen7D'
 
@@ -23,11 +23,11 @@ def get_token():
 	'''生成「令牌」(3种登录方式)'''
 	form = ClientValidator().validate_for_api()
 	promise = {
-		ClientTypeEnum.USER_EMAIL: User.verify_by_email,
-		ClientTypeEnum.USER_WX: User.verify_by_wx,
-		ClientTypeEnum.USER_WX_OPEN: User.verify_by_wx_open
+		ClientTypeEnum.USER_EMAIL: User.verify_by_email, # 邮箱&密码登录
+		ClientTypeEnum.USER_WX: User.verify_by_wx, # 微信小程序登录
+		ClientTypeEnum.USER_WX_OPEN: User.verify_by_wx_open # 微信开发平台登录(微信扫码登录)
 	}
-	# 微信登录则account为code(需要微信小程序调用wx.login接口获取), secret为空
+	# 微信登录, 则account为code(需要微信小程序调用wx.login接口获取), secret为空
 	identity = promise[ClientTypeEnum(form.type.data)](form.account.data, form.secret.data)
 	# Token生成
 	expiration = current_app.config['TOKEN_EXPIRATION']  # token有效期

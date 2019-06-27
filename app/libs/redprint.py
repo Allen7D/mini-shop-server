@@ -9,8 +9,9 @@ __author__ = 'Allen7D'
 
 
 class RedPrint:
-	def __init__(self, name, description, api_doc=None):
+	def __init__(self, name, description, api_doc=None, alias=''):
 		self.name = name
+		self.alias = alias # 接口的别名
 		self.description = description
 		self.mound = []
 		self.api_doc = api_doc
@@ -40,7 +41,7 @@ class RedPrint:
 		def decorator(f):
 			specs = getattr(self.api_doc, f.__name__, None)
 			if specs:
-				specs['tags'] = [self.name]
+				specs['tags'] = [self.tag['name']]
 				# 对f.__doc__处理
 				if f.__doc__ and '\n\t' in f.__doc__:
 					f.__doc__ = f.__doc__.split('\n\t')[0]
@@ -63,6 +64,6 @@ class RedPrint:
 	@property
 	def tag(self):
 		return {
-			'name': self.name,
+			'name': self.alias if self.alias else self.name,
 			'description': self.description
 		}

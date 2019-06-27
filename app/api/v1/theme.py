@@ -8,7 +8,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.theme import Theme
 from app.validators.params import IDCollection, IDMustBePositiveInt
-from app.api_docs import theme as api_doc
+from app.api_docs.v1 import theme as api_doc
 
 __author__ = 'Allen7D'
 

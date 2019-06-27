@@ -8,7 +8,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientValidator, UserEmailValidator
-from app.api_docs import client as api_doc
+from app.api_docs.v1 import client as api_doc
 
 __author__ = 'Allen7D'
 

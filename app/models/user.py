@@ -47,7 +47,7 @@ class User(Base):
 	def save_address(self, address_info):
 		with db.auto_commit():
 			# address = UserAddress.query.filter_by(user_id=self.id).first()
-			address = self._user_address.first()
+			address = self.user_address
 			if not address:
 				address = UserAddress(author=self)
 			address.name = address_info.name
@@ -94,8 +94,8 @@ class User(Base):
 
 	@staticmethod
 	def verify_by_email(email, password):
-		user = User.query.filter_by(email=email).first_or_404(
-			e=UserException(msg='该账号未注册'))
+		user = User.query.filter_by(email=email)\
+			.first_or_404(e=UserException(msg='该账号未注册'))
 		if not user.check_password(password):
 			raise AuthFailed(msg='密码错误')
 		scope = 'AdminScope' if user.auth == ScopeEnum.Admin else 'UserScope'

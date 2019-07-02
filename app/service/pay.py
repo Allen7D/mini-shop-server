@@ -32,14 +32,24 @@ class Pay():
 		status = order_service.check_order_stock(self.order_id)
 		if not status['pass']:
 			return status
+		return self.__make_wx_pre_order(status['order_price'])
 
-	def __make_wx_pre_order(self):
+	def __make_wx_pre_order(self, order_price):
 		user = User.query.filter_by(id=g.user.uid).first_or_404()
 		openid = user.openid
 		if not openid:
 			# openid不存在
 			pass
-		pass
+		wx_order_data = None
+		return self.__get_pay_signature(wx_order_data)
+
+	def __get_pay_signature(self, wx_order_data):
+		'''签名'''
+		wx_order = None
+		if wx_order['return_code'] != 'SUCCESS' or wx_order['result_code'] != 'SUCCESS':
+			pass # 记录到日志里
+		return None
+
 
 	def __check_order_valid(self):
 		'''对订单作3种情况的检测'''

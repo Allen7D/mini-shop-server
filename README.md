@@ -464,23 +464,6 @@ stdout_logfile=/tmp/blog_stdout.log
 3. [《Python Flask 构建可扩展的 RESTful API》](https://coding.imooc.com/class/220.html)
 4. [《微信小程序商城构建全栈应用》](https://coding.imooc.com/class/97.html)
 
-### 买课优惠码(8.8折)
-> PC端请复制对应的链接; 移动端可以扫描二维码
-
-1. 《全面系统 Python3 入门+进阶课程》- [优惠链接](https://s.imooc.com/Su1q40U)
-<div align="center">
-    <img src="./media/python3_poster.png" width="300px">
-</div>
-
-2. 《微信小程序入门与实战》- [优惠链接](https://s.imooc.com/Sz9vmF8)
-<div align="center">
-    <img src="./media/mina_junior_poster.png" width="300px">
-</div>
-
-3. 《纯正商业级应用－Node.js Koa2开发微信小程序服务端》- [优惠链接](https://s.imooc.com/SlIXze6)
-<div align="center">
-    <img src="./media/node_koa2_poster.png" width="300px">
-</div>
 
 ## 参考
 【1】<span id="ref_1"></span>[PyCharm配置使用Flask-Script启动以及开启Debug模式](http://www.it610.com/article/4325344.htm)

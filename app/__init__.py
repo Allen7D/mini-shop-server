@@ -34,13 +34,10 @@ def register_plugin(app):
 	# Debug模式下可以查阅 API文档
 	if app.config['DEBUG']:
 		from flasgger import Swagger
-		from app.api.v1 import create_api_tags_v1
-		from app.api.cms import create_api_tags_cms
-		template = {
-			# 默认与 config/setting.py 的 SWAGGER 合并
-			'tags': create_api_tags_v1() + create_api_tags_cms()  # 数组
-		}
-		swagger = Swagger(template=template)  # 可以将secure.py中的SWAGGER全部写入template
+		from app.api import tags
+		# 默认与 config/setting.py 的 SWAGGER 合并
+		# 可以将secure.py中的SWAGGER全部写入template
+		swagger = Swagger(template={'tags': tags})
 		swagger.init_app(app)
 
 

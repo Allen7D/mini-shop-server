@@ -464,6 +464,7 @@ stdout_logfile=/tmp/blog_stdout.log
 3. [《Python Flask 构建可扩展的 RESTful API》](https://coding.imooc.com/class/220.html)
 4. [《微信小程序商城构建全栈应用》](https://coding.imooc.com/class/97.html)
 
+
 ## 参考
 【1】<span id="ref_1"></span>[PyCharm配置使用Flask-Script启动以及开启Debug模式](http://www.it610.com/article/4325344.htm)
 

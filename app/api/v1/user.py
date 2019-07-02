@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/5/31.
+  ↓↓↓ 普通用户接口 ↓↓↓
 """
 from flask import g
 
@@ -16,11 +17,6 @@ __author__ = 'Allen7D'
 # 直接将api文档的内容放入RedPrint中
 api = RedPrint(name='user', description='用户', api_doc=api_doc)
 
-'''
-	↓↓↓ 普通用户接口 ↓↓↓
-'''
-
-
 @api.route('', methods=['GET'])
 @api.doc()
 @auth.login_required
@@ -33,6 +29,7 @@ def get_user():
 
 @api.route('', methods=['PUT'])
 @api.doc()
+@auth.login_required
 def update_user():
 	'''用户更改自身信息'''
 	return Success(error_code=1)
@@ -49,5 +46,3 @@ def delete_user():
 		user = User.query.filter_by(id=uid).first_or_404()
 		user.delete()
 	return Success(error_code=2)
-
-# 创建用户在clinet.py中

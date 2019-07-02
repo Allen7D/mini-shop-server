@@ -2,7 +2,6 @@
 """
   Created by Allen7D on 2019/6/27.
   ↓↓↓ 管理员接口 ↓↓↓
-
 """
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
@@ -13,7 +12,7 @@ from app.api_docs.cms import user as api_doc
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='user', description='CMS用户', api_doc=api_doc, alias='cms_user')
+api = RedPrint(name='user', description='管理用户', api_doc=api_doc, alias='cms_user')
 
 
 @api.route('/<int:uid>', methods=['GET'])

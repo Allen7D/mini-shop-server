@@ -7,7 +7,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.enums import ScopeEnum
 from app.libs.error_code import AuthFailed, UserException
-from app.libs.httper import HTTP
 from app.models.base import Base, db
 from app.models.user_address import UserAddress
 from app.service.open_token import OpenToken
@@ -28,7 +27,6 @@ class User(Base):
 	_password = Column('password', String(100))
 
 	def keys(self):
-		# return ['id', 'email', 'nickname', 'auth', 'user_address']
 		self.hide('openid', 'unionid', '_password', 'extend').append('user_address')
 		return self.fields
 
@@ -67,6 +65,7 @@ class User(Base):
 			user.email = account
 			user.password = secret
 			db.session.add(user)
+		return user
 
 	@staticmethod
 	def register_by_wx(account):
@@ -75,21 +74,18 @@ class User(Base):
 			user = User()
 			user.openid = account
 			db.session.add(user)
-			db.session.flush()
 		return user
 
 	@staticmethod
 	def register_by_wx_open(user_info):
 		"""微信第三方注册"""
-		img_filename = HTTP.download_pic(user_info['headimgurl'], type='avatar')
 		with db.auto_commit():
 			user = User()
 			user.openid = user_info['openid']
 			user.unionid = user_info['unionid']
 			user.nickname = user_info['nickname']
-			# user.avatar = img_filename
+			user.avatar = user_info['headimgurl']
 			db.session.add(user)
-			db.session.flush()
 		return user
 
 	@staticmethod

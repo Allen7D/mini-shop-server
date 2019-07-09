@@ -21,3 +21,22 @@ class Order(Base):
 	snap_address = Column(String(500))
 	prepay_id = Column(String(100), unique=True)
 
+	def keys(self):
+		self.hide('user_id').append('create_time')
+		return self.fields
+
+	@classmethod
+	def get_summary_by_user(cls, uid, page=1, size=10):
+		paginator = cls.query.filter_by(
+			user_id=uid
+		).order_by(cls.create_time.desc()).paginate(
+			page=page,
+			per_page=size,
+			error_out=True
+		)
+		paginator.hide('snap_items', 'snap_address', 'prepay_id')
+		return {
+			'total': paginator.total,
+			'current_page': paginator.page,
+			'data': paginator.items
+		}

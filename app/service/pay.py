@@ -1,7 +1,9 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2019/4/4.
-  https://blog.csdn.net/qq_34493908/article/details/81190057
+
+  wechatpy(微信的第三方 Python SDK) 使用文档: http://docs.wechatpy.org/zh_CN/master/index.html
+  《python+Django实现微信小程序支付功能》(不用SDK): https://blog.csdn.net/qq_34493908/article/details/81190057
 """
 from flask import g
 

@@ -84,3 +84,13 @@ class AddressNew(BaseValidator):
 			self.name.data, self.mobile.data, self.province.data,
 			self.city.data, self.country.data, self.detail.data
 		)
+
+class PaginateValidator(BaseValidator):
+	page = IntegerField(default=1)
+	size = IntegerField(default=10)
+
+	def validate_page(self, value):
+		self.page.data = int(value.data)
+
+	def validate_size(self, value):
+		self.size.data = int(value.data)

@@ -8,6 +8,7 @@ from flask.json import JSONEncoder as _JSONEncoder
 
 from app.libs.error_code import ServerError
 
+
 __author__ = 'Allen7D'
 
 

@@ -30,8 +30,8 @@ api = RedPrint(name='order', description='订单', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])
-@api.doc()
 @auth.login_required
+@api.doc()
 def place_order():
 	'''提交订单(管理员不能调用)'''
 	products = OrderPlace().validate_for_api().products.data

@@ -30,8 +30,8 @@ api = RedPrint(name='order', description='订单', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])
-@auth.login_required
 @api.doc()
+@auth.login_required
 def place_order():
 	'''提交订单(管理员不能调用)'''
 	products = OrderPlace().validate_for_api().products.data
@@ -41,8 +41,8 @@ def place_order():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@auth.login_required
 @api.doc()
+@auth.login_required
 def get_detail(id):
 	'''订单详情'''
 	id = 16
@@ -51,8 +51,8 @@ def get_detail(id):
 
 
 @api.route('/by_user', methods=['GET'])
-@auth.login_required
 @api.doc()
+@auth.login_required
 def get_summary_by_user():
 	'''订单摘要: 按用户查询&分页'''
 	validator = PaginateValidator().validate_for_api()

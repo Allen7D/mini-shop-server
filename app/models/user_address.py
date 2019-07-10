@@ -10,11 +10,16 @@ __author__ = 'Allen7D'
 
 class UserAddress(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)
+	user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 	name =  Column(String(30), nullable=False)
 	mobile =  Column(String(20), nullable=False)
+	country =  Column(String(20))
 	province =  Column(String(20))
 	city =  Column(String(20))
-	country =  Column(String(20))
-	detail =  Column(String(100))
-	user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+	detail =  Column(String(100)) # 具体体制
+
+	def keys(self):
+		# return ['id', 'email', 'nickname', 'auth', 'user_address']
+		self.hide('id', 'user_id' )
+		return self.fields
 

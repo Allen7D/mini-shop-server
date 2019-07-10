@@ -1,5 +1,5 @@
 [[source]]
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
@@ -14,9 +14,9 @@ flask-cors = "==3.0.6"
 flask-script = "==2.0.6"
 flasgger = "==0.9.1"
 gunicorn = "==19.9.0"
+wechatpy = "==1.8.3"
 
 [dev-packages]
-pylint = "*"
 
 [requires]
 python_version = "3.6"

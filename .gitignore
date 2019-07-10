@@ -11,5 +11,7 @@ Pipfile.lock
 /app/static/uploads/
 /app/config/dev.py
 /guide
-/demo
 /wx-tool
+/php-resource
+/.venv/*
+.env

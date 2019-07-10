@@ -19,8 +19,10 @@ from app.libs.redprint import RedPrint
 from app.libs.error_code import Success
 from app.libs.token_auth import auth
 from app.service.order import Order as OrderService
+from app.models.order import Order as OrderModel
+from app.validators.forms import PaginateValidator
 from app.validators.params import OrderPlace
-from app.api_docs import order as api_doc
+from app.api_docs.v1 import order as api_doc
 
 __author__ = 'Allen7D'
 
@@ -28,8 +30,8 @@ api = RedPrint(name='order', description='订单', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])
-@api.doc()
 @auth.login_required
+@api.doc()
 def place_order():
 	'''提交订单(管理员不能调用)'''
 	products = OrderPlace().validate_for_api().products.data
@@ -39,26 +41,34 @@ def place_order():
 
 
 @api.route('/<int:id>', methods=['GET'])
+@auth.login_required
 @api.doc()
-def get_detail():
-	pass
+def get_detail(id):
+	'''订单详情'''
+	id = 16
+	order = OrderModel.query.get_or_404(id).hide('prepay_id')
+	return Success(order)
 
 
 @api.route('/by_user', methods=['GET'])
+@auth.login_required
 @api.doc()
 def get_summary_by_user():
-	'''按用户查询'''
-	page = 1
-	size = 15
-	pass
+	'''订单摘要: 按用户查询&分页'''
+	validator = PaginateValidator().validate_for_api()
+	page = validator.page.data
+	size = validator.size.data
+	paging_orders = OrderModel.get_summary_by_user(g.user.uid, page, size)
+	return Success(paging_orders)
 
 
 @api.route('/paginate', methods=['GET'])
 @api.doc()
 def get_summary():
 	'''分页查询'''
-	page = 1
-	size = 20
+	validator = PaginateValidator().validate_for_api()
+	page = validator.page.data
+	size = validator.size.data
 	pass
 
 

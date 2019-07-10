@@ -11,7 +11,7 @@ from flask import send_from_directory
 from app.libs.redprint import RedPrint
 from app.libs.error_code import Success
 from app.validators.forms import UploadPDFValidator
-from app.api_docs import file as api_doc
+from app.api_docs.cms import file as api_doc
 
 __author__ = 'Allen7D'
 

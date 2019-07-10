@@ -16,12 +16,12 @@ def create_blueprint_v1():
 	# 将红图 user.api 注册进蓝图 bp_v1
 	token.api.register(bp_v1)
 	user.api.register(bp_v1)
+	address.api.register(bp_v1)
 	client.api.register(bp_v1)
 	banner.api.register(bp_v1)
 	theme.api.register(bp_v1)
 	product.api.register(bp_v1)
 	category.api.register(bp_v1)
-	address.api.register(bp_v1)
 	order.api.register(bp_v1)
 	pay.api.register(bp_v1)
 
@@ -36,12 +36,12 @@ def create_api_tags_v1():
 	return [
 		token.api.tag,
 		user.api.tag,
+		address.api.tag,
 		client.api.tag,
 		banner.api.tag,
 		theme.api.tag,
 		product.api.tag,
 		category.api.tag,
-		address.api.tag,
 		order.api.tag,
 		pay.api.tag,
 	]

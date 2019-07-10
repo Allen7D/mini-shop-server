@@ -14,7 +14,6 @@ __author__ = 'Allen7D'
 
 app = create_app()
 
-
 @app.errorhandler(Exception)
 def framework_error(e):
 	if isinstance(e, APIException):
@@ -36,6 +35,4 @@ manager = Manager(app)
 manager.add_command("run", Server())
 
 if __name__ == '__main__':
-	# manager.run()
-	from app.libs.httper import dir_name
-	print(dir_name['avatar'])
+	manager.run()

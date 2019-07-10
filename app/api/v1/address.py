@@ -10,15 +10,15 @@ from app.libs.token_auth import auth
 from app.models.user import User
 from app.models.user_address import UserAddress
 from app.validators.forms import AddressNew
-from app.api_docs import address as api_doc
+from app.api_docs.v1 import address as api_doc
 
 __author__ = 'Allen7D'
 
 api = RedPrint(name='address', description='用户地址', api_doc=api_doc)
 
 @api.route('', methods=['GET'])
-@auth.login_required
 @api.doc()
+@auth.login_required
 def get_address():
 	'''获取「用户自身的地址」'''
 	uid = g.user.uid
@@ -28,8 +28,8 @@ def get_address():
 
 
 @api.route('', methods=['POST'])
-@auth.login_required
 @api.doc()
+@auth.login_required
 def update_address():
 	'''更新「用户自身的地址」'''
 	address_info = AddressNew().validate_for_api().data

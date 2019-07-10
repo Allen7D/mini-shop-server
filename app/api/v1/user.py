@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/5/31.
+  ↓↓↓ 普通用户接口 ↓↓↓
 """
 from flask import g
 
@@ -9,49 +10,12 @@ from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db
 from app.models.user import User
-from app.api_docs import user as api_doc
+from app.api_docs.v1 import user as api_doc
 
 __author__ = 'Allen7D'
 
 # 直接将api文档的内容放入RedPrint中
 api = RedPrint(name='user', description='用户', api_doc=api_doc)
-
-'''
-	↓↓↓ 管理员接口 ↓↓↓
-'''
-
-
-@api.route('/<int:uid>', methods=['GET'])
-@api.doc()
-@auth.login_required
-def super_get_user(uid):
-	# user = User.query.get_or_404(uid) # 会查询到已经被删除的数据
-	user = User.query.filter_by(id=uid).first_or_404()
-	return Success(user)
-
-
-@api.route('/<int:uid>', methods=['POST'])
-@api.doc()
-@auth.login_required
-def super_update_user(uid):
-	pass
-
-
-@api.route('/<int:uid>', methods=['DELETE'])
-@api.doc()
-@auth.login_required
-def super_delete_user(uid):
-	with db.auto_commit():
-		# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
-		user = User.query.filter_by(id=uid).first_or_404()
-		user.delete()
-	return Success(error_code=2)
-
-
-'''
-	↓↓↓ 普通用户接口 ↓↓↓
-'''
-
 
 @api.route('', methods=['GET'])
 @api.doc()
@@ -65,6 +29,7 @@ def get_user():
 
 @api.route('', methods=['PUT'])
 @api.doc()
+@auth.login_required
 def update_user():
 	'''用户更改自身信息'''
 	return Success(error_code=1)
@@ -81,5 +46,3 @@ def delete_user():
 		user = User.query.filter_by(id=uid).first_or_404()
 		user.delete()
 	return Success(error_code=2)
-
-# 创建用户在clinet.py中

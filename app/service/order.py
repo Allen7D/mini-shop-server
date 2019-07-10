@@ -192,5 +192,5 @@ class Order():
 		y_code = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 		order_sn = y_code[now.year - 2018] + hex(now.month).upper() + str(now.day) \
 				   + str('%.6f' % timestamp)[-6:] + str(timestamp)[2: 7] \
-				   + str(randint(0, 99))
+				   + str(randint(0, 99)).rjust(2, '0')
 		return order_sn

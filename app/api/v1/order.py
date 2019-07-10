@@ -21,7 +21,7 @@ from app.libs.token_auth import auth
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
 from app.validators.forms import PaginateValidator
-from app.validators.params import OrderPlace
+from app.validators.params import OrderPlace, IDMustBePositiveInt
 from app.api_docs.v1 import order as api_doc
 
 __author__ = 'Allen7D'
@@ -45,7 +45,7 @@ def place_order():
 @auth.login_required
 def get_detail(id):
 	'''订单详情'''
-	id = 16
+	id = IDMustBePositiveInt().validate_for_api().id.data
 	order = OrderModel.query.get_or_404(id).hide('prepay_id')
 	return Success(order)
 

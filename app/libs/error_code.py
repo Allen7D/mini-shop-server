@@ -13,7 +13,7 @@ __author__ = 'Allen7D'
 class Success(APIException):
 	code = 200
 	error_code = 0
-	data = None  # 结果可以是{} 或 []
+	data = None
 	msg = '成功'
 
 	def __init__(self, data=None, code=None, error_code=None, msg=None):

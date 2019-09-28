@@ -11,7 +11,6 @@ __author__ = 'Allen7D'
 
 
 class WxToken:
-	'''微信·小程序的Token获取'''
 	def __init__(self, code):
 		self.code = code
 		self.wx_app_id = current_app.config['APP_ID']
@@ -21,11 +20,9 @@ class WxToken:
 	def get(self):
 		wx_result = HTTP.get(self.wx_login_url)
 		if not wx_result:
-			# 获取session_key及openID时异常，微信内部错误
-			raise Exception() # 待完成
+			raise Exception()
 		else:
 			if 'errcode' in wx_result.keys():
-				# loginFail
 				self.__process_login_error(wx_result)
 			else:
 				return wx_result

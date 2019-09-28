@@ -102,10 +102,10 @@ class Base(db.Model):
 
 	@orm.reconstructor
 	def init_on_load(self):
+		# 被隐藏的属性则无法用append方法添加
 		self.exclude = ['create_time', 'update_time', 'delete_time', 'status']
 		all_columns = inspect(self.__class__).columns.keys()
 		self.fields = list(set(all_columns) - set(self.exclude))
-		self.hide_fields = [] # 被隐藏的属性则无法用append方法添加
 
 	def __init__(self):
 		self.create_time = int(datetime.now().timestamp())
@@ -153,7 +153,7 @@ class Base(db.Model):
 
 	def hide(self, *keys):
 		for key in keys:
-			self.hide_fields.append(key)
+			self.exclude.append(key)
 			if key in self.fields:
 				self.fields.remove(key)
 		return self
@@ -163,6 +163,6 @@ class Base(db.Model):
 			# self.fields 暂未有key
 			# and
 			# 在 Model层和 Service层等任意的操作中，已经隐藏的属性无法再添加
-			if key not in self.fields and key not in self.hide_fields:
+			if key not in self.fields and key not in self.exclude:
 				self.fields.append(key)
 		return self

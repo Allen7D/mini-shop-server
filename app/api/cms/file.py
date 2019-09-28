@@ -42,3 +42,32 @@ def download_file(file_name):
 	print('file_name', file_name)
 	return Success(file_name)
 	# return send_from_directory(file_name, file_name, mimetype='application/octet-stream')
+
+@api.route('/auth', methods=['GET'])
+@api.doc()
+def get_auth():
+	auth = {
+			"token": "xxx",
+			"rules": {
+				"home": True,
+				"home_index": True,
+				"about": True,
+				"argu": True,
+				"count_to": True,
+				"menu_page": True,
+				"form": False,
+				"folder_tree": True,
+				"render_page": True,
+				"split_pane": True,
+				"parent": True,
+				"child": True,
+				"named_view": True,
+				"store": True,
+				"main": True
+			},
+			"component": {
+				"edit_button": True,
+				"publish_button": False
+			}
+		}
+	return Success(data=auth)

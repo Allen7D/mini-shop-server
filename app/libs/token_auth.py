@@ -14,11 +14,6 @@ from app.libs.scope import is_in_scope
 
 __author__ = 'Allen7D'
 
-'''
-基于 HTTPBasicAuth 来传递token,
-所以, Postman 中 Authorization 设置使用 Basic Auth;
-Flassger 中 securityDefinitions 设置使用 basicAuth (详见config/setting.py)
-'''
 auth = HTTPBasicAuth()
 User = namedtuple('User', ['uid', 'ac_type', 'scope'])
 

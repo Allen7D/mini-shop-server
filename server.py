@@ -25,7 +25,7 @@ def framework_error(e):
 		return APIException(code, error_code, msg)
 	else:
 		if not app.config['DEBUG']:
-			return ServerError()
+			return ServerError() # 未知错误(统一为服务端异常)
 		else:
 			raise e
 

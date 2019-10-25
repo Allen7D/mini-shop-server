@@ -2,11 +2,11 @@
 """
   Created by Allen7D on 2018/6/22.
 """
-__author__ = 'Allen7D'
-
 import requests
 import os
 from uuid import uuid1
+
+__author__ = 'Allen7D'
 
 # os.getcwd() 获取当前工作目录，执行「python命令」所在的目录
 dir_name = {
@@ -21,7 +21,6 @@ class HTTP:
 		if res.status_code != 200:
 			return {} if return_json else ''
 		return res.json() if return_json else res.text
-
 
 	@staticmethod
 	def download_pic(url, type='avatar'):

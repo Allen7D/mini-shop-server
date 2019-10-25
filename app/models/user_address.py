@@ -9,6 +9,7 @@ from app.models.base import Base
 __author__ = 'Allen7D'
 
 class UserAddress(Base):
+	__tablename__ = 'user_address'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 	name =  Column(String(30), nullable=False)
@@ -19,7 +20,6 @@ class UserAddress(Base):
 	detail =  Column(String(100)) # 具体体制
 
 	def keys(self):
-		# return ['id', 'email', 'nickname', 'auth', 'user_address']
 		self.hide('id', 'user_id' )
 		return self.fields
 

@@ -25,12 +25,6 @@ class SQLAlchemy(_SQLAlchemy):
 			self.session.rollback()  # 回滚
 			raise e
 
-	@contextmanager
-	def auto_check_empty(self, e):
-		try:
-			yield
-		except Exception:
-			raise e
 
 class Pagination(_Pagination):
 	def hide(self, *keys):
@@ -82,13 +76,16 @@ class Query(BaseQuery):
 		return rv
 
 	def paginate(self, page=None, per_page=None, error_out=True, max_per_page=None):
-		paginate = BaseQuery.paginate(self, page=page, per_page=per_page, error_out=error_out, max_per_page=max_per_page)
+		# 使用paginator记的加上filter_by，用于默认添加status=1
+		paginator = BaseQuery.paginate(self, page=page, per_page=per_page, error_out=error_out,
+									   max_per_page=max_per_page)
 		return Pagination(self,
-						  paginate.page,
-						  paginate.per_page,
-						  paginate.total,
-						  paginate.items
+						  paginator.page,
+						  paginator.per_page,
+						  paginator.total,
+						  paginator.items
 						  )
+
 
 db = SQLAlchemy(query_class=Query)
 
@@ -102,10 +99,10 @@ class Base(db.Model):
 
 	@orm.reconstructor
 	def init_on_load(self):
+		# 被隐藏的属性则无法用append方法添加
 		self.exclude = ['create_time', 'update_time', 'delete_time', 'status']
 		all_columns = inspect(self.__class__).columns.keys()
 		self.fields = list(set(all_columns) - set(self.exclude))
-		self.hide_fields = [] # 被隐藏的属性则无法用append方法添加
 
 	def __init__(self):
 		self.create_time = int(datetime.now().timestamp())
@@ -153,7 +150,7 @@ class Base(db.Model):
 
 	def hide(self, *keys):
 		for key in keys:
-			self.hide_fields.append(key)
+			self.exclude.append(key)
 			if key in self.fields:
 				self.fields.remove(key)
 		return self
@@ -163,6 +160,6 @@ class Base(db.Model):
 			# self.fields 暂未有key
 			# and
 			# 在 Model层和 Service层等任意的操作中，已经隐藏的属性无法再添加
-			if key not in self.fields and key not in self.hide_fields:
+			if key not in self.fields and key not in self.exclude:
 				self.fields.append(key)
 		return self

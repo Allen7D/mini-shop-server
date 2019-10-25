@@ -6,7 +6,7 @@
 from collections import namedtuple
 
 from wtforms import StringField, IntegerField, FileField, MultipleFileField
-from wtforms.validators import DataRequired, length, Email, Regexp, ValidationError
+from wtforms.validators import DataRequired, length, Email, Regexp, ValidationError, NumberRange
 
 from app.libs.enums import ClientTypeEnum
 from app.models.user import User
@@ -86,8 +86,8 @@ class AddressNew(BaseValidator):
 		)
 
 class PaginateValidator(BaseValidator):
-	page = IntegerField(default=1)
-	size = IntegerField(default=10)
+	page = IntegerField(default=1) # 当前页
+	size = IntegerField(NumberRange(min=1, max=100), default=10) # 每页条目个数
 
 	def validate_page(self, value):
 		self.page.data = int(value.data)

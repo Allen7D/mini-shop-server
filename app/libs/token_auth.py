@@ -14,13 +14,8 @@ from app.libs.scope import is_in_scope
 
 __author__ = 'Allen7D'
 
-'''
-基于 HTTPBasicAuth 来传递token,
-所以, Postman 中 Authorization 设置使用 Basic Auth;
-Flassger 中 securityDefinitions 设置使用 basicAuth (详见config/setting.py)
-'''
 auth = HTTPBasicAuth()
-User = namedtuple('User', ['uid', 'ac_type', 'scope'])
+UserTuple = namedtuple('User', ['uid', 'ac_type', 'scope'])
 
 @auth.verify_password
 def verify_password(token, password):
@@ -36,9 +31,9 @@ def verify_auth_token(token):
 	try:
 		data = s.loads(token) # token在请求头
 	except BadSignature:
-		raise AuthFailed(msg='token is invalid', error_code=1002)
+		raise AuthFailed(msg='token 无效', error_code=1002)
 	except SignatureExpired:
-		raise AuthFailed(msg='token is expired', error_code=1003)
+		raise AuthFailed(msg='token 过期', error_code=1003)
 	uid = data['uid']
 	ac_type = data['type']
 	scope = data['scope']
@@ -46,4 +41,4 @@ def verify_auth_token(token):
 	allow = is_in_scope(scope, request.endpoint)
 	if not allow:
 		raise ForbiddenException()
-	return User(uid, ac_type, scope)
+	return UserTuple(uid, ac_type, scope)

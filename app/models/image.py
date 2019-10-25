@@ -8,6 +8,7 @@ from app.models.base import Base
 __author__ = 'Allen7D'
 
 class Image(Base):
+	__tablename__ = 'image'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	_url = Column('url', String(255))
 	_from = Column('from', SmallInteger, default=1) # 1表示存在本地, 2表示存在网络上

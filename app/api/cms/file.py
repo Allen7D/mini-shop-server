@@ -19,7 +19,7 @@ __author__ = 'Allen7D'
 # folder_path = '../../../static/files/'
 # os.chdir(folder_path)
 
-api = RedPrint(name='file', description='文件上传', api_doc=api_doc)
+api = RedPrint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
 
 
 @api.route('/upload', methods=['POST'])

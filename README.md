@@ -285,9 +285,15 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 > 启动服务(DEBUG 模式下)<br>
 在浏览器端输入：http://localhost:8080/apidocs/#/
 
+#### 使用 Token
+基于 HTTPBasicAuth 来传递token<br>
+所以, Postman 中 Authorization 设置使用 Basic Auth;<br>
+Flassger 中 securityDefinitions 设置使用 basicAuth (详见config/setting.py)
+
 ## 服务器部署
 本项目选择在 Ubuntu 16.04 上，用 Nginx + Gunicorn + Pipenv 部署<sup>[[3]](#ref_3)</sup>，其中 Gunicorn 取代 uWsgi。
 > Flask 与 uWsgi 结合有许多难以处理的 bug
+
 
 
 ### 运行

@@ -7,7 +7,7 @@ from app.libs.swagger_filed import IntegerPathFiled
 __author__ = 'Allen7D'
 
 theme_id_in_path = IntegerPathFiled(
-	name='id', description="theme id", enum=[1, 2, 3], default=1, required=True).data
+	name='id', description="theme id", enum=[1, 2, 3, 4, 5, 100], default=1, required=True).data
 
 get_simple_list = {
 	"parameters": [

@@ -9,7 +9,7 @@ get_token = {
 		{
 			"name": "body",
 			"in": "body",
-			"description": '''登录的基本信息: 账号、密码、登录类型\n邮箱账号登录(type:100)\n小程序登录(type:200)\n微信扫码登录(type:201)''',
+			"description": '''登录的基本信息: 账号、密码、登录类型\n邮箱账号登录(type:100)\n手机账号登录(type:101)\n小程序登录(type:200)\n微信扫码登录(type:201)''',
 			"require": "true",
 			"schema": {
 				"id": "Token",
@@ -18,8 +18,8 @@ get_token = {
 					"account": {
 						"type": "string",
 						"description": "用户名",
-						"enum": ["999@qq.com"],
-						"default": "999@qq.com"
+						"enum": ["777@qq.com"],
+						"default": "777@qq.com"
 					},
 					"secret": {
 						"type": "string",
@@ -42,7 +42,7 @@ get_token = {
 			"description": "登录成功",
 			"examples": {
 				"data": {
-					"token": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU1MzE1OTE0MCwiZXhwIjoxNTU1NzUxMTQwfQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJVc2VyU2NvcGUifQ.5OHN-WF3ujKGcP3kT8lUbVZ-BIKFUgZLZL989X_ae-qjoxI1Sf7O7FRE10s9jk2I1ZRHdYfWdKY-TmSRmn0p-A"
+					"token": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU3MTgxOTk2MywiZXhwIjoxNTc0NDExOTYzfQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.VO3qP77Dlnqt_joixPG2Z_AWXn-DHj2WdBY8xTLxi1Y2cLRA-pkG69dL47q2diAv0f5yO3z2EpMqwfpbnDW3ZQ"
 				},
 				"error_code": 0
 			}
@@ -63,9 +63,9 @@ get_token_info = {
 						"type": "string",
 						"description": "token",
 						"enum": [
-							"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU1MzI0NTY3NywiZXhwIjoxNTU1ODM3Njc3fQ.eyJ1aWQiOiIwMDAwYWVmMDc3NGYxMWU4YmE5NTAwMTYzZTBjZTdlNiIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.js9yvuAQ5ia0I2Aw2qWVBiq7C7oMbQGYw5G5uGAn5JS70h_CShD_4SxF1Kpwf--S0ml5lZiWBsRcBgiJe0k4nQ"
+							"eyJhbGciOiJIUzUxMiIsImlhdCI6MTU3MTgxOTk2MywiZXhwIjoxNTc0NDExOTYzfQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.VO3qP77Dlnqt_joixPG2Z_AWXn-DHj2WdBY8xTLxi1Y2cLRA-pkG69dL47q2diAv0f5yO3z2EpMqwfpbnDW3ZQ"
 						],
-						"default": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU1MzI0NTY3NywiZXhwIjoxNTU1ODM3Njc3fQ.eyJ1aWQiOiIwMDAwYWVmMDc3NGYxMWU4YmE5NTAwMTYzZTBjZTdlNiIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.js9yvuAQ5ia0I2Aw2qWVBiq7C7oMbQGYw5G5uGAn5JS70h_CShD_4SxF1Kpwf--S0ml5lZiWBsRcBgiJe0k4nQ"
+						"default": "eyJhbGciOiJIUzUxMiIsImlhdCI6MTU3MTgxOTk2MywiZXhwIjoxNTc0NDExOTYzfQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.VO3qP77Dlnqt_joixPG2Z_AWXn-DHj2WdBY8xTLxi1Y2cLRA-pkG69dL47q2diAv0f5yO3z2EpMqwfpbnDW3ZQ"
 					}
 				}
 			}

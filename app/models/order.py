@@ -9,6 +9,7 @@ from app.models.base import Base
 __author__ = 'Allen7D'
 
 class Order(Base):
+	__tablename__ = 'order'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	order_no = Column(String(20), unique=True)
 	user_id = Column(Integer)
@@ -38,5 +39,5 @@ class Order(Base):
 		return {
 			'total': paginator.total,
 			'current_page': paginator.page,
-			'data': paginator.items
+			'items': paginator.items
 		}

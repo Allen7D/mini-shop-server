@@ -17,15 +17,16 @@ __author__ = 'Allen7D'
 api = RedPrint(name='token', description='登录令牌', api_doc=api_doc)
 
 
-@api.route('/user', methods=['POST'])
+@api.route('', methods=['POST'])
 @api.doc()
 def get_token():
-	'''生成「令牌」(3种登录方式)'''
+	'''生成「令牌」(4种登录方式)'''
 	form = ClientValidator().validate_for_api()
 	promise = {
-		ClientTypeEnum.USER_EMAIL: User.verify_by_email, # 邮箱&密码登录
-		ClientTypeEnum.USER_WX: User.verify_by_wx, # 微信小程序登录
-		ClientTypeEnum.USER_WX_OPEN: User.verify_by_wx_open # 微信开发平台登录(微信扫码登录)
+		ClientTypeEnum.EMAIL: User.verify_by_email, # 邮箱&密码登录
+		ClientTypeEnum.MOBILE: User.verify_by_mobile, # 手机号&密码登录
+		ClientTypeEnum.WX_MINA: User.verify_by_wx_mina, # 微信小程序登录
+		ClientTypeEnum.WX_OPEN: User.verify_by_wx_open # 微信开发平台登录(微信扫码登录)
 	}
 	# 微信登录, 则account为code(需要微信小程序调用wx.login接口获取), secret为空
 	identity = promise[ClientTypeEnum(form.type.data)](form.account.data, form.secret.data)
@@ -38,7 +39,7 @@ def get_token():
 	return Success(data=token)
 
 
-@api.route('/secret', methods=['POST'])
+@api.route('/verify', methods=['POST'])
 @api.doc()
 def get_token_info():
 	"""解析「令牌」"""
@@ -50,8 +51,7 @@ def get_token_info():
 @api.route('/open_redirect_url', methods=['GET'])
 @api.doc()
 def get_open_redirect_url():
-	'''
-	微信授权跳转链接
+	'''微信授权跳转链接
 	用于前端弹出微信扫描页面，获取code
 	:return: 跳转的链接，用于弹出「微信扫描页面」
 	'''

@@ -11,6 +11,7 @@ from app.models.image import Image
 __author__ = 'Allen7D'
 
 class BannerItem(Base):
+	__tablename__ = 'banner_item'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	banner_id = Column(Integer, ForeignKey('banner.id'))
 	image = relationship('Image')

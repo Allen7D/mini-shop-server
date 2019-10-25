@@ -3,6 +3,9 @@
   Created by Allen7D on 2018/5/12.
 """
 from .app import Flask
+from app.api.v1 import bp as v1_bp
+from app.api.cms import bp as cms_bp
+from app.web import web
 
 __author__ = 'Allen7D'
 
@@ -34,7 +37,7 @@ def register_plugin(app):
 	# Debug模式下可以查阅 API文档
 	if app.config['DEBUG']:
 		from flasgger import Swagger
-		from app.api import tags
+		tags = v1_bp.tags + cms_bp.tags
 		# 默认与 config/setting.py 的 SWAGGER 合并
 		# 可以将secure.py中的SWAGGER全部写入template
 		swagger = Swagger(template={'tags': tags})
@@ -42,9 +45,6 @@ def register_plugin(app):
 
 
 def register_blueprint(app):
-	from app.api.v1 import create_blueprint_v1
-	app.register_blueprint(create_blueprint_v1(), url_prefix='/v1')
-	from app.api.cms import create_blueprint_cms
-	app.register_blueprint(create_blueprint_cms(), url_prefix='/cms')
-	from app.web import web
+	app.register_blueprint(v1_bp, url_prefix='/v1')
+	app.register_blueprint(cms_bp, url_prefix='/cms')
 	app.register_blueprint(web)

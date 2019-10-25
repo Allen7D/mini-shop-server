@@ -9,16 +9,35 @@ from app.libs.token_auth import auth
 from app.models.base import db
 from app.models.user import User
 from app.api_docs.cms import user as api_doc
+from app.validators.forms import PaginateValidator
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='user', description='管理用户', api_doc=api_doc, alias='cms_user')
+api = RedPrint(name='user', description='用户管理', api_doc=api_doc, alias='cms_user')
+
+
+@api.route('/list', methods=['GET'])
+@api.doc()
+@auth.login_required
+def get_user_list():
+	'''获取用户列表(分页)'''
+	page_validator = PaginateValidator().validate_for_api()
+	page = page_validator.page.data
+	size = page_validator.size.data
+
+	paginator = User.query.filter_by().paginate(page=page, per_page=size, error_out=False)
+	return Success({
+		'total': paginator.total,
+		'current_page': paginator.page,
+		'items': paginator.items
+	})
 
 
 @api.route('/<int:uid>', methods=['GET'])
 @api.doc()
 @auth.login_required
-def super_get_user(uid):
+def get_user(uid):
+	'''获取用户信息'''
 	# user = User.query.get_or_404(uid) # 会查询到已经被删除的数据
 	user = User.query.filter_by(id=uid).first_or_404()
 	return Success(user)
@@ -27,22 +46,18 @@ def super_get_user(uid):
 @api.route('/<int:uid>', methods=['POST'])
 @api.doc()
 @auth.login_required
-def super_update_user(uid):
+def update_user(uid):
+	'''更新用户信息'''
 	pass
 
 
 @api.route('/<int:uid>', methods=['DELETE'])
 @api.doc()
 @auth.login_required
-def super_delete_user(uid):
+def delete_user(uid):
+	'''删除用户'''
 	with db.auto_commit():
 		# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
 		user = User.query.filter_by(id=uid).first_or_404()
 		user.delete()
 	return Success(error_code=2)
-
-
-@api.route('/test', methods=['GET'])
-@api.doc()
-def super_test():
-	return Success()

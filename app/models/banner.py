@@ -6,12 +6,14 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.libs.error_code import BannerMissException
+# BannerItem 默认用于 relationship
 from app.models.baner_item import BannerItem
-from app.models.base import Base, db
+from app.models.base import Base
 
 __author__ = 'Allen7D'
 
 class Banner(Base):
+	__tablename__ = 'banner'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	name = Column(String(50))
 	description = Column(String(255))
@@ -27,5 +29,4 @@ class Banner(Base):
 
 	@staticmethod
 	def get_banner_by_id(id):
-		with db.auto_check_empty(BannerMissException):
-			return Banner.query.filter_by(id=id).first_or_404()
+		return Banner.query.filter_by(id=id).first_or_404(e=BannerMissException)

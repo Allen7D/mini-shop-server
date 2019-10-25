@@ -16,11 +16,13 @@ __author__ = 'Allen7D'
 
 
 class User(Base):
+	__tablename__ = 'user'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	openid = Column(String(50), unique=True)
 	unionid = Column(String(50), unique=True)
 	email = Column(String(24), unique=True)
-	nickname = Column(String(24), unique=True)
+	# mobile = Column(String(16), unique=True)
+	nickname = Column(String(24))
 	extend = Column(String(255))
 	auth = Column(SmallInteger, default=1)
 	_user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')
@@ -34,13 +36,13 @@ class User(Base):
 	def password(self):
 		return self._password
 
-	@property
-	def user_address(self):
-		return self._user_address.first()
-
 	@password.setter
 	def password(self, raw):
 		self._password = generate_password_hash(raw)
+
+	@property
+	def user_address(self):
+		return self._user_address.first()
 
 	def save_address(self, address_info):
 		with db.auto_commit():
@@ -60,19 +62,23 @@ class User(Base):
 	def register_by_email(nickname, account, secret):
 		"""邮箱注册"""
 		with db.auto_commit():
-			user = User()
-			user.nickname = nickname
-			user.email = account
-			user.password = secret
+			user = User(nickname=nickname, email=account, password=secret)
 			db.session.add(user)
 		return user
 
 	@staticmethod
-	def register_by_wx(account):
+	def register_by_email(nickname, account, secret):
+		"""手机号注册"""
+		with db.auto_commit():
+			user = User(nickname=nickname, mobile=account, password=secret)
+			db.session.add(user)
+		return user
+
+	@staticmethod
+	def register_by_wx_mina(account):
 		"""小程序注册"""
 		with db.auto_commit():
-			user = User()
-			user.openid = account
+			user = User(openid=account)
 			db.session.add(user)
 		return user
 
@@ -90,23 +96,32 @@ class User(Base):
 
 	@staticmethod
 	def verify_by_email(email, password):
-		user = User.query.filter_by(email=email)\
+		user = User.query.filter_by(email=email) \
 			.first_or_404(e=UserException(msg='该账号未注册'))
 		if not user.check_password(password):
 			raise AuthFailed(msg='密码错误')
-		scope = 'AdminScope' if user.auth == ScopeEnum.Admin else 'UserScope'
+		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.ADMIN else 'UserScope'
 		return {'uid': user.id, 'scope': scope}
 
 	@staticmethod
-	def verify_by_wx(code, *args):
+	def verify_by_mobile(mobile, password):
+		user = User.query.filter_by(mobile=mobile) \
+			.first_or_404(e=UserException(msg='该账号未注册'))
+		if not user.check_password(password):
+			raise AuthFailed(msg='密码错误')
+		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.ADMIN else 'UserScope'
+		return {'uid': user.id, 'scope': scope}
+
+	@staticmethod
+	def verify_by_wx_mina(code, *args):
 		ut = WxToken(code)
 		wx_result = ut.get()  # wx_result = {session_key, expires_in, openid}
 		openid = wx_result['openid']
 		user = User.query.filter_by(openid=openid).first()
 		# 如果不在数据库，则新建用户
 		if not user:
-			user = User.register_by_wx(openid)
-		scope = 'AdminScope' if user.auth == ScopeEnum.Admin else 'UserScope'
+			user = User.register_by_wx_mina(openid)
+		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.ADMIN else 'UserScope'
 		return {'uid': user.id, 'scope': scope}
 
 	@staticmethod
@@ -118,7 +133,7 @@ class User(Base):
 		user = User.query.filter_by(openid=openid).first()
 		if not user:
 			user = User.register_by_wx_open(user_info)
-		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.Admin else 'UserScope'
+		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.ADMIN else 'UserScope'
 		return {'uid': user.id, 'scope': scope}
 
 	def check_password(self, raw):

@@ -25,12 +25,6 @@ class SQLAlchemy(_SQLAlchemy):
 			self.session.rollback()  # 回滚
 			raise e
 
-	@contextmanager
-	def auto_check_empty(self, e):
-		try:
-			yield
-		except Exception:
-			raise e
 
 class Pagination(_Pagination):
 	def hide(self, *keys):
@@ -82,13 +76,16 @@ class Query(BaseQuery):
 		return rv
 
 	def paginate(self, page=None, per_page=None, error_out=True, max_per_page=None):
-		paginate = BaseQuery.paginate(self, page=page, per_page=per_page, error_out=error_out, max_per_page=max_per_page)
+		# 使用paginator记的加上filter_by，用于默认添加status=1
+		paginator = BaseQuery.paginate(self, page=page, per_page=per_page, error_out=error_out,
+									   max_per_page=max_per_page)
 		return Pagination(self,
-						  paginate.page,
-						  paginate.per_page,
-						  paginate.total,
-						  paginate.items
+						  paginator.page,
+						  paginator.per_page,
+						  paginator.total,
+						  paginator.items
 						  )
+
 
 db = SQLAlchemy(query_class=Query)
 

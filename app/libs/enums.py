@@ -8,29 +8,28 @@ from enum import Enum
 
 
 class ClientTypeEnum(Enum):
-	USER_EMAIL = 100
-	USER_MOBILE = 101
-
-	# 微信小程序
-	USER_MINA = 200
-	# 微信第三方登录
-	USER_WX_OPEN = 201
-	# 微信公众号
-	USER_WX = 202
+	'''客户端登录方式类型'''
+	EMAIL = 100 # 邮箱登录
+	MOBILE = 101 # 手机登录
+	# 微信
+	WX_MINA = 200 # 微信小程序
+	WX_OPEN = 201 	# 微信第三方登录
+	WX = 202 # 微信公众号
 
 
 class ScopeEnum(Enum):
 	'''
 	「可读性」
 	逻辑：数字越大，权限越大
-	用法：ScopeEnum.User == ScopeEnum(1) # True
+	用法：ScopeEnum.USER == ScopeEnum(1) # True
 	'''
-	User = 1 # 普通用户
-	Admin = 2 # 管理员
-	Super = 3 # 超级管理员
+	USER = 1  # 普通用户
+	ADMIN = 2  # 管理员
+	SUPER = 3  # 超级管理员
+
 
 class OrderStatusEnum(Enum):
-	UNPAID = 1 # 待支付
-	PAID = 2 # 已支付
-	DELIVERED = 3 # 已发货
-	PAID_BUT_OUT_OF = 4 # 已支付，但库存不足
+	UNPAID = 1  # 待支付
+	PAID = 2  # 已支付
+	DELIVERED = 3  # 已发货
+	PAID_BUT_OUT_OF = 4  # 已支付，但库存不足

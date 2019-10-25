@@ -19,7 +19,7 @@ __author__ = 'Allen7D'
 # folder_path = '../../../static/files/'
 # os.chdir(folder_path)
 
-api = RedPrint(name='file', description='文件上传', api_doc=api_doc)
+api = RedPrint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
 
 
 @api.route('/upload', methods=['POST'])
@@ -42,32 +42,3 @@ def download_file(file_name):
 	print('file_name', file_name)
 	return Success(file_name)
 	# return send_from_directory(file_name, file_name, mimetype='application/octet-stream')
-
-@api.route('/auth', methods=['GET'])
-@api.doc()
-def get_auth():
-	auth = {
-			"token": "xxx",
-			"rules": {
-				"home": True,
-				"home_index": True,
-				"about": True,
-				"argu": True,
-				"count_to": True,
-				"menu_page": True,
-				"form": False,
-				"folder_tree": True,
-				"render_page": True,
-				"split_pane": True,
-				"parent": True,
-				"child": True,
-				"named_view": True,
-				"store": True,
-				"main": True
-			},
-			"component": {
-				"edit_button": True,
-				"publish_button": False
-			}
-		}
-	return Success(data=auth)

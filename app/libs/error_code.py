@@ -70,13 +70,13 @@ class TokenException(APIException):
 class ForbiddenException(APIException):
 	code = 403
 	error_code = 1004
-	msg = 'forbidden, not in scope'
+	msg = '权限不足，禁止访问'
 
 
 class AuthFailed(APIException):
 	code = 401
 	error_code = 1005
-	msg = 'authorization failed'
+	msg = '授权失败'
 
 
 class DuplicateException(APIException):

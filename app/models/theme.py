@@ -41,12 +41,9 @@ class Theme(Base):
 
 	@staticmethod
 	def get_theme_by_id(id):
-		with db.auto_check_empty(ThemeException):
-			return Theme.query.filter_by(id=id).first_or_404()
+		return Theme.query.filter_by(id=id).first_or_404(e=ThemeException)
 
 	@staticmethod
 	def get_theme_detail(id):
-		# get theme detail with product
-		with db.auto_check_empty(ThemeException):
-			theme_detail = db.session.query(Theme).filter(Theme.id == id).first_or_404()
-			return theme_detail.append('products')
+		theme_detail = db.session.query(Theme).filter(Theme.id == id).first_or_404(e=ThemeException)
+		return theme_detail.append('products')

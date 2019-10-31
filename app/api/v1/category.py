@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/6/17.
+  ↓↓↓ 类别接口 ↓↓↓
 """
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint

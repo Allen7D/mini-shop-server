@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/6/16.
+  ↓↓↓ Banner接口 ↓↓↓
 """
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint

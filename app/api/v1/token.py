@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/6/13.
+  ↓↓↓ Token接口 ↓↓↓
 """
 from flask import current_app
 

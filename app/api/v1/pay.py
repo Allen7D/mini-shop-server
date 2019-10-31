@@ -1,7 +1,8 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2019/4/4.
-  「pay接口」只能用户访问，CMS管理员不能反问
+  ↓↓↓ 支付接口 ↓↓↓
+  「pay接口」只能用户访问，CMS管理员不能访问
 """
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth

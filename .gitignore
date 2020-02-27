@@ -8,10 +8,11 @@ Pipfile.lock
 .vscode
 
 # Local working file
-/app/static/uploads/
-/app/config/dev.py
-/guide
-/wx-tool
-/php-resource
-/.venv/*
+app/static/uploads/
+app/config/dev.py
+guide/
+wx-tool/
+php-resource/
+.venv/*
+tmp/
 .env

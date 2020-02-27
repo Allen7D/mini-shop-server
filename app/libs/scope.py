@@ -37,7 +37,7 @@ class AdminScope(Scope):
 	allow_api = ['v1.order+get_detail'] + \
 				[]
 	allow_module = ['v1.user', 'v1.address', 'v1.product'] + \
-				   ['cms.user', 'cms.category', 'cms.file']
+				   ['cms.user', 'cms.category', 'cms.product', 'cms.file']
 
 	def __init__(self):
 		pass

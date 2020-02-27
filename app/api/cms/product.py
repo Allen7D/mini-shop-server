@@ -20,6 +20,7 @@ api = RedPrint(name='product', description='产品管理', api_doc=api_doc, alia
 @auth.login_required
 def get_list_by_category():
 	'''获取商品列表(分页&基于categoryID)'''
+	id = IDMustBePositiveInt().validate_for_api().id.data
 	page_validator = PaginateValidator().validate_for_api()
 	page = page_validator.page.data
 	size = page_validator.size.data

@@ -42,7 +42,7 @@ def get_user(uid):
 	return Success(user)
 
 
-@api.route('/<int:uid>', methods=['POST'])
+@api.route('/<int:uid>', methods=['PUT'])
 @api.doc()
 @auth.login_required
 def update_user(uid):

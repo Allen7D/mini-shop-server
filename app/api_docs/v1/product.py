@@ -17,12 +17,29 @@ get_recent = {
 	"responses": {
 		"200": {
 			"description": "产品分类",
-			"examples": {}
+			"examples": {
+				"data": {
+					"items": [
+						{
+							"category_id": 3,
+							"id": 33,
+							"img_urls": [],
+							"main_img_url": "0.0.0.0:8010/static/images/product-vg@5.png",
+							"name": "青椒 半斤",
+							"price": 0.01,
+							"stock": 999,
+							"summary": None
+						}
+					]
+				},
+				"error_code": 0,
+				"msg": "成功"
+			}
 		}
 	}
 }
 
-get_all_in_category = {
+get_all_by_category = {
 	"parameters": [category_id_in_query],
 	"responses": {
 		"200": {
@@ -32,17 +49,29 @@ get_all_in_category = {
 	}
 }
 
-get_one = {
-	"parameters": [],
+get_product = {
+	"parameters": [product_id_in_path],
 	"responses": {
 		"200": {
 			"description": "产品分类",
-			"examples": {}
+			"examples": {
+				"data":{
+					"id": 1,
+					"img_urls": [],
+					"main_img_url": "0.0.0.0:8010/static/images/product-vg@1.png",
+					"name": "芹菜 半斤",
+					"price": 0.01,
+					"stock": 998,
+					"summary": None
+				},
+				"error_code": 0,
+				"msg": "成功"
+			}
 		}
 	}
 }
 
-delete_one = {
+delete_product = {
 	"parameters": [product_id_in_path],
 	"security": [
 		{

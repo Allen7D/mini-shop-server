@@ -1,20 +1,10 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Allen7D on 2018/11/26.
+  Created by Allen7D on 2020/02/27.
 """
-from app.libs.swagger_filed import IntegerQueryFiled, IntegerPathFiled
+from app.libs.swagger_filed import IntegerQueryFiled
 
 __author__ = 'Allen7D'
-
-get_all_categories = {
-	"parameters": [],
-	"responses": {
-		"200": {
-			"description": "所有产品分类",
-			"examples": {}
-		}
-	}
-}
 
 get_category_list = {
 	"parameters": [
@@ -30,6 +20,22 @@ get_category_list = {
 }
 
 update_category = {
+	"parameters": [],
+	"security": [
+		{
+			"basicAuth": []
+		}
+	],
+	"responses": {
+		"200": {
+			"description": "用户类别信息",
+			"examples": {
+			}
+		}
+	}
+}
+
+delete_category = {
 	"parameters": [],
 	"security": [
 		{

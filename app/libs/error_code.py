@@ -40,7 +40,7 @@ class Success(APIException):
 class ClientTypeError(APIException):
 	code = 400
 	error_code = 1006
-	msg = 'clinet is invalid'
+	msg = 'client is invalid'
 
 
 class ServerError(APIException):

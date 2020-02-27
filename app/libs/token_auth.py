@@ -17,28 +17,41 @@ __author__ = 'Allen7D'
 auth = HTTPBasicAuth()
 UserTuple = namedtuple('User', ['uid', 'ac_type', 'scope'])
 
+
 @auth.verify_password
 def verify_password(token, password):
 	user_info = verify_auth_token(token)
 	if not user_info:
 		return False
 	else:
-		g.user = user_info # 用「g.user」来记录登录的状态；g只能用于一次请求
+		g.user = user_info  # 用「g.user」来记录登录的状态；g只能用于一次请求
 		return True
+
 
 def verify_auth_token(token):
 	s = Serializer(current_app.config['SECRET_KEY'])
 	try:
-		data = s.loads(token) # token在请求头
+		data = s.loads(token)  # token在请求头
 	except BadSignature:
 		raise AuthFailed(msg='token 无效', error_code=1002)
 	except SignatureExpired:
 		raise AuthFailed(msg='token 过期', error_code=1003)
-	uid = data['uid']
-	ac_type = data['type']
-	scope = data['scope']
+	uid = data['uid']  # 用户ID
+	ac_type = data['type']  # 登录方式
+	scope = data['scope']  # 权限
 	# 可以获取要访问的视图函数
 	allow = is_in_scope(scope, request.endpoint)
 	if not allow:
-		raise ForbiddenException()
+		raise ForbiddenException(msg='权限不足(等级:{})，禁止访问'.format(scope))
 	return UserTuple(uid, ac_type, scope)
+
+
+def generate_auth_token(uid, ac_type, scope=None, expiration=7200):
+	'''生成令牌'''
+	s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+	token = s.dumps({
+		'uid': uid,
+		'type': ac_type,
+		'scope': scope
+	})
+	return {'token': token.decode('ascii')}

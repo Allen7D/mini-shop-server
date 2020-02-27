@@ -7,5 +7,3 @@ from flask import Blueprint
 __author__ = 'Allen7D'
 
 web = Blueprint('web', __name__)
-
-from app.web import auth

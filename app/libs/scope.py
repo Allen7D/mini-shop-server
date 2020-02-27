@@ -52,11 +52,18 @@ class SuperScope(Scope):
 
 
 def is_in_scope(scope, endpoint):
+	"""
+	判断「访问的用户」是否有该接口的权限
+	:param scope: number 权限值
+	:param endpoint: string 'v1.user+get_user'
+	:return: boolean
+	"""
 	scope = globals()[scope]()  # 基于「string类型变量」查找到同名的类
 	red_name = endpoint.split('+')[0]  # v1.*: v1.user 或者 cms.user
 	blue_name = red_name.split('.')[0]  # v1或者cms
+	if red_name in scope.forbidden_module:
+		return False
 	if endpoint in scope.forbidden_api:
-		print('forbidden_api')
 		return False
 	if endpoint in scope.allow_api:
 		return True

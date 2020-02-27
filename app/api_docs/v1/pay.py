@@ -14,3 +14,33 @@ get_pre_order = {
 		}
 	}
 }
+
+receive_notify = {
+	"parameters": [],
+	"responses": {
+		"200": {
+			"description": "获取成功",
+			"examples": {}
+		}
+	}
+}
+
+redirect_notify = {
+	"parameters": [],
+	"responses": {
+		"200": {
+			"description": "获取成功",
+			"examples": {}
+		}
+	}
+}
+
+notify_concurrency = {
+	"parameters": [],
+	"responses": {
+		"200": {
+			"description": "获取成功",
+			"examples": {}
+		}
+	}
+}

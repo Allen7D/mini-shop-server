@@ -10,4 +10,4 @@ from app.api.v1 import token, user, \
 __author__ = 'Allen7D'
 
 rp_list = [token, user, banner, theme, product, category, address, order, pay]
-bp = Blueprint('v1', __name__, rp_list).register_redprint()
+bp = Blueprint('v1', __name__).register_redprint(rp_list)

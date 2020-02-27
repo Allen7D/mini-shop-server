@@ -29,7 +29,7 @@ def get_recent():
 def get_all_in_category():
 	'''所有 category_id 类的商品'''
 	id = IDMustBePositiveInt().validate_for_api().id.data
-	products = Product.get_product_by_category_id(id=id)
+	products = Product.get_product_by_category(category_id=id)
 	return Success(products)
 
 

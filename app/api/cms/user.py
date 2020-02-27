@@ -38,7 +38,6 @@ def get_user_list():
 @auth.login_required
 def get_user(uid):
 	'''获取用户信息'''
-	# user = User.query.get_or_404(uid) # 会查询到已经被删除的数据
 	user = User.query.filter_by(id=uid).first_or_404()
 	return Success(user)
 
@@ -57,7 +56,6 @@ def update_user(uid):
 def delete_user(uid):
 	'''删除用户'''
 	with db.auto_commit():
-		# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
 		user = User.query.filter_by(id=uid).first_or_404()
 		user.delete()
 	return Success(error_code=2)

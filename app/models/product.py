@@ -47,10 +47,10 @@ class Product(Base):
 		return Product.query.order_by(desc(Product.create_time)).limit(count).all_or_404(e=ProductException)
 
 	@staticmethod
-	def get_product_by_category_id(id):
+	def get_product_by_category(id):
 		return Product.query.filter_by(category_id=id).all_or_404(e=ProductException)
 
 	@staticmethod
 	def get_product_detail(id):
-		return Product.query.filter_by(id=id).first_or_404(
-			e=ProductException).hide('category_id')
+		return Product.query.filter_by(id=id)\
+			.first_or_404(e=ProductException).hide('category_id')

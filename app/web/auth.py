@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2018/4/19.
 """
-from flask import render_template, redirect, url_for
+from flask import redirect, url_for
 from . import web
 
 __author__ = 'Allen7D'

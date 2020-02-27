@@ -13,17 +13,6 @@ __author__ = 'Allen7D'
 
 class Token():
 	@staticmethod
-	def generate_auth_token(uid, ac_type, scope=None, expiration=7200):
-		'''生成令牌'''
-		s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-		token = s.dumps({
-			'uid': uid,
-			'type': ac_type.value,
-			'scope': scope
-		})
-		return {'token': token.decode('ascii')}
-
-	@staticmethod
 	def decrypt(token):
 		'''解析token的信息
 		:param token:
@@ -33,9 +22,9 @@ class Token():
 		try:
 			data = s.loads(token, return_header=True) # token在POST中
 		except BadSignature:
-			raise AuthFailed(msg='token is invalid', error_code=1002)
+			raise AuthFailed(msg='token失效，请重新登录', error_code=1002)
 		except SignatureExpired:
-			raise AuthFailed(msg='token is expired', error_code=1003)
+			raise AuthFailed(msg='token过期，请重新登录', error_code=1003)
 
 		r = {
 			'scope': data[0]['scope'], # 用户权限

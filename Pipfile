@@ -17,6 +17,7 @@ gunicorn = "==19.9.0"
 wechatpy = "==1.8.3"
 
 [dev-packages]
+pylint = "2.4.4"
 
 [requires]
 python_version = "3.6"

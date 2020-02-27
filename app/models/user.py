@@ -11,6 +11,7 @@ from app.models.base import Base, db
 from app.models.user_address import UserAddress
 from app.service.open_token import OpenToken
 from app.service.wx_token import WxToken
+from app.service.account_token import AccountToken
 
 __author__ = 'Allen7D'
 
@@ -67,7 +68,7 @@ class User(Base):
 		return user
 
 	@staticmethod
-	def register_by_email(nickname, account, secret):
+	def register_by_mobile(nickname, account, secret):
 		"""手机号注册"""
 		with db.auto_commit():
 			user = User(nickname=nickname, mobile=account, password=secret)
@@ -135,6 +136,18 @@ class User(Base):
 			user = User.register_by_wx_open(user_info)
 		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.ADMIN else 'UserScope'
 		return {'uid': user.id, 'scope': scope}
+
+	@staticmethod
+	def verify_by_wx_account(code, *args):
+		ot = AccountToken(code)
+		user_info = ot.get()
+		unionid = user_info['unionid']
+		user = User.query.filter_by(unionid=unionid).first()
+		if not user:
+			user = User.register_by_wx_open(user_info)
+		scope = 'AdminScope' if ScopeEnum(user.auth) == ScopeEnum.ADMIN else 'UserScope'
+		return {'uid': user.id, 'scope': scope}
+
 
 	def check_password(self, raw):
 		if not self._password:

@@ -9,11 +9,11 @@ __author__ = 'Allen7D'
 
 class Blueprint(_Blueprint):
 	'''新增rp_list属性'''
-	def __init__(self, name, import_name, rp_list=[], static_folder=None,
+	def __init__(self, name, import_name, static_folder=None,
 				 static_url_path=None, template_folder=None,
 				 url_prefix=None, subdomain=None, url_defaults=None,
 				 root_path=None):
-		self.rp_list = rp_list
+		self.rp_list = []
 		super(Blueprint, self).__init__(name, import_name, static_folder,
 										static_url_path, template_folder,
 										url_prefix, subdomain, url_defaults,
@@ -27,7 +27,8 @@ class Blueprint(_Blueprint):
 		'''
 		return [rp.api.tag for rp in self.rp_list]
 
-	def register_redprint(self):
+	def register_redprint(self, rp_list):
+		self.rp_list = rp_list
 		for rp in self.rp_list:
 			rp.api.register(self)
 		return self

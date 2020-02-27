@@ -44,13 +44,19 @@ class Product(Base):
 
 	@staticmethod
 	def get_most_recent(count):
-		return Product.query.order_by(desc(Product.create_time)).limit(count).all_or_404(e=ProductException)
+		return Product.query.order_by(desc(Product.create_time)).limit(count).all_or_404(e=ProductException, wrap='items')
 
 	@staticmethod
-	def get_product_by_category_id(id):
-		return Product.query.filter_by(category_id=id).all_or_404(e=ProductException)
+	def get_product_by_category(id):
+		return Product.query.filter_by(category_id=id).all_or_404(e=ProductException, wrap='items')
 
 	@staticmethod
 	def get_product_detail(id):
-		return Product.query.filter_by(id=id).first_or_404(
-			e=ProductException).hide('category_id')
+		return Product.query.filter_by(id=id)\
+			.first_or_404(e=ProductException).hide('category_id')
+
+	@staticmethod
+	def delete_by_id(id):
+		with db.auto_commit():
+			product = Product.query.filter_by(id=id).first_or_404()
+			product.delete()

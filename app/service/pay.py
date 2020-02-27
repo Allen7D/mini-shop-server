@@ -27,11 +27,10 @@ class Pay():
 		self.order_id = order_id
 
 	def pay(self):
-		# 检测订单情况
+		# 1. 检测订单情况
 		self.__check_order_valid()
-		# 支付前，再次进行库存量检测
-		order_service = OrderService()
-		status = order_service.check_order_stock(self.order_id)
+		# 2. 支付前，再次进行库存量检测
+		status = OrderService().check_order_stock(self.order_id)
 		if not status['pass']:
 			return status
 		return self.__make_wx_pre_order(status['order_price'])

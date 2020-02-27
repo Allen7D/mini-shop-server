@@ -31,3 +31,8 @@ OPEN_AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=
 )
 OPEN_ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code'
 OPEN_USER_INFO_URL = 'https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN'
+
+# 微信·公众平台(Account)·服务号登录
+ACCOUNT_APP_ID = 'wx7bc53e1ab38e9f92'
+ACCOUNT_APP_SECRET = 'c96c84b27ea4a353b10d7353b9cf5a09c'
+REDIRECT_URI = 'https%3a%2f%2fwww.ivinetrue.com'

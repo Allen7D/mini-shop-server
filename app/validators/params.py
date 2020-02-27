@@ -54,8 +54,8 @@ class OrderPlace(BaseValidator):
 		if len(products) == 0:
 			raise ValidationError(message='商品列表不能为空')
 		for product in products:
-			if not self.isPositiveInteger(product['product_id']) or \
-					not self.isPositiveInteger(product['count']):
+			if not self.isPositiveInteger(product['product_id']) \
+					or not self.isPositiveInteger(product['count']):
 				raise ValidationError(message='商品列表参数错误')
 
 		self.products.data = products

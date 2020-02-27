@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/7/5.
+  ↓↓↓ 订单接口 ↓↓↓
   业务逻辑：
   	用户在选择商品后，向 API 提交包含祂所选择的商品的相关信息
   	API 在接收到信息后，需要检查订单相关商品的库存量
@@ -35,8 +36,7 @@ api = RedPrint(name='order', description='订单', api_doc=api_doc)
 def place_order():
 	'''提交订单(管理员不能调用)'''
 	products = OrderPlace().validate_for_api().products.data
-	order = OrderService()
-	status = order.palce(uid=g.user.uid, o_products=products)
+	status = OrderService().palce(uid=g.user.uid, o_products=products)
 	return Success(status)
 
 
@@ -54,25 +54,31 @@ def get_detail(id):
 @api.doc()
 @auth.login_required
 def get_summary_by_user():
-	'''订单摘要: 按用户查询&分页'''
+	'''订单摘要(基于用户ID&分页)'''
 	validator = PaginateValidator().validate_for_api()
-	page = validator.page.data
-	size = validator.size.data
-	paging_orders = OrderModel.get_summary_by_user(g.user.uid, page, size)
-	return Success(paging_orders)
+	paged_orders = OrderModel.get_summary_by_user(uid=g.user.uid,
+												  page=validator.page.data,
+												  size=validator.size.data)
+	return Success(paged_orders)
 
 
 @api.route('/paginate', methods=['GET'])
 @api.doc()
+@auth.login_required
 def get_summary():
-	'''分页查询'''
+	'''获取全部订单简要信息(分页)'''
 	validator = PaginateValidator().validate_for_api()
-	page = validator.page.data
-	size = validator.size.data
-	pass
+	paged_orders = OrderModel.get_summary_by_user(uid=g.user.uid,
+												  page=validator.page.data,
+												  size=validator.size.data)
+	return Success(paged_orders)
 
 
 @api.route('/delivery', methods=['PUT'])
 @api.doc()
+@auth.login_required
 def delivery():
-	pass
+	'''订单发货'''
+	order_id = IDMustBePositiveInt().validate_for_api().id.data
+	result = OrderService.delivery(order_id)
+	Success(result)

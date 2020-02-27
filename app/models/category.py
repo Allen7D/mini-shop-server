@@ -23,4 +23,4 @@ class Category(Base):
 
 	@staticmethod
 	def get_all_categories():
-		return Category.query.all_or_404(e=CategoryException)
+		return Category.query.all_or_404(e=CategoryException, wrap='items')

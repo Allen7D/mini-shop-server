@@ -311,7 +311,7 @@ fuser -k 8080/tcp # 关闭占用8080端口的服务
 **`本地`** 和 **`线上`** 自动根据所处的环境(由 .gitignore 控制)不同，选择不同的配置文件。<br>
 那么， **`本地`** 可以比 **`线上`** 多了 **`app/config/dev.py`** 文件; 基于该文件的存在与否，可以用 **`if else`** 控制 **`app/config/`** 中配置输出。
 
-### Demo
+### 实践
 1. `echo "/app/config/dev.py" >> .gitignore` # 追加 Git 忽略提交配置到 .gitignore
 2. 新建 **`app/config/dev.py`** 文件
 

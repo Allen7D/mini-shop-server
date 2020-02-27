@@ -23,7 +23,7 @@ api = RedPrint(name='user', description='用户', api_doc=api_doc)
 def get_user():
 	'''用户获取自身信息'''
 	# g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
-	user = User.query.filter_by(id=g.user.uid ).first_or_404()
+	user = User.query.get_or_404(ident=g.user.uid)
 	return Success(user)
 
 
@@ -42,6 +42,6 @@ def delete_user():
 	'''用户注销'''
 	with db.auto_commit():
 		# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
-		user = User.query.filter_by(id=g.user.uid ).first_or_404()
+		user = User.query.filter_by(id=g.user.uid).first_or_404()
 		user.delete()
 	return Success(error_code=2)

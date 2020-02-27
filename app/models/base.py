@@ -61,12 +61,16 @@ class Query(BaseQuery):
 			raise NotFound(error_code=error_code, msg=msg)
 		return rv
 
-	def all_or_404(self, e=None, error_code=None, msg=None):
+	def all_or_404(self, e=None, error_code=None, msg=None, wrap=''):
 		rv = list(self)
 		if not rv:
 			if e:
 				raise e
 			raise NotFound(error_code=error_code, msg=msg)
+		if wrap:
+			rv = {
+				'{}'.format(wrap): rv
+			}
 		return rv
 
 	def all(self):

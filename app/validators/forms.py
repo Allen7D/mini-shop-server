@@ -36,7 +36,7 @@ class TokenValidator(BaseValidator):
 
 
 class UserEmailValidator(ClientValidator):
-	account = StringField(validators=[Email(message='invalidate email')])
+	account = StringField(validators=[Email(message='无效email')])
 	secret = StringField(validators=[
 		DataRequired(),
 		# password can only include letters, numbers and "_"

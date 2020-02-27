@@ -70,18 +70,3 @@ get_product = {
 		}
 	}
 }
-
-delete_product = {
-	"parameters": [product_id_in_path],
-	"security": [
-		{
-			"basicAuth": []
-		}
-	],
-	"responses": {
-		"200": {
-			"description": "产品分类",
-			"examples": {}
-		}
-	}
-}

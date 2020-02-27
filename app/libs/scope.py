@@ -35,7 +35,8 @@ class UserScope(Scope):
 class AdminScope(Scope):
 	# allow_api = ['v1.user+super_get_user', 'v1.user+super_delete_user']
 	allow_api = ['v1.order+get_detail'] + \
-				[]
+				['v1.category+'] + \
+				['v1.product+get_product']
 	allow_module = ['v1.user', 'v1.address', 'v1.product'] + \
 				   ['cms.user', 'cms.category', 'cms.product', 'cms.file']
 

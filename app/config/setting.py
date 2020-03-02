@@ -15,6 +15,9 @@ SERVER_URL = INTERNAL_URL if is_dev_mode else EXTERNAL_URL
 IMG_PREFIX = SERVER_URL + '/static/images'
 UPLOAD_FOLDER = 'app/static/uploads'
 
+# flask-admin配置
+FLASK_ADMIN_SWATCH = 'cerulean'
+
 # Swagger配置
 version = "0.3.0" # 项目版本
 description = """API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
@@ -48,4 +51,16 @@ SWAGGER = {
 			'type': 'basic'
 		}
 	}
+}
+
+# all model by module for flask-admin
+all_model_by_module = {
+	'user': ['User'],
+	'user_address': ['UserAddress'],
+	'order': ['Order'],
+	'banner': ['Banner'],
+	'theme': ['Theme'],
+	'category': ['Category'],
+	'product': ['Product'],
+	'image': ['Image']
 }

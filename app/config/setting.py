@@ -64,3 +64,9 @@ all_model_by_module = {
 	'product': ['Product'],
 	'image': ['Image']
 }
+
+# all api by module(version)
+all_api_by_module = {
+	'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
+	'cms': ['user', 'category', 'product', 'file']
+}

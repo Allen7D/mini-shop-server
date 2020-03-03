@@ -9,14 +9,12 @@
 """
 from .app import Flask
 from app.models.base import db
-from app.api.v1 import bp as v1_bp
-from app.api.cms import bp as cms_bp
 from app.web import web
+from app.api import create_blueprint_list
 
 __author__ = 'Allen7D'
 
-
-
+bp_list = create_blueprint_list()
 
 def create_app():
 	app = Flask(__name__, static_folder="./static", template_folder="./static/views")
@@ -44,7 +42,7 @@ def register_plugin(app):
 	# Debug模式下可以查阅 API文档
 	if app.config['DEBUG']:
 		from flasgger import Swagger
-		tags = v1_bp.tags + cms_bp.tags
+		tags = [tag for _, bp in bp_list for tag in bp.tags]
 		# 默认与 config/setting.py 的 SWAGGER 合并
 		# 可以将secure.py中的SWAGGER全部写入template
 		swagger = Swagger(template={'tags': tags})
@@ -67,7 +65,7 @@ def add_orm_admin(app):
 
 	admin = Admin(name='小程序商城:ORM管理', template_mode='bootstrap3')
 	for model_name, module_name in object_origins.items():
-		module = __import__('models.{}'.format(module_name), globals(), fromlist=(model_name), level=1)
+		module = __import__('models.{}'.format(module_name), globals(), fromlist=('***'), level=1)
 		model = getattr(module, model_name)
 		admin.add_view(ModelView(model, db.session))
 
@@ -81,6 +79,7 @@ def add_orm_admin(app):
 
 
 def register_blueprint(app):
-	app.register_blueprint(v1_bp, url_prefix='/v1')
-	app.register_blueprint(cms_bp, url_prefix='/cms')
+	'''注册蓝图'''
+	for url_prefix, bp in bp_list:
+		app.register_blueprint(bp, url_prefix=url_prefix)
 	app.register_blueprint(web)

@@ -96,10 +96,10 @@ db = SQLAlchemy(query_class=Query)
 
 class Base(db.Model):
 	__abstract__ = True
-	create_time = Column('create_time', Integer)
-	delete_time = Column(Integer)
-	update_time = Column(Integer)
-	status = Column(SmallInteger, default=1)  # 软删除
+	create_time = Column('create_time', Integer, comment='创建时间')
+	delete_time = Column(Integer, comment='删除时间')
+	update_time = Column(Integer, comment='更新时间')
+	status = Column(SmallInteger, default=1, comment='状态，是否软删除')  # 软删除
 
 	@orm.reconstructor
 	def init_on_load(self):

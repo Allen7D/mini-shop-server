@@ -29,6 +29,9 @@ class User(Base):
 	_user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')
 	_password = Column('password', String(100))
 
+	def __repr__(self):
+		return '<User {}: {}>'.format(self.id, self.nickname)
+
 	def keys(self):
 		self.hide('openid', 'unionid', '_password', 'extend').append('user_address')
 		return self.fields

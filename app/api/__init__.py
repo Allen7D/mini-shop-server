@@ -12,7 +12,8 @@ def create_blueprint_list():
 	for module_name, api_name_list in all_api_by_module.items():
 		rp_list = _import_redprint(module_name, api_name_list)
 		# 将「红图列表」注册到蓝图中
-		bp = Blueprint(module_name, '{}.{}'.format(__name__, module_name)).register_redprint(rp_list)
+		bp = Blueprint(module_name, '{}.{}'.format(__name__, module_name))
+		bp = bp.register_redprint(rp_list)
 		url_prefix = '/{}'.format(module_name)
 		bp_list.append((url_prefix, bp))
 	return bp_list
@@ -27,9 +28,12 @@ def _import_redprint(module_name, api_name_list):
 	rp_list = []
 	for api_name in api_name_list:
 		# __import__的参数level的取值：「等于0」绝对路径；「大于0」为相对路径
-		# 当module_name为'v1'时，module为 'app.api.v1'
-		module = __import__(module_name, globals(), fromlist=(), level=1)
+		# 当level=1，相对路径是从当前文件所在目录开始
+		# 当level=1, module_name为'v1'时，module为 'app.api.v1'
+		module = __import__('{}.{}'.format(module_name, api_name), globals(), fromlist=("***"), level=1)
+		# 当level=0, 绝对路径必须从app目录开始
+		# 当level=0, module_name为'app.api.v1'时，module为 'app.api.v1'
 		# module = __import__('app.api.{}'.format(module_name), globals(), fromlist=('***'), level=0)
-		api = getattr(module, api_name)
+		api = getattr(module, 'api')
 		rp_list.append(api)
 	return rp_list

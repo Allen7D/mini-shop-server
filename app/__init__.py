@@ -1,11 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/5/12.
-  flask-login文档：https://flask-login.readthedocs.io/en/latest/
-  flask-admin文档：https://flask-admin.readthedocs.io/en/v1.0.9/quickstart/#
-  中文版flask_admin官方文档: https://blog.csdn.net/ohonor_net/article/details/88860052
-  Flask-admin 使用经验技巧总结: https://www.cnblogs.com/magicroc/p/6103773.html?utm_source=itdadao&utm_medium=referral
-  Vue 2.0 起步(6) 后台管理Flask-Admin - 微信公众号RSS: https://www.jianshu.com/p/56cbb68f8797#
 """
 from .app import Flask
 from app.models.base import db
@@ -55,7 +50,7 @@ def register_plugin(app):
 
 def add_orm_admin(app):
 	from flask_admin import Admin
-	from app.libs.model_view import ModelView
+	from app.model_views.base import ModelView
 
 	from app.config.setting import all_model_by_module
 	object_origins = {}
@@ -63,11 +58,18 @@ def add_orm_admin(app):
 		for item in items:
 			object_origins[item] = module
 
-	admin = Admin(name='小程序商城:ORM管理', template_mode='bootstrap3')
+	admin = Admin(name='商城后台', template_mode='bootstrap3')
 	for model_name, module_name in object_origins.items():
-		module = __import__('models.{}'.format(module_name), globals(), fromlist=('***'), level=1)
-		model = getattr(module, model_name)
-		admin.add_view(ModelView(model, db.session))
+		model_module = __import__('models.{}'.format(module_name), globals(), fromlist=('***'), level=1)
+		model = getattr(model_module, model_name)
+		try:
+			# model_view_module 可能不存在
+			model_view_module = __import__('model_views.{}'.format(module_name), globals(), fromlist=('***'), level=1)
+			model_view = getattr(model_view_module, '{}View'.format(model_name), ModelView)
+		except ModuleNotFoundError as e:
+			model_view = ModelView
+		# admin添加model_view
+		admin.add_view(model_view(model, db.session))
 
 	# Admin添加文件管理系统
 	from flask_admin.contrib.fileadmin import FileAdmin

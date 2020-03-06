@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 .DS_Store
-Pipfile.lock
 .idea
 .vscode
 
@@ -16,3 +15,4 @@ php-resource/
 .venv/*
 tmp/
 .env
+Pipfile.lock

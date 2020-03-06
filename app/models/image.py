@@ -13,6 +13,9 @@ class Image(Base):
 	_url = Column('url', String(255))
 	_from = Column('from', SmallInteger, default=1) # 1表示存在本地, 2表示存在网络上
 
+	def __repr__(self):
+		return '<Image {}: {}>'.format(self.id, self.url)
+
 	def keys(self):
 		self.hide('id', '_url','_from').append('url')
 		return self.fields

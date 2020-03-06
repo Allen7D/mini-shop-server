@@ -25,10 +25,10 @@ class Blueprint(_Blueprint):
 		Swagger API 文档分类
 		数组中的顺序代表 Swagger 中的顺序
 		'''
-		return [rp.api.tag for rp in self.rp_list]
+		return [api.tag for api in self.rp_list]
 
 	def register_redprint(self, rp_list):
 		self.rp_list = rp_list
-		for rp in self.rp_list:
-			rp.api.register(self)
+		for api in self.rp_list:
+			api.register(self)
 		return self

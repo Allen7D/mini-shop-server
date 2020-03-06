@@ -16,7 +16,7 @@ flasgger = "==0.9.1"
 gunicorn = "==19.9.0"
 wechatpy = "==1.8.3"
 flask-admin = "==1.5.5"
-flask-login = "*"
+flask-login = "==0.5.0"
 
 [dev-packages]
 pylint = "==2.4.4"

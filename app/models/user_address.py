@@ -13,7 +13,7 @@ class UserAddress(Base):
 	'''收货人信息'''
 	__tablename__ = 'user_address'
 	id = Column(Integer, primary_key=True, autoincrement=True)
-	user_id = Column(Integer, ForeignKey('user.id'), nullable=False, comment='外键: 下单的用户姓名')
+	user_id = Column(Integer, ForeignKey('user.id'), nullable=False, comment='外键: 下单的用户id')
 	name = Column(String(30), nullable=False, comment='收货人姓名')
 	mobile = Column(String(20), nullable=False, comment='手机')
 	province = Column(String(20), comment='省份')

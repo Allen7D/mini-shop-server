@@ -56,11 +56,12 @@ def connect_db(app):
 def apply_default_router(app):
 	@app.route('/')
 	def index():
-		'''首页'''
+		'''跳转到「首页」'''
 		return redirect(url_for('web.index'))
 
 	@app.route('/doc')
 	def doc():
+		'''跳转到「api文档」'''
 		return redirect('/apidocs/#/')
 
 

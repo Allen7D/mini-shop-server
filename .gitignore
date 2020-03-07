@@ -3,15 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 .DS_Store
-Pipfile.lock
 .idea
 .vscode
 
 # Local working file
-/app/static/uploads/
-/app/config/dev.py
-/guide
-/wx-tool
-/php-resource
-/.venv/*
+app/static/uploads/
+app/config/dev.py
+guide/
+wx-tool/
+php-resource/
+.venv/*
+tmp/
 .env
+Pipfile.lock

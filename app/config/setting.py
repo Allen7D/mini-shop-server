@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/4/2.
+  只有「变量大写」才能注入到current_app.config中
 """
 import os
 
@@ -12,19 +13,27 @@ EXTERNAL_URL = 'server.mini-shop.ivinetrue.com' # 外部（云服务器）地址
 INTERNAL_URL = '0.0.0.0:8010' # 内部（本地）地址
 SERVER_URL = INTERNAL_URL if is_dev_mode else EXTERNAL_URL
 
+IMG_PREFIX = SERVER_URL + '/static/images'
+UPLOAD_FOLDER = 'app/static/uploads'
+
+# flask-admin配置
+FLASK_ADMIN_SWATCH = 'cerulean'
+
+# Swagger配置
+version = "0.3.0" # 项目版本
+description = """API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
+访问之前，先使用/v1/token获取token，并将token放入Authorize中。
+"""
 EXTERNAL_SCHEMES = ["https", "http"] # 外部（云服务器）支持 https 和 http 协议
 INTERNAL_SCHEMES = ["http"] # 内部只支持http
 SERVER_SCHEMES = INTERNAL_SCHEMES if is_dev_mode else EXTERNAL_SCHEMES
 
-IMG_PREFIX = SERVER_URL + '/static/images'
-UPLOAD_FOLDER = 'app/static/uploads'
-VERSION = "0.3.0" # 项目版本
 SWAGGER = {
 	"swagger_version": "2.0",
 	"info": {
 		"title": "微信小程序商城: API",
-		"version": VERSION,
-		"description": "简要描述一下这个api文档的功能",
+		"version": version,
+		"description": description,
 		"contact": {
 			"responsibleOrganization": "Shema(聆听)",
 			"responsibleDeveloper": "Allen7D",
@@ -44,3 +53,26 @@ SWAGGER = {
 		}
 	}
 }
+
+# all model by module for flask-admin
+all_model_by_module = {
+	'user': ['User'],
+	'user_address': ['UserAddress'],
+	'order': ['Order'],
+	'banner': ['Banner'],
+	'theme': ['Theme'],
+	'category': ['Category'],
+	'product': ['Product'],
+	'image': ['Image']
+}
+
+# all api by module(version)
+all_api_by_module = {
+	'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
+	'cms': ['user', 'category', 'product', 'file']
+}
+
+# 项目的github地址
+GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'
+# 项目文档地址
+DOC_URL = 'http://doc.mini-shop.ivinetrue.com'

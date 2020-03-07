@@ -11,10 +11,12 @@ from app.models.base import Base
 __author__ = 'Allen7D'
 
 class Category(Base):
+	'''商品类别'''
 	__tablename__ = 'category'
 	id = Column(Integer, primary_key=True, autoincrement=True)
-	name = Column(String(50))
-	topic_img_id = Column(Integer, ForeignKey('image.id'))
+	name = Column(String(50), comment='名称')
+	description = Column(String(100), comment='描述')
+	topic_img_id = Column(Integer, ForeignKey('image.id'), comment='外键，关联image表')
 	image = relationship('Image', foreign_keys=[topic_img_id])
 
 	def keys(self):

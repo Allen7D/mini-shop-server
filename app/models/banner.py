@@ -13,10 +13,11 @@ from app.models.base import Base
 __author__ = 'Allen7D'
 
 class Banner(Base):
+	'''横幅广告总类'''
 	__tablename__ = 'banner'
 	id = Column(Integer, primary_key=True, autoincrement=True)
-	name = Column(String(50))
-	description = Column(String(255))
+	name = Column(String(50), comment='Banner名称')
+	description = Column(String(255), comment='描述')
 	_items = relationship('BannerItem', backref='author', lazy='dynamic')
 
 	def keys(self):

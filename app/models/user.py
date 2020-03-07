@@ -17,17 +17,21 @@ __author__ = 'Allen7D'
 
 
 class User(Base):
+	'''用户'''
 	__tablename__ = 'user'
 	id = Column(Integer, primary_key=True, autoincrement=True)
-	openid = Column(String(50), unique=True)
-	unionid = Column(String(50), unique=True)
-	email = Column(String(24), unique=True)
+	openid = Column(String(50), unique=True, comment='小程序唯一ID(单单该小程序)')
+	unionid = Column(String(50), unique=True, comment='微信唯一ID(全网所有)')
+	email = Column(String(24), unique=True, comment='邮箱')
 	# mobile = Column(String(16), unique=True)
-	nickname = Column(String(24))
-	extend = Column(String(255))
-	auth = Column(SmallInteger, default=1)
+	nickname = Column(String(24), comment='昵称')
+	extend = Column(String(255), comment='')
+	auth = Column(SmallInteger, default=1, comment='权限')
 	_user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')
-	_password = Column('password', String(100))
+	_password = Column('password', String(100), comment='密码')
+
+	def __repr__(self):
+		return '<User {}: {}>'.format(self.id, self.nickname)
 
 	def keys(self):
 		self.hide('openid', 'unionid', '_password', 'extend').append('user_address')

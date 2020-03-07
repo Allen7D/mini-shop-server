@@ -14,16 +14,17 @@ from app.models.base import Base, db
 __author__ = 'Allen7D'
 
 class Product(Base):
+	'''商品'''
 	__tablename__ = 'product'
 	id = Column(Integer, primary_key=True, autoincrement=True)
-	name = Column(String(50))
-	price = Column(Float)
-	stock = Column(Integer)
-	category_id = Column(Integer)
-	_main_img_url = Column('main_img_url', String(255))
-	_from = Column('from', SmallInteger, default=1)
-	summary = Column(String(50))
-	img_id = Column(Integer)
+	name = Column(String(50), comment='商品名称')
+	price = Column(Float, comment='价格(单位:分)')
+	stock = Column(Integer, comment='库存量')
+	category_id = Column(Integer, comment='所属类别组id')
+	_main_img_url = Column('main_img_url', String(255), comment='主图ID号，这是一个反范式设计，有一定的冗余')
+	_from = Column('from', SmallInteger, default=1, comment='图片来源:1 本地, 2公网')
+	summary = Column(String(50), comment='摘要')
+	img_id = Column(Integer, comment='图片外键')
 	theme = relationship('Theme', secondary='theme_product', backref=backref('product', lazy='dynamic'))
 
 	def keys(self):

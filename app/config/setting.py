@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/4/2.
+  只有「变量大写」才能注入到current_app.config中
 """
 import os
 
@@ -70,3 +71,8 @@ all_api_by_module = {
 	'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
 	'cms': ['user', 'category', 'product', 'file']
 }
+
+# 项目的github地址
+GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'
+# 项目文档地址
+DOC_URL = 'http://doc.mini-shop.ivinetrue.com'

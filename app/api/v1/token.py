@@ -20,7 +20,11 @@ api = RedPrint(name='token', description='登录令牌', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])
-@api.doc()
+@api.doc(args=['account', 'secret', 'type'], body_desc='''登录的基本信息: 账号、密码、登录类型:
+                                                           - 邮箱账号登录(type:100)
+                                                           - 手机账号登录(type:101)
+                                                           - 小程序登录(type:200)
+                                                           - 微信扫码登录(type:201)''')
 def get_token():
 	'''生成「令牌」(4种登录方式)'''
 	form = ClientValidator().validate_for_api()
@@ -43,7 +47,7 @@ def get_token():
 
 
 @api.route('/verify', methods=['POST'])
-@api.doc()
+@api.doc(args=['token'], body_desc='令牌')
 def get_token_info():
 	"""解析「令牌」"""
 	token = TokenValidator().validate_for_api().token.data

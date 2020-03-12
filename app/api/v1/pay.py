@@ -17,7 +17,7 @@ api = RedPrint(name='pay', description='支付', api_doc=api_doc)
 
 
 @api.route('/pre_order', methods=['POST'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def get_pre_order():
 	'''获取预订单'''
@@ -28,7 +28,7 @@ def get_pre_order():
 
 
 @api.route('/notify', methods=['POST'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def receive_notify():
 	'''接收微信平台支付结果
@@ -40,7 +40,7 @@ def receive_notify():
 
 
 @api.route('/re_notify', methods=['POST'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def redirect_notify():
 	''''''
@@ -48,7 +48,7 @@ def redirect_notify():
 
 
 @api.route('/concurrency', methods=['POST'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def notify_concurrency():
 	''''''

@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 
 from app.libs.error_code import BannerMissException
 # BannerItem 默认用于 relationship
-from app.models.baner_item import BannerItem
+from app.models.banner_item import BannerItem
 from app.models.base import Base
 
 __author__ = 'Allen7D'
@@ -19,6 +19,11 @@ class Banner(Base):
 	name = Column(String(50), comment='Banner名称')
 	description = Column(String(255), comment='描述')
 	_items = relationship('BannerItem', backref='author', lazy='dynamic')
+
+
+	def __repr__(self):
+		return '<Banner(id={0}, nickname={1})>'.format(self.id, self.name)
+
 
 	def keys(self):
 		self.append('items')

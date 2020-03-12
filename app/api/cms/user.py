@@ -17,13 +17,13 @@ api = RedPrint(name='user', description='用户管理', api_doc=api_doc, alias='
 
 
 @api.route('/list', methods=['GET'])
-@api.doc()
+@api.doc(args=['page', 'size'], auth=True)
 @auth.login_required
 def get_user_list():
 	'''获取用户列表(分页)'''
-	page_validator = PaginateValidator().validate_for_api()
-	page = page_validator.page.data
-	size = page_validator.size.data
+	validator = PaginateValidator().validate_for_api()
+	page = validator.page.data
+	size = validator.size.data
 
 	paginator = User.query.filter_by().paginate(page=page, per_page=size, error_out=False)
 	return Success({
@@ -34,7 +34,7 @@ def get_user_list():
 
 
 @api.route('/<int:uid>', methods=['GET'])
-@api.doc()
+@api.doc(args=['uid'], auth=True)
 @auth.login_required
 def get_user(uid):
 	'''获取用户信息'''
@@ -43,7 +43,7 @@ def get_user(uid):
 
 
 @api.route('/<int:uid>', methods=['PUT'])
-@api.doc()
+@api.doc(args=['uid'], auth=True)
 @auth.login_required
 def update_user(uid):
 	'''更新用户信息'''
@@ -51,7 +51,7 @@ def update_user(uid):
 
 
 @api.route('/<int:uid>', methods=['DELETE'])
-@api.doc()
+@api.doc(args=['uid'], auth=True)
 @auth.login_required
 def delete_user(uid):
 	'''删除用户'''

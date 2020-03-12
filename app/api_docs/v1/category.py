@@ -2,16 +2,9 @@
 """
   Created by Allen7D on 2018/11/26.
 """
-from app.libs.swagger_filed import IntegerQueryFiled, IntegerPathFiled
+from app.libs.swagger_filed import inject
 
 __author__ = 'Allen7D'
 
-get_all_categories = {
-	"parameters": [],
-	"responses": {
-		"200": {
-			"description": "所有产品分类",
-			"examples": {}
-		}
-	}
-}
+@inject()
+def get_all_categories(): pass

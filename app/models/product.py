@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, backref
 
 from app.libs.error_code import ProductException
 from app.libs.utils import jsonify
-from app.models.m2m import Theme2Product, Product2Image
+from app.models.m2m import Product2Image
 from app.models.base import Base, db
 
 __author__ = 'Allen7D'
@@ -21,10 +21,10 @@ class Product(Base):
 	price = Column(Float, comment='价格(单位:分)')
 	stock = Column(Integer, comment='库存量')
 	category_id = Column(Integer, comment='所属类别组id')
-	_main_img_url = Column('main_img_url', String(255), comment='主图ID号，这是一个反范式设计，有一定的冗余')
+	_main_img_url = Column('main_img_url', String(255), comment='主图id，这是一个反范式设计，有一定的冗余')
 	_from = Column('from', SmallInteger, default=1, comment='图片来源:1 本地, 2公网')
 	summary = Column(String(50), comment='摘要')
-	img_id = Column(Integer, comment='图片外键')
+	img_id = Column(Integer, comment='外键，关联image表')
 	theme = relationship('Theme', secondary='theme_product', backref=backref('product', lazy='dynamic'))
 
 	def keys(self):

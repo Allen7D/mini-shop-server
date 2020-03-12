@@ -31,7 +31,7 @@ class User(Base):
 	_password = Column('password', String(100), comment='密码')
 
 	def __repr__(self):
-		return '<User {}: {}>'.format(self.id, self.nickname)
+		return '<User(id={0}, nickname={1})>'.format(self.id, self.nickname)
 
 	def keys(self):
 		self.hide('openid', 'unionid', '_password', 'extend').append('user_address')

@@ -27,4 +27,5 @@ class BannerItem(Base):
 
 	@property
 	def img_url(self):
-		return Image.get_img_by_id(id=self.img_id).url
+		img = Image.get_img_by_id(id=self.img_id)
+		return img.url

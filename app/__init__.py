@@ -31,12 +31,13 @@ def create_app():
 
 
 def register_plugin(app):
-	apply_cors(app)  # 解决跨域问题
+	apply_cors(app)  # 应用跨域扩展，使项目支持请求跨域
 	connect_db(app)  # 连接数据库
 	handle_error(app)  # 统一处理异常
+
+	# Debug模式(以下为非必选应用，且用户不可见)
 	if app.config['DEBUG']:
-		# Debug模式(以下为非必选应用，且用户不可见)
-		apply_default_router(app)  # 应用默认熟路
+		apply_default_router(app)  # 应用默认路由
 		apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
 		apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
 
@@ -49,18 +50,20 @@ def apply_cors(app):
 
 def connect_db(app):
 	db.init_app(app)
+	#  初始化使用
 	with app.app_context():  # 手动将app推入栈
-		db.create_all()  # 首次模型映射(ORM ==> SQL),若无则建表; 初始化使用
+		db.create_all()  # 首次模型映射(ORM ==> SQL),若无则建表
 
 
 def apply_default_router(app):
 	@app.route('/')
 	def index():
-		'''首页'''
+		'''跳转到「首页」'''
 		return redirect(url_for('web.index'))
 
 	@app.route('/doc')
 	def doc():
+		'''跳转到「api文档」'''
 		return redirect('/apidocs/#/')
 
 

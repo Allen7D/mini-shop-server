@@ -10,7 +10,7 @@ from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.base import db
 from app.models.user import User
-from app.api_docs.v1 import user as api_doc
+from app.api_docs.v1 import user as api_doc # api_doc可以引入
 
 __author__ = 'Allen7D'
 
@@ -18,7 +18,7 @@ __author__ = 'Allen7D'
 api = RedPrint(name='user', description='用户', api_doc=api_doc)
 
 @api.route('', methods=['GET'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def get_user():
 	'''用户获取自身信息'''
@@ -28,7 +28,7 @@ def get_user():
 
 
 @api.route('', methods=['PUT'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def update_user():
 	'''用户更改自身信息'''
@@ -36,7 +36,7 @@ def update_user():
 
 
 @api.route('', methods=['DELETE'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def delete_user():
 	'''用户注销'''

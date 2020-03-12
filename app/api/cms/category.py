@@ -15,7 +15,7 @@ api = RedPrint(name='category', description='类别管理', api_doc=api_doc, ali
 
 
 @api.route('/list', methods=['GET'])
-@api.doc()
+@api.doc(args=['page', 'size'], auth=True)
 @auth.login_required
 def get_category_list():
 	'''获取类别列表(分页)'''
@@ -32,7 +32,7 @@ def get_category_list():
 
 
 @api.route('/<int:id>', methods=['PUT'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def update_category(id):
 	'''更新类别信息'''
@@ -40,7 +40,7 @@ def update_category(id):
 
 
 @api.route('/<int:id>', methods=['DELETE'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def delete_category(id):
 	'''删除某类别'''

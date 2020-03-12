@@ -228,7 +228,7 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 │   │   └── utils.py
 │   ├── models # Model 层
 │   │   ├── __init__.py
-│   │   ├── baner_item.py
+│   │   ├── banner_item.py
 │   │   ├── banner.py
 │   │   ├── base.py
 │   │   ├── category.py

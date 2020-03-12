@@ -24,7 +24,7 @@ def get_recent():
 
 
 @api.route('/by_category', methods=['GET'])
-@api.doc()
+@api.doc(args=['category_id'])
 def get_all_by_category():
 	'''所有 category_id 类的商品'''
 	id = IDMustBePositiveInt().validate_for_api().id.data
@@ -33,7 +33,7 @@ def get_all_by_category():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@api.doc()
+@api.doc(args=['product_id'])
 def get_product(id):
 	'''获取某商品信息'''
 	id = IDMustBePositiveInt().validate_for_api().id.data

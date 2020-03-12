@@ -16,4 +16,4 @@ manager = Manager(app)
 manager.add_command("run", Server())
 
 if __name__ == '__main__':
-	manager.run()
+    manager.run()

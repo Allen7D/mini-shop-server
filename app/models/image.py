@@ -15,7 +15,7 @@ class Image(Base):
 	_from = Column('from', SmallInteger, default=1, comment='图片来源: 1 本地，2 公网')
 
 	def __repr__(self):
-		return '<Image {}: {}>'.format(self.id, self.url)
+		return '<Image(id={0}, url={1})>'.format(self.id, self.url)
 
 	def keys(self):
 		self.hide('id', '_url','_from').append('url')

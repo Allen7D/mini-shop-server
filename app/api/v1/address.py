@@ -18,7 +18,7 @@ __author__ = 'Allen7D'
 api = RedPrint(name='address', description='用户地址', api_doc=api_doc)
 
 @api.route('', methods=['GET'])
-@api.doc()
+@api.doc(auth=True)
 @auth.login_required
 def get_address():
 	'''获取「用户自身的地址」'''
@@ -29,7 +29,7 @@ def get_address():
 
 
 @api.route('', methods=['POST'])
-@api.doc()
+@api.doc(args=['name', 'mobile', 'province', 'city', 'country', 'detail'], auth=True)
 @auth.login_required
 def update_address():
 	'''更新「用户自身的地址」'''

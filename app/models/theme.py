@@ -38,7 +38,9 @@ class Theme(Base):
 
 	@staticmethod
 	def get_themes(ids):
-		return [Theme.get_theme_by_id(id=id) for id in ids]
+		return {
+			'items': [Theme.get_theme_by_id(id=id) for id in ids]
+		}
 
 	@staticmethod
 	def get_theme_by_id(id):

@@ -177,3 +177,4 @@ def init_specs(*args, **kwargs):
     if len(body_fileds) > 0:
         res_obj['parameters'].append(BodyFiled(*body_fileds, description=kwargs.get('description', '')).data)
     return res_obj
+

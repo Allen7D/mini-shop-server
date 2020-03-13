@@ -17,7 +17,7 @@ api = RedPrint(name='user', description='用户管理', api_doc=api_doc, alias='
 
 
 @api.route('/list', methods=['GET'])
-@api.doc(args=['page', 'size'], auth=True)
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
 def get_user_list():
 	'''获取用户列表(分页)'''
@@ -34,7 +34,7 @@ def get_user_list():
 
 
 @api.route('/<int:uid>', methods=['GET'])
-@api.doc(args=['uid'], auth=True)
+@api.doc(args=['uid+'], auth=True)
 @auth.login_required
 def get_user(uid):
 	'''获取用户信息'''
@@ -43,15 +43,15 @@ def get_user(uid):
 
 
 @api.route('/<int:uid>', methods=['PUT'])
-@api.doc(args=['uid'], auth=True)
+@api.doc(args=['uid+'], auth=True)
 @auth.login_required
 def update_user(uid):
 	'''更新用户信息'''
-	pass
+	return Success(error_code=1)
 
 
 @api.route('/<int:uid>', methods=['DELETE'])
-@api.doc(args=['uid'], auth=True)
+@api.doc(args=['uid+'], auth=True)
 @auth.login_required
 def delete_user(uid):
 	'''删除用户'''

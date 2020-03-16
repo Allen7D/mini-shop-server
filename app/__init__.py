@@ -137,7 +137,7 @@ def apply_request_log(app):
             json.dumps(request.args, ensure_ascii=False),
             req_body
         )
-        # 设置颜色开始 ：\033[显示方式;前景色;背景色m   m表结束;
+        # 设置颜色开始(至多3类参数，以m结束)：\033[显示方式;前景色;背景色m
         print('\033[0;34m')
         print(message)
         print('\033[0m') # 终端颜色恢复

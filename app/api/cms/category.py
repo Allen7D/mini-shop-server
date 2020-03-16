@@ -15,7 +15,7 @@ api = RedPrint(name='category', description='类别管理', api_doc=api_doc, ali
 
 
 @api.route('/list', methods=['GET'])
-@api.doc(args=['page', 'size'], auth=True)
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
 def get_category_list():
 	'''获取类别列表(分页)'''

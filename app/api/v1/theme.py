@@ -26,7 +26,7 @@ def get_simple_list():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@api.doc(args=['theme_id'])
+@api.doc(args=['g.path.theme_id'])
 def get_complex_one(id):
 	'''专题(Theme)详情接口
 	:param id: 专题theme的id

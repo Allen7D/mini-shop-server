@@ -41,7 +41,7 @@ def place_order():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@api.doc(args=['order_id'], auth=True)
+@api.doc(args=['g.path.order_id'], auth=True)
 @auth.login_required
 def get_detail(id):
     '''订单详情'''
@@ -51,7 +51,7 @@ def get_detail(id):
 
 
 @api.route('/by_user', methods=['GET'])
-@api.doc(args=['page', 'size'], auth=True)
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
 def get_summary_by_user():
     '''订单摘要(基于用户ID&分页)'''
@@ -63,7 +63,7 @@ def get_summary_by_user():
 
 
 @api.route('/paginate', methods=['GET'])
-@api.doc(auth=True)
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
 def get_summary():
     '''获取全部订单简要信息(分页)'''
@@ -75,7 +75,7 @@ def get_summary():
 
 
 @api.route('/delivery', methods=['PUT'])
-@api.doc(auth=True)
+@api.doc(args=['g.query.order_id'], auth=True)
 @auth.login_required
 def delivery():
     '''订单发货'''

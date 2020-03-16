@@ -99,8 +99,8 @@ class ArrayQueryField():
         }
 
 
-class BodyFiled():
-    '''Body'''
+class RequestBody():
+    '''请求体'''
 
     def __init__(self, *args, description=''):
         self.args = args
@@ -110,10 +110,7 @@ class BodyFiled():
     def data(self):
         properties = {}
         for arg in self.args:
-            if isinstance(arg, tuple):
-                properties[arg[0]] = arg[1].data
-            else:
-                properties[arg.name] = arg.data
+            properties[arg['name']] = arg
 
         return {
             "name": 'body',
@@ -125,13 +122,13 @@ class BodyFiled():
         }
 
 
-class BodyAttr():
-    '''Body的参数'''
+class BodyFiled():
+    '''Body中的参数'''
 
     def __init__(self, name, type, description, enum=None, default=None):
         self.name = name
         self.site = 'body'
-        self.type = type
+        self.type = type # type的类型: string、integer、boolean
         self.description = description
         self.enum = enum
         self.default = default if default else enum[0]
@@ -139,6 +136,7 @@ class BodyAttr():
     @property
     def data(self):
         return {
+            "name": self.name,
             "type": self.type,
             "description": self.description,
             "enum": self.enum,
@@ -150,13 +148,13 @@ def inject(*args, **kwargs):
     # 使用kwargs应该也可以接受 自定义的dict
     def decorator(f):
         return init_specs(*args, **kwargs)
+
     return decorator
 
+
 def init_specs(*args, **kwargs):
-    path_fields = []
-    query_fields = []
-    body_fileds = []
-    res_obj = {
+    path_fields, query_fields, body_fields = [], [], []
+    specs_obj = {
         "parameters": [],
         "responses": {
             "200": {
@@ -167,14 +165,12 @@ def init_specs(*args, **kwargs):
     }
     for field in args:
         site = field.site
-        if site == 'path':
-            path_fields.append(field.data)
-        if site == 'query':
-            query_fields.append(field.data)
-        if site == 'body':
-            body_fileds.append((field.name, field))
-    res_obj['parameters'] = path_fields + query_fields
-    if len(body_fileds) > 0:
-        res_obj['parameters'].append(BodyFiled(*body_fileds, description=kwargs.get('description', '')).data)
-    return res_obj
-
+        if site in ('path', 'query', 'body'):
+            fields = locals()['{}_fields'.format(site)]
+            fields.append(field.data)
+    specs_obj['parameters'] = path_fields + query_fields
+    if len(body_fields) > 0:
+        specs_obj['parameters'].append(
+            RequestBody(*body_fields, description=kwargs.get('body_desc', '')).data
+        )
+    return specs_obj

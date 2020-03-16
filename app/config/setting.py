@@ -87,4 +87,4 @@ GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'
 DOC_URL = 'http://doc.mini-shop.ivinetrue.com'
 
 # 临时token
-tmp_token = 'eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4Mzk1MDE0NywiZXhwIjoxNTg2NTQyMTQ3fQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.k7QAXaa4Lm4w1CZZWCFulhJdNXhAdiSz9EA5LJWZpV1vjQ6OQUOng5vx2t2x-JHTywCVgJrP8W5frAopBNBDZg'
+token_value = 'eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4Mzk1MDE0NywiZXhwIjoxNTg2NTQyMTQ3fQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.k7QAXaa4Lm4w1CZZWCFulhJdNXhAdiSz9EA5LJWZpV1vjQ6OQUOng5vx2t2x-JHTywCVgJrP8W5frAopBNBDZg'

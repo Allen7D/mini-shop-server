@@ -16,7 +16,7 @@ api = RedPrint(name='theme', description='主题管理', api_doc=api_doc, alias=
 
 
 @api.route('/list', methods=['GET'])
-@api.doc(args=['page', 'size'], auth=True)
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
 def get_theme_list():
     '''获取主题列表(分页)'''

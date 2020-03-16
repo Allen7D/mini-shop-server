@@ -15,7 +15,7 @@ api = RedPrint(name='product', description='产品', api_doc=api_doc)
 
 
 @api.route('/recent', methods=['GET'])
-@api.doc()
+@api.doc(args=['count'])
 def get_recent():
 	'''最新的商品'''
 	count = Count().validate_for_api().count.data
@@ -24,7 +24,7 @@ def get_recent():
 
 
 @api.route('/by_category', methods=['GET'])
-@api.doc(args=['category_id'])
+@api.doc(args=['g.query.category_id'])
 def get_all_by_category():
 	'''所有 category_id 类的商品'''
 	id = IDMustBePositiveInt().validate_for_api().id.data
@@ -33,7 +33,7 @@ def get_all_by_category():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@api.doc(args=['product_id'])
+@api.doc(args=['g.path.product_id'])
 def get_product(id):
 	'''获取某商品信息'''
 	id = IDMustBePositiveInt().validate_for_api().id.data

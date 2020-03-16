@@ -41,10 +41,10 @@ class RedPrint:
         def decorator(f):
             if len(arg_path_name_list) > 0:
                 request_args = self.__load_arg(arg_path_name_list)
-                specs = init_specs(*request_args, description=_kwargs.get('body_desc', ''))
+                specs = init_specs(*request_args, body_desc=_kwargs.get('body_desc', ''))
             else:
                 args_module = self.api_doc
-                specs = getattr(args_module, f.__name__, self.initial_specs)
+                specs = getattr(args_module, f.__name__, init_specs())
             # 增加Token校验
             specs['security'] = specs_security if _kwargs.get('auth', False) else {}
             specs['tags'] = [self.tag['name']]
@@ -61,18 +61,6 @@ class RedPrint:
             return wrapper
 
         return decorator
-
-    @property
-    def initial_specs(self):
-        return {
-            "parameters": [],
-            "responses": {
-                "200": {
-                    "description": "",
-                    "examples": {}
-                }
-            }
-        }
 
     @property
     def tag(self):

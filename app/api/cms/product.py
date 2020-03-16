@@ -16,7 +16,7 @@ api = RedPrint(name='product', description='产品管理', api_doc=api_doc, alia
 
 
 @api.route('/list/by_category', methods=['GET'])
-@api.doc(auth=True)
+@api.doc(args=['g.query.page', 'g.query.size', 'g.query.category_id'], auth=True)
 @auth.login_required
 def get_list_by_category():
 	'''获取商品列表(分页&基于categoryID)'''
@@ -33,7 +33,7 @@ def get_list_by_category():
 	})
 
 @api.route('/<int:id>', methods=['PUT'])
-@api.doc(auth=True)
+@api.doc(args=['g.path.product_id'], auth=True)
 @auth.login_required
 def update_product(id):
 	'''更新商品信息'''
@@ -42,7 +42,7 @@ def update_product(id):
 
 
 @api.route('/<int:id>', methods=['DELETE'])
-@api.doc(auth=True)
+@api.doc(args=['g.path.product_id'], auth=True)
 @auth.login_required
 def delete_product(id):
 	'''删除某商品'''

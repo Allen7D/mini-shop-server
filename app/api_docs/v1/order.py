@@ -2,13 +2,8 @@
 """
   Created by Allen7D on 2018/12/4.
 """
-from app.libs.swagger_filed import inject, IntegerPathFiled, IntegerQueryFiled
 
 __author__ = 'Allen7D'
-
-order_id = IntegerPathFiled(name='id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20], required=True)
-page = IntegerQueryFiled(name='page', description="第几页", enum=[1, 2, 3, 4, 5])
-size = IntegerQueryFiled(name='size', description="每页数量", enum=[5, 10, 20, 30, 40, 50, 100], default=10)
 
 '''
 "type": "array" 时

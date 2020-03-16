@@ -117,7 +117,7 @@ class CRUDMixin(object):
         return self
 
     def delete(self, commit=True):
-        """Remove 记录从数据库中"""
+        """Remove 记录"""
         db.session.delete(self)
         return commit and db.session.commit()
 

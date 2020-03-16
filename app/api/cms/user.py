@@ -34,7 +34,7 @@ def get_user_list():
 
 
 @api.route('/<int:uid>', methods=['GET'])
-@api.doc(args=['uid+'], auth=True)
+@api.doc(args=['g.path.uid+'], auth=True)
 @auth.login_required
 def get_user(uid):
 	'''获取用户信息'''
@@ -43,7 +43,7 @@ def get_user(uid):
 
 
 @api.route('/<int:uid>', methods=['PUT'])
-@api.doc(args=['uid+'], auth=True)
+@api.doc(args=['g.path.uid+'], auth=True)
 @auth.login_required
 def update_user(uid):
 	'''更新用户信息'''
@@ -51,7 +51,7 @@ def update_user(uid):
 
 
 @api.route('/<int:uid>', methods=['DELETE'])
-@api.doc(args=['uid+'], auth=True)
+@api.doc(args=['g.path.uid+'], auth=True)
 @auth.login_required
 def delete_user(uid):
 	'''删除用户'''

@@ -99,30 +99,35 @@ class CRUDMixin(object):
 
     @classmethod
     def create(cls, **kwargs):
-        """Create 新的记录并保存到数据库"""
+        """新建 并保存到数据库"""
         instance = cls(**kwargs)
         return instance.save()
 
     def update(self, commit=True, **kwargs):
-        """Update 指定字段到记录"""
+        """更新指定字段到记录"""
         for attr, value in kwargs.items():
             setattr(self, attr, value)
         return commit and self.save() or self
 
     def save(self, commit=True):
-        """Save 记录"""
+        """保存"""
         db.session.add(self)
         if commit:
             db.session.commit()
         return self
 
-    def delete(self, commit=True):
-        """Remove 记录"""
+    def delete(self):
+        """软删除"""
+        with db.auto_commit():
+            self.status = 0
+
+    def hard_delete(self, commit=True):
+        """硬删除"""
         db.session.delete(self)
         return commit and db.session.commit()
 
 
-class Base(db.Model):
+class Base(CRUDMixin, db.Model):
     __abstract__ = True
     create_time = Column('create_time', Integer, comment='创建时间')
     delete_time = Column(Integer, comment='删除时间')
@@ -171,9 +176,6 @@ class Base(db.Model):
         for key, value in kwargs.items():
             if hasattr(self, key) and key != 'id':
                 setattr(self, key, value)
-
-    def delete(self):
-        self.status = 0
 
     def keys(self):
         # 在 app/app.py中的 JSONEncoder中的 dict(o)使用

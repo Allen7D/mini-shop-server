@@ -58,6 +58,5 @@ class Product(Base):
 
 	@staticmethod
 	def delete_by_id(id):
-		with db.auto_commit():
-			product = Product.query.filter_by(id=id).first_or_404()
-			product.delete()
+		product = Product.query.filter_by(id=id).first_or_404()
+		product.delete()

@@ -55,7 +55,6 @@ def update_user(uid):
 @auth.login_required
 def delete_user(uid):
 	'''删除用户'''
-	with db.auto_commit():
-		user = User.query.filter_by(id=uid).first_or_404()
-		user.delete()
+	user = User.query.filter_by(id=uid).first_or_404()
+	user.delete()
 	return Success(error_code=2)

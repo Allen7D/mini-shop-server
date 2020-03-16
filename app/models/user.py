@@ -55,12 +55,7 @@ class User(Base):
 			address = self.user_address
 			if not address:
 				address = UserAddress(author=self)
-			address.name = address_info.name
-			address.mobile = address_info.mobile
-			address.province = address_info.province
-			address.city = address_info.city
-			address.country = address_info.country
-			address.detail = address_info.detail
+			address.update(commit=True, **address_info)
 			db.session.add(address)
 
 	@staticmethod

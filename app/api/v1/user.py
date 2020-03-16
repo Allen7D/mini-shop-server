@@ -40,8 +40,7 @@ def update_user():
 @auth.login_required
 def delete_user():
 	'''用户注销'''
-	with db.auto_commit():
-		# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
-		user = User.query.filter_by(id=g.user.uid).first_or_404()
-		user.delete()
+	# 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
+	user = User.query.filter_by(id=g.user.uid).first_or_404()
+	user.delete()
 	return Success(error_code=2)

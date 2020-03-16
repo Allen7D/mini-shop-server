@@ -23,6 +23,12 @@ class BaseValidator(Form):
 			raise ParameterException(msg=self.errors)
 		return self
 
+	@property
+	def data(self):
+		return {
+			key: value.data for key, value in self._fields.items()
+		}
+
 	def isPositiveInteger(self, value):
 		try:
 			value = int(value)

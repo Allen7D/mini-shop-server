@@ -122,7 +122,7 @@ class RequestBody():
         }
 
 
-class BodyFiled():
+class BodyField():
     '''Body中的参数'''
 
     def __init__(self, name, type, description, enum=None, default=None):

@@ -8,7 +8,6 @@ from flask import g
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
-from app.models.base import db
 from app.models.user import User
 from app.api_docs.v1 import user as api_doc # api_doc可以引入
 

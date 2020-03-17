@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2018/12/4.
 """
-from app.libs.swagger_filed import BodyFiled
+from app.libs.swagger_filed import BodyField
 from app.config.setting import token_value
 
 __author__ = 'Allen7D'
@@ -43,7 +43,7 @@ get_token = {
     ]
 }
 
-token = BodyFiled('token', 'string', 'Token', [token_value])
-account = BodyFiled('account', 'string', '用户名(此处可以传邮箱，或者微信登录的code)', ["777@qq.com"])
-secret = BodyFiled('secret', 'string', '密码', ["123456"])
-type = BodyFiled('type', 'integer', '登录方式', [100])
+token = BodyField('token', 'string', 'Token', [token_value])
+account = BodyField('account', 'string', '用户名(此处可以传邮箱，或者微信登录的code)', ["777@qq.com"])
+secret = BodyField('secret', 'string', '密码', ["123456"])
+type = BodyField('type', 'integer', '登录方式', [100])

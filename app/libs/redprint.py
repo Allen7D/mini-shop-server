@@ -118,21 +118,31 @@ def _set_request_arg_required(request_arg, last_arg_path):
 
 
 def _get_request_arg(arg_name, arg_site, args_module):
-    if arg_site:
-        # 判断是否有_in_的参数
-        try:
-            request_arg = getattr(args_module, '{}_in_{}'.format(arg_name, arg_site))
-        except AttributeError as e:
-            request_arg = getattr(args_module, arg_name)
-    else:
-        request_arg = getattr(args_module, arg_name)
-    return request_arg
-
+    '''
+    :param arg_name: 请求参数名
+    :param arg_site: 请求参数的位置: path、query、body
+    :param args_module: 参数的模块(global_args or self.api_doc)
+    :return:
+    '''
+    if not arg_site:
+        return getattr(args_module, arg_name)
+    # 判断是有_in_的参数
+    try:
+        # 从args_module中导入「x_in_y」变量
+        return getattr(args_module, '{}_in_{}'.format(arg_name, arg_site))
+    except AttributeError as e:
+        # 从args_module中导入「x」变量
+        return getattr(args_module, arg_name)
 
 def _get_request_arg_name(last_arg_path):
-    arg_name = last_arg_path  # 请求参数名
-    if arg_name.endswith('+'):
-        arg_name = arg_name.split('+')[0]
-    if arg_name.endswith('-'):
-        arg_name = arg_name.split('-')[0]
+    '''
+    :param last_arg_path: 参数名
+    :return:
+    '''
+    if last_arg_path.endswith('+'):
+        arg_name = last_arg_path.split('+')[0]
+    elif last_arg_path.endswith('-'):
+        arg_name = last_arg_path.split('-')[0]
+    else:
+        arg_name = last_arg_path
     return arg_name

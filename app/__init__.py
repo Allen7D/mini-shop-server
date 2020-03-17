@@ -139,6 +139,8 @@ def apply_request_log(app):
         )
         # 设置颜色开始(至多3类参数，以m结束)：\033[显示方式;前景色;背景色m
         print('\033[0;34m')
+        if request.method in ('GET', 'POST', 'PUT', 'DELETE'):
+            print(message)
         print(message)
         print('\033[0m') # 终端颜色恢复
         return res

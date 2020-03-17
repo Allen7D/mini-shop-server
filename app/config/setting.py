@@ -7,7 +7,8 @@ import os
 
 __author__ = 'Allen7D'
 
-is_dev_mode = os.path.exists('app/config/dev.py')  # 'development' & 'product' (开发环境 or 生产环境)
+# 'dev'(development 开发环境 ) & 'prod'(product 生产环境)
+is_dev_mode = True if os.environ.get('ENV_MODE') == 'dev' else False
 
 # 应用于Swagger的URL，会自动添加协议前缀(http://或者https://)，因为会切换协议前缀
 EXTERNAL_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址

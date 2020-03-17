@@ -8,7 +8,6 @@ __pycache__/
 
 # Local working file
 app/static/uploads/
-app/config/dev.py
 guide/
 wx-tool/
 php-resource/

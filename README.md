@@ -139,7 +139,6 @@ $ exit # 退出当前虚拟环境
 ```
 $ git clone https://github.com/Allen7D/mini-shop-server.git
 $ cd mini-shop-server 
-$ touch app/config/dev.py # 如果是在服务器上，则忽略执行此命令
 $ mkdir .venv # 生成.venv文件夹，用于存放该项目的python解释器(包括后续所有安装的包依赖)
 $ pipenv --python 3.6 # 指定某 Python 版本创建环境
 $ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
@@ -211,7 +210,6 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 │   │   ├── token.py
 │   │   └── user.py
 │   ├── config # 配置文件
-│   │   ├── dev.py
 │   │   ├── secure.py
 │   │   ├── setting.py
 │   │   └── wx.py
@@ -305,15 +303,23 @@ fuser -k 8080/tcp # 关闭占用8080端口的服务
 ## 本地&线上同步推进
 ### 业务场景
 本地与线上的 Swagger API 文档的接口的地址是不同的，但都依赖同一个配置文件 **`app\config\setting.py`**。<br>
-而个人项目有着本地和线上同步，开发和测试同步的需求，会不断修改 **`app\config\setting.py`** 文件，无法用 **`.gitignore`** 做到忽略配置文件，本地和线上配置隔离的效果。 
+而个人项目有着本地和线上同步，开发和测试同步的需求，会不断修改 **`app\config\setting.py`** 文件。 
 
 ### 解决
-**`本地`** 和 **`线上`** 自动根据所处的环境(由 .gitignore 控制)不同，选择不同的配置文件。<br>
-那么， **`本地`** 可以比 **`线上`** 多了 **`app/config/dev.py`** 文件; 基于该文件的存在与否，可以用 **`if else`** 控制 **`app/config/`** 中配置输出。
+**`本地`** 和 **`线上`** 自动根据所处的环境变量「DEV_MODE」决定，选择不同的配置文件。
+<div align="center">
+  <img alt="img" src="./media/env_var.png" width="80%">
+</div>
 
-### 实践
-1. `echo "/app/config/dev.py" >> .gitignore` # 追加 Git 忽略提交配置到 .gitignore
-2. 新建 **`app/config/dev.py`** 文件
+1. PyCharm的状态栏的「Run > Edit Configurations」中编辑环境变量<br>
+2. 设置DEV_MODE=dev<br>
+3. 代码
+```py
+# config/setting.py 文件
+# 'dev'(development 开发环境 ) & 'prod'(product 生产环境)
+is_dev_mode = True if os.environ.get('ENV_MODE') == 'dev' else False
+```
+
 
 
 ## 上传&下载

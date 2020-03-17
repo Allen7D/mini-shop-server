@@ -46,7 +46,15 @@ class RedPrint:
                 args_module = self.api_doc
                 specs = getattr(args_module, f.__name__, init_specs())
             # 增加Token校验
-            specs['security'] = specs_security if _kwargs.get('auth', False) else {}
+            if 'auth' in _kwargs:
+                specs['security'] = specs_security if _kwargs.get('auth') else {}
+            if 'responses' not in specs:
+                specs['responses'] = {
+                    "200": {
+                        "description": "",
+                        "examples": {}
+                    }
+                }
             specs['tags'] = [self.tag['name']]
             # 对f.__doc__处理
             if f.__doc__ and '\n\t' in f.__doc__:
@@ -133,6 +141,7 @@ def _get_request_arg(arg_name, arg_site, args_module):
     except AttributeError as e:
         # 从args_module中导入「x」变量
         return getattr(args_module, arg_name)
+
 
 def _get_request_arg_name(last_arg_path):
     '''

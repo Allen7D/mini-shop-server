@@ -42,9 +42,7 @@ class Query(BaseQuery):
     def get_or_404(self, ident, e=None, error_code=None, msg=None):
         rv = self.get(ident)  # 查询主键
         if not rv:
-            if e:
-                raise e
-            raise NotFound(error_code=error_code, msg=msg)
+            raise NotFound(e=e, error_code=error_code, msg=msg)
         return rv
 
     def first_or_404(self, e=None, error_code=None, msg=None):
@@ -56,17 +54,13 @@ class Query(BaseQuery):
         '''
         rv = self.first()
         if not rv:
-            if e:
-                raise e
-            raise NotFound(error_code=error_code, msg=msg)
+            raise NotFound(e=e, error_code=error_code, msg=msg)
         return rv
 
     def all_or_404(self, e=None, error_code=None, msg=None, wrap=''):
         rv = list(self)
         if not rv:
-            if e:
-                raise e
-            raise NotFound(error_code=error_code, msg=msg)
+            raise NotFound(e=e, error_code=error_code, msg=msg)
         if wrap:
             rv = {
                 '{}'.format(wrap): rv
@@ -75,9 +69,7 @@ class Query(BaseQuery):
 
     def all(self):
         rv = list(self)
-        if not rv:
-            raise NotFound()
-        return rv
+        return rv if len(rv) != 0 else []
 
     def paginate(self, page=None, per_page=None, error_out=True, max_per_page=None):
         # 使用paginator记的加上filter_by，用于默认添加status=1

@@ -141,7 +141,6 @@ def apply_request_log(app):
         print('\033[0;34m')
         if request.method in ('GET', 'POST', 'PUT', 'DELETE'):
             print(message)
-        print(message)
         print('\033[0m') # 终端颜色恢复
         return res
 

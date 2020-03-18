@@ -2,6 +2,8 @@
 """
   Created by Allen7D on 2018/6/14.
 """
+from app.libs.enums import ScopeEnum
+
 __author__ = 'Allen7D'
 
 
@@ -18,6 +20,23 @@ class Scope:
         self.forbidden_module = list(set(self.forbidden_module + other.forbidden_module))
 
         return self
+
+    @staticmethod
+    def match_user_scope(auth, type='en'):
+        auth_scope_en = {
+            ScopeEnum.USER: 'UserScope',
+            ScopeEnum.ADMIN: 'AdminScope',
+            ScopeEnum.SUPER: 'SuperScope'
+        }
+        auth_scope_cn = {
+            ScopeEnum.USER: '普通用户',
+            ScopeEnum.ADMIN: '系统管理员',
+            ScopeEnum.SUPER: '系统超级管理员'
+        }
+        if type == 'en':
+            return auth_scope_en.get(ScopeEnum(auth), 'UserScope')
+        elif type == 'cn':
+            return auth_scope_cn.get(ScopeEnum(auth), '普通用户')
 
 
 class UserScope(Scope):

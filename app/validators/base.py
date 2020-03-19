@@ -11,40 +11,42 @@ __author__ = 'Allen7D'
 
 
 class BaseValidator(Form):
-	def __init__(self):
-		data = request.get_json(silent=True)  # body中
-		view_args = _request_ctx_stack.top.request.view_args  # 获取view中(path路径里)的args
-		args = dict(request.args.to_dict(), **view_args)  # query中: request.args.to_dict()
-		self.__args_json = (data, args)
-		super(BaseValidator, self).__init__(data=data, **args)
+    def __init__(self):
+        data = request.get_json(silent=True)  # body中
+        view_args = _request_ctx_stack.top.request.view_args  # 获取view中(path路径里)的args
+        args = dict(request.args.to_dict(), **view_args)  # query中: request.args.to_dict()
+        self.__args_json = (data, args)
+        super(BaseValidator, self).__init__(data=data, **args)
 
-	def validate_for_api(self):
-		valid = super(BaseValidator, self).validate()
-		if not valid:
-			raise ParameterException(msg=self.errors)
-		return self
+    def validate_for_api(self):
+        valid = super(BaseValidator, self).validate()
+        if not valid:
+            raise ParameterException(msg=self.errors)
+        return self
 
-	def get_json(self):
-		(data, args) = self.__args_json
-		if data is not None:
-			return dict(data, **args)
-		return args
+    @property
+    def data(self):
+        return {
+            key: value.data for key, value in self._fields.items() if value.data is not None
+        }
 
-	@property
-	def data(self):
-		return {
-			key: value.data for key, value in self._fields.items()
-		}
+    def get_json(self):
+        (data, args) = self.__args_json
+        if data is not None:
+            args_json = dict(data, **args)
+        else:
+            args_json = args
+        return {key: value for key, value in args_json if value is not None}
 
-	def isPositiveInteger(self, value):
-		try:
-			value = int(value)
-		except ValueError:
-			return False
-		return True if (isinstance(value, int) and value > 0) else False
+    def isPositiveInteger(self, value):
+        try:
+            value = int(value)
+        except ValueError:
+            return False
+        return True if (isinstance(value, int) and value > 0) else False
 
-	def isList(self, value):
-		return True if isinstance(value, list) else False
+    def isList(self, value):
+        return True if isinstance(value, list) else False
 
-	def isEmptyList(self, value):
-		return True if self.isList(value) and len(value) == 0 else False
+    def isEmptyList(self, value):
+        return True if self.isList(value) and len(value) == 0 else False

@@ -163,31 +163,44 @@ def _get_request_arg_name(last_arg_path):
         arg_name = last_arg_path
     return arg_name
 
+class RequestArg():
+    def __init__(self, name, abbr_type, site):
+        self.name = name
+        self.abbr_type = abbr_type
+        if site not in ('path', 'query', 'body'):
+            raise ValueError('请求位置:{} 错误，应该为path, query, body位置选项'.format(site))
+        self.site = site
+
+    @property
+    def type(self):
+        if self.abbr_type not in ('int', 'str', 'bool'):
+            raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(self.abbr_type))
+        type_dict = {'int': 'integer', 'str': 'string', 'bool': 'boolean'}
+        return type_dict[self.abbr_type]
+
+    @property
+    def enum(self):
+        enum_dict = {
+            'int': [1, 2, 3, 4, 5, 10, 100, 0],
+            'str': ['***', '???'],
+            'bool': [True, False]
+        }
+        return enum_dict[self.abbr_type]
+
+    @property
+    def data(self):
+        if self.site in ('path', 'query'):
+            return ParamFiled(self.name, self.site, self.type, '', self.enum, False)
+        else:
+            # self.site == 'body'
+            return BodyField(self.name, self.type, '', self.enum)
+
 
 def _parse_fast_args(fast_arg_name_list):
     # 校验数据格式必须是3个，第二个是int、str、bool，第三个是body、query、path
     request_args = []
     for fast_arg_name in fast_arg_name_list:
-        arg = {'name': '', 'type': '', 'site': '', 'enum': []}
-        arg.type, arg.site, arg.name = fast_arg_name.split('.')
-        if arg.type not in ('int', 'str', 'bool'):
-            raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(arg.type))
-        if arg.site not in ('path', 'query', 'body'):
-            raise ValueError('请求位置:{} 错误，应该为path, query, body位置选项'.format(arg.site))
-
-        if arg.type == 'int':
-            arg.type, arg.enum = 'integer', [1, 2, 3, 4, 5, 10, 100, 0]
-        elif arg.type == 'bool':
-            arg.type, arg.enum = 'boolean', [True, False]
-        else:
-            # arg_type == 'str'
-            arg.type, arg.enum = 'string', ['***', '???']
-
-        if arg.site in ('path', 'query'):
-            arg_obj = ParamFiled(arg.name, arg.site, arg.type, '', arg.enum, False)
-        else:
-            # arg_site == 'body'
-            arg_obj = BodyField(arg.name, arg.type, '', arg.enum)
-
-        request_args.append(arg_obj)
+        arg_type, arg_site, arg_name = fast_arg_name.split('.')
+        arg = RequestArg(name=arg_name, abbr_type=arg_type, site=arg_site).data
+        request_args.append(arg)
     return request_args

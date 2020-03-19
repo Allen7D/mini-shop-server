@@ -164,17 +164,23 @@ def _parse_fast_args(fast_arg_name_list):
     request_args = []
     for fast_arg_name in fast_arg_name_list:
         arg_name, arg_type, arg_site = fast_arg_name.split('|')
-        arg_obj = None
+        if arg_type not in ('int', 'str', 'bool'):
+            raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(arg_type))
+        if arg_site not in ('path', 'query', 'body'):
+            raise ValueError('请求位置:{} 错误，应该为path, query, body位置选项'.format(arg_type))
+
         if arg_type == 'int':
             type, enum = 'integer', [1, 2, 3, 4, 5, 10, 100, 0]
-        elif arg_type == 'str':
-            type, enum = 'string', ['***', '???']
         elif arg_type == 'bool':
             type, enum = 'boolean', [True, False]
+        else:
+            # arg_type == 'str'
+            type, enum = 'string', ['***', '???']
 
         if arg_site in ('path', 'query'):
             arg_obj = ParamFiled(arg_name, arg_site, type, '', enum, False)
-        elif arg_site == 'body':
+        else:
+            # arg_site == 'body'
             arg_obj = BodyField(arg_name, type, '', enum)
 
         request_args.append(arg_obj)

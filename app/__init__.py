@@ -23,7 +23,7 @@ __author__ = 'Allen7D'
 def create_app():
     # 默认template_folder值就是'./templates'
     app = Flask(__name__, static_folder="./static", template_folder="./templates")
-    if os.environ.get('DEV_MODE') == 'local':
+    if os.environ.get('ENV_MODE') == 'local':
         app.config.from_object('app.config.local_setting')
         app.config.from_object('app.config.local_secure')
     else:

@@ -19,8 +19,6 @@ from app.libs.error_code import ServerError
 
 __author__ = 'Allen7D'
 
-bp_list = create_blueprint_list()
-
 
 def create_app():
     # 默认template_folder值就是'./templates'
@@ -114,10 +112,9 @@ def apply_file_admin(admin):
 
 def apply_swagger(app):
     from flasgger import Swagger
-    tags = [tag for _, bp in bp_list for tag in bp.tags]
     # 默认与 config/setting.py 的 SWAGGER 合并
     # 可以将secure.py中的SWAGGER全部写入template
-    swagger = Swagger(template={'tags': tags})
+    swagger = Swagger(template={'tags': app.config['SWAGGER_TAGS'] })
     swagger.init_app(app)
 
 
@@ -168,6 +165,8 @@ def handle_error(app):
 
 def register_blueprint(app):
     '''注册蓝图'''
+    bp_list = create_blueprint_list(app)
+
     for url_prefix, bp in bp_list:
         app.register_blueprint(bp, url_prefix=url_prefix)
     app.register_blueprint(web, url_prefix='/web')

@@ -38,9 +38,9 @@ class RedPrint:
     def doc(self, *_args, **_kwargs):
         arg_path_name_list = []  # 所有的请求参数(path、query、body)
         fast_arg_name_list = []
-        for arg_path_name in _kwargs.get('args', []) :
+        for arg_path_name in _kwargs.get('args', []):
             if arg_path_name.startswith('*'):
-                arg_path_name = arg_path_name.split('*')[1] # 去掉*
+                arg_path_name = arg_path_name.split('*')[1]  # 去掉*
                 fast_arg_name_list.append(arg_path_name)
             else:
                 arg_path_name_list.append(arg_path_name)
@@ -163,29 +163,31 @@ def _get_request_arg_name(last_arg_path):
         arg_name = last_arg_path
     return arg_name
 
+
 def _parse_fast_args(fast_arg_name_list):
     # 校验数据格式必须是3个，第二个是int、str、bool，第三个是body、query、path
     request_args = []
     for fast_arg_name in fast_arg_name_list:
-        arg_type, arg_site, arg_name = fast_arg_name.split('.')
-        if arg_type not in ('int', 'str', 'bool'):
-            raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(arg_type))
-        if arg_site not in ('path', 'query', 'body'):
-            raise ValueError('请求位置:{} 错误，应该为path, query, body位置选项'.format(arg_type))
+        arg = {'name': '', 'type': '', 'site': '', 'enum': []}
+        arg.type, arg.site, arg.name = fast_arg_name.split('.')
+        if arg.type not in ('int', 'str', 'bool'):
+            raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(arg.type))
+        if arg.site not in ('path', 'query', 'body'):
+            raise ValueError('请求位置:{} 错误，应该为path, query, body位置选项'.format(arg.site))
 
-        if arg_type == 'int':
-            type, enum = 'integer', [1, 2, 3, 4, 5, 10, 100, 0]
-        elif arg_type == 'bool':
-            type, enum = 'boolean', [True, False]
+        if arg.type == 'int':
+            arg.type, arg.enum = 'integer', [1, 2, 3, 4, 5, 10, 100, 0]
+        elif arg.type == 'bool':
+            arg.type, arg.enum = 'boolean', [True, False]
         else:
             # arg_type == 'str'
-            type, enum = 'string', ['***', '???']
+            arg.type, arg.enum = 'string', ['***', '???']
 
-        if arg_site in ('path', 'query'):
-            arg_obj = ParamFiled(arg_name, arg_site, type, '', enum, False)
+        if arg.site in ('path', 'query'):
+            arg_obj = ParamFiled(arg.name, arg.site, arg.type, '', arg.enum, False)
         else:
             # arg_site == 'body'
-            arg_obj = BodyField(arg_name, type, '', enum)
+            arg_obj = BodyField(arg.name, arg.type, '', arg.enum)
 
         request_args.append(arg_obj)
     return request_args

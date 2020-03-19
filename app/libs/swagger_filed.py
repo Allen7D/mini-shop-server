@@ -6,7 +6,7 @@ __author__ = 'Allen7D'
 
 
 class ParamFiled:
-    def __init__(self, name, site, type, description, enum, required, default=None):
+    def __init__(self, name, site, type, description, enum, required=None, default=None):
         self.name = name
         self.site = site
         self.type = type
@@ -60,7 +60,7 @@ class BooleanPathFiled(ParamFiled):
 
 class ArrayQueryField():
 
-    def __init__(self, name, description, item_type, enum, required, default):
+    def __init__(self, name, description, item_type, enum=None, required=None, default=None):
         self.name = name
         self.site = 'query'
         self.item_type = item_type

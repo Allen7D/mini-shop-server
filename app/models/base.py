@@ -42,7 +42,8 @@ class Query(BaseQuery):
     def get_or_404(self, ident, e=None, error_code=None, msg=None):
         rv = self.get(ident)  # 查询主键
         if not rv:
-            raise NotFound(e=e, error_code=error_code, msg=msg)
+            self.__handle_other_error(e)
+            raise NotFound(error_code=error_code, msg=msg)
         return rv
 
     def first_or_404(self, e=None, error_code=None, msg=None):
@@ -54,18 +55,16 @@ class Query(BaseQuery):
         '''
         rv = self.first()
         if not rv:
-            raise NotFound(e=e, error_code=error_code, msg=msg)
+            self.__handle_other_error(e)
+            raise NotFound(error_code=error_code, msg=msg)
         return rv
 
     def all_or_404(self, e=None, error_code=None, msg=None, wrap=''):
         rv = list(self)
         if not rv:
-            raise NotFound(e=e, error_code=error_code, msg=msg)
-        if wrap:
-            rv = {
-                '{}'.format(wrap): rv
-            }
-        return rv
+            self.__handle_other_error(e)
+            raise NotFound(error_code=error_code, msg=msg)
+        return {wrap: rv} if wrap else rv
 
     def all(self):
         rv = list(self)
@@ -81,6 +80,10 @@ class Query(BaseQuery):
                           paginator.total,
                           paginator.items
                           )
+
+    def __handle_other_error(self, e=None):
+        if e:
+            raise e
 
 
 db = SQLAlchemy(query_class=Query)

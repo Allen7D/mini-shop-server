@@ -3,6 +3,7 @@
   Created by Allen7D on 2018/5/12.
   print输出字体颜色: https://www.cnblogs.com/easypython/p/9084426.html
 """
+import os
 import json
 import time
 
@@ -24,9 +25,12 @@ bp_list = create_blueprint_list()
 def create_app():
     # 默认template_folder值就是'./templates'
     app = Flask(__name__, static_folder="./static", template_folder="./templates")
-
-    app.config.from_object('app.config.secure')
-    app.config.from_object('app.config.setting')
+    if os.environ.get('DEV_MODE') == 'local':
+        app.config.from_object('app.config.local_setting')
+        app.config.from_object('app.config.local_secure')
+    else:
+        app.config.from_object('app.config.secure')
+        app.config.from_object('app.config.setting')
 
     register_blueprint(app)
     register_plugin(app)

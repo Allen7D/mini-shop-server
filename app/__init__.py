@@ -80,9 +80,9 @@ def apply_orm_admin(app):
     from flask_admin import Admin
     from app.model_views.base import ModelView
 
-    from app.config.setting import all_model_by_module
+    from app.config.setting import ALL_MODEL_BY_MODULE
     object_origins = {}
-    for module, items in all_model_by_module.items():
+    for module, items in ALL_MODEL_BY_MODULE.items():
         for item in items:
             object_origins[item] = module
 

@@ -3,13 +3,13 @@
   Created by Allen7D on 2020/3/3.
 """
 from app.libs.blueprint import Blueprint
-from app.config.setting import all_api_by_module
+from app.config.setting import ALL_API_BY_MODULE
 
 __author__ = 'Allen7D'
 
 def create_blueprint_list():
 	bp_list = []
-	for module_name, api_name_list in all_api_by_module.items():
+	for module_name, api_name_list in ALL_API_BY_MODULE.items():
 		rp_list = _import_redprint(module_name, api_name_list)
 		# 将「红图列表」注册到蓝图中
 		bp = Blueprint(module_name, '{}.{}'.format(__name__, module_name))

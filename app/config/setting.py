@@ -64,7 +64,7 @@ specs_security = [
 ]
 
 # all model by module for flask-admin
-all_model_by_module = {
+ALL_MODEL_BY_MODULE = {
     'user': ['User'],
     'user_address': ['UserAddress'],
     'order': ['Order'],
@@ -77,7 +77,7 @@ all_model_by_module = {
 }
 
 # all api by module(version)
-all_api_by_module = {
+ALL_API_BY_MODULE = {
     'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
     'cms': ['user', 'category', 'product', 'theme', 'file']
 }

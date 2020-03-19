@@ -36,14 +36,18 @@ class RedPrint:
             bp.add_url_rule(url_prefix + rule, endpoint, f, **options)
 
     def doc(self, *_args, **_kwargs):
-        arg_path_name_list = _kwargs.get('args', [])  # 所有的请求参数(path、query、body)
-        fast_arg_name_list = _kwargs.get('fast_args', [])
+        arg_path_name_list = []  # 所有的请求参数(path、query、body)
+        fast_arg_name_list = []
+        for arg_path_name in _kwargs.get('args', []) :
+            if arg_path_name.startswith('*'):
+                arg_path_name = arg_path_name.split('*')[1] # 去掉*
+                fast_arg_name_list.append(arg_path_name)
+            else:
+                arg_path_name_list.append(arg_path_name)
+
         def decorator(f):
-            if len(arg_path_name_list) > 0:
-                request_args = self.__load_arg(arg_path_name_list)
-                specs = init_specs(*request_args, body_desc=_kwargs.get('body_desc', ''))
-            elif len(fast_arg_name_list) > 0:
-                request_args = _parse_fast_args(fast_arg_name_list)
+            if len(arg_path_name_list + fast_arg_name_list) > 0:
+                request_args = self.__load_arg(arg_path_name_list) + _parse_fast_args(fast_arg_name_list)
                 specs = init_specs(*request_args, body_desc=_kwargs.get('body_desc', ''))
             else:
                 args_module = self.api_doc
@@ -163,7 +167,7 @@ def _parse_fast_args(fast_arg_name_list):
     # 校验数据格式必须是3个，第二个是int、str、bool，第三个是body、query、path
     request_args = []
     for fast_arg_name in fast_arg_name_list:
-        arg_name, arg_type, arg_site = fast_arg_name.split('|')
+        arg_type, arg_site, arg_name = fast_arg_name.split('.')
         if arg_type not in ('int', 'str', 'bool'):
             raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(arg_type))
         if arg_site not in ('path', 'query', 'body'):

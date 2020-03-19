@@ -151,10 +151,7 @@ def handle_error(app):
         if isinstance(e, APIException):
             return e
         elif isinstance(e, HTTPException):
-            code = e.code
-            msg = e.description
-            error_code = 1007
-            return APIException(code, error_code, msg)
+            return APIException(code=e.code, error_code=1007, msg=e.description)
         else:
             if not app.config['DEBUG']:
                 return ServerError()  # 未知错误(统一为服务端异常)

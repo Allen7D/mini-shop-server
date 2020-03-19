@@ -15,7 +15,7 @@ class BaseValidator(Form):
 		data = request.get_json(silent=True)  # body中
 		view_args = _request_ctx_stack.top.request.view_args  # 获取view中(path路径里)的args
 		args = dict(request.args.to_dict(), **view_args)  # query中: request.args.to_dict()
-		self.__args_json = dict(data, **args)
+		self.__args_json = (data, args)
 		super(BaseValidator, self).__init__(data=data, **args)
 
 	def validate_for_api(self):
@@ -25,7 +25,10 @@ class BaseValidator(Form):
 		return self
 
 	def get_json(self):
-		return self.__args_json
+		(data, args) = self.__args_json
+		if data is not None:
+			return dict(data, **args)
+		return args
 
 	@property
 	def data(self):

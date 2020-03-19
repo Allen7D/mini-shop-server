@@ -13,7 +13,7 @@ class APIException(HTTPException):
 	msg = '服务器未知错误'  # 异常信息
 	error_code = 999  # 约定的异常码
 
-	def __init__(self, e=None, code=None, error_code=None, msg=None, headers=None):
+	def __init__(self, code=None, error_code=None, msg=None, e=None, headers=None):
 		if e:
 			raise e # 自定义异常直接抛出
 		if code:

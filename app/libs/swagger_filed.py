@@ -6,8 +6,10 @@ __author__ = 'Allen7D'
 
 
 class ParamFiled:
-    def __init__(self, name, description, enum, required, default):
+    def __init__(self, name, site, type, description, enum, required, default=None):
         self.name = name
+        self.site = site
+        self.type = type
         self.description = description
         self.enum = enum
         self.required = required
@@ -28,44 +30,32 @@ class ParamFiled:
 
 class IntegerQueryFiled(ParamFiled):
     def __init__(self, name, description, enum=None, required=None, default=None):
-        self.type = 'integer'
-        self.site = 'query'
-        super().__init__(name, description, enum, required, default)
+        super().__init__(name, 'query', 'integer', description, enum, required, default)
 
 
 class IntegerPathFiled(ParamFiled):
     def __init__(self, name, description, enum=None, required=None, default=None):
-        self.type = 'integer'
-        self.site = 'path'
-        super().__init__(name, description, enum, required, default)
+        super().__init__(name, 'path', 'integer', description, enum, required, default)
 
 
 class StringQueryFiled(ParamFiled):
     def __init__(self, name, description, enum=None, required=None, default=None):
-        self.type = 'string'
-        self.site = 'query'
-        super().__init__(name, description, enum, required, default)
+        super().__init__(name, 'query', 'string', description, enum, required, default)
 
 
 class StringPathFiled(ParamFiled):
     def __init__(self, name, description, enum=None, required=None, default=None):
-        self.type = 'string'
-        self.site = 'path'
-        super().__init__(name, description, enum, required, default)
+        super().__init__(name, 'path', 'string', description, enum, required, default)
 
 
 class BooleanQueryFiled(ParamFiled):
     def __init__(self, name, description, enum=None, required=None, default=None):
-        self.type = 'boolean'
-        self.site = 'query'
-        super().__init__(name, description, enum, required, default)
+        super().__init__(name, 'query', 'boolean', description, enum, required, default)
 
 
 class BooleanPathFiled(ParamFiled):
     def __init__(self, name, description, enum=None, required=None, default=None):
-        self.type = 'boolean'
-        self.site = 'path'
-        super().__init__(name, description, enum, required, default)
+        super().__init__(name, 'path', 'boolean', description, enum, required, default)
 
 
 class ArrayQueryField():

@@ -10,6 +10,7 @@ from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.models.user import User
 from app.api_docs.v1 import user as api_doc # api_doc可以引入
+from app.validators.base import BaseValidator
 
 __author__ = 'Allen7D'
 
@@ -31,6 +32,7 @@ def get_user():
 @auth.login_required
 def update_user():
 	'''用户更改自身信息'''
+	validator = BaseValidator().get_json() # 快速获取所有的非校验的参数
 	return Success(error_code=1)
 
 

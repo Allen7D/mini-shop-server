@@ -9,6 +9,7 @@ from app.libs.token_auth import auth
 from app.models.base import db
 from app.models.user import User
 from app.api_docs.cms import user as api_doc
+from app.validators.base import BaseValidator
 from app.validators.forms import PaginateValidator
 
 __author__ = 'Allen7D'
@@ -43,11 +44,12 @@ def get_user(uid):
 
 
 @api.route('/<int:uid>', methods=['PUT'])
-@api.doc(args=['g.path.uid+'], auth=True)
+@api.doc(fast_args=['uid|int|path', 'name|str|body', 'age|int|body'], auth=True)
 @auth.login_required
 def update_user(uid):
 	'''更新用户信息'''
-	return Success(error_code=1)
+	validator = BaseValidator().get_json() # 快速获取所有的非校验的参数
+	return Success(validator, error_code=1)
 
 
 @api.route('/<int:uid>', methods=['DELETE'])

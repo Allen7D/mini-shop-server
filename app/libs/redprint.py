@@ -5,7 +5,7 @@
 from functools import wraps
 from flasgger import swag_from
 from app.config.setting import specs_security
-from app.libs.swagger_filed import init_specs
+from app.libs.swagger_filed import init_specs, ParamFiled, BodyField
 from app.api_docs import global_args as global_args_module
 
 __author__ = 'Allen7D'
@@ -37,10 +37,13 @@ class RedPrint:
 
     def doc(self, *_args, **_kwargs):
         arg_path_name_list = _kwargs.get('args', [])  # 所有的请求参数(path、query、body)
-
+        fast_arg_name_list = _kwargs.get('fast_args', [])
         def decorator(f):
             if len(arg_path_name_list) > 0:
                 request_args = self.__load_arg(arg_path_name_list)
+                specs = init_specs(*request_args, body_desc=_kwargs.get('body_desc', ''))
+            elif len(fast_arg_name_list) > 0:
+                request_args = _parse_fast_args(fast_arg_name_list)
                 specs = init_specs(*request_args, body_desc=_kwargs.get('body_desc', ''))
             else:
                 args_module = self.api_doc
@@ -155,3 +158,24 @@ def _get_request_arg_name(last_arg_path):
     else:
         arg_name = last_arg_path
     return arg_name
+
+def _parse_fast_args(fast_arg_name_list):
+    # 校验数据格式必须是3个，第二个是int、str、bool，第三个是body、query、path
+    request_args = []
+    for fast_arg_name in fast_arg_name_list:
+        arg_name, arg_type, arg_site = fast_arg_name.split('|')
+        arg_obj = None
+        if arg_type == 'int':
+            type, enum = 'integer', [1, 2, 3, 4, 5, 10, 100, 0]
+        elif arg_type == 'str':
+            type, enum = 'string', ['***', '???']
+        elif arg_type == 'bool':
+            type, enum = 'boolean', [True, False]
+
+        if arg_site in ('path', 'query'):
+            arg_obj = ParamFiled(arg_name, arg_site, type, '', enum, False)
+        elif arg_site == 'body':
+            arg_obj = BodyField(arg_name, type, '', enum)
+
+        request_args.append(arg_obj)
+    return request_args

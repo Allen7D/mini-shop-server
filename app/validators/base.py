@@ -36,7 +36,21 @@ class BaseValidator(Form):
             args_json = dict(data, **args)
         else:
             args_json = args
-        return {key: value for key, value in args_json.items() if value is not None}
+        return {
+            key: value for key, value in args_json.items() if value is not None
+        }
+
+    def get_query_json(self):
+        args_json = request.args.to_dict()
+        return {
+            key: value for key, value in args_json.items() if value is not None
+        }
+
+    def get_body_json(self):
+        args_json = request.get_json(silent=True)
+        return {
+            key: value for key, value in args_json.items() if value is not None
+        }
 
     def isPositiveInteger(self, value):
         try:

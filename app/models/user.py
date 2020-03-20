@@ -54,49 +54,37 @@ class User(Base):
         return Scope.match_user_scope(self.auth, type='cn')
 
     def save_address(self, address_info):
-        with db.auto_commit():
-            # address = UserAddress.query.filter_by(user_id=self.id).first()
-            address = self.user_address
-            if not address:
-                address = UserAddress(author=self)
-            address.update(commit=True, **address_info)
-            db.session.add(address)
+        address = self.user_address
+        if not address:
+            address = UserAddress(author=self)
+        return address.update(**address_info)
 
     @staticmethod
     def register_by_email(nickname, account, secret):
         """邮箱注册"""
-        with db.auto_commit():
-            user = User(nickname=nickname, email=account, password=secret)
-            db.session.add(user)
-        return user
+        form = {'nickname': nickname, 'email': account, 'password': secret}
+        return User.create(**form)
 
     @staticmethod
     def register_by_mobile(nickname, account, secret):
         """手机号注册"""
-        with db.auto_commit():
-            user = User(nickname=nickname, mobile=account, password=secret)
-            db.session.add(user)
-        return user
+        form = {'nickname': nickname, 'mobile': account, 'password': secret}
+        return User.create(**form)
 
     @staticmethod
     def register_by_wx_mina(account):
         """小程序注册"""
-        with db.auto_commit():
-            user = User(openid=account)
-            db.session.add(user)
-        return user
+        form = {'openid': account}
+        return User.create(**form)
 
     @staticmethod
-    def register_by_wx_open(user_info):
-        """微信第三方注册"""
-        with db.auto_commit():
-            user = User()
-            user.openid = user_info['openid']
-            user.unionid = user_info['unionid']
-            user.nickname = user_info['nickname']
-            user.avatar = user_info['headimgurl']
-            db.session.add(user)
-        return user
+    def register_by_wx_open(form):
+        """
+        微信第三方注册
+        :param form: 属性包含(openid、unionid、nickname、headimgurl)
+        :return:
+        """
+        return User.create(form)
 
     @staticmethod
     def verify_by_email(email, password):
@@ -136,7 +124,7 @@ class User(Base):
         openid = user_info['openid']  # 用户唯一标识
         user = User.query.filter_by(openid=openid).first()
         if not user:
-            user = User.register_by_wx_open(user_info)
+            user = User.register_by_wx_open(form=user_info)
         scope = Scope.match_user_scope(auth=user.auth)
         return {'uid': user.id, 'scope': scope}
 

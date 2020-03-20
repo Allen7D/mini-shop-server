@@ -10,7 +10,7 @@ __author__ = 'Allen7D'
 
 
 class UserAddress(Base):
-	'''收货人信息'''
+	'''配送信息'''
 	__tablename__ = 'user_address'
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	user_id = Column(Integer, ForeignKey('user.id'), nullable=False, comment='外键: 下单的用户id')

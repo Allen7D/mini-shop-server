@@ -7,13 +7,13 @@ import os
 
 __author__ = 'Allen7D'
 
-# 'dev'(development 开发环境 ) & 'prod'(product 生产环境)
-is_dev_mode = True if os.environ.get('ENV_MODE') == 'dev' else False
 
-# 应用于Swagger的URL，会自动添加协议前缀(http://或者https://)，因为会切换协议前缀
-EXTERNAL_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址
-INTERNAL_URL = '0.0.0.0:8010'  # 内部（本地）地址
-SERVER_URL = INTERNAL_URL if is_dev_mode else EXTERNAL_URL
+'''
+应用于Swagger的URL，会自动添加协议前缀(http://或者https://)，因为会切换协议前缀
+local_setting.py中
+    SERVER_URL = '0.0.0.0:8010' 
+'''
+SERVER_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址
 
 IMG_PREFIX = SERVER_URL + '/static/images'
 UPLOAD_FOLDER = 'app/static/uploads'
@@ -26,9 +26,14 @@ version = "0.3.0"  # 项目版本
 description = """API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
 访问之前，先使用/v1/token获取token，并将token放入Authorize中。
 """
-EXTERNAL_SCHEMES = ["https", "http"]  # 外部（云服务器）支持 https 和 http 协议
-INTERNAL_SCHEMES = ["http"]  # 内部只支持http
-SERVER_SCHEMES = INTERNAL_SCHEMES if is_dev_mode else EXTERNAL_SCHEMES
+
+'''
+内部只支持http
+外部（云服务器）支持 https 和 http 协议
+local_setting.py中 
+    SERVER_SCHEMES = ["http"] # 内部只支持http
+'''
+SERVER_SCHEMES = ["https", "http"]
 
 SWAGGER = {
     "swagger_version": "2.0",
@@ -64,7 +69,7 @@ specs_security = [
 ]
 
 # all model by module for flask-admin
-all_model_by_module = {
+ALL_MODEL_BY_MODULE = {
     'user': ['User'],
     'user_address': ['UserAddress'],
     'order': ['Order'],
@@ -77,7 +82,7 @@ all_model_by_module = {
 }
 
 # all api by module(version)
-all_api_by_module = {
+ALL_API_BY_MODULE = {
     'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
     'cms': ['user', 'category', 'product', 'theme', 'file']
 }

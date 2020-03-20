@@ -42,8 +42,7 @@ class Query(BaseQuery):
     def get_or_404(self, ident, e=None, error_code=None, msg=None):
         rv = self.get(ident)  # 查询主键
         if not rv:
-            if e:
-                raise e
+            self.__handle_other_error(e)
             raise NotFound(error_code=error_code, msg=msg)
         return rv
 
@@ -56,28 +55,20 @@ class Query(BaseQuery):
         '''
         rv = self.first()
         if not rv:
-            if e:
-                raise e
+            self.__handle_other_error(e)
             raise NotFound(error_code=error_code, msg=msg)
         return rv
 
     def all_or_404(self, e=None, error_code=None, msg=None, wrap=''):
         rv = list(self)
         if not rv:
-            if e:
-                raise e
+            self.__handle_other_error(e)
             raise NotFound(error_code=error_code, msg=msg)
-        if wrap:
-            rv = {
-                '{}'.format(wrap): rv
-            }
-        return rv
+        return {wrap: rv} if wrap else rv
 
     def all(self):
         rv = list(self)
-        if not rv:
-            raise NotFound()
-        return rv
+        return rv if len(rv) != 0 else []
 
     def paginate(self, page=None, per_page=None, error_out=True, max_per_page=None):
         # 使用paginator记的加上filter_by，用于默认添加status=1
@@ -90,6 +81,10 @@ class Query(BaseQuery):
                           paginator.items
                           )
 
+    def __handle_other_error(self, e=None):
+        if e:
+            raise e
+
 
 db = SQLAlchemy(query_class=Query)
 
@@ -98,16 +93,31 @@ class CRUDMixin(object):
     """Mixin 添加CRUD操作(create, read, update, delete)."""
 
     @classmethod
-    def create(cls, **kwargs):
-        """新建 并保存到数据库"""
-        instance = cls(**kwargs)
-        return instance.save()
+    def get(cls, **kwargs):
+        """查"""
+        return cls.query.filter_by(**kwargs).first()
+
+    @classmethod
+    def get_or_404(cls, e=None, error_code=None, msg=None, **kwargs):
+        """查，不存在则返回异常"""
+        error_kwargs = dict(e=e, error_code=error_code, msg=msg)
+        return cls.query.filter_by(**kwargs).first_or_404(**error_kwargs)
+
+    @classmethod
+    def create(cls, commit=True, **kwargs):
+        """增"""
+        instance = cls()
+        for attr, value in kwargs.items():
+            if hasattr(instance, attr):
+                setattr(instance, attr, value)
+        return instance.save(commit)
 
     def update(self, commit=True, **kwargs):
-        """更新指定字段到记录"""
+        """更新"""
         for attr, value in kwargs.items():
-            setattr(self, attr, value)
-        return commit and self.save() or self
+            if hasattr(self, attr):
+                setattr(self, attr, value)
+        return self.save(commit)
 
     def save(self, commit=True):
         """保存"""
@@ -120,6 +130,7 @@ class CRUDMixin(object):
         """软删除"""
         with db.auto_commit():
             self.status = 0
+            self.save()
 
     def hard_delete(self, commit=True):
         """硬删除"""
@@ -171,8 +182,7 @@ class Base(CRUDMixin, db.Model):
             return url
 
     def set_attrs(self, **kwargs):
-        # 快速赋值
-        # 用法: set_attrs(form.data)
+        # 快速赋值，用法: set_attrs(form.data)
         for key, value in kwargs.items():
             if hasattr(self, key) and key != 'id':
                 setattr(self, key, value)

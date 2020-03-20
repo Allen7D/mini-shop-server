@@ -3,6 +3,7 @@
   Created by Allen7D on 2018/5/12.
   print输出字体颜色: https://www.cnblogs.com/easypython/p/9084426.html
 """
+import os
 import json
 import time
 
@@ -18,15 +19,16 @@ from app.libs.error_code import ServerError
 
 __author__ = 'Allen7D'
 
-bp_list = create_blueprint_list()
-
 
 def create_app():
     # 默认template_folder值就是'./templates'
     app = Flask(__name__, static_folder="./static", template_folder="./templates")
-
-    app.config.from_object('app.config.secure')
-    app.config.from_object('app.config.setting')
+    if os.environ.get('ENV_MODE') == 'local':
+        app.config.from_object('app.config.local_secure')
+        app.config.from_object('app.config.local_setting')
+    else:
+        app.config.from_object('app.config.secure')
+        app.config.from_object('app.config.setting')
 
     register_blueprint(app)
     register_plugin(app)
@@ -76,9 +78,8 @@ def apply_orm_admin(app):
     from flask_admin import Admin
     from app.model_views.base import ModelView
 
-    from app.config.setting import all_model_by_module
     object_origins = {}
-    for module, items in all_model_by_module.items():
+    for module, items in app.config['ALL_MODEL_BY_MODULE'].items():
         for item in items:
             object_origins[item] = module
 
@@ -110,10 +111,9 @@ def apply_file_admin(admin):
 
 def apply_swagger(app):
     from flasgger import Swagger
-    tags = [tag for _, bp in bp_list for tag in bp.tags]
     # 默认与 config/setting.py 的 SWAGGER 合并
     # 可以将secure.py中的SWAGGER全部写入template
-    swagger = Swagger(template={'tags': tags})
+    swagger = Swagger(template={'tags': app.config['SWAGGER_TAGS'] })
     swagger.init_app(app)
 
 
@@ -139,7 +139,8 @@ def apply_request_log(app):
         )
         # 设置颜色开始(至多3类参数，以m结束)：\033[显示方式;前景色;背景色m
         print('\033[0;34m')
-        print(message)
+        if request.method in ('GET', 'POST', 'PUT', 'DELETE'):
+            print(message)
         print('\033[0m') # 终端颜色恢复
         return res
 
@@ -150,10 +151,7 @@ def handle_error(app):
         if isinstance(e, APIException):
             return e
         elif isinstance(e, HTTPException):
-            code = e.code
-            msg = e.description
-            error_code = 1007
-            return APIException(code, error_code, msg)
+            return APIException(code=e.code, error_code=1007, msg=e.description)
         else:
             if not app.config['DEBUG']:
                 return ServerError()  # 未知错误(统一为服务端异常)
@@ -163,6 +161,8 @@ def handle_error(app):
 
 def register_blueprint(app):
     '''注册蓝图'''
+    bp_list = create_blueprint_list(app)
+
     for url_prefix, bp in bp_list:
         app.register_blueprint(bp, url_prefix=url_prefix)
     app.register_blueprint(web, url_prefix='/web')

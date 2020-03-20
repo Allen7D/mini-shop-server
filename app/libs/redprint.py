@@ -5,7 +5,7 @@
 from functools import wraps
 from flasgger import swag_from
 from app.config.setting import specs_security
-from app.libs.swagger_filed import init_specs
+from app.libs.swagger_filed import init_specs, ParamFiled, BodyField
 from app.api_docs import global_args as global_args_module
 
 __author__ = 'Allen7D'
@@ -36,17 +36,32 @@ class RedPrint:
             bp.add_url_rule(url_prefix + rule, endpoint, f, **options)
 
     def doc(self, *_args, **_kwargs):
-        arg_path_name_list = _kwargs.get('args', [])  # 所有的请求参数(path、query、body)
+        arg_path_name_list = []  # 所有的请求参数(path、query、body)
+        fast_arg_name_list = []
+        for arg_path_name in _kwargs.get('args', []):
+            if arg_path_name.startswith('*'):
+                arg_path_name = arg_path_name.split('*')[1]  # 去掉*
+                fast_arg_name_list.append(arg_path_name)
+            else:
+                arg_path_name_list.append(arg_path_name)
 
         def decorator(f):
-            if len(arg_path_name_list) > 0:
-                request_args = self.__load_arg(arg_path_name_list)
+            if len(arg_path_name_list + fast_arg_name_list) > 0:
+                request_args = self.__load_arg(arg_path_name_list) + _parse_fast_args(fast_arg_name_list)
                 specs = init_specs(*request_args, body_desc=_kwargs.get('body_desc', ''))
             else:
                 args_module = self.api_doc
                 specs = getattr(args_module, f.__name__, init_specs())
             # 增加Token校验
-            specs['security'] = specs_security if _kwargs.get('auth', False) else {}
+            if 'auth' in _kwargs:
+                specs['security'] = specs_security if _kwargs.get('auth') else {}
+            if 'responses' not in specs:
+                specs['responses'] = {
+                    "200": {
+                        "description": "",
+                        "examples": {}
+                    }
+                }
             specs['tags'] = [self.tag['name']]
             # 对f.__doc__处理
             if f.__doc__ and '\n\t' in f.__doc__:
@@ -134,6 +149,7 @@ def _get_request_arg(arg_name, arg_site, args_module):
         # 从args_module中导入「x」变量
         return getattr(args_module, arg_name)
 
+
 def _get_request_arg_name(last_arg_path):
     '''
     :param last_arg_path: 参数名
@@ -146,3 +162,45 @@ def _get_request_arg_name(last_arg_path):
     else:
         arg_name = last_arg_path
     return arg_name
+
+class RequestArg():
+    def __init__(self, name, abbr_type, site):
+        self.name = name
+        self.abbr_type = abbr_type
+        if site not in ('path', 'query', 'body'):
+            raise ValueError('请求位置:{} 错误，应该为path, query, body位置选项'.format(site))
+        self.site = site
+
+    @property
+    def type(self):
+        if self.abbr_type not in ('int', 'str', 'bool'):
+            raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(self.abbr_type))
+        type_dict = {'int': 'integer', 'str': 'string', 'bool': 'boolean'}
+        return type_dict[self.abbr_type]
+
+    @property
+    def enum(self):
+        enum_dict = {
+            'int': [1, 2, 3, 4, 5, 10, 100, 0],
+            'str': ['***', '???'],
+            'bool': [True, False]
+        }
+        return enum_dict[self.abbr_type]
+
+    @property
+    def data(self):
+        if self.site in ('path', 'query'):
+            return ParamFiled(self.name, self.site, self.type, '', self.enum, False)
+        else:
+            # self.site == 'body'
+            return BodyField(self.name, self.type, '', self.enum)
+
+
+def _parse_fast_args(fast_arg_name_list):
+    # 校验数据格式必须是3个，第二个是int、str、bool，第三个是body、query、path
+    request_args = []
+    for fast_arg_name in fast_arg_name_list:
+        arg_type, arg_site, arg_name = fast_arg_name.split('.')
+        arg = RequestArg(name=arg_name, abbr_type=arg_type, site=arg_site).data
+        request_args.append(arg)
+    return request_args

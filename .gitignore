@@ -7,6 +7,8 @@ __pycache__/
 .vscode
 
 # Local working file
+app/config/local_setting.py
+app/config/local_secure.py
 app/static/uploads/
 guide/
 wx-tool/

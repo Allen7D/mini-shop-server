@@ -98,12 +98,9 @@ class CRUDMixin(object):
         return cls.query.filter_by(**kwargs).first()
 
     @classmethod
-    def get_or_404(cls, **kwargs):
+    def get_or_404(cls, e=None, error_code=None, msg=None, **kwargs):
         """查，不存在则返回异常"""
-        error_kwargs = dict(e=None, error_code=None, msg=None)
-        error_kwargs['e'] = kwargs.pop('e', None)
-        error_kwargs['error_code'] = kwargs.pop('error_code', None)
-        error_kwargs['msg'] = kwargs.pop('msg', None)
+        error_kwargs = dict(e=e, error_code=error_code, msg=msg)
         return cls.query.filter_by(**kwargs).first_or_404(**error_kwargs)
 
     @classmethod

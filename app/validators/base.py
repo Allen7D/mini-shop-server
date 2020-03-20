@@ -13,9 +13,8 @@ __author__ = 'Allen7D'
 class BaseValidator(Form):
     def __init__(self):
         data = request.get_json(silent=True)  # body中
-        view_args = _request_ctx_stack.top.request.view_args  # 获取view中(path路径里)的args
-        args = dict(request.args.to_dict(), **view_args)  # query中: request.args.to_dict()
-        self.__args_json = (data, args)
+        # view_args = _request_ctx_stack.top.request.view_args  # 获取view中(path路径里)的args
+        args = request.args.to_dict()  # query中: request.args.to_dict()
         super(BaseValidator, self).__init__(data=data, **args)
 
     def validate_for_api(self):
@@ -31,11 +30,8 @@ class BaseValidator(Form):
         }
 
     def get_json(self):
-        (data, args) = self.__args_json
-        if data is not None:
-            args_json = dict(data, **args)
-        else:
-            args_json = args
+        data, args = request.get_json(silent=True), request.args.to_dict()
+        args_json = dict(data, **args) if data is not None else args
         return {
             key: value for key, value in args_json.items() if value is not None
         }

@@ -42,7 +42,7 @@ class Query(BaseQuery):
     def get_or_404(self, ident, e=None, error_code=None, msg=None):
         rv = self.get(ident)  # 查询主键
         if not rv:
-            self.__handle_other_error(e)
+            self.__abort_by_error(e)
             raise NotFound(error_code=error_code, msg=msg)
         return rv
 
@@ -55,14 +55,14 @@ class Query(BaseQuery):
         '''
         rv = self.first()
         if not rv:
-            self.__handle_other_error(e)
+            self.__abort_by_error(e)
             raise NotFound(error_code=error_code, msg=msg)
         return rv
 
     def all_or_404(self, e=None, error_code=None, msg=None, wrap=''):
         rv = list(self)
         if not rv:
-            self.__handle_other_error(e)
+            self.__abort_by_error(e)
             raise NotFound(error_code=error_code, msg=msg)
         return {wrap: rv} if wrap else rv
 
@@ -81,7 +81,7 @@ class Query(BaseQuery):
                           paginator.items
                           )
 
-    def __handle_other_error(self, e=None):
+    def __abort_by_error(self, e=None):
         if e:
             raise e
 

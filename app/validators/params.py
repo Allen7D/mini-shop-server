@@ -27,7 +27,7 @@ class IDCollection(BaseValidator):
 		ids = value.data.split(',')
 		for id in ids:
 			if not self.isPositiveInteger(id):
-				raise ValidationError(message='ids must be positive integers which separated by dot')
+				raise ValidationError(message='ids 必须是用「,」分隔的正整数列')
 		self.ids.data = list(map(lambda x: int(x), ids))
 
 

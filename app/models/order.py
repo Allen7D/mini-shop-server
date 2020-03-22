@@ -49,7 +49,7 @@ class Order(Base):
 			per_page=size,
 			error_out=True
 		)
-		paginator.hide('snap_items', 'snap_address', 'prepay_id')
+		paginator.hide('snap_items', 'snap_address', 'prepay_id').append('create_time')
 		return {
 			'total': paginator.total,
 			'current_page': paginator.page,

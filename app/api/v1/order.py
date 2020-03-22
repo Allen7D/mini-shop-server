@@ -61,24 +61,3 @@ def get_summary_by_user():
                                                   size=validator.size.data)
     return Success(paged_orders)
 
-
-@api.route('/paginate', methods=['GET'])
-@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.login_required
-def get_summary():
-    '''获取全部订单简要信息(分页)'''
-    validator = PaginateValidator().validate_for_api()
-    paged_orders = OrderModel.get_summary_by_user(uid=g.user.uid,
-                                                  page=validator.page.data,
-                                                  size=validator.size.data)
-    return Success(paged_orders)
-
-
-@api.route('/delivery', methods=['PUT'])
-@api.doc(args=['g.query.order_id'], auth=True)
-@auth.login_required
-def delivery():
-    '''订单发货'''
-    order_id = IDMustBePositiveInt().validate_for_api().id.data
-    result = OrderService.delivery(order_id)
-    Success(result)

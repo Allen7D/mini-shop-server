@@ -23,6 +23,15 @@ __author__ = 'Allen7D'
 def create_app():
     # 默认template_folder值就是'./templates'
     app = Flask(__name__, static_folder="./static", template_folder="./templates")
+
+    load_config(app)
+    register_blueprint(app)
+    register_plugin(app)
+
+    return app
+
+
+def load_config(app):
     if os.environ.get('ENV_MODE') == 'local':
         app.config.from_object('app.config.local_secure')
         app.config.from_object('app.config.local_setting')
@@ -30,10 +39,14 @@ def create_app():
         app.config.from_object('app.config.secure')
         app.config.from_object('app.config.setting')
 
-    register_blueprint(app)
-    register_plugin(app)
 
-    return app
+def register_blueprint(app):
+    '''注册蓝图'''
+    bp_list = create_blueprint_list(app)
+
+    for url_prefix, bp in bp_list:
+        app.register_blueprint(bp, url_prefix=url_prefix)
+    app.register_blueprint(web, url_prefix='/web')
 
 
 def register_plugin(app):
@@ -43,7 +56,7 @@ def register_plugin(app):
 
     # Debug模式(以下为非必选应用，且用户不可见)
     if app.config['DEBUG']:
-        apply_request_log(app) # 打印请求日志
+        apply_request_log(app)  # 打印请求日志
         apply_default_router(app)  # 应用默认路由
         apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
         apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
@@ -143,7 +156,7 @@ def apply_request_log(app):
         print('\033[0;34m')
         if request.method in ('GET', 'POST', 'PUT', 'DELETE'):
             print(message)
-        print('\033[0m') # 终端颜色恢复
+        print('\033[0m')  # 终端颜色恢复
         return res
 
 
@@ -159,12 +172,3 @@ def handle_error(app):
                 return ServerError()  # 未知错误(统一为服务端异常)
             else:
                 raise e
-
-
-def register_blueprint(app):
-    '''注册蓝图'''
-    bp_list = create_blueprint_list(app)
-
-    for url_prefix, bp in bp_list:
-        app.register_blueprint(bp, url_prefix=url_prefix)
-    app.register_blueprint(web, url_prefix='/web')

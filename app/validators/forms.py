@@ -5,8 +5,8 @@
 """
 from collections import namedtuple
 
-from wtforms import StringField, IntegerField, FileField, MultipleFileField
-from wtforms.validators import DataRequired, length, Email, Regexp, ValidationError, NumberRange
+from wtforms import StringField, IntegerField, PasswordField, FileField, MultipleFileField
+from wtforms.validators import DataRequired, length, Email, Regexp, EqualTo, ValidationError, NumberRange
 
 from app.libs.enums import ClientTypeEnum
 from app.models.user import User
@@ -54,6 +54,8 @@ class BookSearchValidator(BaseValidator):
     q = StringField(validators=[DataRequired()])
 
 
+
+# 上传文件的校验(单个文件)
 class UploadFileValidator(BaseValidator):
     # ref==> https://wtforms.readthedocs.io/en/latest/fields.html
     file = FileField(validators=[DataRequired()])
@@ -63,7 +65,7 @@ class UploadPDFValidator(BaseValidator):
     origin = FileField(validators=[DataRequired()])
     comparer = FileField(validators=[DataRequired()])
 
-
+# 配送地址的校验
 class UpdateAddressValidator(BaseValidator):
     name = StringField(validators=[DataRequired()])
     mobile = StringField(validators=[
@@ -74,7 +76,7 @@ class UpdateAddressValidator(BaseValidator):
     province = StringField(validators=[DataRequired()])
     city = StringField(validators=[DataRequired()])
     country = StringField(validators=[DataRequired()])
-    detail = StringField()
+    detail = StringField(validators=[DataRequired()])
 
 
 class PaginateValidator(BaseValidator):

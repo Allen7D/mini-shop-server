@@ -46,8 +46,7 @@ def get_one():
 def create_one():
     '''新增「配送信息」'''
     address_info = UpdateAddressValidator().validate_for_api().data
-    uid = g.user.uid
-    user = User.query.filter_by(id=uid).first_or_404(e=UserException)
+    user = User.get_or_404(id=g.user.uid, e=UserException)
     user.save_address(address_info)
     return Success(error_code=1)
 

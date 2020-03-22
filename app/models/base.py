@@ -32,6 +32,11 @@ class Pagination(_Pagination):
             item.hide(*keys)
         return self
 
+    def append(self, *keys):
+        for item in self.items:
+            item.append(*keys)
+        return self
+
 
 class Query(BaseQuery):
     def filter_by(self, **kwargs):
@@ -194,16 +199,14 @@ class Base(CRUDMixin, db.Model):
 
     def hide(self, *keys):
         for key in keys:
-            self.exclude.append(key)
+            # 使用exclude，在 Model层和 Service层等任意的操作中，已经隐藏的属性无法再添加
+            # self.exclude.append(key)
             if key in self.fields:
                 self.fields.remove(key)
         return self
 
     def append(self, *keys):
         for key in keys:
-            # self.fields 暂未有key
-            # and
-            # 在 Model层和 Service层等任意的操作中，已经隐藏的属性无法再添加
-            if key not in self.fields and key not in self.exclude:
+            if key not in self.fields:
                 self.fields.append(key)
         return self

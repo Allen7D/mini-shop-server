@@ -2,6 +2,7 @@
 """
   Created by Allen7D on 2018/5/31.
 """
+from flask import g
 from sqlalchemy import Column, Integer, String, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -84,7 +85,7 @@ class User(Base):
         :param form: 属性包含(openid、unionid、nickname、headimgurl)
         :return:
         """
-        return User.create(form)
+        return User.create(**form)
 
     @staticmethod
     def verify_by_email(email, password):
@@ -138,6 +139,10 @@ class User(Base):
             user = User.register_by_wx_open(user_info)
         scope = Scope.match_user_scope(auth=user.auth)
         return {'uid': user.id, 'scope': scope}
+
+    @classmethod
+    def get_current_user(cls):
+        return cls.get(id=g.user.uid)
 
     def check_password(self, raw):
         if not self._password:

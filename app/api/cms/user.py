@@ -10,7 +10,7 @@ from app.models.base import db
 from app.models.user import User
 from app.api_docs.cms import user as api_doc
 from app.validators.base import BaseValidator
-from app.validators.forms import PaginateValidator
+from app.validators.forms import PaginateValidator, ResetPasswordValidator
 
 __author__ = 'Allen7D'
 
@@ -60,3 +60,15 @@ def delete_user(uid):
     user = User.query.filter_by(id=uid).first_or_404()
     user.delete()
     return Success(error_code=2)
+
+
+@api.route('/<int:uid>/password', methods=['PUT'])
+@api.doc(args=['g.path.uid+', 'g.body.new_password', 'g.body.confirm_password'], auth=True)
+@auth.login_required
+def reset_password(uid):
+    '''更改用户密码'''
+    new_password = ResetPasswordValidator().validate_for_api().new_password.data
+
+    user = User.query.filter_by(id=uid).first_or_404()
+    user.update(password=new_password)
+    return Success(error_code=1)

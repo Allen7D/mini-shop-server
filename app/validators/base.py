@@ -3,14 +3,14 @@
   Created by Allen7D on 2018/5/13.
 """
 from flask import request, _request_ctx_stack
-from wtforms import Form, ValidationError
+from wtforms import Form as WTForm, ValidationError
 
 from app.libs.error_code import ParameterException
 
 __author__ = 'Allen7D'
 
 
-class BaseValidator(Form):
+class BaseValidator(WTForm):
     def __init__(self):
         data = request.get_json(silent=True)  # body中
         # view_args = _request_ctx_stack.top.request.view_args  # 获取view中(path路径里)的args
@@ -29,7 +29,7 @@ class BaseValidator(Form):
             key: value.data for key, value in self._fields.items() if value.data is not None
         }
 
-    def get_json(self):
+    def get_all_json(self):
         data, args = request.get_json(silent=True), request.args.to_dict()
         args_json = dict(data, **args) if data is not None else args
         return {

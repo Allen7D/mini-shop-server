@@ -5,8 +5,8 @@
 """
 from collections import namedtuple
 
-from wtforms import StringField, IntegerField, FileField, MultipleFileField
-from wtforms.validators import DataRequired, length, Email, Regexp, ValidationError, NumberRange
+from wtforms import StringField, IntegerField, PasswordField, FileField, MultipleFileField
+from wtforms.validators import DataRequired, length, Email, Regexp, EqualTo, ValidationError, NumberRange
 
 from app.libs.enums import ClientTypeEnum
 from app.models.user import User
@@ -50,10 +50,22 @@ class UserEmailValidator(ClientValidator):
             raise ValidationError()
 
 
-class BookSearchValidator(BaseValidator):
-    q = StringField(validators=[DataRequired()])
+# 重置密码校验
+class ResetPasswordValidator(BaseValidator):
+    new_password = PasswordField('新密码', validators=[
+        DataRequired(message='新密码不可为空'),
+        Regexp(r'^[A-Za-z0-9_*&$#@]{6,22}$', message='密码长度必须在6~22位之间，包含字符、数字和 _ '),
+        EqualTo('confirm_password', message='两次输入的密码不一致，请输入相同的密码')
+    ])
+    confirm_password = PasswordField('确认新密码', validators=[DataRequired(message='请确认密码')])
 
 
+# 更改密码校验
+class ChangePasswordValidator(ResetPasswordValidator):
+    old_password = PasswordField('原密码', validators=[DataRequired(message='不可为空')])
+
+
+# 上传文件的校验(单个文件)
 class UploadFileValidator(BaseValidator):
     # ref==> https://wtforms.readthedocs.io/en/latest/fields.html
     file = FileField(validators=[DataRequired()])
@@ -63,7 +75,7 @@ class UploadPDFValidator(BaseValidator):
     origin = FileField(validators=[DataRequired()])
     comparer = FileField(validators=[DataRequired()])
 
-
+# 配送地址的校验
 class UpdateAddressValidator(BaseValidator):
     name = StringField(validators=[DataRequired()])
     mobile = StringField(validators=[
@@ -74,7 +86,7 @@ class UpdateAddressValidator(BaseValidator):
     province = StringField(validators=[DataRequired()])
     city = StringField(validators=[DataRequired()])
     country = StringField(validators=[DataRequired()])
-    detail = StringField()
+    detail = StringField(validators=[DataRequired()])
 
 
 class PaginateValidator(BaseValidator):

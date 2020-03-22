@@ -40,31 +40,32 @@ class Scope:
 
 
 class UserScope(Scope):
-    allow_api = ['v1.order+place_order', 'v1.order+get_summary_by_user'] + \
-                ['v1.pay+get_pre_order'] + \
+    allow_api = [] + \
                 []
-    allow_module = []
-    forbidden_api = ['cms.user+get_user_list', 'cms.user+get_user', 'cms.user+delete_user',
-                     'cms.user+update_user'] + \
+    allow_module = ['v1.user', 'v1.address', 'v1.theme', 'v1.banner',
+                    'v1.category', 'v1.product', 'v1.pay', 'v1.order']
+    forbidden_api = [] + \
                     []
     forbidden_module = []
 
     def __init__(self):
-        self + AdminScope()
+        pass
 
 
 class AdminScope(Scope):
-    # allow_api = ['v1.user+super_get_user', 'v1.user+super_delete_user']
-    allow_api = ['v1.order+get_detail'] + \
-                ['v1.category+'] + \
-                ['v1.product+get_product']
-    allow_module = ['v1.user', 'v1.address', 'v1.product'] + \
-                   ['cms.user', 'cms.category', 'cms.product', 'cms.theme', 'cms.file']
+    allow_api = ['v1.user+get_user', 'v1.user+change_password'] + \
+                ['v1.product+get_product', 'v1.product+get_all_by_category'] + \
+                ['v1.order+get_detail']
+    allow_module = ['v1.theme', 'v1.banner', 'v1.category'] + \
+                   ['cms.user', 'cms.theme', 'cms.category',
+                    'cms.product', 'cms.order', 'cms.file']
+
     forbidden_api = []
     forbidden_module = []
 
     def __init__(self):
-        pass
+        # 线上时为 pass
+        self + UserScope()
 
 
 class SuperScope(Scope):

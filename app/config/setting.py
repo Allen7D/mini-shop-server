@@ -35,6 +35,7 @@ local_setting.py中
 '''
 SERVER_SCHEMES = ["https", "http"]
 
+SWAGGER_TAGS = [] # 在'/app/api/__init__.py'中create_blueprint_list设置
 SWAGGER = {
     "swagger_version": "2.0",
     "info": {
@@ -51,7 +52,7 @@ SWAGGER = {
     },
     "host": SERVER_URL,  # "api.ivinetrue.com",
     "basePath": "/",  # base bash for blueprint registration
-    "tags": [],  # 在'/app/api/v1/__init__.py'定义
+    "tags": SWAGGER_TAGS,
     "schemes": SERVER_SCHEMES,
     "operationId": "getmyData",
     "securityDefinitions": {
@@ -84,7 +85,7 @@ ALL_MODEL_BY_MODULE = {
 # all api by module(version)
 ALL_API_BY_MODULE = {
     'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
-    'cms': ['user', 'category', 'product', 'theme', 'file']
+    'cms': ['user', 'theme', 'category', 'product', 'order', 'file']
 }
 
 # 项目的github地址

@@ -11,12 +11,12 @@ def create_blueprint_list(app):
     bp_list = []
     for module_name, api_name_list in app.config['ALL_API_BY_MODULE'].items():
         rp_list = _import_redprint(module_name, api_name_list)
+        app.config['SWAGGER_TAGS'].extend([api.tag for api in rp_list])
         # 将「红图列表」注册到蓝图中
         bp = Blueprint(module_name, '{}.{}'.format(__name__, module_name))
-        bp = bp.register_redprint(rp_list)
+        bp.register_redprint_list(rp_list)
         url_prefix = '/{}'.format(module_name)
         bp_list.append((url_prefix, bp))
-    app.config['BP_LIST'] = bp_list
     return bp_list
 
 

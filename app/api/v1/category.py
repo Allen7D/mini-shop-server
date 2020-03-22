@@ -15,7 +15,7 @@ api = RedPrint(name='category', description='产品类别', api_doc=api_doc)
 
 @api.route('/all', methods=['GET'])
 @api.doc()
-def get_all_categories():
+def get_all():
 	'''获取所有产品的分类'''
 	categories = Category.get_all_categories()
 	return Success(categories)

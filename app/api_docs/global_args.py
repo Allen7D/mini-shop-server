@@ -40,5 +40,6 @@ page = IntegerQueryFiled(name='page', description="第几页", enum=[1, 2, 3, 4,
 size = IntegerQueryFiled(name='size', description="每页大小", enum=[10, 20, 30, 40, 50, 100], default=10)
 
 # Password
-new_password_in_body = BodyField(name='new_password', type='string', description='密码(不输则默认: 123456)', enum=['123456'])
-confirm_password_in_body = BodyField(name='confirm_password', type='string', description='密码(不输则默认: 123456)', enum=['123456'])
+old_password_in_body = BodyField(name='new_password', type='string', description='密码', enum=['123456'])
+new_password_in_body = BodyField(name='new_password', type='string', description='密码', enum=['123456'])
+confirm_password_in_body = BodyField(name='confirm_password', type='string', description='密码', enum=['123456'])

@@ -85,7 +85,7 @@ class User(Base):
         :param form: 属性包含(openid、unionid、nickname、headimgurl)
         :return:
         """
-        return User.create(form)
+        return User.create(**form)
 
     @staticmethod
     def verify_by_email(email, password):

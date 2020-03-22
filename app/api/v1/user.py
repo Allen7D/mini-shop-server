@@ -47,6 +47,7 @@ def create_user():
 def update_user():
     '''用户更改自身信息'''
     validator = BaseValidator().get_all_json()  # 快速获取所有的非校验的参数
+    user = User.get_current_user()
     return Success(error_code=1)
 
 
@@ -56,7 +57,7 @@ def update_user():
 def delete_user():
     '''用户注销'''
     # 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
-    user = User.query.filter_by(id=g.user.uid).first_or_404()
+    user = User.get_current_user()
     user.delete()
     return Success(error_code=2)
 
@@ -70,7 +71,7 @@ def change_password():
     old_password = validator.old_password.data
     new_password = validator.new_password.data
 
-    user = User.query.filter_by(id=g.user.uid).first()
+    user = User.get_current_user()
     if user.check_password(old_password):
         user.update(password=new_password)
     return Success(error_code=1)

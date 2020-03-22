@@ -142,6 +142,7 @@ class User(Base):
 
     @classmethod
     def get_current_user(cls):
+        user = ctx_stack.top
         return cls.get(id=g.user.uid)
 
     def check_password(self, raw):

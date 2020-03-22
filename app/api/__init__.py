@@ -16,19 +16,8 @@ def create_blueprint_list(app):
         bp = bp.register_redprint(rp_list)
         url_prefix = '/{}'.format(module_name)
         bp_list.append((url_prefix, bp))
-    _load_swagger_tags_to_config(app, bp_list)
+    app.config['BP_LIST'] = bp_list
     return bp_list
-
-
-def _load_swagger_tags_to_config(app, bp_list):
-    '''
-    生成SWAGGER_TAGS，并导入到app.config供全局使用
-    :param app: Flask实例
-    :param bp_list: 蓝图列表
-    :return:
-    '''
-    tags = [tag for _, bp in bp_list for tag in bp.tags]
-    app.config['SWAGGER_TAGS'] = tags
 
 
 def _import_redprint(module_name, api_name_list):

@@ -113,7 +113,9 @@ def apply_swagger(app):
     from flasgger import Swagger
     # 默认与 config/setting.py 的 SWAGGER 合并
     # 可以将secure.py中的SWAGGER全部写入template
-    swagger = Swagger(template={'tags': app.config['SWAGGER_TAGS'] })
+    bp_list = app.config['BP_LIST']
+    tags = [tag for _, bp in bp_list for tag in bp.tags]
+    swagger = Swagger(template={'tags': tags})
     swagger.init_app(app)
 
 

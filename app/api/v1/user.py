@@ -12,11 +12,11 @@ from app.libs.token_auth import auth
 from app.models.user import User
 from app.api_docs.v1 import user as api_doc  # api_doc可以引入
 from app.validators.base import BaseValidator
+from app.validators.forms import ChangePasswordValidator
 
 __author__ = 'Allen7D'
 
 # 直接将api文档的内容放入RedPrint中
-from app.validators.forms import ChangePasswordValidator
 
 api = RedPrint(name='user', description='用户', api_doc=api_doc)
 

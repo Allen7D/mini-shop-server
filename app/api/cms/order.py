@@ -20,7 +20,7 @@ __author__ = 'Allen7D'
 api = RedPrint(name='order', description='订单管理', api_doc=api_doc, alias='cms_order')
 
 
-@api.route('/paginate', methods=['GET'])
+@api.route('/list', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
 def get_summary():

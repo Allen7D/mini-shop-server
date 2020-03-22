@@ -19,15 +19,15 @@ __author__ = 'Allen7D'
 api = RedPrint(name='address', description='配送信息', api_doc=api_doc)
 
 
-@api.route('/list', methods=['GET'])
+@api.route('/all', methods=['GET'])
 @api.doc(auth=True)
 @auth.login_required
-def get_list():
+def get_all():
     '''获取所有「配送信息」'''
     uid = g.user.uid
-    user_address = UserAddress.query.filter_by(user_id=uid).all_or_404(
+    user_address_list = UserAddress.query.filter_by(user_id=uid).all_or_404(
         error_code=6001, msg='配送地址不存在')
-    return Success(user_address)
+    return Success(user_address_list)
 
 
 @api.route('', methods=['GET'])

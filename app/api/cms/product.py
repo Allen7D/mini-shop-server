@@ -15,7 +15,7 @@ __author__ = 'Allen7D'
 api = RedPrint(name='product', description='产品管理', api_doc=api_doc, alias='cms_product')
 
 
-@api.route('/by_category/paginate', methods=['GET'])
+@api.route('/list/by_category', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.category_id'], auth=True)
 @auth.login_required
 def get_list_by_category():

@@ -8,7 +8,6 @@ from app.libs.token_auth import auth
 from app.api_docs.cms import theme as api_doc
 from app.models.theme import Theme
 from app.validators.forms import PaginateValidator
-from app.validators.params import IDMustBePositiveInt
 
 __author__ = 'Allen7D'
 
@@ -40,5 +39,4 @@ def update_one(id):
 @auth.login_required
 def delete_one(id):
     '''删除某主题'''
-    id = IDMustBePositiveInt().validate_for_api().id.data
     return Success(error_code=2)

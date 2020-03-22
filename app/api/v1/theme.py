@@ -6,7 +6,7 @@
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.theme import Theme
-from app.validators.params import IDCollection, IDMustBePositiveInt
+from app.validators.params import IDCollection
 from app.api_docs.v1 import theme as api_doc
 
 __author__ = 'Allen7D'
@@ -32,6 +32,5 @@ def get_complex_one(id):
 	:param id: 专题theme的id
 	:return: 专题theme的详情
 	'''
-	id = IDMustBePositiveInt().validate_for_api().id.data
 	theme_detail = Theme.get_theme_detail(id=id)
 	return Success(theme_detail)

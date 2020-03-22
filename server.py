@@ -2,7 +2,10 @@
 """
   Created by Allen7D on 2018/5/12.
 """
-from werkzeug.middleware.proxy_fix import ProxyFix
+try:
+    from werkzeug.contrib.fixers import ProxyFix
+except ImportError:
+    from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_script import Manager, Server
 
 from app import create_app

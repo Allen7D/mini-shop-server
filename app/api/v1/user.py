@@ -16,6 +16,8 @@ from app.validators.base import BaseValidator
 __author__ = 'Allen7D'
 
 # 直接将api文档的内容放入RedPrint中
+from app.validators.forms import ChangePasswordValidator
+
 api = RedPrint(name='user', description='用户', api_doc=api_doc)
 
 
@@ -57,3 +59,18 @@ def delete_user():
     user = User.query.filter_by(id=g.user.uid).first_or_404()
     user.delete()
     return Success(error_code=2)
+
+
+@api.route('/password', methods=['PUT'])
+@api.doc(args=['g.body.new_password', 'g.body.confirm_password'], auth=True)
+@auth.login_required
+def change_password():
+    '''更改密码'''
+    validator = ChangePasswordValidator().validate_for_api()
+    old_password = validator.old_password.data
+    new_password = validator.new_password.data
+
+    user = User.query.filter_by(id=g.user.uid).first()
+    if user.check_password(old_password):
+        user.update(password=new_password)
+    return Success(error_code=1)

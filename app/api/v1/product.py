@@ -34,7 +34,7 @@ def get_all_by_category():
 
 @api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['g.path.product_id'])
-def get_product(id):
+def get_one(id):
 	'''获取某商品信息'''
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	product = Product.get_product_detail(id=id)

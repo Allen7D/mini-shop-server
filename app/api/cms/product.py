@@ -15,7 +15,7 @@ __author__ = 'Allen7D'
 api = RedPrint(name='product', description='产品管理', api_doc=api_doc, alias='cms_product')
 
 
-@api.route('/list/by_category', methods=['GET'])
+@api.route('/by_category/paginate', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.category_id'], auth=True)
 @auth.login_required
 def get_list_by_category():
@@ -35,7 +35,7 @@ def get_list_by_category():
 @api.route('/<int:id>', methods=['PUT'])
 @api.doc(args=['g.path.product_id'], auth=True)
 @auth.login_required
-def update_product(id):
+def update_one(id):
 	'''更新商品信息'''
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	return Success(error_code=1)
@@ -44,7 +44,7 @@ def update_product(id):
 @api.route('/<int:id>', methods=['DELETE'])
 @api.doc(args=['g.path.product_id'], auth=True)
 @auth.login_required
-def delete_product(id):
+def delete_one(id):
 	'''删除某商品'''
 	id = IDMustBePositiveInt().validate_for_api().id.data
 	Product.delete_by_id(id)

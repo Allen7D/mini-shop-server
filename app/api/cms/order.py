@@ -10,7 +10,7 @@ from app.libs.token_auth import auth
 from app.models.base import db
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
-from app.api_docs.cms import user as api_doc
+from app.api_docs.cms import order as api_doc
 from app.validators.base import BaseValidator
 from app.validators.forms import PaginateValidator
 from app.validators.params import IDMustBePositiveInt

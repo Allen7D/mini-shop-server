@@ -5,6 +5,7 @@
 """
 from collections import namedtuple
 
+from flask import request
 from wtforms import StringField, IntegerField, PasswordField, FileField, MultipleFileField
 from wtforms.validators import DataRequired, length, Email, Regexp, EqualTo, ValidationError, NumberRange
 
@@ -68,12 +69,16 @@ class ChangePasswordValidator(ResetPasswordValidator):
 # 上传文件的校验(单个文件)
 class UploadFileValidator(BaseValidator):
     # ref==> https://wtforms.readthedocs.io/en/latest/fields.html
-    file = FileField(validators=[DataRequired()])
+    file = FileField()
+
+    def validate_file(self, value):
+        self.file.data = request.files[value.name]
 
 
 class UploadPDFValidator(BaseValidator):
     origin = FileField(validators=[DataRequired()])
     comparer = FileField(validators=[DataRequired()])
+
 
 # 配送地址的校验
 class UpdateAddressValidator(BaseValidator):

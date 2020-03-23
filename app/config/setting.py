@@ -16,7 +16,7 @@ local_setting.py中
 SERVER_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址
 
 IMG_PREFIX = SERVER_URL + '/static/images'
-UPLOAD_FOLDER = 'app/static/uploads'
+UPLOAD_FOLDER = 'app/static/files'
 
 # flask-admin配置
 FLASK_ADMIN_SWATCH = 'cerulean'

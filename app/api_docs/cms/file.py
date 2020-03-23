@@ -4,7 +4,26 @@
 """
 __author__ = 'Allen7D'
 
+
 upload_file = {
+	"parameters": [
+		{
+			"name": "file",
+			"in": "formData",
+			"type": "file",
+			"required": 'false'
+		}
+	],
+	"responses": {
+		"200": {
+			"description": "上传文件成功",
+			"examples": {}
+		}
+	}
+}
+
+
+upload_double_file = {
 	"parameters": [
 		{
 			"name": "origin",

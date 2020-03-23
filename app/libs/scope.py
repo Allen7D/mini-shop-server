@@ -53,9 +53,9 @@ class UserScope(Scope):
 
 
 class AdminScope(Scope):
-    allow_api = ['v1.user+get_user', 'v1.user+change_password'] + \
-                ['v1.product+get_product', 'v1.product+get_all_by_category'] + \
-                ['v1.order+get_detail']
+    allow_api = ['v1.user+get_one', 'v1.user+change_password'] + \
+                ['v1.product+get_one', 'v1.product+get_all_by_category'] + \
+                ['v1.order+get_one']
     allow_module = ['v1.theme', 'v1.banner', 'v1.category'] + \
                    ['cms.user', 'cms.theme', 'cms.category',
                     'cms.product', 'cms.order', 'cms.file']

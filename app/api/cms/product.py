@@ -35,17 +35,15 @@ def get_list_by_category():
 @api.route('/<int:id>', methods=['PUT'])
 @api.doc(args=['g.path.product_id'], auth=True)
 @auth.login_required
-def update_product(id):
+def update_one(id):
 	'''更新商品信息'''
-	id = IDMustBePositiveInt().validate_for_api().id.data
 	return Success(error_code=1)
 
 
 @api.route('/<int:id>', methods=['DELETE'])
 @api.doc(args=['g.path.product_id'], auth=True)
 @auth.login_required
-def delete_product(id):
+def delete_one(id):
 	'''删除某商品'''
-	id = IDMustBePositiveInt().validate_for_api().id.data
 	Product.delete_by_id(id)
 	return Success(error_code=2)

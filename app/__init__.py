@@ -108,7 +108,11 @@ def apply_orm_admin(app):
         except ModuleNotFoundError as e:
             model_view = ModelView
         # admin添加model_view
-        admin.add_view(model_view(model, db.session))
+        # endpoint & url有默认值，也可以随意修改
+        lower_model_name= model_name.lower()
+        admin.add_view(model_view(model, db.session,
+                                  endpoint='admin.{}'.format(lower_model_name),
+                                  url='/admin/{}'.format(lower_model_name)))
 
     apply_file_admin(admin)
     admin.init_app(app)

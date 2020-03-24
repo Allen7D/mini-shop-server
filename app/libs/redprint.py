@@ -173,9 +173,9 @@ class RequestArg():
 
     @property
     def type(self):
-        if self.abbr_type not in ('int', 'str', 'bool'):
+        if self.abbr_type not in ('int', 'str', 'bool', 'arr'):
             raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(self.abbr_type))
-        type_dict = {'int': 'integer', 'str': 'string', 'bool': 'boolean'}
+        type_dict = {'int': 'integer', 'str': 'string', 'bool': 'boolean', 'arr': 'array'}
         return type_dict[self.abbr_type]
 
     @property
@@ -183,7 +183,8 @@ class RequestArg():
         enum_dict = {
             'int': [1, 2, 3, 4, 5, 10, 100, 0],
             'str': ['***', '???'],
-            'bool': [True, False]
+            'bool': [True, False],
+            'arr': [['a', 'b', 'c'], [1, 2, 3]]
         }
         return enum_dict[self.abbr_type]
 
@@ -197,7 +198,13 @@ class RequestArg():
 
 
 def _parse_fast_args(fast_arg_name_list):
-    # 校验数据格式必须是3个，第二个是int、str、bool，第三个是body、query、path
+    '''
+    校验数据格式必须是3个
+        第2个是数据类型: int、str、bool, arr
+        第3个是数据位置: body、query、path
+    :param fast_arg_name_list:
+    :return:
+    '''
     request_args = []
     for fast_arg_name in fast_arg_name_list:
         arg_type, arg_site, arg_name = fast_arg_name.split('.')

@@ -111,7 +111,7 @@ def apply_orm_admin(app):
         admin.add_view(model_view(model, db.session))
 
     apply_file_admin(admin)
-    admin.init_app(app, url='/admin')
+    admin.init_app(app)
 
 
 def apply_file_admin(admin):

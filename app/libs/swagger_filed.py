@@ -118,20 +118,24 @@ class BodyField():
     def __init__(self, name, type, description, enum=None, default=None):
         self.name = name
         self.site = 'body'
-        self.type = type # type的类型: string、integer、boolean
+        self.type = type # type的类型: string、integer、boolean, array
         self.description = description
         self.enum = enum
         self.default = default if default else enum[0]
 
     @property
     def data(self):
-        return {
+        data_dict = {
             "name": self.name,
             "type": self.type,
             "description": self.description,
             "enum": self.enum,
             "default": self.default
         }
+        if self.type in ('array'):
+            data_dict['type'] = 'list'
+            data_dict['items'] = self.default
+        return data_dict
 
 
 def inject(*args, **kwargs):

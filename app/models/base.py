@@ -109,6 +109,11 @@ class CRUDMixin(object):
         return cls.query.filter_by(**kwargs).first_or_404(**error_kwargs)
 
     @classmethod
+    def get_all(cls, **kwargs):
+        """查所有"""
+        return cls.query.filter_by(**kwargs).all()
+
+    @classmethod
     def create(cls, commit=True, **kwargs):
         """增"""
         instance = cls()

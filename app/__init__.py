@@ -58,7 +58,7 @@ def register_plugin(app):
     if app.config['DEBUG']:
         apply_request_log(app)  # 打印请求日志
         apply_default_router(app)  # 应用默认路由
-        apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
+        # apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
         apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
 
 
@@ -111,7 +111,7 @@ def apply_orm_admin(app):
         admin.add_view(model_view(model, db.session))
 
     apply_file_admin(admin)
-    admin.init_app(app, url='/admin')
+    admin.init_app(app)
 
 
 def apply_file_admin(admin):

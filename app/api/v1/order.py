@@ -43,7 +43,7 @@ def place_order():
 @api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['g.path.order_id'], auth=True)
 @auth.login_required
-def get_one(id):
+def get_order(id):
     '''订单详情'''
     order = OrderModel.query.get_or_404(id).hide('prepay_id')
     return Success(order)

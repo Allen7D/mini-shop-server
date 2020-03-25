@@ -63,13 +63,13 @@ def update_one():
     return Success(error_code=1)
 
 
-@api.route('', methods=['DELETE'])
+@api.route('<int:address_id>', methods=['DELETE'])
 @api.doc(args=['*int.path.address_id'], auth=True)
 @auth.login_required
-def delete_one():
+def delete_one(address_id):
     '''删除「配送信息」'''
     uid = g.user.uid
-    validator = BaseValidator().get_all_json()
+    validator = BaseValidator.get_all_json()
     user_address = UserAddress.get_or_404(user_id=uid, id=validator.address_id)
     user_address.delete()
     return Success(error_code=2)

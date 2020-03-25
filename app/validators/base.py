@@ -29,20 +29,32 @@ class BaseValidator(WTForm):
             key: value.data for key, value in self._fields.items() if value.data is not None
         }
 
-    def get_all_json(self):
+    @staticmethod
+    def get(key, default=None):
+        data = BaseValidator.get_all_json()
+        try:
+            rv = data[key]
+        except KeyError:
+            return default
+        return rv
+
+    @staticmethod
+    def get_all_json():
         data, args = request.get_json(silent=True), request.args.to_dict()
         args_json = dict(data, **args) if data is not None else args
         return {
             key: value for key, value in args_json.items() if value is not None
         }
 
-    def get_query_json(self):
+    @staticmethod
+    def get_query_json():
         args_json = request.args.to_dict()
         return {
             key: value for key, value in args_json.items() if value is not None
         }
 
-    def get_body_json(self):
+    @staticmethod
+    def get_body_json():
         args_json = request.get_json(silent=True)
         return {
             key: value for key, value in args_json.items() if value is not None

@@ -35,7 +35,7 @@ def get_one():
 @api.doc(args=['body.email', 'body.nickname', '*str.body.password'])
 def create_one():
     '''用户注册'''
-    validator = BaseValidator().get_all_json()
+    validator = BaseValidator.get_all_json()
     validator['auth'] = ScopeEnum.USER.value
     user = User.create(**validator)
     return Success(data=user, error_code=1)
@@ -46,7 +46,7 @@ def create_one():
 @auth.login_required
 def update_one():
     '''用户更改自身信息'''
-    validator = BaseValidator().get_all_json()  # 快速获取所有的非校验的参数
+    validator = BaseValidator.get_all_json()  # 快速获取所有的非校验的参数
     user = User.get_current_user()
     return Success(error_code=1)
 

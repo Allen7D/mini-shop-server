@@ -50,7 +50,7 @@ def get_user(uid):
 
 @api.route('/<int:uid>', methods=['PUT'])
 @api.route_meta(auth='更新用户', module='用户')
-@api.doc(args=['g.path.uid+', '*str.body.name', '*int.body.age'], auth=True)
+@api.doc(args=['g.path.uid+', 'g.body.group_id'], auth=True)
 @auth.group_required
 def update_user(uid):
     '''更新用户信息(仅能重新分组)'''

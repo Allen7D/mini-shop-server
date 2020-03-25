@@ -27,7 +27,7 @@ api = RedPrint(name='file', description='文件管理', api_doc=api_doc, alias='
 
 @api.route('/upload', methods=['POST'])
 @api.doc(auth=True)
-@auth.login_required
+@auth.group_required
 def upload_file():
     '''文件上传'''
     validator = UploadFileValidator().validate_for_api()
@@ -37,7 +37,7 @@ def upload_file():
 
 @api.route('/upload/double', methods=['POST'])
 @api.doc(auth=True)
-@auth.login_required
+@auth.group_required
 def upload_double_file():
     '''对比双文件上传'''
     form = UploadPDFValidator().validate_for_api()

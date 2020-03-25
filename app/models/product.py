@@ -55,8 +55,3 @@ class Product(Base):
 	def get_product_detail(id):
 		return Product.query.filter_by(id=id)\
 			.first_or_404(e=ProductException).hide('category_id')
-
-	@staticmethod
-	def delete_by_id(id):
-		product = Product.query.filter_by(id=id).first_or_404()
-		product.delete()

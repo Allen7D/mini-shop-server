@@ -3,12 +3,18 @@
   Created by Allen7D on 2018/5/31.
 """
 from functools import wraps
+from collections import namedtuple
+
 from flasgger import swag_from
+
 from app.config.setting import specs_security
 from app.libs.swagger_filed import init_specs, ParamFiled, BodyField
 from app.api_docs import global_args as global_args_module
 
 __author__ = 'Allen7D'
+# 路由函数的权限和模块信息(meta信息)
+Meta = namedtuple('meta', ['auth', 'module'])
+route_meta_infos = {}
 
 
 class RedPrint:
@@ -34,6 +40,19 @@ class RedPrint:
         for f, rule, options in self.mound:
             endpoint = self.name + '+' + options.pop("endpoint", f.__name__)
             bp.add_url_rule(url_prefix + rule, endpoint, f, **options)
+
+    def route_meta(self, auth, module='common', mount=True):
+        def wrapper(f):
+            if mount:
+                name = f.__name__ + str(f.__hash__())
+                existed = route_meta_infos.get(name, None) and route_meta_infos.get(name).module == module
+                if existed:
+                    raise Exception("视图函数(f)名不能重复出现在同一个模块(module)中")
+                else:
+                    route_meta_infos.setdefault(name, Meta(auth, module))
+            return f
+
+        return wrapper
 
     def doc(self, *_args, **_kwargs):
         arg_path_name_list = []  # 所有的请求参数(path、query、body)
@@ -162,6 +181,7 @@ def _get_request_arg_name(last_arg_path):
     else:
         arg_name = last_arg_path
     return arg_name
+
 
 class RequestArg():
     def __init__(self, name, abbr_type, site):

@@ -17,31 +17,42 @@ api = RedPrint(name='category', description='类别管理', api_doc=api_doc, ali
 @api.route('/list', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
-def get_list():
-	'''获取类别列表(分页)'''
-	page_validator = PaginateValidator().validate_for_api()
-	page = page_validator.page.data
-	size = page_validator.size.data
+def get_category_list():
+    '''获取类别列表(分页)'''
+    page_validator = PaginateValidator().validate_for_api()
+    page = page_validator.page.data
+    size = page_validator.size.data
 
-	paginator = Category.query.filter_by().paginate(page=page, per_page=size, error_out=False)
-	return Success({
-		'total': paginator.total,
-		'current_page': paginator.page,
-		'items': paginator.items
-	})
+    paginator = Category.query.filter_by().paginate(page=page, per_page=size, error_out=False)
+    return Success({
+        'total': paginator.total,
+        'current_page': paginator.page,
+        'items': paginator.items
+    })
+
+
+@api.route('/<int:id>', methods=['POST'])
+@api.route_meta(auth='新增类别', module='类别')
+@api.doc(auth=True)
+@auth.group_required
+def create_category(id):
+    '''新增类别'''
+    return Success(error_code=1)
 
 
 @api.route('/<int:id>', methods=['PUT'])
+@api.route_meta(auth='更新类别', module='类别')
 @api.doc(auth=True)
-@auth.login_required
-def update_one(id):
-	'''更新类别信息'''
-	pass
+@auth.group_required
+def update_category(id):
+    '''更新类别信息'''
+    return Success(error_code=1)
 
 
 @api.route('/<int:id>', methods=['DELETE'])
+@api.route_meta(auth='删除类别', module='类别')
 @api.doc(auth=True)
-@auth.login_required
-def delete_one(id):
-	'''删除某类别'''
-	pass
+@auth.group_required
+def delete_category(id):
+    '''删除类别'''
+    return Success(error_code=2)

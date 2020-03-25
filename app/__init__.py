@@ -14,6 +14,7 @@ from .app import Flask
 from app.models.base import db
 from app.web import web
 from app.api import create_blueprint_list
+from app.libs.redprint import route_meta_infos
 from app.libs.error import APIException
 from app.libs.error_code import ServerError
 
@@ -43,10 +44,44 @@ def load_config(app):
 def register_blueprint(app):
     '''注册蓝图'''
     bp_list = create_blueprint_list(app)
-
     for url_prefix, bp in bp_list:
         app.register_blueprint(bp, url_prefix=url_prefix)
     app.register_blueprint(web, url_prefix='/web')
+    mount_route_meta_to_endpoint(app)
+    load_endpint_infos(app)
+
+
+def load_endpint_infos(app):
+    """
+    返回权限管理中的所有视图函数的信息，包含它所属module
+    :return:
+    """
+    infos = {}
+    index = 0
+    for ep, meta in app.config['EP_META'].items():
+        index += 1
+        endpint_info = {'id': index, 'auth': meta.auth, 'module': meta.module}
+        module = infos.get(meta.module, None)
+        #  infos是否已经存在该module
+        if module:
+            module.append(endpint_info)
+        else:
+            infos[meta.module] = [endpint_info]
+        app.config['EP_INFO_LIST'].append(endpint_info)
+    app.config['EP_INFOS'] = infos
+    return infos
+
+
+def mount_route_meta_to_endpoint(app):
+    '''
+    将route_mate挂载到对应的endpoint上
+    :param app:
+    :return:
+    '''
+    for endpoint, func in app.view_functions.items():
+        info = route_meta_infos.get(func.__name__ + str(func.__hash__()), None)
+        if info:
+            app.config['EP_META'].setdefault(endpoint, info)
 
 
 def register_plugin(app):
@@ -109,7 +144,7 @@ def apply_orm_admin(app):
             model_view = ModelView
         # admin添加model_view
         # endpoint & url有默认值，也可以随意修改
-        lower_model_name= model_name.lower()
+        lower_model_name = model_name.lower()
         admin.add_view(model_view(model, db.session,
                                   endpoint='admin.{}'.format(lower_model_name),
                                   url='/admin/{}'.format(lower_model_name)))

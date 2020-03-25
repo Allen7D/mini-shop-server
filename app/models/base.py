@@ -9,7 +9,7 @@ from flask import current_app, json
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, Pagination as _Pagination, BaseQuery
 from sqlalchemy import Column, SmallInteger, Integer, orm, inspect
 
-from app.libs.error_code import NotFound
+from app.libs.error_code import NotFound, RepeatException
 from time import localtime, strftime
 
 __author__ = 'Allen7D'
@@ -112,6 +112,16 @@ class CRUDMixin(object):
     def get_all(cls, **kwargs):
         """查所有"""
         return cls.query.filter_by(**kwargs).all()
+
+    @classmethod
+    def is_exist_to_404(cls,  e=None, error_code=None, msg=None, **kwargs):
+        instance = cls.query.filter_by(**kwargs).first()
+        if instance:
+            if e:
+                raise e
+            raise RepeatException(error_code=error_code, msg=msg)
+        else:
+            return False
 
     @classmethod
     def create(cls, commit=True, **kwargs):

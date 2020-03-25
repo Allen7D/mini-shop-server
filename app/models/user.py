@@ -6,9 +6,11 @@ from flask import g
 from sqlalchemy import Column, Integer, String, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from app.libs.enums import ScopeEnum
 from app.libs.scope import Scope
 from app.libs.error_code import AuthFailed, UserException
 from app.models.base import Base, db
+from app.models.group import Group as GroupModel
 from app.models.user_address import UserAddress
 from app.service.open_token import OpenToken
 from app.service.wx_token import WxToken
@@ -28,6 +30,7 @@ class User(Base):
     nickname = Column(String(24), comment='昵称')
     extend = Column(String(255), comment='')
     auth = Column(SmallInteger, default=1, comment='权限')
+    group_id = Column(Integer, comment='用户所属的权限组id')
     _user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')
     _password = Column('password', String(100), comment='密码')
 
@@ -52,7 +55,11 @@ class User(Base):
 
     @property
     def auth_scope(self):
-        return Scope.match_user_scope(self.auth, type='cn')
+        return db.session.query(GroupModel.name).filter(GroupModel.id == self.group_id).scalar()
+
+    @property
+    def is_admin(self):
+        return ScopeEnum(self.auth) in (ScopeEnum.SUPER, ScopeEnum.ADMIN)
 
     def save_address(self, address_info):
         address = self.user_address

@@ -85,8 +85,12 @@ ALL_MODEL_BY_MODULE = {
 # all api by module(version)
 ALL_API_BY_MODULE = {
     'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
-    'cms': ['user', 'theme', 'category', 'product', 'order', 'file']
+    'cms': ['admin', 'group', 'auth', 'user', 'theme', 'category', 'product', 'order', 'file']
 }
+# 所有endpoint的meta信息
+EP_META = {}
+EP_INFO_LIST = []
+EP_INFOS = {}
 
 # 项目的github地址
 GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'

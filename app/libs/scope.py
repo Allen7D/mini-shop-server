@@ -70,7 +70,7 @@ class AdminScope(Scope):
 
 class SuperScope(Scope):
     allow_api = []
-    allow_module = []
+    allow_module = ['cms.admin', 'cms.group', 'cms.auth']
     forbidden_api = []
     forbidden_module = []
 

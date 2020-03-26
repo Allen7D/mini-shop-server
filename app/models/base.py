@@ -76,6 +76,13 @@ class Query(BaseQuery):
         return rv if len(rv) != 0 else []
 
     def paginate(self, page=None, per_page=None, error_out=True, max_per_page=None):
+        '''
+        :param page:页码，从1开始
+        :param per_page: 每页显示的记录数
+        :param error_out: 错误标记(如果是True，如果接收到超出记录范围的页面请求则报错；False则返回空列表)
+        :param max_per_page:
+        :return:
+        '''
         # 使用paginator记的加上filter_by，用于默认添加status=1
         paginator = BaseQuery.paginate(self, page=page, per_page=per_page, error_out=error_out,
                                        max_per_page=max_per_page)

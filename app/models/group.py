@@ -14,7 +14,7 @@ __author__ = 'Allen7D'
 class Group(Base):
     __tablename__ = 'group'
     id = Column(Integer, primary_key=True)
-    name = Column(String(60), comment='权限组名称')
+    name = Column(String(60), unique=True, comment='权限组名称')
     info = Column(String(255), comment='权限组描述')
 
     @property

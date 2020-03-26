@@ -93,7 +93,7 @@ def get_auth_list():
     user = UserModel.get_current_user()
     auth_list = db.session.query(AuthModel.auth, AuthModel.module)\
         .filter_by(group_id=user.group_id).all()
-    auth_list = [{'id': get_ep_id(auth[0]), 'auth': auth[0], 'module': auth[1]} for auth in auth_list]
+    auth_list = [{'id': get_ep_id(auth[0]), 'name': auth[0], 'module': auth[1]} for auth in auth_list]
     return Success({
         'items': auth_list
     })

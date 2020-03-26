@@ -39,10 +39,10 @@ def get_admin_list():
     page, size = validator.page.data, validator.size.data
     group_id = request.args.get('group_id')
     query_condition = {
-        'auth': ScopeEnum.ADMIN.value,  # 至少是管理员
+        'name': ScopeEnum.ADMIN.value,  # 至少是管理员
         'group_id': group_id
     } if group_id else {
-        'auth': ScopeEnum.ADMIN.value
+        'name': ScopeEnum.ADMIN.value
     }
     user_list = db.session.query(UserModel).filter_by(**query_condition).all()
     return Success(user_list)

@@ -50,9 +50,9 @@ def create_group():
     '''新建权限组'''
     validator = BaseValidator.get_all_json()
     name = validator['name']  # 权限组名
-    auth_ids = validator['auth_ids'] # 权限IDs
-    auth_list = [get_ep_name(auth_id) for auth_id in auth_ids] # 权限名列表
-    info = validator['info'] # 权限组名描述
+    auth_ids = validator['auth_ids']  # 权限IDs
+    auth_list = [get_ep_name(auth_id) for auth_id in auth_ids]  # 权限名列表
+    info = validator['info']  # 权限组名描述
 
     with db.auto_commit():
         group = GroupModel.create(name=name, info=info, commit=False)
@@ -60,7 +60,7 @@ def create_group():
         for auth in auth_list:
             meta = find_auth_module(auth)
             if meta:
-                AuthModel.create(auth=meta.auth, module=meta.module, group_id=group.id, commit=False)
+                AuthModel.create(auth=meta.name, module=meta.module, group_id=group.id, commit=False)
     return Success(error_code=1)
 
 
@@ -68,7 +68,7 @@ def create_group():
 @api.doc(args=['g.path.group_id', 'body.group_name', 'body.info'], auth=True)
 @auth.admin_required
 def update_group(id):
-    '''更新权限组'''
+    '''更新权限组)'''
     form = UpdateGroupValidator().validate_for_api()
     group = GroupModel.get_or_404(id=id, msg='分组不存在，更新失败')
     group.update(name=form.name.data, info=form.info.data)

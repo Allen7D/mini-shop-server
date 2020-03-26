@@ -13,7 +13,8 @@ from app.api_docs import global_args as global_args_module
 
 __author__ = 'Allen7D'
 # 路由函数的权限和模块信息(meta信息)
-Meta = namedtuple('meta', ['auth', 'module'])
+# name 权限名；module 权限所属模块
+Meta = namedtuple('meta', ['name', 'module'])
 route_meta_infos = {}
 
 

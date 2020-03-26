@@ -60,7 +60,8 @@ def load_endpint_infos(app):
     index = 0
     for ep, meta in app.config['EP_META'].items():
         index += 1
-        endpint_info = {'id': index, 'auth': meta.auth, 'module': meta.module}
+        # 此处的id仅作为Vue的v-for使用，无实际意义
+        endpint_info = {'id': index, 'name': meta.name, 'module': meta.module}
         module = infos.get(meta.module, None)
         #  infos是否已经存在该module
         if module:

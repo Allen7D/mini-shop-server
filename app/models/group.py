@@ -19,7 +19,7 @@ class Group(Base):
 
     @property
     def auth_list(self):
-        auth_list = db.session.query(AuthModel.auth, AuthModel.module) \
+        auth_list = db.session.query(AuthModel.name, AuthModel.module) \
             .filter_by(group_id=self.id).all()
-        auth_list = [{'id': get_ep_id(auth[0]),'auth': auth[0], 'module': auth[1]} for auth in auth_list]
+        auth_list = [{'id': get_ep_id(auth[0]),'name': auth[0], 'module': auth[1]} for auth in auth_list]
         return auth_list

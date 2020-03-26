@@ -21,8 +21,7 @@ from app.libs.error_code import Success
 from app.libs.token_auth import auth
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
-from app.validators.forms import PaginateValidator
-from app.validators.params import OrderPlace
+from app.validators.forms import PaginateValidator, OrderPlaceValidator
 from app.api_docs.v1 import order as api_doc
 
 __author__ = 'Allen7D'
@@ -35,7 +34,7 @@ api = RedPrint(name='order', description='订单', api_doc=api_doc)
 @auth.login_required
 def place_order():
     '''提交订单(管理员不能调用)'''
-    products = OrderPlace().validate_for_api().products.data
+    products = OrderPlaceValidator().validate_for_api().products.data
     status = OrderService().palce(uid=g.user.uid, o_products=products)
     return Success(status)
 

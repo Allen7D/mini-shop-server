@@ -7,8 +7,7 @@ from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.api_docs.cms import product as api_doc
 from app.models.product import Product
-from app.validators.forms import PaginateValidator
-from app.validators.params import IDMustBePositiveInt
+from app.validators.forms import PaginateValidator, IDMustBePositiveIntValidator
 
 __author__ = 'Allen7D'
 
@@ -20,7 +19,7 @@ api = RedPrint(name='product', description='产品管理', api_doc=api_doc, alia
 @auth.login_required
 def get_product_list_by_category():
     '''获取商品列表(分页&基于categoryID)'''
-    id = IDMustBePositiveInt().validate_for_api().id.data
+    id = IDMustBePositiveIntValidator().validate_for_api().id.data
     page_validator = PaginateValidator().validate_for_api()
     page = page_validator.page.data
     size = page_validator.size.data

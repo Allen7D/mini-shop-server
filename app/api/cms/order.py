@@ -7,12 +7,10 @@
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
-from app.models.base import db
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
 from app.api_docs.cms import order as api_doc
-from app.validators.forms import PaginateValidator
-from app.validators.params import IDMustBePositiveInt
+from app.validators.forms import PaginateValidator, IDMustBePositiveIntValidator
 
 __author__ = 'Allen7D'
 
@@ -37,6 +35,6 @@ def get_summary():
 @auth.group_required
 def delivery():
     '''订单发货'''
-    order_id = IDMustBePositiveInt().validate_for_api().id.data
+    order_id = IDMustBePositiveIntValidator().validate_for_api().id.data
     result = OrderService.delivery(order_id)
     Success(result)

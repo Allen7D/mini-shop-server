@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2020/3/24.
-  ↓↓↓ 管理员管理接口 ↓↓↓
+  ↓↓↓ 管理员(能登录CMS的系统工作人员)管理接口 ↓↓↓
 """
 from flask import current_app, request
 
@@ -53,7 +53,7 @@ def get_admin_list():
 @api.doc(args=['g.body.nickname', 'g.body.password', 'g.body.confirm_password',
                'g.body.group_id', 'g.body.email', 'g.body.mobile'], auth=True)
 @auth.admin_required
-def create_adadmin():
+def create_admin():
     '''新增管理员'''
     form = CreateAdminValidator().validate_for_api()
     UserModel.is_exist_to_404(nickname=form.nickname.data, msg='用户名重复，请重新输入')

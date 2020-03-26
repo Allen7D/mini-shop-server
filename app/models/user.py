@@ -61,12 +61,6 @@ class User(Base):
     def is_admin(self):
         return ScopeEnum(self.auth) in (ScopeEnum.SUPER, ScopeEnum.ADMIN)
 
-    def save_address(self, address_info):
-        address = self.user_address
-        if not address:
-            address = UserAddress(author=self)
-        return address.update(**address_info)
-
     @staticmethod
     def register_by_email(nickname, account, secret):
         """邮箱注册"""

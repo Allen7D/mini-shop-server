@@ -2,6 +2,8 @@
 """
   Created by Allen7D on 2018/5/13.
 """
+from collections import namedtuple
+
 from flask import request, _request_ctx_stack
 from wtforms import Form as WTForm, ValidationError
 
@@ -25,9 +27,13 @@ class BaseValidator(WTForm):
 
     @property
     def data(self):
-        return {
-            key: value.data for key, value in self._fields.items() if value.data is not None
-        }
+        key_list, value_list = [], []
+        for key, value in self._fields.items():
+            if value.data is not None:
+                key_list.append(key)
+                value_list.append(value.data)
+        NamedTuple = namedtuple('NamedTuple', [key for key in key_list])
+        return NamedTuple(*value_list)
 
     @staticmethod
     def get(key, default=None):

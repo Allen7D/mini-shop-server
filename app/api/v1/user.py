@@ -63,13 +63,13 @@ def delete_user():
 
 
 @api.route('/password', methods=['PUT'])
-@api.doc(args=['g.body.new_password', 'g.body.confirm_password'], auth=True)
+@api.doc(args=['g.body.new_password', 'g.body.old_password', 'g.body.confirm_password'], auth=True)
 @auth.login_required
 def change_password():
     '''更改密码'''
-    validator = ChangePasswordValidator().validate_for_api()
-    old_password = validator.old_password.data
-    new_password = validator.new_password.data
+    validator = ChangePasswordValidator().validate_for_api().data
+    old_password = validator.old_password
+    new_password = validator.new_password
 
     user = User.get_current_user()
     if user.check_password(old_password):

@@ -61,3 +61,7 @@ confirm_password_in_body = BodyField(name='confirm_password', type='string', des
 nickname_in_body = BodyField(name='nickname', type='string', description='昵称', enum=['Allen7D'])
 email_in_body = BodyField(name='email', type='string', description='邮箱', enum=['462870781@qq.com'])
 mobile_in_body = BodyField(name='mobile', type='string', description='手机', enum=['13758787058'])
+
+# UserAddress
+address_id_in_path = IntegerPathFiled(
+    name='id', description="地址ID", enum=[1, 2, 3, 4, 5, 10, 15, 20], required=True)

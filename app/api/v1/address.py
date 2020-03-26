@@ -46,30 +46,27 @@ def get_address():
 def create_address():
     '''新增「配送信息」'''
     address_info = UpdateAddressValidator().validate_for_api().data
-    user = User.get_or_404(id=g.user.uid, e=UserException)
-    user.save_address(address_info)
+    UserAddress.create(user_id=g.user.uid, **address_info._asdict())
     return Success(error_code=1)
 
 
-@api.route('', methods=['PUT'])
-@api.doc(args=['name', 'mobile', 'province', 'city', 'country', 'detail'], auth=True)
+@api.route('/<int:id>', methods=['PUT'])
+@api.doc(args=['g.path.address_id', 'name', 'mobile', 'province', 'city', 'country', 'detail'], auth=True)
 @auth.login_required
-def update_address():
+def update_address(id):
     '''更新「配送信息」'''
     address_info = UpdateAddressValidator().validate_for_api().data
-    uid = g.user.uid
-    user = User.query.filter_by(id=uid).first_or_404(e=UserException)
-    user.save_address(address_info)
+    user_address = UserAddress.get_or_404(id=id, user_id=g.user.uid)
+    user_address.update(**address_info._asdict())
     return Success(error_code=1)
 
 
-@api.route('<int:address_id>', methods=['DELETE'])
+@api.route('<int:id>', methods=['DELETE'])
 @api.doc(args=['*int.path.address_id'], auth=True)
 @auth.login_required
-def delete_address(address_id):
+def delete_address(id):
     '''删除「配送信息」'''
-    uid = g.user.uid
     validator = BaseValidator.get_all_json()
-    user_address = UserAddress.get_or_404(user_id=uid, id=validator.address_id)
+    user_address = UserAddress.get_or_404(id=validator['id'], user_id=g.user.uid)
     user_address.delete()
     return Success(error_code=2)

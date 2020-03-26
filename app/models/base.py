@@ -121,7 +121,7 @@ class CRUDMixin(object):
         return cls.query.filter_by(**kwargs).all()
 
     @classmethod
-    def is_exist_to_404(cls,  e=None, error_code=None, msg=None, **kwargs):
+    def is_exist_to_404(cls, e=None, error_code=None, msg=None, **kwargs):
         instance = cls.query.filter_by(**kwargs).first()
         if instance:
             if e:

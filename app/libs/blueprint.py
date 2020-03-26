@@ -17,8 +17,3 @@ class Blueprint(_Blueprint):
                                         static_url_path, template_folder,
                                         url_prefix, subdomain, url_defaults,
                                         root_path)
-
-    def register_redprint_list(self, rp_list):
-        for api in rp_list:
-            api.register(self)
-        return self

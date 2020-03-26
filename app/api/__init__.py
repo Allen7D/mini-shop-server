@@ -13,7 +13,7 @@ def create_blueprint_list(app):
     :return: (url_prefix, bp) ('/api/v1', v1)
     '''
     api_modules = {}
-    for rp_api in app.config['ALL_API_BY_MODULE']:
+    for rp_api in app.config['ALL_RP_API_LIST']:
         [module_name, api_name] = rp_api.split('.')
         api = _import_redprint(module_name, api_name)
         app.config['SWAGGER_TAGS'].append(api.tag)

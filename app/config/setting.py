@@ -84,7 +84,7 @@ ALL_MODEL_BY_MODULE = {
 
 # all api by module(version)
 # 可以控制Swagger API文档的显示顺序
-ALL_API_BY_MODULE = \
+ALL_RP_API_LIST = \
     ['v1.token', 'v1.user', 'v1.address',
      'v1.banner', 'v1.theme', 'v1.category', 'v1.product', 'v1.order', 'v1.pay'] + \
     ['cms.admin', 'cms.group', 'cms.auth', 'cms.user',

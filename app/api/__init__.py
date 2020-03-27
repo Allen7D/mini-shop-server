@@ -10,7 +10,7 @@ __author__ = 'Allen7D'
 def create_blueprint_list(app):
     '''
     :param app: flask实例
-    :return: (url_prefix, bp) ('/api/v1', v1)
+    :return: (url_prefix, bp) ('/v1', v1)
     '''
     api_modules = {}
     for rp_api in app.config['ALL_RP_API_LIST']:
@@ -24,7 +24,7 @@ def create_blueprint_list(app):
         else:
             bp = api_modules.get(module_name)
         api.register(bp)
-    return [('/api/{}'.format(module_name), bp) for module_name, bp in api_modules.items()]
+    return [('/{}'.format(module_name), bp) for module_name, bp in api_modules.items()]
 
 
 def _import_redprint(module_name, api_name):

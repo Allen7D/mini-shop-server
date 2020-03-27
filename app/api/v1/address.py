@@ -45,8 +45,8 @@ def get_address():
 @auth.login_required
 def create_address():
     '''新增「配送信息」'''
-    address_info = UpdateAddressValidator().validate_for_api().data
-    UserAddress.create(user_id=g.user.uid, **address_info._asdict())
+    address_info = UpdateAddressValidator().validate_for_api(as_dict=True).data
+    UserAddress.create(user_id=g.user.uid, **address_info)
     return Success(error_code=1)
 
 
@@ -55,9 +55,9 @@ def create_address():
 @auth.login_required
 def update_address(id):
     '''更新「配送信息」'''
-    address_info = UpdateAddressValidator().validate_for_api().data
+    address_info = UpdateAddressValidator().validate_for_api(as_dict=True).data
     user_address = UserAddress.get_or_404(id=id, user_id=g.user.uid)
-    user_address.update(**address_info._asdict())
+    user_address.update(**address_info)
     return Success(error_code=1)
 
 

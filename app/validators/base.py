@@ -19,7 +19,12 @@ class BaseValidator(WTForm):
         args = request.args.to_dict()  # query中: request.args.to_dict()
         super(BaseValidator, self).__init__(data=data, **args)
 
-    def validate_for_api(self):
+    def validate_for_api(self, as_dict=False):
+        '''
+        :param as_dict: 是否将data属性转为dict类型，结合data属性使用
+        :return: self
+        '''
+        self.as_dict = as_dict
         valid = super(BaseValidator, self).validate()
         if not valid:
             raise ParameterException(msg=self.errors)
@@ -33,7 +38,8 @@ class BaseValidator(WTForm):
                 key_list.append(key)
                 value_list.append(value.data)
         NamedTuple = namedtuple('NamedTuple', [key for key in key_list])
-        return NamedTuple(*value_list)
+        nt = NamedTuple(*value_list)
+        return nt._asdict() if self.as_dict else nt
 
     @staticmethod
     def get(key, default=None):

@@ -30,7 +30,7 @@ def get_user_list():
     page = validator.page.data
     size = validator.size.data
 
-    paginator = UserModel.query.filter_by(auth=ScopeEnum.USER.value).paginate(page=page, per_page=size, error_out=False)
+    paginator = UserModel.query.filter_by(auth=ScopeEnum.COMMON.value).paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,

@@ -36,7 +36,7 @@ def get_user():
 def create_user():
     '''用户注册'''
     validator = BaseValidator.get_all_json()
-    validator['auth'] = ScopeEnum.USER.value
+    validator['auth'] = ScopeEnum.COMMON.value
     user = User.create(**validator)
     return Success(data=user, error_code=1)
 

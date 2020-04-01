@@ -11,6 +11,7 @@ from app.libs.token_auth import auth
 from app.models.base import db
 from app.libs.enums import ScopeEnum
 from app.models.user import User as UserModel
+from app.models.group import Group as GroupModel
 from app.api_docs.cms import admin as api_doc
 from app.validators.forms import PaginateValidator, ResetPasswordValidator, CreateAdminValidator
 
@@ -35,16 +36,17 @@ def get_auths():
 @auth.admin_required
 def get_admin_list():
     '''获取管理员列表'''
-    validator = PaginateValidator().validate_for_api()
-    page, size = validator.page.data, validator.size.data
-    group_id = request.args.get('group_id')
+    query = PaginateValidator().validate_for_api().data
+    group_id = int(request.args.get('group_id')) # 可选
     query_condition = {
-        'name': ScopeEnum.ADMIN.value,  # 至少是管理员
-        'group_id': group_id
+        'auth': ScopeEnum.COMMON.value,
+        'group_id': group_id # 管理员(至少拥有权限组)
     } if group_id else {
-        'name': ScopeEnum.ADMIN.value
+        'auth': ScopeEnum.COMMON.value
     }
-    user_list = db.session.query(UserModel).filter_by(**query_condition).all()
+    user_list = UserModel.query\
+        .filter_by(**query_condition)\
+        .paginate(page=query.page, per_page=query.size, error_out=False)
     return Success(user_list)
 
 
@@ -56,8 +58,8 @@ def get_admin_list():
 def create_admin():
     '''新增管理员'''
     form = CreateAdminValidator().validate_for_api()
-    UserModel.is_exist_to_404(nickname=form.nickname.data, msg='用户名重复，请重新输入')
-    UserModel.create(auth=ScopeEnum.ADMIN.value, **form.data)
+    UserModel.abort_repeat(nickname=form.nickname.data, msg='用户名重复，请重新输入')
+    UserModel.create(auth=ScopeEnum.COMMON.value, **form.data)
     return Success()
 
 

@@ -108,9 +108,8 @@ def verify_password(token, password):
     user_info = verify_auth_token(token)
     if not user_info:
         return False
-    else:
-        g.user = user_info  # 用「g.user」来记录登录的状态；g只能用于一次请求
-        return True
+    g.user = user_info  # 用「g.user」来记录登录的状态；g只能用于一次请求
+    return True
 
 
 def verify_auth_token(token):
@@ -139,7 +138,7 @@ def decrypt_token(token):
     uid = data['uid']  # 用户ID
     ac_type = data['type']  # 登录方式
     scope = data['scope']  # 权限
-    return (uid, ac_type, scope)
+    return UserTuple(uid, ac_type, scope)
 
 
 def generate_auth_token(uid, ac_type, scope=None, expiration=7200):

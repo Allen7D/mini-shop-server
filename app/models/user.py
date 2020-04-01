@@ -23,7 +23,7 @@ class User(Base):
     '''用户'''
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    openid = Column(String(50), unique=True, comment='小程序唯一ID(单单该小程序)')
+    openid = Column(String(50), unique=True, comment='小程序唯一ID(仅该小程序)')
     unionid = Column(String(50), unique=True, comment='微信唯一ID(全网所有)')
     email = Column(String(24), unique=True, comment='邮箱')
     # mobile = Column(String(16), unique=True)
@@ -49,32 +49,34 @@ class User(Base):
     def password(self, raw):
         self._password = generate_password_hash(raw)
 
+    # 用户所有的配送信息
     @property
     def user_address(self):
-        return self._user_address.first()
+        return self._user_address.all()
 
     @property
     def auth_scope(self):
-        return db.session.query(GroupModel.name).filter(GroupModel.id == self.group_id).scalar()
+        return db.session.query(GroupModel.name)\
+            .filter(GroupModel.id == self.group_id).scalar()
 
     @property
     def is_admin(self):
-        return ScopeEnum(self.auth) in (ScopeEnum.SUPER, ScopeEnum.ADMIN)
+        return ScopeEnum(self.auth) == ScopeEnum.ADMIN
 
     @staticmethod
-    def register_by_email(nickname, account, secret):
+    def register_by_email(nickname=None, account=None, secret=None):
         """邮箱注册"""
         form = {'nickname': nickname, 'email': account, 'password': secret}
         return User.create(**form)
 
     @staticmethod
-    def register_by_mobile(nickname, account, secret):
+    def register_by_mobile(nickname=None, account=None, secret=None):
         """手机号注册"""
         form = {'nickname': nickname, 'mobile': account, 'password': secret}
         return User.create(**form)
 
     @staticmethod
-    def register_by_wx_mina(account):
+    def register_by_wx_mina(account=None):
         """小程序注册"""
         form = {'openid': account}
         return User.create(**form)

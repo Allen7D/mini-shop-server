@@ -93,7 +93,8 @@ class Query(BaseQuery):
                           paginator.items
                           )
 
-    def __abort_by_error(self, e=None):
+    @classmethod
+    def __abort_by_error(cls, e=None):
         if e:
             raise e
 
@@ -110,7 +111,7 @@ class CRUDMixin(object):
         return cls.query.filter_by(**kwargs).first()
 
     @classmethod
-    def get_or_404(cls, e=None, error_code=None, msg=None, **kwargs):
+    def get_or_404(cls, e: Exception = None, error_code: int = None, msg: str = None, **kwargs):
         """查，不存在则返回异常"""
         error_kwargs = dict(e=e, error_code=error_code, msg=msg)
         return cls.query.filter_by(**kwargs).first_or_404(**error_kwargs)
@@ -121,17 +122,15 @@ class CRUDMixin(object):
         return cls.query.filter_by(**kwargs).all()
 
     @classmethod
-    def is_exist_to_404(cls, e=None, error_code=None, msg=None, **kwargs):
+    def abort_repeat(cls, e: Exception = None, error_code: int = None, msg: str = None, **kwargs):
         instance = cls.query.filter_by(**kwargs).first()
         if instance:
             if e:
                 raise e
             raise RepeatException(error_code=error_code, msg=msg)
-        else:
-            return False
 
     @classmethod
-    def create(cls, commit=True, **kwargs):
+    def create(cls, commit: bool = True, **kwargs):
         """增"""
         instance = cls()
         for attr, value in kwargs.items():
@@ -139,14 +138,14 @@ class CRUDMixin(object):
                 setattr(instance, attr, value)
         return instance.save(commit)
 
-    def update(self, commit=True, **kwargs):
+    def update(self, commit: bool = True, **kwargs):
         """更新"""
         for attr, value in kwargs.items():
             if hasattr(self, attr):
                 setattr(self, attr, value)
         return self.save(commit)
 
-    def save(self, commit=True):
+    def save(self, commit: bool = True):
         """保存"""
         db.session.add(self)
         if commit:
@@ -159,7 +158,7 @@ class CRUDMixin(object):
             self.status = 0
             self.save()
 
-    def hard_delete(self, commit=True):
+    def hard_delete(self, commit: bool = True):
         """硬删除"""
         db.session.delete(self)
         return commit and db.session.commit()

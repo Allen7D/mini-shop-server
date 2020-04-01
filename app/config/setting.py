@@ -3,8 +3,6 @@
   Created by Allen7D on 2018/4/2.
   Flask 对配置项的限制，你必须保证命名全都大写，才能注入到current_app.config中
 """
-import os
-
 __author__ = 'Allen7D'
 
 

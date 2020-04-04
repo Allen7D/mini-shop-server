@@ -3,8 +3,6 @@
   Created by Allen7D on 2018/4/2.
   Flask 对配置项的限制，你必须保证命名全都大写，才能注入到current_app.config中
 """
-import os
-
 __author__ = 'Allen7D'
 
 
@@ -83,10 +81,18 @@ ALL_MODEL_BY_MODULE = {
 }
 
 # all api by module(version)
-ALL_API_BY_MODULE = {
-    'v1': ['token', 'user', 'address', 'banner', 'theme', 'category', 'product', 'order', 'pay'],
-    'cms': ['user', 'theme', 'category', 'product', 'order', 'file']
-}
+# 可以控制Swagger API文档的显示顺序
+ALL_RP_API_LIST = \
+    ['v1.token', 'v1.user', 'v1.address',
+     'v1.banner', 'v1.theme', 'v1.category', 'v1.product', 'v1.order', 'v1.pay'] + \
+    ['cms.admin', 'cms.group', 'cms.auth', 'cms.user',
+     'cms.theme', 'cms.product', 'cms.order',
+     'cms.file']
+
+# 所有endpoint的meta信息
+EP_META = {}
+EP_INFO_LIST = []
+EP_INFOS = {}
 
 # 项目的github地址
 GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'

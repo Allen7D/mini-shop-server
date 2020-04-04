@@ -23,20 +23,21 @@ class Scope:
 
     @staticmethod
     def match_user_scope(auth, type='en'):
-        auth_scope_en = {
-            ScopeEnum.USER: 'UserScope',
-            ScopeEnum.ADMIN: 'AdminScope',
-            ScopeEnum.SUPER: 'SuperScope'
-        }
-        auth_scope_cn = {
-            ScopeEnum.USER: '普通用户',
-            ScopeEnum.ADMIN: '系统管理员',
-            ScopeEnum.SUPER: '系统超级管理员'
-        }
-        if type == 'en':
-            return auth_scope_en.get(ScopeEnum(auth), 'UserScope')
-        elif type == 'cn':
-            return auth_scope_cn.get(ScopeEnum(auth), '普通用户')
+        return 'UserScope'
+        # auth_scope_en = {
+        #     ScopeEnum.USER: 'UserScope',
+        #     ScopeEnum.ADMIN: 'AdminScope',
+        #     ScopeEnum.SUPER: 'SuperScope'
+        # }
+        # auth_scope_cn = {
+        #     ScopeEnum.USER: '普通用户',
+        #     ScopeEnum.ADMIN: '系统管理员',
+        #     ScopeEnum.SUPER: '系统超级管理员'
+        # }
+        # if type == 'en':
+        #     return auth_scope_en.get(ScopeEnum(auth), 'UserScope')
+        # elif type == 'cn':
+        #     return auth_scope_cn.get(ScopeEnum(auth), '普通用户')
 
 
 class UserScope(Scope):
@@ -70,7 +71,7 @@ class AdminScope(Scope):
 
 class SuperScope(Scope):
     allow_api = []
-    allow_module = []
+    allow_module = ['cms.admin', 'cms.group', 'cms.auth']
     forbidden_api = []
     forbidden_module = []
 

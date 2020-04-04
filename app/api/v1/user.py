@@ -24,7 +24,7 @@ api = RedPrint(name='user', description='用户', api_doc=api_doc)
 @api.route('', methods=['GET'])
 @api.doc(auth=True)
 @auth.login_required
-def get_one():
+def get_user():
     '''用户获取自身信息'''
     # g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
     user = User.query.get_or_404(ident=g.user.uid)
@@ -33,10 +33,10 @@ def get_one():
 
 @api.route('', methods=['POST'])
 @api.doc(args=['body.email', 'body.nickname', '*str.body.password'])
-def create_one():
+def create_user():
     '''用户注册'''
-    validator = BaseValidator().get_all_json()
-    validator['auth'] = ScopeEnum.USER.value
+    validator = BaseValidator.get_all_json()
+    validator['auth'] = ScopeEnum.COMMON.value
     user = User.create(**validator)
     return Success(data=user, error_code=1)
 
@@ -44,9 +44,9 @@ def create_one():
 @api.route('', methods=['PUT'])
 @api.doc(auth=True)
 @auth.login_required
-def update_one():
+def update_user():
     '''用户更改自身信息'''
-    validator = BaseValidator().get_all_json()  # 快速获取所有的非校验的参数
+    validator = BaseValidator.get_all_json()  # 快速获取所有的非校验的参数
     user = User.get_current_user()
     return Success(error_code=1)
 
@@ -54,7 +54,7 @@ def update_one():
 @api.route('', methods=['DELETE'])
 @api.doc(auth=True)
 @auth.login_required
-def delete_one():
+def delete_user():
     '''用户注销'''
     # 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
     user = User.get_current_user()
@@ -63,13 +63,13 @@ def delete_one():
 
 
 @api.route('/password', methods=['PUT'])
-@api.doc(args=['g.body.new_password', 'g.body.confirm_password'], auth=True)
+@api.doc(args=['g.body.new_password', 'g.body.old_password', 'g.body.confirm_password'], auth=True)
 @auth.login_required
 def change_password():
     '''更改密码'''
-    validator = ChangePasswordValidator().validate_for_api()
-    old_password = validator.old_password.data
-    new_password = validator.new_password.data
+    validator = ChangePasswordValidator().validate_for_api().data
+    old_password = validator.old_password
+    new_password = validator.new_password
 
     user = User.get_current_user()
     if user.check_password(old_password):

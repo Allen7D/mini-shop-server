@@ -22,7 +22,7 @@ api = RedPrint(name='address', description='配送信息', api_doc=api_doc)
 @api.route('/all', methods=['GET'])
 @api.doc(auth=True)
 @auth.login_required
-def get_all():
+def get_address_all():
     '''获取所有「配送信息」'''
     uid = g.user.uid
     user_address_list = UserAddress.query.filter_by(user_id=uid).all_or_404(
@@ -33,7 +33,7 @@ def get_all():
 @api.route('', methods=['GET'])
 @api.doc(auth=True)
 @auth.login_required
-def get_one():
+def get_address():
     '''获取「配送信息」'''
     uid = g.user.uid
     user_address = UserAddress.get_or_404(user_id=uid, error_code=6001, msg='配送地址不存在')
@@ -43,33 +43,30 @@ def get_one():
 @api.route('', methods=['POST'])
 @api.doc(args=['name', 'mobile', 'province', 'city', 'country', 'detail'], auth=True)
 @auth.login_required
-def create_one():
+def create_address():
     '''新增「配送信息」'''
-    address_info = UpdateAddressValidator().validate_for_api().data
-    user = User.get_or_404(id=g.user.uid, e=UserException)
-    user.save_address(address_info)
+    address_info = UpdateAddressValidator().validate_for_api(as_dict=True).data
+    UserAddress.create(user_id=g.user.uid, **address_info)
     return Success(error_code=1)
 
 
-@api.route('', methods=['PUT'])
-@api.doc(args=['name', 'mobile', 'province', 'city', 'country', 'detail'], auth=True)
+@api.route('/<int:id>', methods=['PUT'])
+@api.doc(args=['g.path.address_id', 'name', 'mobile', 'province', 'city', 'country', 'detail'], auth=True)
 @auth.login_required
-def update_one():
+def update_address(id):
     '''更新「配送信息」'''
-    address_info = UpdateAddressValidator().validate_for_api().data
-    uid = g.user.uid
-    user = User.query.filter_by(id=uid).first_or_404(e=UserException)
-    user.save_address(address_info)
+    address_info = UpdateAddressValidator().validate_for_api(as_dict=True).data
+    user_address = UserAddress.get_or_404(id=id, user_id=g.user.uid)
+    user_address.update(**address_info)
     return Success(error_code=1)
 
 
-@api.route('', methods=['DELETE'])
+@api.route('<int:id>', methods=['DELETE'])
 @api.doc(args=['*int.path.address_id'], auth=True)
 @auth.login_required
-def delete_one():
+def delete_address(id):
     '''删除「配送信息」'''
-    uid = g.user.uid
-    validator = BaseValidator().get_all_json()
-    user_address = UserAddress.get_or_404(user_id=uid, id=validator.address_id)
+    validator = BaseValidator.get_all_json()
+    user_address = UserAddress.get_or_404(id=validator['id'], user_id=g.user.uid)
     user_address.delete()
     return Success(error_code=2)

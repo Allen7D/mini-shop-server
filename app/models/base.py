@@ -9,7 +9,7 @@ from flask import current_app, json
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, Pagination as _Pagination, BaseQuery
 from sqlalchemy import Column, SmallInteger, Integer, orm, inspect
 
-from app.libs.error_code import NotFound
+from app.libs.error_code import NotFound, RepeatException
 from time import localtime, strftime
 
 __author__ = 'Allen7D'
@@ -76,6 +76,13 @@ class Query(BaseQuery):
         return rv if len(rv) != 0 else []
 
     def paginate(self, page=None, per_page=None, error_out=True, max_per_page=None):
+        '''
+        :param page:页码，从1开始
+        :param per_page: 每页显示的记录数
+        :param error_out: 错误标记(如果是True，如果接收到超出记录范围的页面请求则报错；False则返回空列表)
+        :param max_per_page:
+        :return:
+        '''
         # 使用paginator记的加上filter_by，用于默认添加status=1
         paginator = BaseQuery.paginate(self, page=page, per_page=per_page, error_out=error_out,
                                        max_per_page=max_per_page)
@@ -86,7 +93,8 @@ class Query(BaseQuery):
                           paginator.items
                           )
 
-    def __abort_by_error(self, e=None):
+    @classmethod
+    def __abort_by_error(cls, e=None):
         if e:
             raise e
 
@@ -103,7 +111,7 @@ class CRUDMixin(object):
         return cls.query.filter_by(**kwargs).first()
 
     @classmethod
-    def get_or_404(cls, e=None, error_code=None, msg=None, **kwargs):
+    def get_or_404(cls, e: Exception = None, error_code: int = None, msg: str = None, **kwargs):
         """查，不存在则返回异常"""
         error_kwargs = dict(e=e, error_code=error_code, msg=msg)
         return cls.query.filter_by(**kwargs).first_or_404(**error_kwargs)
@@ -114,7 +122,15 @@ class CRUDMixin(object):
         return cls.query.filter_by(**kwargs).all()
 
     @classmethod
-    def create(cls, commit=True, **kwargs):
+    def abort_repeat(cls, e: Exception = None, error_code: int = None, msg: str = None, **kwargs):
+        instance = cls.query.filter_by(**kwargs).first()
+        if instance:
+            if e:
+                raise e
+            raise RepeatException(error_code=error_code, msg=msg)
+
+    @classmethod
+    def create(cls, commit: bool = True, **kwargs):
         """增"""
         instance = cls()
         for attr, value in kwargs.items():
@@ -122,14 +138,14 @@ class CRUDMixin(object):
                 setattr(instance, attr, value)
         return instance.save(commit)
 
-    def update(self, commit=True, **kwargs):
+    def update(self, commit: bool = True, **kwargs):
         """更新"""
         for attr, value in kwargs.items():
             if hasattr(self, attr):
                 setattr(self, attr, value)
         return self.save(commit)
 
-    def save(self, commit=True):
+    def save(self, commit: bool = True):
         """保存"""
         db.session.add(self)
         if commit:
@@ -142,7 +158,7 @@ class CRUDMixin(object):
             self.status = 0
             self.save()
 
-    def hard_delete(self, commit=True):
+    def hard_delete(self, commit: bool = True):
         """硬删除"""
         db.session.delete(self)
         return commit and db.session.commit()

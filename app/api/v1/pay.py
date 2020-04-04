@@ -8,7 +8,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
 from app.service.pay import Pay as PayService
-from app.validators.params import IDMustBePositiveInt
+from app.validators.forms import IDMustBePositiveIntValidator
 from app.api_docs.v1 import pay as api_doc
 
 __author__ = 'Allen7D'
@@ -21,7 +21,7 @@ api = RedPrint(name='pay', description='支付', api_doc=api_doc)
 @auth.login_required
 def get_pre_order():
 	'''获取预订单'''
-	order_id = IDMustBePositiveInt().validate_for_api().id.data
+	order_id = IDMustBePositiveIntValidator().validate_for_api().id.data
 	pay_service = PayService(order_id)
 	pay_service.pay()
 	Success()

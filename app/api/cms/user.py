@@ -30,7 +30,8 @@ def get_user_list():
     page = validator.page.data
     size = validator.size.data
 
-    paginator = UserModel.query.filter_by(auth=ScopeEnum.COMMON.value).paginate(page=page, per_page=size, error_out=False)
+    paginator = UserModel.query.filter_by(auth=ScopeEnum.COMMON.value)\
+        .paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,
@@ -53,7 +54,7 @@ def get_user(uid):
 @api.doc(args=['g.path.uid+', 'g.body.group_id'], auth=True)
 @auth.group_required
 def update_user(uid):
-    '''更新用户信息(仅能重新分组)'''
+    '''更新用户信息(重新分组)'''
     group_id = UpdateAdminValidator().validate_for_api().group_id.data
     user = UserModel.get_or_404(id=uid)
     user.update(group_id=group_id)

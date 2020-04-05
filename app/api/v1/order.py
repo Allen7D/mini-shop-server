@@ -21,7 +21,7 @@ from app.libs.error_code import Success
 from app.libs.token_auth import auth
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
-from app.validators.forms import PaginateValidator, OrderPlaceValidator
+from app.validators.forms import PaginateValidator, OrderPlaceValidator, IDMustBePositiveIntValidator
 from app.api_docs.v1 import order as api_doc
 
 __author__ = 'Allen7D'
@@ -59,3 +59,25 @@ def get_summary_by_user():
                                                   size=validator.size.data)
     return Success(paged_orders)
 
+
+@api.route('/list', methods=['GET'])
+@api.route_meta(auth='获取订单列表', module='订单')
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
+@auth.group_required
+def get_list_by_summary():
+    '''获取全部订单简要信息(分页)'''
+    validator = PaginateValidator().validate_for_api()
+    paged_orders = OrderModel.get_summary(page=validator.page.data,
+                                          size=validator.size.data)
+    return Success(paged_orders)
+
+
+@api.route('/delivery', methods=['PUT'])
+@api.route_meta(auth='订单发货', module='订单')
+@api.doc(args=['g.query.order_id'], auth=True)
+@auth.group_required
+def delivery():
+    '''订单发货'''
+    order_id = IDMustBePositiveIntValidator().validate_for_api().id.data
+    result = OrderService.delivery(order_id)
+    Success(result)

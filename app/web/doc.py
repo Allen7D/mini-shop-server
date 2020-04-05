@@ -12,17 +12,17 @@ __author__ = 'Allen7D'
 
 @web.route('/')
 def index():
-	'''跳转到项目目录'''
-	url = {
-		'github': current_app.config['GITHUB_URL'],
-		'doc': current_app.config['DOC_URL'],
-	}
-	return render_template("index.html", url=url)
+    '''跳转到项目目录'''
+    url = {
+        'github': current_app.config['GITHUB_URL'],
+        'doc': current_app.config['DOC_URL'],
+    }
+    return render_template("index.html", url=url)
 
 
 @web.route('/raw')
 def render_raw():
-	raw_html = """
+    raw_html = """
 		<style type="text/css">
 			body{
 				background: #fff;
@@ -48,4 +48,4 @@ def render_raw():
 			<a href="/">项目目录</a>
 		</div>
 		"""
-	return raw_html
+    return raw_html

@@ -8,30 +8,29 @@ from flask.json import JSONEncoder as _JSONEncoder
 
 from app.libs.error_code import ServerError
 
-
 __author__ = 'Allen7D'
 
 
 class JSONEncoder(_JSONEncoder):
-	def default(self, o):
-		if hasattr(o, 'keys') and hasattr(o, '__getitem__'):
-			return dict(o)
-		if isinstance(o, date):
-			return o.strftime('%Y-%m-%d')
-		raise ServerError()
+    def default(self, o):
+        if hasattr(o, 'keys') and hasattr(o, '__getitem__'):
+            return dict(o)
+        if isinstance(o, date):
+            return o.strftime('%Y-%m-%d')
+        raise ServerError()
 
 
 class Flask(_Flask):
-	json_encoder = JSONEncoder
+    json_encoder = JSONEncoder
 
-	def dispatch_request(self):
-		req = _request_ctx_stack.top.request
-		if req.routing_exception is not None:
-			self.raise_routing_exception(req)
-		rule = req.url_rule
+    def dispatch_request(self):
+        req = _request_ctx_stack.top.request
+        if req.routing_exception is not None:
+            self.raise_routing_exception(req)
+        rule = req.url_rule
 
-		if getattr(rule, 'provide_automatic_options', False) \
-				and req.method == 'OPTIONS':
-			return self.make_default_options_response()
+        if getattr(rule, 'provide_automatic_options', False) \
+                and req.method == 'OPTIONS':
+            return self.make_default_options_response()
 
-		return self.view_functions[rule.endpoint](**req.view_args)
+        return self.view_functions[rule.endpoint](**req.view_args)

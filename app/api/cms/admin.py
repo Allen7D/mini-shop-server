@@ -37,15 +37,15 @@ def get_auths():
 def get_admin_list():
     '''获取管理员列表'''
     query = PaginateValidator().validate_for_api().data
-    group_id = int(request.args.get('group_id')) # 可选
+    group_id = int(request.args.get('group_id'))  # 可选
     query_condition = {
         'auth': ScopeEnum.COMMON.value,
-        'group_id': group_id # 管理员(至少拥有权限组)
+        'group_id': group_id  # 管理员(至少拥有权限组)
     } if group_id else {
         'auth': ScopeEnum.COMMON.value
     }
-    user_list = UserModel.query\
-        .filter_by(**query_condition)\
+    user_list = UserModel.query \
+        .filter_by(**query_condition) \
         .paginate(page=query.page, per_page=query.size, error_out=False)
     return Success(user_list)
 

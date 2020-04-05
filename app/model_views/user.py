@@ -8,4 +8,4 @@ __author__ = 'Allen7D'
 
 
 class UserView(ModelView):
-	column_searchable_list = ['email', 'nickname']
+    column_searchable_list = ['email', 'nickname']

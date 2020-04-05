@@ -6,5 +6,6 @@ from app.model_views.base import ModelView
 
 __author__ = 'Allen7D'
 
+
 class ProductView(ModelView):
-	column_searchable_list = ['category_id']
+    column_searchable_list = ['category_id']

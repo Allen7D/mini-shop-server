@@ -22,7 +22,7 @@ api = RedPrint(name='address', description='配送信息', api_doc=api_doc)
 @api.route('/all', methods=['GET'])
 @api.doc(auth=True)
 @auth.login_required
-def get_address_all():
+def get_all_address():
     '''获取所有「配送信息」'''
     uid = g.user.uid
     user_address_list = UserAddress.query.filter_by(user_id=uid).all_or_404(
@@ -30,13 +30,12 @@ def get_address_all():
     return Success(user_address_list)
 
 
-@api.route('', methods=['GET'])
-@api.doc(auth=True)
+@api.route('/<int:id>', methods=['GET'])
+@api.doc(args=['g.path.address_id'], auth=True)
 @auth.login_required
-def get_address():
+def get_address(id):
     '''获取「配送信息」'''
-    uid = g.user.uid
-    user_address = UserAddress.get_or_404(user_id=uid, error_code=6001, msg='配送地址不存在')
+    user_address = UserAddress.get_or_404(id=id, error_code=6001, msg='配送地址不存在')
     return Success(user_address)
 
 
@@ -66,7 +65,7 @@ def update_address(id):
 @auth.login_required
 def delete_address(id):
     '''删除「配送信息」'''
-    validator = BaseValidator.get_all_json()
+    validator = BaseValidator.get_args_json()
     user_address = UserAddress.get_or_404(id=validator['id'], user_id=g.user.uid)
     user_address.delete()
     return Success(error_code=2)

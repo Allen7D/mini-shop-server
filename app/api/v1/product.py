@@ -36,7 +36,7 @@ def get_all_by_category():
 @api.route('/list/by_category', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.category_id'], auth=True)
 @auth.login_required
-def get_product_list_by_category():
+def get_list_by_category():
     '''获取商品列表(分页&基于categoryID)'''
     id = IDMustBePositiveIntValidator().validate_for_api().id.data
     page_validator = PaginateValidator().validate_for_api()

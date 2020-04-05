@@ -48,7 +48,7 @@ def get_group(id):
 @auth.admin_required
 def create_group():
     '''新建权限组'''
-    validator = BaseValidator.get_all_json()
+    validator = BaseValidator.get_args_json()
     name = validator['name']  # 权限组名
     auth_ids = validator['auth_ids']  # 权限IDs
     auth_list = [get_ep_name(auth_id) for auth_id in auth_ids]  # 权限名列表

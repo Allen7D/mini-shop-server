@@ -7,9 +7,7 @@ from collections import namedtuple
 
 from flasgger import swag_from
 
-from app.config.setting import specs_security
-from app.libs.swagger_filed import init_specs, ParamFiled, BodyField
-from app.api_docs import global_args as global_args_module
+from app.libs.swagger_filed import SwaggerSpecs
 
 __author__ = 'Allen7D'
 # 路由函数的权限和模块信息(meta信息)
@@ -42,7 +40,7 @@ class RedPrint:
             endpoint = self.name + '+' + options.pop("endpoint", f.__name__)
             bp.add_url_rule(url_prefix + rule, endpoint, f, **options)
 
-    def route_meta(self, auth, module='common', mount=True):
+    def route_meta(self, auth: str, module: str = 'common', mount: bool = True):
         def wrapper(f):
             if mount:
                 name = f.__name__ + str(f.__hash__())
@@ -55,34 +53,19 @@ class RedPrint:
 
         return wrapper
 
-    def doc(self, *_args, **_kwargs):
-        arg_path_name_list = []  # 所有的请求参数(path、query、body)
-        fast_arg_name_list = []
-        for arg_path_name in _kwargs.get('args', []):
-            if arg_path_name.startswith('*'):
-                arg_path_name = arg_path_name.split('*')[1]  # 去掉*
-                fast_arg_name_list.append(arg_path_name)
-            else:
-                arg_path_name_list.append(arg_path_name)
+    def doc(self, args: list = [], auth: bool = False, body_desc: str = None):
+        '''应该对args分批处理, path, query, body'''
 
         def decorator(f):
-            if len(arg_path_name_list + fast_arg_name_list) > 0:
-                request_args = self.__load_arg(arg_path_name_list) + _parse_fast_args(fast_arg_name_list)
-                specs = init_specs(*request_args, body_desc=_kwargs.get('body_desc', ''))
+            if hasattr(self.api_doc, f.__name__):
+                # 若swagger备注用函数名
+                specs = getattr(self.api_doc, f.__name__)
+                if not isinstance(specs, dict):
+                    raise TypeError('{} must be dict'.format(f.__name__))
+                specs['tags'] = [self.tag['name']]
             else:
-                args_module = self.api_doc
-                specs = getattr(args_module, f.__name__, init_specs())
-            # 增加Token校验
-            if 'auth' in _kwargs:
-                specs['security'] = specs_security if _kwargs.get('auth') else {}
-            if 'responses' not in specs:
-                specs['responses'] = {
-                    "200": {
-                        "description": "",
-                        "examples": {}
-                    }
-                }
-            specs['tags'] = [self.tag['name']]
+                specs = SwaggerSpecs(args=args, api_doc=self.api_doc, body_desc=body_desc, auth=auth,
+                                     tags=[self.tag['name']]).specs
             # 对f.__doc__处理
             if f.__doc__ and '\n\t' in f.__doc__:
                 f.__doc__ = f.__doc__.split('\n\t')[0]
@@ -103,132 +86,3 @@ class RedPrint:
             'name': self.alias if self.alias else self.name,
             'description': self.description
         }
-
-    def __load_arg(self, arg_path_name_list):
-        request_arg_list = []
-        for arg_path_name in arg_path_name_list:
-            # arg_path_name是参数的路径'g.query.id'
-            arg_path = arg_path_name.split('.')
-            arg_name = _get_request_arg_name(last_arg_path=arg_path[-1])  # 请求参数名
-            arg_site, args_module = self.__get_args_module(arg_path_name)
-
-            request_arg = _get_request_arg(arg_name, arg_site, args_module)
-            request_arg = _set_request_arg_required(request_arg, arg_path[-1])
-            request_arg_list.append(request_arg)
-        return request_arg_list
-
-    def __get_args_module(self, arg_path_name):
-        '''
-        :param arg_path_name: 路径名(g.query.id 或者 query.id 或者 id)
-        :return: arg_site: 请求参数的位置: path、query、body
-                 args_module: 参数的模块(global_args or self.api_doc)
-        '''
-        arg_path_list = arg_path_name.split('.')
-        if arg_path_name.startswith('g.'):
-            arg_site = arg_path_list[1]
-            args_module = global_args_module
-        elif len(arg_path_list) == 2:
-            arg_site = arg_path_list[0]
-            args_module = self.api_doc
-        else:
-            arg_site = None
-            args_module = self.api_doc
-        return arg_site, args_module
-
-
-def _set_request_arg_required(request_arg, last_arg_path):
-    ''' 判断last_arg_path是否带有「+」或「-」，设置request_arg.required状态
-    「+」加required
-    「-」去required
-        否则保持required不变
-    :param request_arg: 请求的参数
-    :param last_arg_path: 请求路径的最后字段(可能是id 或 id+ 或 id-)
-    :return: request_arg
-    '''
-    if last_arg_path.endswith('+'):
-        request_arg.required = True
-    if last_arg_path.endswith('-'):
-        request_arg.required = False
-    return request_arg
-
-
-def _get_request_arg(arg_name, arg_site, args_module):
-    '''
-    :param arg_name: 请求参数名
-    :param arg_site: 请求参数的位置: path、query、body
-    :param args_module: 参数的模块(global_args or self.api_doc)
-    :return:
-    '''
-    if not arg_site:
-        return getattr(args_module, arg_name)
-    # 判断是有_in_的参数
-    try:
-        # 从args_module中导入「x_in_y」变量
-        return getattr(args_module, '{}_in_{}'.format(arg_name, arg_site))
-    except AttributeError as e:
-        # 从args_module中导入「x」变量
-        return getattr(args_module, arg_name)
-
-
-def _get_request_arg_name(last_arg_path):
-    '''
-    :param last_arg_path: 参数名
-    :return:
-    '''
-    if last_arg_path.endswith('+'):
-        arg_name = last_arg_path.split('+')[0]
-    elif last_arg_path.endswith('-'):
-        arg_name = last_arg_path.split('-')[0]
-    else:
-        arg_name = last_arg_path
-    return arg_name
-
-
-class RequestArg():
-    def __init__(self, name, abbr_type, site):
-        self.name = name
-        self.abbr_type = abbr_type
-        if site not in ('path', 'query', 'body'):
-            raise ValueError('请求位置:{} 错误，应该为path, query, body位置选项'.format(site))
-        self.site = site
-
-    @property
-    def type(self):
-        if self.abbr_type not in ('int', 'str', 'bool', 'arr'):
-            raise ValueError('参数类型:{} 错误，应该为int, str, bool类型选项'.format(self.abbr_type))
-        type_dict = {'int': 'integer', 'str': 'string', 'bool': 'boolean', 'arr': 'array'}
-        return type_dict[self.abbr_type]
-
-    @property
-    def enum(self):
-        enum_dict = {
-            'int': [1, 2, 3, 4, 5, 10, 100, 0],
-            'str': ['***', '???'],
-            'bool': [True, False],
-            'arr': [['a', 'b', 'c'], [1, 2, 3]]
-        }
-        return enum_dict[self.abbr_type]
-
-    @property
-    def data(self):
-        if self.site in ('path', 'query'):
-            return ParamFiled(self.name, self.site, self.type, '', self.enum, False)
-        else:
-            # self.site == 'body'
-            return BodyField(self.name, self.type, '', self.enum)
-
-
-def _parse_fast_args(fast_arg_name_list):
-    '''
-    校验数据格式必须是3个
-        第2个是数据类型: int、str、bool, arr
-        第3个是数据位置: body、query、path
-    :param fast_arg_name_list:
-    :return:
-    '''
-    request_args = []
-    for fast_arg_name in fast_arg_name_list:
-        arg_type, arg_site, arg_name = fast_arg_name.split('.')
-        arg = RequestArg(name=arg_name, abbr_type=arg_type, site=arg_site).data
-        request_args.append(arg)
-    return request_args

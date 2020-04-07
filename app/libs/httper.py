@@ -8,7 +8,7 @@ from uuid import uuid1
 
 __author__ = 'Allen7D'
 
-# os.getcwd() 获取当前工作目录，执行「python命令」所在的目录
+# os.getcwd() 查询当前工作目录，执行「python命令」所在的目录
 dir_name = {
     'avatar': os.getcwd() + '/app/static/avatars',
 }

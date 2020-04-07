@@ -35,7 +35,7 @@ def get_token():
         ClientTypeEnum.WX_OPEN: User.verify_by_wx_open,  # 微信·开发平台登录(web端扫码登录)
         ClientTypeEnum.WX_ACCOUNT: User.verify_by_wx_account  # 微信第三方登录(公众号H5端)
     }
-    # 微信登录, 则account为code(需要微信小程序调用wx.login接口获取), secret为空
+    # 微信登录, 则account为code(需要微信小程序调用wx.login接口查询), secret为空
     identity = promise[ClientTypeEnum(form.type.data)](form.account.data, form.secret.data)
     # token生成
     expiration = current_app.config['TOKEN_EXPIRATION']  # token有效期
@@ -49,7 +49,7 @@ def get_token():
 @api.route('/verify', methods=['POST'])
 @api.doc(args=['token'], body_desc='令牌')
 def get_token_info():
-    """解析「令牌」"""
+    '''解析「令牌」'''
     token = TokenValidator().validate_for_api().token.data
     result = Token.decrypt(token)
     return Success(data=result)
@@ -58,7 +58,7 @@ def get_token_info():
 @api.route('/open_redirect_url', methods=['GET'])
 @api.doc()
 def get_open_redirect_url():
-    '''微信授权跳转链接
+    '''微信授权跳转链接\n\t
     用于前端弹出微信扫描页面，获取code
     :return: 跳转的链接，用于弹出「微信扫描页面」
     '''

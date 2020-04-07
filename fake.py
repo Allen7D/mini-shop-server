@@ -5,7 +5,7 @@
 from app import create_app
 
 __author__ = 'Allen7D'
-from app.models.base import db
+from app.core.db import db
 from app.models.user import User
 
 app = create_app()

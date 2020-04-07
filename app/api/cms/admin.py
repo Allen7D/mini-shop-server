@@ -8,7 +8,7 @@ from flask import current_app, request
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
-from app.models.base import db
+from app.core.db import db
 from app.libs.enums import ScopeEnum
 from app.models.user import User as UserModel
 from app.models.group import Group as GroupModel
@@ -31,11 +31,11 @@ def get_auths():
 
 
 @api.route('/list', methods=['GET'])
-@api.route_meta(auth='获取管理员列表', module='管理员', mount=False)
+@api.route_meta(auth='查询管理员列表', module='管理员', mount=False)
 @api.doc(args=['g.query.page', 'g.query.size', 'query.group_id'], auth=True)
 @auth.admin_required
 def get_admin_list():
-    '''获取管理员列表'''
+    '''查询管理员列表'''
     query = PaginateValidator().validate_for_api().data
     group_id = int(request.args.get('group_id'))  # 可选
     query_condition = {

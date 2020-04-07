@@ -11,7 +11,7 @@ from werkzeug.exceptions import HTTPException
 from flask import redirect, url_for, g, request, _request_ctx_stack
 
 from .app import Flask
-from app.models.base import db
+from app.core.db import db
 from app.web import web
 from app.api import create_blueprint_list
 from app.libs.redprint import route_meta_infos

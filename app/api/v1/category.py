@@ -18,21 +18,20 @@ api = RedPrint(name='category', description='产品类别', api_doc=api_doc)
 @api.route('/all', methods=['GET'])
 @api.doc()
 def get_all_category():
-    '''获取所有产品的分类'''
-    categories = Category.get_all_categories()
-    return Success(categories)
+    '''查询所有「产品类别」'''
+    category_list = Category.query.all()
+    return Success(category_list)
 
 
 @api.route('/list', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.login_required
 def get_category_list():
-    '''获取类别列表(分页)'''
+    '''查询「产品类别」列表'''
     page_validator = PaginateValidator().validate_for_api()
     page = page_validator.page.data
     size = page_validator.size.data
 
-    paginator = Category.query.filter_by().paginate(page=page, per_page=size, error_out=False)
+    paginator = Category.query.paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,
@@ -40,11 +39,11 @@ def get_category_list():
     })
 
 
-@api.route('/<int:id>', methods=['POST'])
+@api.route('', methods=['POST'])
 @api.route_meta(auth='新增类别', module='类别')
 @api.doc(auth=True)
 @auth.group_required
-def create_category(id):
+def create_category():
     '''新增类别'''
     return Success(error_code=1)
 

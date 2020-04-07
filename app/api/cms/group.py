@@ -4,11 +4,11 @@
   ↓↓↓ 权限组管理接口 ↓↓↓
 """
 
-from app.libs.core import find_auth_module, get_ep_name
+from app.core.auth import find_auth_module, get_ep_name
 from app.libs.error_code import Success, NotFound, ForbiddenException
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
-from app.models.base import db
+from app.core.db import db
 from app.models.user import User as UserModel
 from app.models.group import Group as GroupModel
 from app.models.auth import Auth as AuthModel

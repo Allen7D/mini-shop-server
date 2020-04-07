@@ -22,7 +22,7 @@ FLASK_ADMIN_SWATCH = 'cerulean'
 # Swagger配置
 version = "0.3.0"  # 项目版本
 description = """API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
-访问之前，先使用/v1/token获取token，并将token放入Authorize中。
+访问之前，先使用/v1/token查询token，并将token放入Authorize中。
 """
 
 '''

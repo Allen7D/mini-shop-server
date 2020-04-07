@@ -11,7 +11,7 @@ __author__ = 'Allen7D'
 
 
 class WxToken():
-    '''微信·小程序的Token获取(小程序登录)'''
+    '''微信·小程序的Token查询(小程序登录)'''
 
     def __init__(self, code):
         self.code = code

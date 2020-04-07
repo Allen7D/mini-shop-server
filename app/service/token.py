@@ -46,5 +46,5 @@ class Token():
 
     @staticmethod
     def get_current_token_var(key):
-        '''获取缓存中的变量'''
+        '''查询缓存中的变量'''
         pass

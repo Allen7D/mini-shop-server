@@ -22,7 +22,7 @@ FLASK_ADMIN_SWATCH = 'cerulean'
 # Swagger配置
 version = "0.3.0"  # 项目版本
 description = """API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
-访问之前，先使用/v1/token获取token，并将token放入Authorize中。
+访问之前，先使用/v1/token查询token，并将token放入Authorize中。
 """
 
 '''
@@ -98,6 +98,3 @@ EP_INFOS = {}
 GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'
 # 项目文档地址
 DOC_URL = 'http://doc.mini-shop.ivinetrue.com'
-
-# 临时token
-token_value = 'eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4Mzk1MDE0NywiZXhwIjoxNTg2NTQyMTQ3fQ.eyJ1aWQiOjIsInR5cGUiOjEwMCwic2NvcGUiOiJBZG1pblNjb3BlIn0.k7QAXaa4Lm4w1CZZWCFulhJdNXhAdiSz9EA5LJWZpV1vjQ6OQUOng5vx2t2x-JHTywCVgJrP8W5frAopBNBDZg'

@@ -33,10 +33,22 @@ api = RedPrint(name='order', description='订单', api_doc=api_doc)
 @api.doc(auth=True)
 @auth.login_required
 def place_order():
-    '''提交订单(管理员不能调用)'''
+    '''提交订单(管理员X)'''
     products = OrderPlaceValidator().validate_for_api().products.data
     status = OrderService().palce(uid=g.user.uid, o_products=products)
     return Success(status)
+
+
+@api.route('/by_user', methods=['GET'])
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
+@auth.login_required
+def get_summary_by_user():
+    '''用户查询「自身订单列表」'''
+    validator = PaginateValidator().validate_for_api()
+    paged_orders = OrderModel.get_summary_by_user(uid=g.user.uid,
+                                                  page=validator.page.data,
+                                                  size=validator.size.data)
+    return Success(paged_orders)
 
 
 @api.route('/<int:id>', methods=['GET'])
@@ -48,24 +60,12 @@ def get_order(id):
     return Success(order)
 
 
-@api.route('/by_user', methods=['GET'])
-@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.login_required
-def get_summary_by_user():
-    '''订单摘要(基于用户ID&分页)'''
-    validator = PaginateValidator().validate_for_api()
-    paged_orders = OrderModel.get_summary_by_user(uid=g.user.uid,
-                                                  page=validator.page.data,
-                                                  size=validator.size.data)
-    return Success(paged_orders)
-
-
 @api.route('/list', methods=['GET'])
-@api.route_meta(auth='获取订单列表', module='订单')
+@api.route_meta(auth='查询订单列表', module='订单')
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.group_required
 def get_list_by_summary():
-    '''获取全部订单简要信息(分页)'''
+    '''查询订单列表'''
     validator = PaginateValidator().validate_for_api()
     paged_orders = OrderModel.get_summary(page=validator.page.data,
                                           size=validator.size.data)

@@ -27,7 +27,7 @@ def get_recent():
 @api.route('/all/by_category', methods=['GET'])
 @api.doc(args=['g.query.category_id'])
 def get_all_by_category():
-    '''所有 category_id 类的商品'''
+    '''某类的所有商品'''
     id = IDMustBePositiveIntValidator().validate_for_api().id.data
     product_list = Product.get_product_by_category(id=id)
     return Success(product_list)
@@ -37,7 +37,7 @@ def get_all_by_category():
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.category_id'], auth=True)
 @auth.login_required
 def get_list_by_category():
-    '''获取商品列表(分页&基于categoryID)'''
+    '''查询商品列表(分类&分页)'''
     id = IDMustBePositiveIntValidator().validate_for_api().id.data
     page_validator = PaginateValidator().validate_for_api()
     page = page_validator.page.data
@@ -54,16 +54,16 @@ def get_list_by_category():
 @api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['g.path.product_id'])
 def get_product(id):
-    '''获取某商品信息'''
+    '''查询商品'''
     product = Product.get_product_detail(id=id)
     return Success(product)
 
 
-@api.route('/<int:id>', methods=['POST'])
+@api.route('', methods=['POST'])
 @api.route_meta(auth='新增商品', module='商品')
-@api.doc(args=['g.path.product_id'], auth=True)
+@api.doc(auth=True)
 @auth.group_required
-def create_product(id):
+def create_product():
     '''新增商品'''
     return Success(error_code=1)
 

@@ -3,11 +3,11 @@
   Created by Allen7D on 2020/3/24.
   ↓↓↓ 权限管理接口 ↓↓↓
 """
-from app.libs.core import get_ep_name, find_auth_module
+from app.core.auth import get_ep_name, find_auth_module
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
-from app.models.base import db
+from app.core.db import db
 from app.models.auth import Auth as AuthModel
 from app.api_docs.cms import auth as api_doc
 from app.validators.forms import AuthsValidator

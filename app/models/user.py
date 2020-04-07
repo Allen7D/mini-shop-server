@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app.libs.enums import ScopeEnum
 from app.libs.scope import Scope
 from app.libs.error_code import AuthFailed, UserException
-from app.models.base import Base, db
+from app.core.db import Base, db
 from app.models.group import Group as GroupModel
 from app.models.user_address import UserAddress
 from app.service.open_token import OpenToken

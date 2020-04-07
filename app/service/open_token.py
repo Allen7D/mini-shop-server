@@ -50,7 +50,7 @@ class OpenToken():
         self.openid = wx_result['openid']
 
     def __get_user_info(self):
-        '''获取用户信息
+        '''查询用户信息
         返回格式: {openid: ***, }
         '''
         return HTTP.get(self.user_info_url)

@@ -13,8 +13,10 @@ __author__ = 'Allen7D'
 
 class JSONEncoder(_JSONEncoder):
     def default(self, o):
+        # 如果o是数据库查询获得的实例对象
         if hasattr(o, 'keys') and hasattr(o, '__getitem__'):
             return dict(o)
+        # 如果o是时间戳
         if isinstance(o, date):
             return o.strftime('%Y-%m-%d')
         raise ServerError()

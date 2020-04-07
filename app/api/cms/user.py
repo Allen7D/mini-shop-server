@@ -3,12 +3,12 @@
   Created by Allen7D on 2019/6/27.
   ↓↓↓ 管理员接口 ↓↓↓
 """
-from app.libs.core import get_ep_id
+from app.core.auth import get_ep_id
 from app.libs.enums import ScopeEnum
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
-from app.models.base import db
+from app.core.db import db
 from app.models.user import User as UserModel
 from app.models.auth import Auth as AuthModel
 from app.api_docs.cms import user as api_doc
@@ -21,11 +21,11 @@ api = RedPrint(name='user', description='用户管理', api_doc=api_doc, alias='
 
 
 @api.route('/list', methods=['GET'])
-@api.route_meta(auth='获取用户列表', module='用户')
+@api.route_meta(auth='查询用户列表', module='用户')
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.group_required
 def get_user_list():
-    '''获取用户列表(分页)'''
+    '''查询用户列表(分页)'''
     validator = PaginateValidator().validate_for_api()
     page = validator.page.data
     size = validator.size.data
@@ -40,11 +40,11 @@ def get_user_list():
 
 
 @api.route('/<int:uid>', methods=['GET'])
-@api.route_meta(auth='获取用户详情', module='用户')
+@api.route_meta(auth='查询用户详情', module='用户')
 @api.doc(args=['g.path.uid+'], auth=True)
 @auth.group_required
 def get_user(uid):
-    '''获取用户信息'''
+    '''查询用户信息'''
     user = UserModel.query.filter_by(id=uid).first_or_404()
     return Success(user)
 

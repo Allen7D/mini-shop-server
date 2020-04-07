@@ -10,11 +10,9 @@ from flask_httpauth import HTTPBasicAuth as _HTTPBasicAuth
 from itsdangerous import TimedJSONWebSignatureSerializer \
     as Serializer, BadSignature, SignatureExpired
 
-from app.service.token import Token as TokenService
 from app.models.user import User as UserModel
-from app.libs.error_code import AuthFailed, ForbiddenException
-from app.libs.scope import is_in_scope
-from app.libs.core import is_in_auth_scope
+from app.libs.error_code import AuthFailed
+from app.core.auth import is_in_auth_scope
 
 __author__ = 'Allen7D'
 
@@ -77,6 +75,7 @@ class HTTPBasicAuth(_HTTPBasicAuth):
 auth = HTTPBasicAuth()
 UserTuple = namedtuple('User', ['uid', 'ac_type', 'scope'])
 
+
 ##### 超级管理员的API校验 #####
 @auth.verify_admin
 def verify_admin(token, password):
@@ -85,6 +84,7 @@ def verify_admin(token, password):
     if not current_user.is_admin:
         raise AuthFailed(msg='该接口为超级管理员权限操作')
     g.user = UserTuple(uid, ac_type, scope)
+
 
 ##### CMS授权的管理员的API校验 #####
 @auth.verify_group
@@ -102,6 +102,7 @@ def verify_group(token, password):
 
     g.user = UserTuple(uid, ac_type, scope)
 
+
 ##### 普通用户的API校验 #####
 @auth.verify_password
 def verify_password(token, password):
@@ -115,7 +116,7 @@ def verify_password(token, password):
 def verify_auth_token(token):
     # 经过token的解析(包含校验层)
     (uid, ac_type, scope) = decrypt_token(token)
-    # 可以获取要访问的视图函数
+    # 可以查询要访问的视图函数
     # allow = is_in_scope(scope, request.endpoint)
     # if not allow:
     #     raise ForbiddenException(msg='权限不足(等级:{})，禁止访问'.format(scope))

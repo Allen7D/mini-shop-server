@@ -5,10 +5,9 @@
 """
 from flask import g
 
-from app.libs.error_code import Success, UserException
+from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.libs.token_auth import auth
-from app.models.user import User
 from app.models.user_address import UserAddress
 from app.validators.base import BaseValidator
 from app.validators.forms import UpdateAddressValidator
@@ -23,9 +22,9 @@ api = RedPrint(name='address', description='配送信息', api_doc=api_doc)
 @api.doc(auth=True)
 @auth.login_required
 def get_all_address():
-    '''获取所有「配送信息」'''
+    '''查询所有「配送信息」'''
     uid = g.user.uid
-    user_address_list = UserAddress.query.filter_by(user_id=uid).all_or_404(
+    user_address_list = UserAddress.query.filter_by(user_id=uid).all_by_wrap(
         error_code=6001, msg='配送地址不存在')
     return Success(user_address_list)
 
@@ -34,7 +33,7 @@ def get_all_address():
 @api.doc(args=['g.path.address_id'], auth=True)
 @auth.login_required
 def get_address(id):
-    '''获取「配送信息」'''
+    '''查询「配送信息」'''
     user_address = UserAddress.get_or_404(id=id, error_code=6001, msg='配送地址不存在')
     return Success(user_address)
 

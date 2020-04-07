@@ -4,8 +4,8 @@
 """
 from sqlalchemy import Column, Integer, String
 
-from app.libs.core import get_ep_id
-from app.models.base import Base, db
+from app.core.auth import get_ep_id
+from app.core.db import Base, db
 from app.models.auth import Auth as AuthModel
 
 __author__ = 'Allen7D'

@@ -31,3 +31,9 @@ class OrderStatusEnum(Enum):
     PAID = 2  # 已支付
     DELIVERED = 3  # 已发货
     PAID_BUT_OUT_OF = 4  # 已支付，但库存不足
+
+
+class UrlFromEnum(Enum):
+    '''图片来源'''
+    LOCAL = 1  # 1 本地
+    NETWORK = 2 # 2 公网

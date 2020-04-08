@@ -5,7 +5,7 @@
 from sqlalchemy import Column, Integer, String
 
 from app.core.auth import get_ep_id
-from app.core.db import Base, db
+from app.core.db import Extra as Base, db
 from app.models.auth import Auth as AuthModel
 
 __author__ = 'Allen7D'
@@ -21,5 +21,5 @@ class Group(Base):
     def auth_list(self):
         auth_list = db.session.query(AuthModel.name, AuthModel.module) \
             .filter_by(group_id=self.id).all()
-        auth_list = [{'id': get_ep_id(auth[0]),'name': auth[0], 'module': auth[1]} for auth in auth_list]
+        auth_list = [{'id': get_ep_id(auth[0]), 'name': auth[0], 'module': auth[1]} for auth in auth_list]
         return auth_list

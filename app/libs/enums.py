@@ -19,18 +19,19 @@ class ClientTypeEnum(Enum):
 
 class ScopeEnum(Enum):
     '''
-    逻辑：数字越大，权限越大
-    用法：ScopeEnum.COMMON == ScopeEnum(1) # True
+    用法：ScopeEnum(1) == ScopeEnum.COMMON # True
     '''
     COMMON = 1  # 普通用户
     ADMIN = 2  # 管理员
 
 
 class OrderStatusEnum(Enum):
+    '''订单的状态'''
     UNPAID = 1  # 待支付
     PAID = 2  # 已支付
     DELIVERED = 3  # 已发货
     PAID_BUT_OUT_OF = 4  # 已支付，但库存不足
+    HANDLED_OUT_OF = 5 # 已处理 PAID_BUT_OUT_OF
 
 
 class UrlFromEnum(Enum):

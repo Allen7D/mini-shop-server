@@ -7,7 +7,6 @@ from sqlalchemy import Column, Integer, String, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.enums import ScopeEnum
-from app.libs.scope import Scope
 from app.libs.error_code import AuthFailed, UserException
 from app.core.db import Base, db
 from app.models.group import Group as GroupModel
@@ -56,7 +55,7 @@ class User(Base):
 
     @property
     def auth_scope(self):
-        return db.session.query(GroupModel.name)\
+        return db.session.query(GroupModel.name) \
             .filter(GroupModel.id == self.group_id).scalar()
 
     @property
@@ -96,8 +95,7 @@ class User(Base):
             .first_or_404(e=UserException(msg='该账号未注册'))
         if not user.check_password(password):
             raise AuthFailed(msg='密码错误')
-        scope = Scope.match_user_scope(auth=user.auth)
-        return {'uid': user.id, 'scope': scope}
+        return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
     def verify_by_mobile(mobile, password):
@@ -105,8 +103,7 @@ class User(Base):
             .first_or_404(e=UserException(msg='该账号未注册'))
         if not user.check_password(password):
             raise AuthFailed(msg='密码错误')
-        scope = Scope.match_user_scope(auth=user.auth)
-        return {'uid': user.id, 'scope': scope}
+        return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
     def verify_by_wx_mina(code, *args):
@@ -117,8 +114,7 @@ class User(Base):
         # 如果不在数据库，则新建用户
         if not user:
             user = User.register_by_wx_mina(openid)
-        scope = Scope.match_user_scope(auth=user.auth)
-        return {'uid': user.id, 'scope': scope}
+        return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
     def verify_by_wx_open(code, *args):
@@ -129,8 +125,7 @@ class User(Base):
         user = User.query.filter_by(openid=openid).first()
         if not user:
             user = User.register_by_wx_open(form=user_info)
-        scope = Scope.match_user_scope(auth=user.auth)
-        return {'uid': user.id, 'scope': scope}
+        return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
     def verify_by_wx_account(code, *args):
@@ -140,11 +135,11 @@ class User(Base):
         user = User.query.filter_by(unionid=unionid).first()
         if not user:
             user = User.register_by_wx_open(user_info)
-        scope = Scope.match_user_scope(auth=user.auth)
-        return {'uid': user.id, 'scope': scope}
+        return {'uid': user.id, 'scope': user.auth_scope}
 
     @classmethod
     def get_current_user(cls):
+        '''获取当前用户的用户信息'''
         return cls.get(id=g.user.uid)
 
     def check_password(self, raw):

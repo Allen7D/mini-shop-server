@@ -16,7 +16,7 @@ Meta = namedtuple('meta', ['name', 'module'])
 route_meta_infos = {}
 
 
-class RedPrint:
+class RedPrint(object):
     name_list = ()  # 存放所有rp的name, 避免重复
 
     def __init__(self, name, description, api_doc=None, alias=''):

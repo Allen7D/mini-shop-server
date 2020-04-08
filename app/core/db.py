@@ -209,7 +209,8 @@ class Base(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
     status = Column(SmallInteger, default=1, comment='状态，是否软删除')  # 软删除
 
     def __init__(self):
-        self.create_time = int(datetime.now().timestamp())
+        # 时间戳
+        self.create_time = int(round(datetime.now().timestamp() * 1000))
 
     @property
     def create_datetime(self):
@@ -223,6 +224,16 @@ class Base(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
         if (UrlFromEnum(self._from) == UrlFromEnum.LOCAL):
             return current_app.config['IMG_PREFIX'] + url
         return url
+
+    def set_attrs(self, **kwargs):
+        # 快速赋值，用法: set_attrs(form.data)
+        for key, value in kwargs.items():
+            if hasattr(self, key) and key != 'id':
+                setattr(self, key, value)
+
+
+class Extra(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
+    __abstract__ = True
 
     def set_attrs(self, **kwargs):
         # 快速赋值，用法: set_attrs(form.data)

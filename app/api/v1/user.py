@@ -67,7 +67,7 @@ def delete_user():
 @auth.login_required
 def change_password():
     '''更改自身密码'''
-    validator = ChangePasswordValidator().validate_for_api().data
+    validator = ChangePasswordValidator().validate_for_api().nt_data
     old_password = validator.old_password
     new_password = validator.new_password
 

@@ -116,10 +116,6 @@ def verify_password(token, password):
 def verify_auth_token(token):
     # 经过token的解析(包含校验层)
     (uid, ac_type, scope) = decrypt_token(token)
-    # 可以查询要访问的视图函数
-    # allow = is_in_scope(scope, request.endpoint)
-    # if not allow:
-    #     raise ForbiddenException(msg='权限不足(等级:{})，禁止访问'.format(scope))
     return UserTuple(uid, ac_type, scope)
 
 

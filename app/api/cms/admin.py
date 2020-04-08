@@ -36,7 +36,7 @@ def get_auths():
 @auth.admin_required
 def get_admin_list():
     '''查询管理员列表'''
-    query = PaginateValidator().validate_for_api().data
+    query = PaginateValidator().validate_for_api().nt_data
     group_id = int(request.args.get('group_id'))  # 可选
     query_condition = {
         'auth': ScopeEnum.COMMON.value,

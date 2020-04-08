@@ -7,7 +7,6 @@ from sqlalchemy import Column, Integer, String, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.enums import ScopeEnum
-from app.libs.scope import Scope
 from app.libs.error_code import AuthFailed, UserException
 from app.core.db import Base, db
 from app.models.group import Group as GroupModel

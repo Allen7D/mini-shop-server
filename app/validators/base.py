@@ -48,7 +48,16 @@ class BaseValidator(PropVelifyMixin, WTForm):
         return self
 
     @property
-    def data(self):
+    def dt_data(self):
+        '''返回结果以dict的形式，常用于数据库查询'''
+        return self._data._asdict()
+
+    @property
+    def nt_data(self):
+        '''返回结果以namedtuple的形式，优化数据解析'''
+        return self._data
+
+    def _data(self):
         ''' 默认返回namedtuple，若是要返回dict则有validate_for_api决定
         :return:
         '''
@@ -58,8 +67,7 @@ class BaseValidator(PropVelifyMixin, WTForm):
                 key_list.append(key)
                 value_list.append(value.data)
         NamedTuple = namedtuple('NamedTuple', [key for key in key_list])
-        nt = NamedTuple(*value_list)
-        return nt._asdict() if self.as_dict else nt
+        return NamedTuple(*value_list)
 
     @staticmethod
     def get(key, default=None):

@@ -5,7 +5,7 @@
 from flask import json
 
 from app.libs.utils import jsonify
-from app.libs.error import APIException
+from app.core.error import APIException
 
 __author__ = 'Allen7D'
 

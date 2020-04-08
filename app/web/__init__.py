@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2018/4/19.
 """
-from app.libs.blueprint import Blueprint
+from flask import Blueprint
 
 __author__ = 'Allen7D'
 

@@ -33,7 +33,7 @@ def create_app():
 
 
 def load_config(app):
-    if os.environ.get('ENV_MODE') == 'local':
+    if os.environ.get('ENV_MODE') == 'dev:local':
         app.config.from_object('app.config.local_secure')
         app.config.from_object('app.config.local_setting')
     else:

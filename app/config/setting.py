@@ -61,7 +61,7 @@ SWAGGER = {
 }
 
 # SWAGGER的安全访问方式
-specs_security = [
+SPECS_SECURITY = [
     {
         "basicAuth": []
     }

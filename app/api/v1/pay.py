@@ -31,7 +31,7 @@ def get_pre_order():
 @api.doc(auth=True)
 @auth.login_required
 def receive_notify():
-    '''接收微信平台支付结果\n\t
+    '''接收微信平台支付结果
     文档: https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8
     微信总共会发起10次通知，通知频率为15s/15s/30s/3m/10m/20m/30m/30m/30m/60m/3h/3h/3h/6h/6h - 总计 24h4m）
     '''

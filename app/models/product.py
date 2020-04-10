@@ -50,10 +50,6 @@ class Product(Base):
                                                                                           wrap='items')
 
     @staticmethod
-    def get_product_by_category(id):
-        return Product.query.filter_by(category_id=id).all_by_wrap(e=ProductException, wrap='items')
-
-    @staticmethod
     def get_product_detail(id):
         return Product.query.filter_by(id=id) \
             .first_or_404(e=ProductException).hide('category_id')

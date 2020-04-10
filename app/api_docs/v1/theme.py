@@ -8,5 +8,5 @@ __author__ = 'Allen7D'
 
 theme_ids = ArrayQueryField(
     name='ids', description='theme id 多选',
-    item_type='integer', enum=[1, 2, 3, 4, 5],
+    item_type='integer', enum=[1, 2, 3, 4, 5, 10, 100],
     default=1, required=True)

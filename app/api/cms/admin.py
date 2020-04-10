@@ -89,6 +89,7 @@ def delete_admin(uid):
 @api.doc(auth=True)
 @auth.admin_required
 def change_user_password(uid):
+    '''修改管理员密码'''
     form = ResetPasswordValidator().validate_for_api()
     user = UserModel.get_or_404(id=uid, msg='用户不存在')
     user.update(password=form.new_password.data)

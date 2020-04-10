@@ -48,6 +48,7 @@ def update_user():
     '''用户修改自身'''
     validator = BaseValidator.get_args_json()  # 快速查询所有的非校验的参数
     user = User.get_current_user()
+    user.update(**validator)
     return Success(error_code=1)
 
 

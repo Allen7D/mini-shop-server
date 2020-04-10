@@ -27,9 +27,8 @@ class RedPrint(_RedPrint):
                 specs = SwaggerSpecs(args=args, api_doc=self.api_doc, body_desc=body_desc, auth=auth,
                                      tags=[self.tag['name']]).specs
             # 对f.__doc__处理
-            if f.__doc__ and '\n\t' in f.__doc__:
-                f.__doc__ = f.__doc__.split('\n\t')[0]
-
+            if f.__doc__ and '\n' in f.__doc__:
+                f.__doc__ = f.__doc__.split('\n')[0]
             # swag_from将specs注入到swagger实例(单例)中
             @swag_from(specs=specs)
             @wraps(f)

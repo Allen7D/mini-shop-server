@@ -3,7 +3,7 @@
   Created by Allen7D on 2018/6/17.
   ↓↓↓ 产品接口 ↓↓↓
 """
-from app.libs.error_code import Success
+from app.libs.error_code import Success, ProductException
 from app.libs.redprint import RedPrint
 from app.core.token_auth import auth
 from app.models.product import Product
@@ -29,7 +29,7 @@ def get_recent():
 def get_all_by_category():
     '''某类的所有商品'''
     id = IDMustBePositiveIntValidator().validate_for_api().id.data
-    product_list = Product.get_product_by_category(id=id)
+    product_list = Product.query.filter_by(category_id=id).all_by_wrap(e=ProductException, wrap='items')
     return Success(product_list)
 
 

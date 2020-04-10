@@ -31,7 +31,3 @@ class Banner(Base):
     @property
     def items(self):
         return self._items.all()
-
-    @staticmethod
-    def get_banner_by_id(id):
-        return Banner.query.filter_by(id=id).first_or_404(e=BannerException)

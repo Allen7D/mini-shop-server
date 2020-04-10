@@ -37,12 +37,6 @@ class Theme(Base):
         return Image.get_img_by_id(self.head_img_id).url
 
     @staticmethod
-    def get_themes(ids):
-        return {
-            'items': [Theme.get_theme_by_id(id=id) for id in ids]
-        }
-
-    @staticmethod
     def get_theme_by_id(id):
         return Theme.query.filter_by(id=id).first_or_404(e=ThemeException)
 

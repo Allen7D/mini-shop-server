@@ -68,7 +68,7 @@ def create_group():
 @api.doc(args=['g.path.group_id', 'body.group_name', 'body.info'], auth=True)
 @auth.admin_required
 def update_group(id):
-    '''更新权限组)'''
+    '''更新权限组'''
     form = UpdateGroupValidator().validate_for_api()
     group = GroupModel.get_or_404(id=id, msg='分组不存在，更新失败')
     group.update(name=form.name.data, info=form.info.data)

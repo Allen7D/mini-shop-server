@@ -42,7 +42,7 @@ def create_user():
 
 
 @api.route('', methods=['PUT'])
-@api.doc(auth=True)
+@api.doc(args=['body.nickname'], auth=True)
 @auth.login_required
 def update_user():
     '''用户修改自身'''

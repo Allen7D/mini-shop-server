@@ -130,3 +130,22 @@ class TokenException(APIException):
     code = 401
     error_code = 10200
     msg = 'Token已过期或无效Token'
+
+
+########## 文件相关(10300~10400) ##########
+class FileTooLargeException(APIException):
+    code = 413
+    msg = '文件体积过大'
+    error_code = 10310
+
+
+class FileTooManyException(APIException):
+    code = 413
+    msg = '文件数量过多'
+    error_code = 10320
+
+
+class FileExtensionException(APIException):
+    code = 401
+    msg = '文件扩展名不符合规范'
+    error_code = 10330

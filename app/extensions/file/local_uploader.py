@@ -13,7 +13,7 @@ class LocalUploader(Uploader):
         ret = []
         self.mkdir_if_not_exists()
         site_domain = current_app.config.get('SITE_DOMAIN') \
-            if current_app.config.get('SITE_DOMAIN') else 'http://127.0.0.1:5000'
+            if current_app.config.get('SITE_DOMAIN') else 'http://{}'.format(current_app.config.get('SERVER_URL'))
         for single in self._file_storage:
             file_md5 = self._generate_md5(single.read())
             single.seek(0)

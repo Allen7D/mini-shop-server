@@ -40,6 +40,8 @@ def load_config(app):
         app.config.from_object('app.config.secure')
         app.config.from_object('app.config.setting')
 
+    app.config.from_object('app.extensions.file.config')
+
 
 def register_blueprint(app):
     '''注册蓝图'''

@@ -12,6 +12,7 @@ from flask import send_from_directory
 from app.libs.redprint import RedPrint
 from app.libs.error_code import Success
 from app.core.token_auth import auth
+from app.extensions.file.local_uploader import LocalUploader
 from app.service.file import FileService
 from app.validators.forms import UploadFileValidator, UploadPDFValidator
 from app.api_docs.cms import file as api_doc
@@ -25,11 +26,22 @@ __author__ = 'Allen7D'
 api = RedPrint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
 
 
-@api.route('/upload', methods=['POST'])
+@api.route('', methods=['POST'])
 @api.doc(auth=True)
-@auth.group_required
+@auth.login_required
 def upload_file():
     '''文件上传'''
+    files = request.files
+    uploader = LocalUploader(files)
+    res = uploader.upload()
+    return Success(res)
+
+
+@api.route('/upload', methods=['POST'])
+@api.doc(auth=True)
+@auth.login_required
+def post_file():
+    '''文件上传2'''
     validator = UploadFileValidator().validate_for_api()
     filename = FileService(file=validator.file.data).save()
     return Success(msg='{} 保存成功'.format(filename), error_code=1)
@@ -37,7 +49,7 @@ def upload_file():
 
 @api.route('/upload/double', methods=['POST'])
 @api.doc(auth=True)
-@auth.group_required
+@auth.login_required
 def upload_double_file():
     '''对比双文件上传'''
     form = UploadPDFValidator().validate_for_api()

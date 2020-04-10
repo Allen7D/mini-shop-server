@@ -5,10 +5,9 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from app.libs.error_code import BannerException
 # BannerItem 默认用于 relationship
 from app.models.banner_item import BannerItem
-from app.core.db import Base
+from app.core.db import EntityModel as Base
 
 __author__ = 'Allen7D'
 

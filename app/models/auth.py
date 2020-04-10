@@ -4,7 +4,7 @@
 """
 from sqlalchemy import Column, Integer, String
 
-from app.core.db import Extra as Base
+from app.core.db import BaseModel as Base
 
 __author__ = 'Allen7D'
 

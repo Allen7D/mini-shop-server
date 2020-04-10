@@ -5,7 +5,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
-from app.core.db import Base
+from app.core.db import EntityModel as Base
 
 __author__ = 'Allen7D'
 

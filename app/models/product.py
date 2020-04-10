@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship, backref
 from app.libs.error_code import ProductException
 from app.core.utils import jsonify
 from app.models.m2m import Product2Image
-from app.core.db import Base, db
+from app.core.db import EntityModel as Base, db
 
 __author__ = 'Allen7D'
 
@@ -39,17 +39,19 @@ class Product(Base):
     @property
     def img_urls(self):
         try:
-            img_urls = Product2Image.query.filter_by(product_id=self.id).order_by(asc(Product2Image.order)).all()
+            img_urls = Product2Image.query \
+                .filter_by(product_id=self.id) \
+                .order_by(asc(Product2Image.order)).all()
         except Exception:
             return []
         return list(map(lambda x: x['img_url'], jsonify(img_urls)))
 
     @staticmethod
     def get_most_recent(count):
-        return Product.query.order_by(desc(Product.create_time)).limit(count).all_by_wrap(e=ProductException,
-                                                                                          wrap='items')
+        return Product.query.order_by(desc(Product.create_time)) \
+            .limit(count).all_by_wrap(wrap='items')
 
     @staticmethod
     def get_product_detail(id):
         return Product.query.filter_by(id=id) \
-            .first_or_404(e=ProductException).hide('category_id')
+            .first_or_404().hide('category_id')

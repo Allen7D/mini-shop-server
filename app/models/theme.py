@@ -5,7 +5,7 @@
 from sqlalchemy import Column, Integer, String
 
 from app.libs.error_code import ThemeException
-from app.core.db import Base, db
+from app.core.db import EntityModel as Base, db
 from app.models.image import Image
 
 __author__ = 'Allen7D'

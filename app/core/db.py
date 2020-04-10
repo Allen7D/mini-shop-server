@@ -8,12 +8,17 @@ from time import localtime, strftime
 
 from flask import current_app, json
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, Pagination as _Pagination, BaseQuery
-from sqlalchemy import Column, SmallInteger, Integer, orm, inspect
+from sqlalchemy import Column, SmallInteger, Integer, BigInteger, orm, inspect
 
 from app.libs.error_code import NotFound, RepeatException
 from app.libs.enums import UrlFromEnum
 
 __author__ = 'Allen7D'
+
+
+def on_update_time():
+    now = datetime.now
+    return int(round(now().timestamp() * 1000))
 
 
 class SQLAlchemy(_SQLAlchemy):
@@ -43,8 +48,8 @@ class Pagination(_Pagination):
 
 class Query(BaseQuery):
     def filter_by(self, **kwargs):
-        if 'status' not in kwargs.keys():
-            kwargs['status'] = 1
+        if 'delete_time' not in kwargs.keys():
+            kwargs['delete_time'] = None
         return super(Query, self).filter_by(**kwargs)
 
     def get_or_404(self, ident, e=None, error_code=None, msg=None):
@@ -150,7 +155,7 @@ class CRUDMixin(object):
     def delete(self):
         '''软删除'''
         with db.auto_commit():
-            self.status = 0
+            self.delete_time = int(round(datetime.now().timestamp() * 1000))
             self.save()
 
     def hard_delete(self, commit: bool = True):
@@ -163,7 +168,7 @@ class JSONSerializerMixin(object):
     @orm.reconstructor
     def init_on_load(self):
         # 被隐藏的属性则无法用append方法添加
-        self.exclude = ['create_time', 'update_time', 'delete_time', 'status']
+        self.exclude = ['create_time', 'update_time', 'delete_time']
         all_columns = inspect(self.__class__).columns.keys()  # 该model的所有属性
         self.fields = list(set(all_columns) - set(self.exclude))
 
@@ -201,12 +206,26 @@ class JSONSerializerMixin(object):
         return self
 
 
-class Base(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
+class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
     __abstract__ = True
-    create_time = Column('create_time', Integer, comment='创建时间')
-    delete_time = Column(Integer, comment='删除时间')
-    update_time = Column(Integer, comment='更新时间')
-    status = Column(SmallInteger, default=1, comment='状态，是否软删除')  # 软删除
+
+    def delete(self):
+        '''删除'''
+        db.session.delete(self)
+        db.session.commit()
+
+    def set_attrs(self, **kwargs):
+        # 快速赋值，用法: set_attrs(form.data)
+        for key, value in kwargs.items():
+            if hasattr(self, key) and key != 'id':
+                setattr(self, key, value)
+
+
+class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
+    __abstract__ = True
+    create_time = Column('create_time', BigInteger, comment='创建时间')
+    update_time = Column('update_time', BigInteger, onupdate=on_update_time, comment='更新时间')
+    delete_time = Column('delete_time', BigInteger, comment='删除时间')
 
     def __init__(self):
         # 时间戳
@@ -224,16 +243,6 @@ class Base(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
         if (UrlFromEnum(self._from) == UrlFromEnum.LOCAL):
             return current_app.config['IMG_PREFIX'] + url
         return url
-
-    def set_attrs(self, **kwargs):
-        # 快速赋值，用法: set_attrs(form.data)
-        for key, value in kwargs.items():
-            if hasattr(self, key) and key != 'id':
-                setattr(self, key, value)
-
-
-class Extra(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
-    __abstract__ = True
 
     def set_attrs(self, **kwargs):
         # 快速赋值，用法: set_attrs(form.data)

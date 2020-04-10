@@ -18,7 +18,7 @@ from flask import g
 
 from app.libs.redprint import RedPrint
 from app.libs.error_code import Success
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
 from app.validators.forms import PaginateValidator, OrderPlaceValidator, IDMustBePositiveIntValidator

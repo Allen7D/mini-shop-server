@@ -6,7 +6,7 @@
 """
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.service.pay import Pay as PayService
 from app.validators.forms import IDMustBePositiveIntValidator
 from app.api_docs.v1 import pay as api_doc

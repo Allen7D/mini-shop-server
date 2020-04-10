@@ -6,7 +6,7 @@
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.category import Category
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.api_docs.v1 import category as api_doc
 from app.validators.forms import PaginateValidator
 

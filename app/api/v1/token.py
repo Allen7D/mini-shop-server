@@ -10,7 +10,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.service.token import Token
-from app.libs.token_auth import generate_auth_token
+from app.core.token_auth import generate_auth_token
 from app.validators.forms import ClientValidator, TokenValidator
 from app.api_docs.v1 import token as api_doc
 

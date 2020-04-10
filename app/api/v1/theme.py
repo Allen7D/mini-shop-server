@@ -5,7 +5,7 @@
 """
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.api_docs.v1 import theme as api_doc
 from app.models.theme import Theme
 from app.validators.forms import PaginateValidator, IDCollectionValidator

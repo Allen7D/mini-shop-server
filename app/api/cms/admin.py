@@ -7,7 +7,7 @@ from flask import current_app, request
 
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.core.db import db
 from app.libs.enums import ScopeEnum
 from app.models.user import User as UserModel

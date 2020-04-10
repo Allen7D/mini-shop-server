@@ -14,7 +14,7 @@ from .app import Flask
 from app.core.db import db
 from app.web import web
 from app.api import create_blueprint_list
-from app.libs.redprint import route_meta_infos
+from app.core.redprint import route_meta_infos
 from app.core.error import APIException
 from app.libs.error_code import ServerError
 

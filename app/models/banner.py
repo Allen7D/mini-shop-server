@@ -5,7 +5,7 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from app.libs.error_code import BannerMissException
+from app.libs.error_code import BannerException
 # BannerItem 默认用于 relationship
 from app.models.banner_item import BannerItem
 from app.core.db import Base
@@ -34,4 +34,4 @@ class Banner(Base):
 
     @staticmethod
     def get_banner_by_id(id):
-        return Banner.query.filter_by(id=id).first_or_404(e=BannerMissException)
+        return Banner.query.filter_by(id=id).first_or_404(e=BannerException)

@@ -7,7 +7,7 @@ from sqlalchemy import desc, asc
 from sqlalchemy.orm import relationship, backref
 
 from app.libs.error_code import ProductException
-from app.libs.utils import jsonify
+from app.core.utils import jsonify
 from app.models.m2m import Product2Image
 from app.core.db import Base, db
 

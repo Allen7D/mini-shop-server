@@ -14,7 +14,7 @@ from .app import Flask
 from app.core.db import db
 from app.web import web
 from app.api import create_blueprint_list
-from app.libs.redprint import route_meta_infos
+from app.core.redprint import route_meta_infos
 from app.core.error import APIException
 from app.libs.error_code import ServerError
 
@@ -33,12 +33,14 @@ def create_app():
 
 
 def load_config(app):
-    if os.environ.get('ENV_MODE') == 'local':
+    if os.environ.get('ENV_MODE') == 'dev:local':
         app.config.from_object('app.config.local_secure')
         app.config.from_object('app.config.local_setting')
     else:
         app.config.from_object('app.config.secure')
         app.config.from_object('app.config.setting')
+
+    app.config.from_object('app.extensions.file.config')
 
 
 def register_blueprint(app):

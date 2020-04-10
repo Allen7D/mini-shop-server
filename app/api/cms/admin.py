@@ -7,7 +7,7 @@ from flask import current_app, request
 
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.core.db import db
 from app.libs.enums import ScopeEnum
 from app.models.user import User as UserModel
@@ -89,6 +89,7 @@ def delete_admin(uid):
 @api.doc(auth=True)
 @auth.admin_required
 def change_user_password(uid):
+    '''修改管理员密码'''
     form = ResetPasswordValidator().validate_for_api()
     user = UserModel.get_or_404(id=uid, msg='用户不存在')
     user.update(password=form.new_password.data)

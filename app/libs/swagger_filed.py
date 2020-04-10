@@ -2,7 +2,12 @@
 """
   Created by Allen7D on 2018/10/25.
 """
-from app.config.setting import specs_security
+import os
+if os.environ.get('ENV_MODE') == 'dev:local':
+    from app.config.local_setting import SPECS_SECURITY
+else:
+    from app.config.setting import SPECS_SECURITY
+
 
 __author__ = 'Allen7D'
 
@@ -176,7 +181,7 @@ class SwaggerSpecs():
     def specs(self):
         _specs = self.init_specs(*self.arg_fields, body_desc=self.body_desc)
         _specs['tags'] = self.tags
-        _specs['security'] = specs_security if self.auth else []
+        _specs['security'] = SPECS_SECURITY if self.auth else []
         _specs['responses'] = {
             "200": {
                 "description": "",

@@ -4,7 +4,7 @@
 """
 from sqlalchemy import Column, Integer, String, SmallInteger
 
-from app.core.db import Base
+from app.core.db import EntityModel as Base
 from app.libs.enums import UrlFromEnum
 
 __author__ = 'Allen7D'

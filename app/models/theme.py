@@ -5,7 +5,7 @@
 from sqlalchemy import Column, Integer, String
 
 from app.libs.error_code import ThemeException
-from app.core.db import Base, db
+from app.core.db import EntityModel as Base, db
 from app.models.image import Image
 
 __author__ = 'Allen7D'
@@ -35,12 +35,6 @@ class Theme(Base):
     @property
     def head_img_url(self):
         return Image.get_img_by_id(self.head_img_id).url
-
-    @staticmethod
-    def get_themes(ids):
-        return {
-            'items': [Theme.get_theme_by_id(id=id) for id in ids]
-        }
 
     @staticmethod
     def get_theme_by_id(id):

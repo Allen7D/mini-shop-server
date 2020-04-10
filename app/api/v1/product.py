@@ -3,9 +3,9 @@
   Created by Allen7D on 2018/6/17.
   ↓↓↓ 产品接口 ↓↓↓
 """
-from app.libs.error_code import Success
+from app.libs.error_code import Success, ProductException
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.models.product import Product
 from app.validators.forms import PaginateValidator, CountValidator, IDMustBePositiveIntValidator
 from app.api_docs.v1 import product as api_doc
@@ -27,9 +27,9 @@ def get_recent():
 @api.route('/all/by_category', methods=['GET'])
 @api.doc(args=['g.query.category_id'])
 def get_all_by_category():
-    '''某类的所有商品'''
+    '''查询某类别所有商品'''
     id = IDMustBePositiveIntValidator().validate_for_api().id.data
-    product_list = Product.get_product_by_category(id=id)
+    product_list = Product.query.filter_by(category_id=id).all_by_wrap(e=ProductException, wrap='items')
     return Success(product_list)
 
 
@@ -37,7 +37,7 @@ def get_all_by_category():
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.category_id'], auth=True)
 @auth.login_required
 def get_list_by_category():
-    '''查询商品列表(分类&分页)'''
+    '''查询某类别商品列表'''
     id = IDMustBePositiveIntValidator().validate_for_api().id.data
     page_validator = PaginateValidator().validate_for_api()
     page = page_validator.page.data

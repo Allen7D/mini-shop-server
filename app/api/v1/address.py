@@ -7,7 +7,7 @@ from flask import g
 
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.models.user_address import UserAddress
 from app.validators.base import BaseValidator
 from app.validators.forms import UpdateAddressValidator

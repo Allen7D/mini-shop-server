@@ -10,7 +10,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.service.token import Token
-from app.libs.token_auth import generate_auth_token
+from app.core.token_auth import generate_auth_token
 from app.validators.forms import ClientValidator, TokenValidator
 from app.api_docs.v1 import token as api_doc
 
@@ -51,14 +51,14 @@ def get_token():
 def get_token_info():
     '''解析「令牌」'''
     token = TokenValidator().validate_for_api().token.data
-    result = Token.decrypt(token)
-    return Success(data=result)
+    token_info = Token.decrypt(token)
+    return Success(data=token_info)
 
 
 @api.route('/open_redirect_url', methods=['GET'])
 @api.doc()
 def get_open_redirect_url():
-    '''微信授权跳转链接\n\t
+    '''微信授权跳转链接
     用于前端弹出微信扫描页面，获取code
     :return: 跳转的链接，用于弹出「微信扫描页面」
     '''

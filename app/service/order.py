@@ -9,7 +9,7 @@ from time import time
 
 from app.libs.enums import OrderStatusEnum
 from app.libs.error_code import OrderException, UserException
-from app.libs.utils import jsonify
+from app.core.utils import jsonify
 from app.core.db import db
 from app.models.product import Product
 from app.models.order import Order as OrderModel

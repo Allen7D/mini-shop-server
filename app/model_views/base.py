@@ -9,7 +9,7 @@ __author__ = 'Allen7D'
 
 
 class ModelView(_ModelView):
-    column_exclude_list = ['create_time', 'update_time', 'delete_time', 'status']  # 隐藏字段
+    column_exclude_list = ['create_time', 'update_time', 'delete_time']  # 隐藏字段
     page_size = 10  # 分页
     column_display_pk = True  # 是否显示主键
     can_create = True  # 可新增, 默认True
@@ -23,8 +23,8 @@ class ModelView(_ModelView):
 
     # 对于查询，进行条件过滤
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.status == 1)
+        return self.session.query(self.model).filter(self.model.delete_time != None)
 
     # 对于查询统计，进行条件过滤
     def get_count_query(self):
-        return self.session.query(func.count('*')).filter(self.model.status == 1)
+        return self.session.query(func.count('*')).filter(self.model.delete_time != None)

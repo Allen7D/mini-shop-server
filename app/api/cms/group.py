@@ -5,9 +5,9 @@
 """
 
 from app.core.auth import find_auth_module, get_ep_name
-from app.libs.error_code import Success, NotFound, ForbiddenException
+from app.libs.error_code import Success, NotFound, Forbidden
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.core.db import db
 from app.models.user import User as UserModel
 from app.models.group import Group as GroupModel
@@ -68,7 +68,7 @@ def create_group():
 @api.doc(args=['g.path.group_id', 'body.group_name', 'body.info'], auth=True)
 @auth.admin_required
 def update_group(id):
-    '''更新权限组)'''
+    '''更新权限组'''
     form = UpdateGroupValidator().validate_for_api()
     group = GroupModel.get_or_404(id=id, msg='分组不存在，更新失败')
     group.update(name=form.name.data, info=form.info.data)
@@ -82,7 +82,7 @@ def delete_group(id):
     '''删除权限组'''
     group = GroupModel.get_or_404(id=id, msg='分组不存在，删除失败')
     if UserModel.get(group_id=id):
-        raise ForbiddenException(msg='分组下存在用户，不可删除')
+        raise Forbidden(msg='分组下存在用户，不可删除')
 
     # 删除group拥有的权限
     AuthModel.query.filter_by(group_id=id).delete()

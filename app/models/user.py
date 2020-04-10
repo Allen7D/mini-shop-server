@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.enums import ScopeEnum
 from app.libs.error_code import AuthFailed, UserException
-from app.core.db import Base, db
+from app.core.db import EntityModel as Base, db
 from app.models.group import Group as GroupModel
 from app.models.user_address import UserAddress
 from app.service.open_token import OpenToken
@@ -27,11 +27,11 @@ class User(Base):
     email = Column(String(24), unique=True, comment='邮箱')
     # mobile = Column(String(16), unique=True)
     nickname = Column(String(24), comment='昵称')
-    extend = Column(String(255), comment='')
-    auth = Column(SmallInteger, default=1, comment='权限')
+    auth = Column(SmallInteger, default=ScopeEnum.COMMON.value, comment='权限')
     group_id = Column(Integer, comment='用户所属的权限组id')
     _user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')
     _password = Column('password', String(100), comment='密码')
+    extend = Column(String(255), comment='额外备注')
 
     def __repr__(self):
         return '<User(id={0}, nickname={1})>'.format(self.id, self.nickname)

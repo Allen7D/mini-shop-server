@@ -8,7 +8,7 @@ from flask import g
 from app.libs.enums import ScopeEnum
 from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.core.token_auth import auth
 from app.models.user import User
 from app.api_docs.v1 import user as api_doc  # api_doc可以引入
 from app.validators.base import BaseValidator
@@ -42,12 +42,13 @@ def create_user():
 
 
 @api.route('', methods=['PUT'])
-@api.doc(auth=True)
+@api.doc(args=['body.nickname'], auth=True)
 @auth.login_required
 def update_user():
     '''用户修改自身'''
     validator = BaseValidator.get_args_json()  # 快速查询所有的非校验的参数
     user = User.get_current_user()
+    user.update(**validator)
     return Success(error_code=1)
 
 

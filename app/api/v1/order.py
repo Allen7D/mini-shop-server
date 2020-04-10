@@ -22,7 +22,7 @@ from app.core.token_auth import auth
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
 from app.validators.forms import PaginateValidator, OrderPlaceValidator, IDMustBePositiveIntValidator
-from app.api_docs.v1 import order as api_doc
+from app.extensions.api_docs.v1 import order as api_doc
 
 __author__ = 'Allen7D'
 

@@ -6,7 +6,7 @@
 from app.libs.error_code import Success, BannerException
 from app.libs.redprint import RedPrint
 from app.models.banner import Banner
-from app.api_docs.v1 import banner as api_doc
+from app.extensions.api_docs.v1 import banner as api_doc
 
 __author__ = 'Allen7D'
 

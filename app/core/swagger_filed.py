@@ -181,7 +181,7 @@ class SwaggerSpecs():
     def specs(self):
         _specs = self.init_specs(*self.arg_fields, body_desc=self.body_desc)
         _specs['tags'] = self.tags
-        _specs['security'] = self.security if self.auth else []
+        _specs['security'] = self.security
         _specs['responses'] = {
             "200": {
                 "description": "",

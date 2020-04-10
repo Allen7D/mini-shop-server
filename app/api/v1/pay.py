@@ -9,7 +9,7 @@ from app.libs.redprint import RedPrint
 from app.core.token_auth import auth
 from app.service.pay import Pay as PayService
 from app.validators.forms import IDMustBePositiveIntValidator
-from app.api_docs.v1 import pay as api_doc
+from app.extensions.api_docs.v1 import pay as api_doc
 
 __author__ = 'Allen7D'
 

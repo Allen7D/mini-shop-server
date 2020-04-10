@@ -11,7 +11,7 @@ from app.core.token_auth import auth
 from app.core.db import db
 from app.models.user import User as UserModel
 from app.models.auth import Auth as AuthModel
-from app.api_docs.cms import user as api_doc
+from app.extensions.api_docs.cms import user as api_doc
 from app.validators.base import BaseValidator
 from app.validators.forms import PaginateValidator, ResetPasswordValidator, UpdateAdminValidator
 

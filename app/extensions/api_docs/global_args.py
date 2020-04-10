@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2020/3/13.
 """
-from app.libs.swagger_filed import IntegerQueryFiled, IntegerPathFiled, BodyField
+from app.core.swagger_filed import IntegerQueryFiled, IntegerPathFiled, BodyField
 
 __author__ = 'Allen7D'
 

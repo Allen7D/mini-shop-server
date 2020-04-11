@@ -205,15 +205,6 @@ class JSONSerializerMixin(object):
                 self.fields.append(key)
         return self
 
-
-class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
-    __abstract__ = True
-
-    def delete(self):
-        '''删除'''
-        db.session.delete(self)
-        db.session.commit()
-
     def set_attrs(self, **kwargs):
         # 快速赋值，用法: set_attrs(form.data)
         for key, value in kwargs.items():
@@ -221,7 +212,22 @@ class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
                 setattr(self, key, value)
 
 
+class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
+    '''基础类
+    无create_time、update_time、delete_time
+    '''
+    __abstract__ = True
+
+    def delete(self):
+        '''删除'''
+        db.session.delete(self)
+        db.session.commit()
+
+
 class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
+    '''实体业务类
+    带create_time、update_time、delete_time
+    '''
     __abstract__ = True
     create_time = Column('create_time', BigInteger, comment='创建时间')
     update_time = Column('update_time', BigInteger, onupdate=on_update_time, comment='更新时间')
@@ -243,9 +249,3 @@ class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
         if (UrlFromEnum(self._from) == UrlFromEnum.LOCAL):
             return current_app.config['IMG_PREFIX'] + url
         return url
-
-    def set_attrs(self, **kwargs):
-        # 快速赋值，用法: set_attrs(form.data)
-        for key, value in kwargs.items():
-            if hasattr(self, key) and key != 'id':
-                setattr(self, key, value)

@@ -36,7 +36,7 @@ def get_auths():
 @auth.admin_required
 def get_admin_list():
     '''查询管理员列表'''
-    query = PaginateValidator().validate_for_api().nt_data
+    paginate = PaginateValidator().validate_for_api().nt_data
     group_id = int(request.args.get('group_id'))  # 可选
     query_condition = {
         'auth': ScopeEnum.COMMON.value,
@@ -46,7 +46,7 @@ def get_admin_list():
     }
     user_list = UserModel.query \
         .filter_by(**query_condition) \
-        .paginate(page=query.page, per_page=query.size, error_out=False)
+        .paginate(page=paginate.page, per_page=paginate.size, error_out=False)
     return Success(user_list)
 
 

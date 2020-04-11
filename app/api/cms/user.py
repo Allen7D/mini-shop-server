@@ -30,7 +30,8 @@ def get_user_list():
     page = validator.page.data
     size = validator.size.data
 
-    paginator = UserModel.query.filter_by(auth=ScopeEnum.COMMON.value)\
+    paginator = UserModel.query \
+        .filter_by(auth=ScopeEnum.COMMON.value) \
         .paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': paginator.total,
@@ -92,7 +93,7 @@ def reset_password(uid):
 def get_auth_list():
     '''查询自己拥有的权限'''
     user = UserModel.get_current_user()
-    auth_list = db.session.query(AuthModel.name, AuthModel.module)\
+    auth_list = db.session.query(AuthModel.name, AuthModel.module) \
         .filter_by(group_id=user.group_id).all()
     auth_list = [{'id': get_ep_id(auth[0]), 'name': auth[0], 'module': auth[1]} for auth in auth_list]
     return Success({

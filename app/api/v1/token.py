@@ -48,7 +48,7 @@ def get_token():
 
 @api.route('/verify', methods=['POST'])
 @api.doc(args=['token'], body_desc='令牌')
-def get_token_info():
+def decrypt_token():
     '''解析「令牌」'''
     token = TokenValidator().validate_for_api().token.data
     token_info = Token.decrypt(token)

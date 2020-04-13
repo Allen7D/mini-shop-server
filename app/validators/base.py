@@ -36,16 +36,18 @@ class BaseValidator(PropVelifyMixin, WTForm):
         args = request.args.to_dict()  # query中
         super(BaseValidator, self).__init__(data=data, **args)
 
-    def validate_for_api(self, as_dict: bool = False):
-        '''
-        :param as_dict: 默认False; 是否将data属性转为dict类型，结合data属性使用。
-        :return: self
-        '''
-        self.as_dict = as_dict
+    def validate_for_api(self):
         valid = super(BaseValidator, self).validate()
         if not valid:
             raise ParameterException(msg=self.errors)
         return self
+
+    def get_data(self, as_dict: bool = False):
+        '''默认为nt'''
+        self.validate_for_api()
+        if as_dict:
+            self._data._asdict()
+        return self._data
 
     @property
     def dt_data(self):

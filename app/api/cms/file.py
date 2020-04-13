@@ -73,17 +73,15 @@ def get_file_by_name():
 
 
 @api.route('/upload', methods=['POST'])
-@api.doc(auth=True)
 @auth.login_required
 def post_file():
-    '''文件上传(旧方法)'''
+    '''文件上传'''
     validator = UploadFileValidator().validate_for_api()
     filename = FileService(file=validator.file.data).save()
     return Success(msg='{} 保存成功'.format(filename), error_code=1)
 
 
 @api.route('/upload/double', methods=['POST'])
-@api.doc(auth=True)
 @auth.login_required
 def upload_double_file():
     '''双文件上传'''
@@ -96,10 +94,8 @@ def upload_double_file():
 
 
 @api.route('/download/<string:file_name>', methods=['GET'])
-@api.doc(auth=True)
 @auth.login_required
 def download_file(file_name):
-    '''文件下载(从数据库)'''
-    print('file_name', file_name)
+    '''文件下载'''
     return Success(file_name)
 # return send_from_directory(file_name, file_name, mimetype='application/octet-stream')

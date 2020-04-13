@@ -37,7 +37,8 @@ class User(Base):
         return '<User(id={0}, nickname={1})>'.format(self.id, self.nickname)
 
     def keys(self):
-        self.hide('openid', 'unionid', '_password', 'extend').append('user_address', 'auth_scope')
+        self.hide('openid', 'unionid', '_password', 'extend')
+        self.append('user_address', 'auth_scope')
         return self.fields
 
     @property

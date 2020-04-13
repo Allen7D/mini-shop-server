@@ -34,13 +34,13 @@ class SQLAlchemy(_SQLAlchemy):
 
 class Pagination(_Pagination):
     def hide(self, *keys):
-        '''查询出的每一项数据都隐藏keys中的字段'''
+        '''每一条数据都隐藏keys中的字段'''
         for item in self.items:
             item.hide(*keys)
         return self
 
     def append(self, *keys):
-        '''查询出的每一项数据都添加keys中的字段'''
+        '''每一条数据都添加keys中的字段'''
         for item in self.items:
             item.append(*keys)
         return self
@@ -168,19 +168,30 @@ class JSONSerializerMixin(object):
     @orm.reconstructor
     def init_on_load(self):
         # 被隐藏的属性则无法用append方法添加
-        self.exclude = []
-        self._set_fields() # 由子类重置exclude属性
-        all_columns = inspect(self.__class__).columns.keys()  # 该model的所有属性
-        self.fields = list(set(all_columns) - set(self.exclude))
+        self._locked = False  # ctrl(业务逻辑)层对字段hide和append的操作结束后，锁定
+        self._locked_fileds = []  # 在业务逻辑处理中，锁住的字段
+        self._exclude = []
+        self._set_fields()  # 由子类重置exclude属性
+        self.__prune_fields()  # 初始化字段列表，按需裁剪
+
+    def lock_fileds(self):
+        # ctrl(业务逻辑)层对字段锁定
+        self._locked = True
 
     def _set_fields(self):
         pass
+
+    def __prune_fields(self):
+        all_columns = inspect(self.__class__).columns.keys()  # 该model的所有属性
+        self.fields = list(set(all_columns) - set(self._exclude))
 
     def keys(self):
         '''
         __getitem__和keys 与dict有关;
         item是由key中来的, 因此序列化可控
         app/app.py中JSONEncoder, 会对查询结果dict化;
+
+        JSONSerializerMixin对字段的hide和append处理在「业务逻辑处理」之后
         '''
         return self.fields
 
@@ -199,14 +210,28 @@ class JSONSerializerMixin(object):
 
     def hide(self, *keys):
         for key in keys:
-            if hasattr(self, key) and key in self.fields:
-                self.fields.remove(key)
+            if hasattr(self, key):
+                if not self._locked:
+                    # 已经锁定的字段在keys中无法再删除
+                    self._locked_fileds.append(key)
+                    self.fields.remove(key) if key in self.fields else None
+
+                # 已经锁住，就不能在对ctrl操作hide和append过的字段，进行操作
+                if self._locked and key not in self._locked_fileds:
+                    self.fields.remove(key)
         return self
 
     def append(self, *keys):
         for key in keys:
-            if hasattr(self, key) and key not in self.fields:
-                self.fields.append(key)
+            if hasattr(self, key):
+                if not self._locked:
+                    # 已经锁定的字段在keys中无法再添加
+                    self._locked_fileds.append(key)
+                    self.fields.append(key) if key not in self.fields else None
+
+                # 已经锁住，就不能在对ctrl操作hide和append过的字段，进行操作
+                if self._locked and key not in self._locked_fileds:
+                    self.fields.append(key)
         return self
 
     def set_attrs(self, **kwargs):
@@ -227,7 +252,7 @@ class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
         db.session.commit()
 
     def _set_fields(self):
-        self.exclude = []
+        self._exclude = []
 
 
 class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
@@ -243,7 +268,7 @@ class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
         self.create_time = int(round(datetime.now().timestamp()))
 
     def _set_fields(self):
-        self.exclude = ['create_time', 'update_time', 'delete_time']
+        self._exclude = ['create_time', 'update_time', 'delete_time']
 
     @property
     def create_datetime(self):

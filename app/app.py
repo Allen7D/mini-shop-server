@@ -15,6 +15,7 @@ class JSONEncoder(_JSONEncoder):
     def default(self, o):
         # 如果o是数据库查询获得的实例对象
         if hasattr(o, 'keys') and hasattr(o, '__getitem__'):
+            o.lock_fileds()  # 锁定ctrl层的hide过和append过的字段
             return dict(o)
         # 如果o是时间戳
         # datetime.now() ==> datetime.datetime(2020, 4, 8, 9, 4, 57, 26881)

@@ -66,9 +66,9 @@ def get_order(id):
 @auth.group_required
 def get_list_by_summary():
     '''查询订单列表'''
-    validator = PaginateValidator().validate_for_api()
-    paged_orders = OrderModel.get_summary(page=validator.page.data,
-                                          size=validator.size.data)
+    page_validator = PaginateValidator().get_data()
+    paged_orders = OrderModel.get_summary(page=page_validator.page,
+                                          size=page_validator.size)
     return Success(paged_orders)
 
 

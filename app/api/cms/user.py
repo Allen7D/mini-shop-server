@@ -29,7 +29,10 @@ def get_user_list():
     page_validator = PaginateValidator().get_data()
     paginator = UserModel.query \
         .filter_by(auth=ScopeEnum.COMMON.value) \
-        .paginate(page=page_validator.page, per_page=page_validator.size, error_out=False)
+        .paginate(page=page_validator.page,
+                  per_page=page_validator.size,
+                  error_out=True)
+    paginator.hide('user_address')
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,

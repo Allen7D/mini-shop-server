@@ -20,6 +20,7 @@ flask-login = "==0.5.0"
 
 [dev-packages]
 pylint = "==2.4.4"
+pytest = "*"
 
 [requires]
 python_version = "3.6"

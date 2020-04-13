@@ -9,14 +9,14 @@ import os
 from flask import request, current_app
 from flask import send_from_directory
 
-from app.libs.redprint import RedPrint
-from app.libs.error_code import Success
+from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.cms import file as api_doc
+from app.extensions.file.local_uploader import LocalUploader
 from app.core.token_auth import auth
 from app.service.file import FileService
 from app.models.file import File as FileModel
+from app.libs.error_code import Success
 from app.validators.forms import UploadFileValidator, UploadPDFValidator, PaginateValidator
-from app.extensions.file.local_uploader import LocalUploader
-from app.extensions.api_docs.cms import file as api_doc
 
 __author__ = 'Allen7D'
 

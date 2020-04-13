@@ -3,11 +3,11 @@
   Created by Allen7D on 2018/6/17.
   ↓↓↓ 主题接口 ↓↓↓
 """
-from app.libs.error_code import Success
-from app.libs.redprint import RedPrint
-from app.core.token_auth import auth
+from app.extensions.api_docs.redprint import RedPrint
 from app.extensions.api_docs.v1 import theme as api_doc
+from app.core.token_auth import auth
 from app.models.theme import Theme
+from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, IDCollectionValidator
 
 __author__ = 'Allen7D'

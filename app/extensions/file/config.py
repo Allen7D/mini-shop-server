@@ -5,8 +5,11 @@
 __author__ = 'Allen7D'
 
 # 文件相关配置
+UPLOAD_FOLDER = 'app/static/files'
+IMG_FOLDER = '/static/images'
+
 FILE = {
-    "STORE_DIR": 'app/static/files',  # 'app/assets',
+    "STORE_DIR": UPLOAD_FOLDER,  # 'app/assets',
     "SINGLE_LIMIT": 1024 * 1024 * 2,
     "TOTAL_LIMIT": 1024 * 1024 * 20,
     "NUMS": 10,

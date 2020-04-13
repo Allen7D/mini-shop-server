@@ -4,12 +4,12 @@
   ↓↓↓ 支付接口 ↓↓↓
   「pay接口」只能用户访问，CMS管理员不能访问
 """
-from app.libs.error_code import Success
-from app.libs.redprint import RedPrint
+from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.v1 import pay as api_doc
 from app.core.token_auth import auth
 from app.service.pay import Pay as PayService
+from app.libs.error_code import Success
 from app.validators.forms import IDMustBePositiveIntValidator
-from app.extensions.api_docs.v1 import pay as api_doc
 
 __author__ = 'Allen7D'
 

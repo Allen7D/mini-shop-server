@@ -26,13 +26,10 @@ api = RedPrint(name='user', description='用户管理', api_doc=api_doc, alias='
 @auth.group_required
 def get_user_list():
     '''查询用户列表(分页)'''
-    validator = PaginateValidator().validate_for_api()
-    page = validator.page.data
-    size = validator.size.data
-
+    page_validator = PaginateValidator().get_data()
     paginator = UserModel.query \
         .filter_by(auth=ScopeEnum.COMMON.value) \
-        .paginate(page=page, per_page=size, error_out=False)
+        .paginate(page=page_validator.page, per_page=page_validator.size, error_out=False)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,

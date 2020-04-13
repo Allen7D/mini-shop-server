@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2020/3/13.
 """
-from app.core.swagger_filed import IntegerQueryFiled, IntegerPathFiled, BodyField
+from app.core.swagger_filed import IntegerQueryFiled, IntegerPathFiled, StringPathFiled, StringQueryFiled, BodyField
 
 __author__ = 'Allen7D'
 
@@ -65,3 +65,11 @@ mobile_in_body = BodyField(name='mobile', type='string', description='手机', e
 # UserAddress
 address_id_in_path = IntegerPathFiled(
     name='id', description="地址ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+
+# File
+file_id_in_path = IntegerPathFiled(
+    name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
+file_id_in_query = IntegerQueryFiled(
+    name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
+
+filename_in_query = StringQueryFiled(name='filename', description='文件名', enum=['virtualmachine1.png', 'cellphone.png'], required=True)

@@ -8,7 +8,7 @@ from time import localtime, strftime
 
 from flask import current_app, json
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, Pagination as _Pagination, BaseQuery
-from sqlalchemy import Column, SmallInteger, Integer, BigInteger, orm, inspect
+from sqlalchemy import Column, BigInteger, orm, inspect
 
 from app.libs.error_code import NotFound, RepeatException
 from app.libs.enums import UrlFromEnum
@@ -18,7 +18,7 @@ __author__ = 'Allen7D'
 
 def on_update_time():
     now = datetime.now
-    return int(round(now().timestamp() * 1000))
+    return int(round(now().timestamp()))
 
 
 class SQLAlchemy(_SQLAlchemy):
@@ -48,7 +48,7 @@ class Pagination(_Pagination):
 
 class Query(BaseQuery):
     def filter_by(self, **kwargs):
-        if 'delete_time' not in kwargs.keys():
+        if hasattr(self.statement.columns, 'delete_time') and 'delete_time' not in kwargs.keys():
             kwargs['delete_time'] = None
         return super(Query, self).filter_by(**kwargs)
 
@@ -155,7 +155,7 @@ class CRUDMixin(object):
     def delete(self):
         '''软删除'''
         with db.auto_commit():
-            self.delete_time = int(round(datetime.now().timestamp() * 1000))
+            self.delete_time = int(round(datetime.now().timestamp()))
             self.save()
 
     def hard_delete(self, commit: bool = True):
@@ -168,9 +168,13 @@ class JSONSerializerMixin(object):
     @orm.reconstructor
     def init_on_load(self):
         # 被隐藏的属性则无法用append方法添加
-        self.exclude = ['create_time', 'update_time', 'delete_time']
+        self.exclude = []
+        self._set_fields() # 由子类重置exclude属性
         all_columns = inspect(self.__class__).columns.keys()  # 该model的所有属性
         self.fields = list(set(all_columns) - set(self.exclude))
+
+    def _set_fields(self):
+        pass
 
     def keys(self):
         '''
@@ -213,8 +217,7 @@ class JSONSerializerMixin(object):
 
 
 class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
-    '''基础类
-    无create_time、update_time、delete_time
+    '''基础类，基础的crud model
     '''
     __abstract__ = True
 
@@ -223,10 +226,12 @@ class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    def _set_fields(self):
+        self.exclude = []
+
 
 class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
-    '''实体业务类
-    带create_time、update_time、delete_time
+    '''实体业务类，提供软删除，及创建、更新、删除时间信息的crud model
     '''
     __abstract__ = True
     create_time = Column('create_time', BigInteger, comment='创建时间')
@@ -235,7 +240,10 @@ class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
 
     def __init__(self):
         # 时间戳
-        self.create_time = int(round(datetime.now().timestamp() * 1000))
+        self.create_time = int(round(datetime.now().timestamp()))
+
+    def _set_fields(self):
+        self.exclude = ['create_time', 'update_time', 'delete_time']
 
     @property
     def create_datetime(self):

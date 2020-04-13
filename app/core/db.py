@@ -70,9 +70,9 @@ class Query(BaseQuery):
             raise e if e else NotFound(error_code=error_code, msg=msg)
         return rv
 
-    # def all(self):
-    #     rv = list(self)
-    #     return rv if len(rv) != 0 else []
+    def all(self):
+        rv = list(self)
+        return rv if len(rv) != 0 else []
 
     def all_by_wrap(self, wrap='items'):
         rv = self.all()

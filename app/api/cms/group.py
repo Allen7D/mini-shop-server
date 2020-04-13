@@ -4,15 +4,15 @@
   ↓↓↓ 权限组管理接口 ↓↓↓
 """
 
+from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.cms import group as api_doc
 from app.core.auth import find_auth_module, get_ep_name
-from app.libs.error_code import Success, NotFound, Forbidden
-from app.libs.redprint import RedPrint
 from app.core.token_auth import auth
 from app.core.db import db
 from app.models.user import User as UserModel
 from app.models.group import Group as GroupModel
 from app.models.auth import Auth as AuthModel
-from app.extensions.api_docs.cms import group as api_doc
+from app.libs.error_code import Success, NotFound, Forbidden
 from app.validators.base import BaseValidator
 from app.validators.forms import PaginateValidator, UpdateGroupValidator
 

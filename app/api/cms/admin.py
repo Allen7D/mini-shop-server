@@ -5,14 +5,13 @@
 """
 from flask import current_app, request
 
-from app.libs.error_code import Success
-from app.libs.redprint import RedPrint
+from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.cms import admin as api_doc
 from app.core.token_auth import auth
-from app.core.db import db
 from app.libs.enums import ScopeEnum
 from app.models.user import User as UserModel
 from app.models.group import Group as GroupModel
-from app.extensions.api_docs.cms import admin as api_doc
+from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, ResetPasswordValidator, CreateAdminValidator
 
 __author__ = 'Allen7D'

@@ -6,7 +6,7 @@ from functools import wraps
 
 from flasgger import swag_from
 
-from app.libs.swagger_filed import SwaggerSpecs
+from app.core.swagger_filed import SwaggerSpecs
 from app.core.redprint import RedPrint as _RedPrint
 
 __author__ = 'Allen7D'

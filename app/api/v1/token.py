@@ -5,14 +5,14 @@
 """
 from flask import current_app
 
+from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.v1 import token as api_doc
 from app.libs.enums import ClientTypeEnum
-from app.libs.error_code import Success
-from app.libs.redprint import RedPrint
+from app.core.token_auth import generate_auth_token
 from app.models.user import User
 from app.service.token import Token
-from app.core.token_auth import generate_auth_token
+from app.libs.error_code import Success
 from app.validators.forms import ClientValidator, TokenValidator
-from app.extensions.api_docs.v1 import token as api_doc
 
 __author__ = 'Allen7D'
 

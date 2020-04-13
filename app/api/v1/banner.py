@@ -3,10 +3,10 @@
   Created by Allen7D on 2018/6/16.
   ↓↓↓ Banner接口 ↓↓↓
 """
-from app.libs.error_code import Success, BannerException
-from app.libs.redprint import RedPrint
-from app.models.banner import Banner
+from app.extensions.api_docs.redprint import RedPrint
 from app.extensions.api_docs.v1 import banner as api_doc
+from app.models.banner import Banner
+from app.libs.error_code import Success, BannerException
 
 __author__ = 'Allen7D'
 

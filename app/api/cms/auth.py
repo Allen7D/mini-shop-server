@@ -3,13 +3,13 @@
   Created by Allen7D on 2020/3/24.
   ↓↓↓ 权限管理接口 ↓↓↓
 """
+from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.cms import auth as api_doc
 from app.core.auth import get_ep_name, find_auth_module
-from app.libs.error_code import Success
-from app.libs.redprint import RedPrint
 from app.core.token_auth import auth
 from app.core.db import db
 from app.models.auth import Auth as AuthModel
-from app.extensions.api_docs.cms import auth as api_doc
+from app.libs.error_code import Success
 from app.validators.forms import AuthsValidator
 
 __author__ = 'Allen7D'

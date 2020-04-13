@@ -3,16 +3,15 @@
   Created by Allen7D on 2019/6/27.
   ↓↓↓ 管理员接口 ↓↓↓
 """
+from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.cms import user as api_doc
+from app.core.token_auth import auth
 from app.core.auth import get_ep_id
 from app.libs.enums import ScopeEnum
-from app.libs.error_code import Success
-from app.libs.redprint import RedPrint
-from app.core.token_auth import auth
 from app.core.db import db
 from app.models.user import User as UserModel
 from app.models.auth import Auth as AuthModel
-from app.extensions.api_docs.cms import user as api_doc
-from app.validators.base import BaseValidator
+from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, ResetPasswordValidator, UpdateAdminValidator
 
 __author__ = 'Allen7D'

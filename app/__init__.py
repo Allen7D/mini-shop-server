@@ -41,6 +41,7 @@ def load_config(app):
 
     app.config.from_object('app.extensions.file.config')
     app.config.from_object('app.extensions.api_docs.config')
+    app.config.from_object('app.extensions.model_views.config')
 
 
 def register_blueprint(app):
@@ -127,7 +128,7 @@ def apply_default_router(app):
 
 def apply_orm_admin(app):
     from flask_admin import Admin
-    from app.model_views.base import ModelView
+    from app.extensions.model_views.base import ModelView
 
     object_origins = {}
     for module, items in app.config['ALL_MODEL_BY_MODULE'].items():

@@ -280,5 +280,6 @@ class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
     def get_url(self, url):
         '''图片来源'''
         if (UrlFromEnum(self._from) == UrlFromEnum.LOCAL):
-            return current_app.config['IMG_PREFIX'] + url
+            img_url_prefix = current_app.config['SERVER_URL'] + current_app.config['IMG_FOLDER']
+            return img_url_prefix + url
         return url

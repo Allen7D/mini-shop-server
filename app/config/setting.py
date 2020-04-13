@@ -11,25 +11,6 @@ local_setting.py中 SERVER_URL = '127.0.0.1:8010'
 '''
 SERVER_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址
 
-IMG_PREFIX = SERVER_URL + '/static/images'
-UPLOAD_FOLDER = 'app/static/files'
-
-# flask-admin配置
-FLASK_ADMIN_SWATCH = 'cerulean'
-
-# all model by module for flask-admin
-ALL_MODEL_BY_MODULE = {
-    'user': ['User'],
-    'user_address': ['UserAddress'],
-    'order': ['Order'],
-    'banner': ['Banner'],
-    'banner_item': ['BannerItem'],
-    'theme': ['Theme'],
-    'category': ['Category'],
-    'product': ['Product'],
-    'image': ['Image']
-}
-
 # all api by module(version)
 # 可以控制Swagger API文档的显示顺序
 ALL_RP_API_LIST = \

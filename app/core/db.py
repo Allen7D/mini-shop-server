@@ -8,7 +8,7 @@ from time import localtime, strftime
 
 from flask import current_app, json
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, Pagination as _Pagination, BaseQuery
-from sqlalchemy import Column, BigInteger, orm, inspect
+from sqlalchemy import Column, Integer, orm, inspect
 
 from app.libs.error_code import NotFound, RepeatException
 from app.libs.enums import UrlFromEnum
@@ -234,9 +234,9 @@ class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
     '''实体业务类，提供软删除，及创建、更新、删除时间信息的crud model
     '''
     __abstract__ = True
-    create_time = Column('create_time', BigInteger, comment='创建时间')
-    update_time = Column('update_time', BigInteger, onupdate=on_update_time, comment='更新时间')
-    delete_time = Column('delete_time', BigInteger, comment='删除时间')
+    create_time = Column('create_time', Integer, comment='创建时间')
+    update_time = Column('update_time', Integer, onupdate=on_update_time, comment='更新时间')
+    delete_time = Column('delete_time', Integer, comment='删除时间')
 
     def __init__(self):
         # 时间戳

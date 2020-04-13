@@ -19,7 +19,7 @@ api = RedPrint(name='product', description='产品', api_doc=api_doc)
 @api.doc(args=['count'])
 def get_recent():
     '''最新的商品'''
-    count = CountValidator.validate_for_api().count.data
+    count = CountValidator().validate_for_api().count.data
     product_list = Product.get_most_recent(count=count)
     return Success(product_list)
 
@@ -29,7 +29,7 @@ def get_recent():
 def get_all_by_category():
     '''查询某类别所有商品'''
     id = IDMustBePositiveIntValidator().validate_for_api().id.data
-    product_list = Product.query.filter_by(category_id=id).all_by_wrap(e=ProductException, wrap='items')
+    product_list = Product.query.filter_by(category_id=id).all_by_wrap()
     return Success(product_list)
 
 

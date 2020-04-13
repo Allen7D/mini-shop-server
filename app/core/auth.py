@@ -63,5 +63,5 @@ def is_in_auth_scope(group_id, endpoint):
     meta = current_app.config['EP_META'].get(endpoint)
     allowed = False
     if meta:
-        allowed = AuthModel.get(group_id=group_id, auth=meta.name, module=meta.module)
+        allowed = AuthModel.get(group_id=group_id, name=meta.name, module=meta.module)
     return True if allowed else False

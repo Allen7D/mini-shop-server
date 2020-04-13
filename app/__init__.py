@@ -15,8 +15,7 @@ from app.core.db import db
 from app.web import web
 from app.api import create_blueprint_list
 from app.core.redprint import route_meta_infos
-from app.core.error import APIException
-from app.libs.error_code import ServerError
+from app.core.error import APIException, ServerError
 
 __author__ = 'Allen7D'
 
@@ -41,6 +40,7 @@ def load_config(app):
         app.config.from_object('app.config.setting')
 
     app.config.from_object('app.extensions.file.config')
+    app.config.from_object('app.extensions.api_docs.config')
 
 
 def register_blueprint(app):
@@ -168,7 +168,10 @@ def apply_swagger(app):
     from flasgger import Swagger
     # 默认与 config/setting.py 的 SWAGGER 合并
     # 可以将secure.py中的SWAGGER全部写入template
-    swagger = Swagger(template={'tags': app.config['SWAGGER_TAGS']})
+    swagger = Swagger(template={
+        'tags': app.config['SWAGGER_TAGS'],
+        'host': app.config['SERVER_URL']
+    })
     swagger.init_app(app)
 
 

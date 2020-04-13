@@ -6,7 +6,7 @@ from datetime import date, datetime
 from flask import Flask as _Flask, _request_ctx_stack
 from flask.json import JSONEncoder as _JSONEncoder
 
-from app.libs.error_code import ServerError
+from app.core.error import ServerError
 
 __author__ = 'Allen7D'
 

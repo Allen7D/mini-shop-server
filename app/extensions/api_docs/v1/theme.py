@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2018/12/4.
 """
-from app.libs.swagger_filed import ArrayQueryField
+from app.core.swagger_filed import ArrayQueryField
 
 __author__ = 'Allen7D'
 

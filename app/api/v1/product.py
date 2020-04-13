@@ -8,7 +8,7 @@ from app.libs.redprint import RedPrint
 from app.core.token_auth import auth
 from app.models.product import Product
 from app.validators.forms import PaginateValidator, CountValidator, IDMustBePositiveIntValidator
-from app.api_docs.v1 import product as api_doc
+from app.extensions.api_docs.v1 import product as api_doc
 
 __author__ = 'Allen7D'
 

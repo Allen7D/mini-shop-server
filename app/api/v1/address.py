@@ -11,7 +11,7 @@ from app.core.token_auth import auth
 from app.models.user_address import UserAddress
 from app.validators.base import BaseValidator
 from app.validators.forms import UpdateAddressValidator
-from app.api_docs.v1 import address as api_doc
+from app.extensions.api_docs.v1 import address as api_doc
 
 __author__ = 'Allen7D'
 

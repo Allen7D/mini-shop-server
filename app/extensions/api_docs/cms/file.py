@@ -26,6 +26,7 @@ upload_file = {
                     {
                         "id": 1,
                         "key": "file",
+                        "name": "switch.png",
                         "path": "2020/04/10/93e1ffd0-7b07-11ea-b22f-acbc32924b6f.png",
                         "url": "http://127.0.0.1:5000/static/2020/04/10/93e1ffd0-7b07-11ea-b22f-acbc32924b6f.png"
                     }

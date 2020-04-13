@@ -10,7 +10,7 @@ from app.libs.error_code import Success
 from app.libs.redprint import RedPrint
 from app.core.token_auth import auth
 from app.models.user import User
-from app.api_docs.v1 import user as api_doc  # api_doc可以引入
+from app.extensions.api_docs.v1 import user as api_doc
 from app.validators.base import BaseValidator
 from app.validators.forms import ChangePasswordValidator
 

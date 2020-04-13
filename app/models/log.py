@@ -24,7 +24,7 @@ class Log(Base):
 
     def __init__(self):
         # 时间戳
-        self.create_time = int(round(datetime.now().timestamp() * 1000))
+        self.create_time = int(round(datetime.now().timestamp()))
 
     @staticmethod
     def create_log(**kwargs):

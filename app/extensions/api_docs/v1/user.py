@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2018/11/25.
 """
-from app.libs.swagger_filed import BodyField
+from app.core.swagger_filed import BodyField
 
 __author__ = 'Allen7D'
 

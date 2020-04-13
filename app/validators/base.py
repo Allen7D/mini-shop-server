@@ -57,6 +57,7 @@ class BaseValidator(PropVelifyMixin, WTForm):
         '''返回结果以namedtuple的形式，优化数据解析'''
         return self._data
 
+    @property
     def _data(self):
         ''' 默认返回namedtuple，若是要返回dict则有validate_for_api决定
         :return:

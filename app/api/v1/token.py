@@ -12,7 +12,7 @@ from app.models.user import User
 from app.service.token import Token
 from app.core.token_auth import generate_auth_token
 from app.validators.forms import ClientValidator, TokenValidator
-from app.api_docs.v1 import token as api_doc
+from app.extensions.api_docs.v1 import token as api_doc
 
 __author__ = 'Allen7D'
 
@@ -48,7 +48,7 @@ def get_token():
 
 @api.route('/verify', methods=['POST'])
 @api.doc(args=['token'], body_desc='令牌')
-def get_token_info():
+def decrypt_token():
     '''解析「令牌」'''
     token = TokenValidator().validate_for_api().token.data
     token_info = Token.decrypt(token)

@@ -3,10 +3,10 @@
   Created by Allen7D on 2018/5/12.
 """
 from app import create_app
-
-__author__ = 'Allen7D'
 from app.core.db import db
 from app.models.user import User
+
+__author__ = 'Allen7D'
 
 app = create_app()
 with app.app_context():

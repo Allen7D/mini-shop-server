@@ -306,19 +306,18 @@ fuser -k 8080/tcp # 关闭占用8080端口的服务
 而个人项目有着本地和线上同步，开发和测试同步的需求，会不断修改 **`app\config\setting.py`** 文件。 
 
 ### 解决
-**`本地`** 和 **`线上`** 自动根据所处的环境变量「DEV_MODE」决定，选择不同的配置文件。
+**`本地`** 和 **`线上`** 自动根据所处的环境变量「ENV_MODE」决定，选择不同的配置文件。
+- 'dev:local'(local development 本地开发环境) 
+- 'dev'(development 开发环境 ) 
+- 'prod'(product 生产环境)
+
 <div align="center">
   <img alt="img" src="./media/env_var.png" width="80%">
 </div>
 
 1. PyCharm的状态栏的「Run > Edit Configurations」中编辑环境变量<br>
-2. 设置DEV_MODE=dev<br>
+2. 设置ENV_MODE=dev:local<br>
 3. 代码
-```py
-# config/setting.py 文件
-# 'dev'(development 开发环境 ) & 'prod'(product 生产环境)
-is_dev_mode = True if os.environ.get('ENV_MODE') == 'dev' else False
-```
 
 
 

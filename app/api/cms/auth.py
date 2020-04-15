@@ -21,7 +21,7 @@ api = RedPrint(name='auth', description='权限管理', api_doc=api_doc, alias='
 @api.route_meta(auth='新增多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
 @auth.admin_required
-def update_auth_list():
+def create_auth_list():
     '''添加多个权限(到某个权限组)'''
     validator = AuthsValidator().validate_for_api()
     auth_name_list = [get_ep_name(id) for id in validator.auth_ids.data]

@@ -191,11 +191,12 @@ def apply_request_log(app):
             float(g.request_time()) * 1000
         )
         req_body = request.get_json() if request.get_json() else {}
-        message += "\n\tdata: {\n\t\tpath: %s, \n\t\tquery: %s, \n\t\tbody: %s\n\t} " % (
-            json.dumps(_request_ctx_stack.top.request.view_args, ensure_ascii=False),
-            json.dumps(request.args, ensure_ascii=False),
-            req_body
-        )
+        data = {
+            'path': _request_ctx_stack.top.request.view_args,
+            'query': request.args,
+            'body': req_body
+        }
+        message += '\n\"data\": ' + json.dumps(data, indent=4, ensure_ascii=False)
         # 设置颜色开始(至多3类参数，以m结束)：\033[显示方式;前景色;背景色m
         print('\033[0;34m')
         if request.method in ('GET', 'POST', 'PUT', 'DELETE'):

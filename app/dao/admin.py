@@ -1,0 +1,49 @@
+# _*_ coding: utf-8 _*_
+"""
+  Created by Allen7D on 2020/4/16.
+"""
+from flask import current_app
+
+from app.libs.enums import ScopeEnum
+from app.models.user import User as UserModel
+
+__author__ = 'Allen7D'
+
+
+class AdminDao():
+    # 查询所有可分配的权限
+    @staticmethod
+    def get_auths():
+        auths = current_app.config['EP_INFOS']
+        return auths
+
+    # 查询管理员列表
+    @staticmethod
+    def get_admin_list(group_id, page, size):
+        query_condition = {
+            'auth': ScopeEnum.COMMON.value,
+            'group_id': group_id  # 管理员(至少拥有权限组)
+        } if group_id else {
+            'auth': ScopeEnum.COMMON.value
+        }
+        user_list = UserModel.query \
+            .filter_by(**query_condition) \
+            .paginate(page=page, per_page=size, error_out=False)
+
+        return user_list
+
+    # 新增管理员
+    @staticmethod
+    def create_admin(**form):
+        UserModel.abort_repeat(nickname=form.nickname.data, msg='用户名重复，请重新输入')
+        UserModel.create(auth=ScopeEnum.COMMON.value, **form.data)
+
+    #
+    @staticmethod
+    def update_admin(uid, *form):
+        user = UserModel.get_or_404(id=uid, msg='用户不存在')
+
+    @staticmethod
+    def delete_admin(uid):
+        user = UserModel.get_or_404(id=uid, msg='用户不存在')
+        user.hard_delete()

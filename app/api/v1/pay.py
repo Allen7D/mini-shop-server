@@ -21,7 +21,7 @@ api = RedPrint(name='pay', description='支付', api_doc=api_doc)
 @auth.login_required
 def get_pre_order():
     '''查询预订单'''
-    order_id = IDMustBePositiveIntValidator().validate_for_api().id.data
+    order_id = IDMustBePositiveIntValidator().get_data().id
     pay_service = PayService(order_id)
     pay_service.pay()
     Success()

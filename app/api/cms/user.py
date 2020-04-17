@@ -6,11 +6,9 @@
 from app.extensions.api_docs.redprint import RedPrint
 from app.extensions.api_docs.cms import user as api_doc
 from app.core.token_auth import auth
-from app.core.auth import get_ep_id
-from app.libs.enums import ScopeEnum
-from app.core.db import db
 from app.models.user import User as UserModel
-from app.models.auth import Auth as AuthModel
+from app.dao.user import UserDao
+from app.dao.auth import AuthDao
 from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, ResetPasswordValidator, UpdateAdminValidator
 
@@ -26,17 +24,8 @@ api = RedPrint(name='user', description='用户管理', api_doc=api_doc, alias='
 def get_user_list():
     '''查询用户列表(分页)'''
     page_validator = PaginateValidator().get_data()
-    paginator = UserModel.query \
-        .filter_by(auth=ScopeEnum.COMMON.value) \
-        .paginate(page=page_validator.page,
-                  per_page=page_validator.size,
-                  error_out=True)
-    paginator.hide('user_address')
-    return Success({
-        'total': paginator.total,
-        'current_page': paginator.page,
-        'items': paginator.items
-    })
+    rv = UserDao.get_user_list(page_validator.page, page_validator.size)
+    return Success(rv)
 
 
 @api.route('/<int:uid>', methods=['GET'])
@@ -56,8 +45,7 @@ def get_user(uid):
 def update_user(uid):
     '''更新用户信息(重新分组)'''
     group_id = UpdateAdminValidator().validate_for_api().group_id.data
-    user = UserModel.get_or_404(id=uid)
-    user.update(group_id=group_id)
+    UserDao.change_group(uid, group_id)
     return Success(error_code=1)
 
 
@@ -67,8 +55,7 @@ def update_user(uid):
 @auth.group_required
 def delete_user(uid):
     '''删除用户'''
-    user = UserModel.query.filter_by(id=uid).first_or_404()
-    user.delete()
+    UserDao.delete_user(uid)
     return Success(error_code=2)
 
 
@@ -78,11 +65,9 @@ def delete_user(uid):
 @auth.group_required
 def reset_password(uid):
     '''更改用户密码'''
-    new_password = ResetPasswordValidator().validate_for_api().new_password.data
-
-    user = UserModel.query.filter_by(id=uid).first_or_404()
-    user.update(password=new_password)
-    return Success(error_code=1)
+    new_password = ResetPasswordValidator().get_data().new_password
+    UserDao.reset_password(uid=uid, password=new_password)
+    return Success(error_code=1, msg='密码修改成功')
 
 
 @api.route('/auths', methods=['GET'])
@@ -91,10 +76,5 @@ def reset_password(uid):
 @auth.login_required
 def get_auth_list():
     '''查询自己拥有的权限'''
-    user = UserModel.get_current_user()
-    auth_list = db.session.query(AuthModel.name, AuthModel.module) \
-        .filter_by(group_id=user.group_id).all()
-    auth_list = [{'id': get_ep_id(auth[0]), 'name': auth[0], 'module': auth[1]} for auth in auth_list]
-    return Success({
-        'items': auth_list
-    })
+    rv = AuthDao.get_auth_list(user=UserModel.get_current_user())
+    return Success(rv)

@@ -21,6 +21,7 @@ from app.extensions.api_docs.v1 import order as api_doc
 from app.core.token_auth import auth
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
+from app.dao.order import OrderDao
 from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, OrderPlaceValidator, IDMustBePositiveIntValidator
 
@@ -35,7 +36,7 @@ api = RedPrint(name='order', description='订单', api_doc=api_doc)
 def place_order():
     '''提交订单(管理员X)'''
     products = OrderPlaceValidator().validate_for_api().products.data
-    status = OrderService().palce(uid=g.user.uid, o_products=products)
+    status = OrderService().palce(uid=g.user.id, o_products=products)
     return Success(status)
 
 
@@ -44,10 +45,11 @@ def place_order():
 @auth.login_required
 def get_summary_by_user():
     '''用户查询「自身订单列表」'''
-    validator = PaginateValidator().validate_for_api()
-    paged_orders = OrderModel.get_summary_by_user(uid=g.user.uid,
-                                                  page=validator.page.data,
-                                                  size=validator.size.data)
+    validator = PaginateValidator().get_data()
+    paged_orders = OrderDao.get_summary_by_user(
+        uid=g.user.id,
+        page=validator.page,
+        size=validator.size)
     return Success(paged_orders)
 
 
@@ -67,8 +69,8 @@ def get_order(id):
 def get_list_by_summary():
     '''查询订单列表'''
     page_validator = PaginateValidator().get_data()
-    paged_orders = OrderModel.get_summary(page=page_validator.page,
-                                          size=page_validator.size)
+    paged_orders = OrderDao.get_summary(page=page_validator.page,
+                                        size=page_validator.size)
     return Success(paged_orders)
 
 

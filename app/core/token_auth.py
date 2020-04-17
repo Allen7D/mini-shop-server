@@ -83,7 +83,7 @@ def verify_admin(token, password):
     current_user = UserModel.get_or_404(id=uid)
     if not current_user.is_admin:
         raise AuthFailed(msg='该接口为超级管理员权限操作')
-    g.user = UserTuple(uid, ac_type, scope)
+    g.user = current_user # UserTuple(uid, ac_type, scope)
 
 
 ##### CMS授权的管理员的API校验 #####
@@ -100,7 +100,7 @@ def verify_group(token, password):
         if not allowed:
             raise AuthFailed(msg='权限不够，请联系系统管理员获得权限')
 
-    g.user = UserTuple(uid, ac_type, scope)
+    g.user = current_user # UserTuple(uid, ac_type, scope)
 
 
 ##### 普通用户的API校验 #####
@@ -109,7 +109,7 @@ def verify_password(token, password):
     user_info = verify_auth_token(token)
     if not user_info:
         return False
-    g.user = user_info  # 用「g.user」来记录登录的状态；g只能用于一次请求
+    g.user = UserModel.get_or_404(id=user_info.uid) # 用「g.user」来记录登录的状态；g只能用于一次请求
     return True
 
 

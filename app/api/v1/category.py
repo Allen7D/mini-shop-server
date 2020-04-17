@@ -27,9 +27,9 @@ def get_all_category():
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 def get_category_list():
     '''查询「产品类别」列表'''
-    page_validator = PaginateValidator().validate_for_api()
-    page = page_validator.page.data
-    size = page_validator.size.data
+    paginate = PaginateValidator().get_data()
+    page = paginate.page
+    size = paginate.size
 
     paginator = Category.query.paginate(page=page, per_page=size, error_out=False)
     return Success({

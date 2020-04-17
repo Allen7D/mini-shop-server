@@ -12,7 +12,7 @@ from app.libs.error_code import OrderException, TokenException
 from app.models.user import User
 from app.service.order import Order as OrderService
 from app.models.order import Order as OrderModel
-from app.service.token import Token
+from app.dao.token import TokenDao
 
 __author__ = 'Allen7D'
 
@@ -37,7 +37,7 @@ class Pay():
         return self.__make_wx_pre_order(status['order_price'])
 
     def __make_wx_pre_order(self, order_price):
-        user = User.query.filter_by(id=g.user.uid).first_or_404()
+        user = User.query.filter_by(id=g.user.id).first_or_404()
         openid = user.openid
         if not openid:
             # openid不存在
@@ -58,7 +58,7 @@ class Pay():
         order = OrderModel.query.filter_by(id=self.order_id) \
             .first_or_404(e=OrderException)
         # 2. 如果订单号存在的，验证订单号与当前用户是否匹配
-        if not Token.is_valid_operate(order.user_id):
+        if not TokenDao.is_valid_operate(order.user_id):
             raise TokenException(msg='订单与用户不匹配', error_code=1003)
         # 3. 验证订单是否已经被支付过
         if order.order_status != OrderStatusEnum.UNPAID:

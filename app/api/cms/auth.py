@@ -5,10 +5,8 @@
 """
 from app.extensions.api_docs.redprint import RedPrint
 from app.extensions.api_docs.cms import auth as api_doc
-from app.core.auth import get_ep_name, find_auth_module
 from app.core.token_auth import auth
-from app.core.db import db
-from app.models.auth import Auth as AuthModel
+from app.dao.auth import AuthDao
 from app.libs.error_code import Success
 from app.validators.forms import AuthsValidator
 
@@ -21,19 +19,10 @@ api = RedPrint(name='auth', description='权限管理', api_doc=api_doc, alias='
 @api.route_meta(auth='新增多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
 @auth.admin_required
-def create_auth_list():
+def append_auth_list():
     '''添加多个权限(到某个权限组)'''
-    validator = AuthsValidator().validate_for_api()
-    auth_name_list = [get_ep_name(id) for id in validator.auth_ids.data]
-    group_id = validator.group_id.data
-
-    with db.auto_commit():
-        for name in auth_name_list:
-            one = AuthModel.get(group_id=group_id, name=name)
-            if not one:
-                meta = find_auth_module(name)
-                AuthModel.create(group_id=group_id, name=meta.name,
-                                 module=meta.module, commit=False)
+    validator = AuthsValidator().get_data()
+    AuthDao.append_auth_list(group_id=validator.group_id, auth_ids=validator.auth_ids)
     return Success(error_code=1)
 
 
@@ -43,13 +32,6 @@ def create_auth_list():
 @auth.admin_required
 def delete_auth_list():
     '''删除多个权限(从某个权限组)'''
-    validator = AuthsValidator().validate_for_api()
-    auth_name_list = [get_ep_name(id) for id in validator.auth_ids.data]
-    group_id = validator.group_id.data
-
-    with db.auto_commit():
-        db.session.query(AuthModel).filter(
-            AuthModel.name.in_(auth_name_list),
-            AuthModel.group_id == group_id
-        ).delete(synchronize_session=False)
+    validator = AuthsValidator().get_data()
+    AuthDao.delete_auth_list(group_id=validator.group_id, auth_ids=validator.auth_ids)
     return Success(error_code=2)

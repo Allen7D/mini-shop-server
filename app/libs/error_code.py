@@ -12,8 +12,14 @@ __author__ = 'Allen7D'
 ############################################
 class ClientTypeError(APIException):
     code = 400
-    error_code = 1006
+    error_code = 11000
     msg = '登录方式无效'
+
+
+class AtLeastOneClientException(APIException):
+    code = 400
+    error_code = 11010
+    msg = '无法解绑，至少保留一种登录方式'
 
 
 ############################################
@@ -23,6 +29,12 @@ class UserException(NotFound):
     code = 404
     error_code = 20000
     msg = '用户类通用错误'
+
+
+class IdentityException(NotFound):
+    code = 404
+    error_code = 21000
+    msg = '用户身份错误'
 
 
 ############################################
@@ -70,5 +82,5 @@ class OrderException(NotFound):
 ############################################
 class WeChatException(ServerError):
     code = 500
-    error_code = 999 # 属于服务端异常
+    error_code = 999  # 属于服务端异常
     msg = '微信服务器接口调用失败'

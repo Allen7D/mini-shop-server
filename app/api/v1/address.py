@@ -9,9 +9,9 @@ from app.extensions.api_docs.redprint import RedPrint
 from app.extensions.api_docs.v1 import address as api_doc
 from app.core.token_auth import auth
 from app.models.user_address import UserAddress
+from app.dao.address import UserAddressDao
 from app.libs.error_code import Success
-from app.validators.base import BaseValidator
-from app.validators.forms import UpdateAddressValidator
+from app.validators.forms import CreateOrUpdateAddressValidator
 
 __author__ = 'Allen7D'
 
@@ -23,9 +23,8 @@ api = RedPrint(name='address', description='配送信息', api_doc=api_doc)
 @auth.login_required
 def get_all_address():
     '''查询所有「配送信息」'''
-    uid = g.user.uid
-    user_address_list = UserAddress.query.filter_by(user_id=uid).all_by_wrap()
-    return Success(user_address_list)
+    address_list = UserAddress.query.filter_by(user_id=g.user.id).all_by_wrap()
+    return Success(address_list)
 
 
 @api.route('/<int:id>', methods=['GET'])
@@ -42,8 +41,8 @@ def get_address(id):
 @auth.login_required
 def create_address():
     '''新增「配送信息」'''
-    address_info = UpdateAddressValidator().validate_for_api().dt_data
-    UserAddress.create(user_id=g.user.uid, **address_info)
+    address_info = CreateOrUpdateAddressValidator().get_data(as_dict=True)
+    UserAddress.create(user_id=g.user.id, **address_info)
     return Success(error_code=1)
 
 
@@ -52,9 +51,8 @@ def create_address():
 @auth.login_required
 def update_address(id):
     '''更新「配送信息」'''
-    address_info = UpdateAddressValidator().validate_for_api().dt_data
-    user_address = UserAddress.get_or_404(id=id, user_id=g.user.uid)
-    user_address.update(**address_info)
+    address_info = CreateOrUpdateAddressValidator().get_data(as_dict=True)
+    UserAddressDao.update_address(id=id, user_id=g.user.id, **address_info)
     return Success(error_code=1)
 
 
@@ -63,7 +61,5 @@ def update_address(id):
 @auth.login_required
 def delete_address(id):
     '''删除「配送信息」'''
-    validator = BaseValidator.get_args_json()
-    user_address = UserAddress.get_or_404(id=validator['id'], user_id=g.user.uid)
-    user_address.delete()
+    UserAddressDao.delete_address(id=id, user_id=g.user.id)
     return Success(error_code=2)

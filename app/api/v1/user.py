@@ -8,15 +8,12 @@ from flask import g
 from app.extensions.api_docs.redprint import RedPrint
 from app.extensions.api_docs.v1 import user as api_doc
 from app.core.token_auth import auth
-from app.libs.enums import ScopeEnum
-from app.models.user import User
-from app.validators.base import BaseValidator
+from app.dao.user import UserDao
+from app.dao.identity import IdentityDao
 from app.libs.error_code import Success
-from app.validators.forms import ChangePasswordValidator
+from app.validators.forms import BaseValidator, ChangePasswordValidator, CreateUserValidator, UpdateUserValidator
 
 __author__ = 'Allen7D'
-
-# 直接将api文档的内容放入RedPrint中
 
 api = RedPrint(name='user', description='用户', api_doc=api_doc)
 
@@ -27,29 +24,48 @@ api = RedPrint(name='user', description='用户', api_doc=api_doc)
 def get_user():
     '''用户查询自身'''
     # g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
-    user = User.query.get_or_404(ident=g.user.uid)
-    return Success(user)
+    return Success(g.user)
 
 
 @api.route('', methods=['POST'])
-@api.doc(args=['body.email', 'body.nickname', '*str.body.password'])
+@api.doc(args=['g.body.username', 'g.body.email', 'g.body.mobile', 'g.body.nickname',
+               'g.body.password', 'g.body.confirm_password'])
 def create_user():
     '''用户注册'''
-    validator = BaseValidator.get_args_json()
-    validator['auth'] = ScopeEnum.COMMON.value
-    user = User.create(**validator)
-    return Success(data=user, error_code=1)
+    form = CreateUserValidator().get_data()
+    UserDao.create_user(form)
+    return Success(error_code=1)
 
 
 @api.route('', methods=['PUT'])
-@api.doc(args=['body.nickname'], auth=True)
+@api.doc(args=['g.body.nickname', 'g.body.username', 'g.body.email', 'g.body.mobile'], auth=True)
 @auth.login_required
 def update_user():
     '''用户修改自身'''
-    validator = BaseValidator.get_args_json()  # 快速查询所有的非校验的参数
-    user = User.get_current_user()
-    user.update(**validator)
+    form = UpdateUserValidator().get_data()
+    UserDao.update_user(uid=g.user.id, form=form)
     return Success(error_code=1)
+
+
+@api.route('/bind', methods=['POST'])
+@api.doc(args=['g.body.account', 'type'], auth=True)
+@auth.login_required
+def bind_identity():
+    '''绑定账号'''
+    account = BaseValidator.get_args_json()['account']
+    type = BaseValidator.get_args_json()['type']
+    IdentityDao.bind(user_id=g.user.id, identifier=account, type=type)
+    pass
+
+
+@api.route('/unbind', methods=['DELETE'])
+@api.doc(args=['type'], auth=True)
+@auth.login_required
+def unbind_identity():
+    '''解绑账号'''
+    type = BaseValidator.get_args_json()['type']
+    IdentityDao.unbind(user_id=g.user.id, type=type)
+    return Success()
 
 
 @api.route('', methods=['DELETE'])
@@ -57,9 +73,7 @@ def update_user():
 @auth.login_required
 def delete_user():
     '''用户注销自身'''
-    # 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
-    user = User.get_current_user()
-    user.delete()
+    UserDao.delete_user(uid=g.user.id)
     return Success(error_code=2)
 
 
@@ -68,11 +82,10 @@ def delete_user():
 @auth.login_required
 def change_password():
     '''更改自身密码'''
-    validator = ChangePasswordValidator().validate_for_api().nt_data
-    old_password = validator.old_password
-    new_password = validator.new_password
-
-    user = User.get_current_user()
-    if user.check_password(old_password):
-        user.update(password=new_password)
+    validator = ChangePasswordValidator().get_data()
+    UserDao.change_password(
+        uid=g.user.id,
+        old_password=validator.old_password,
+        new_password=validator.new_password
+    )
     return Success(error_code=1)

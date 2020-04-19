@@ -14,7 +14,7 @@ description = """API接口分为cms版本和v1版本，大部分接口需要toke
 内部只支持http
 外部（云服务器）支持 https 和 http 协议
 '''
-SERVER_SCHEMES = ["http", "https"]
+SERVER_SCHEMES = ["https", "http"]
 
 SWAGGER_TAGS = []  # 在'/app/api/__init__.py'中create_blueprint_list设置
 SWAGGER = {

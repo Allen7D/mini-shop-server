@@ -13,6 +13,12 @@ __author__ = 'Allen7D'
 
 
 class RedPrint(_RedPrint):
+    def __init__(self, name, description, api_doc=None, alias=''):
+        self.alias = alias  # 接口的别名
+        self.description = description
+        self.api_doc = api_doc
+        super(RedPrint, self).__init__(name)
+
     def doc(self, args: list = [], auth: bool = False, body_desc: str = None):
         '''应该对args分批处理, path, query, body'''
 
@@ -29,6 +35,7 @@ class RedPrint(_RedPrint):
             # 对f.__doc__处理
             if f.__doc__ and '\n' in f.__doc__:
                 f.__doc__ = f.__doc__.split('\n')[0]
+
             # swag_from将specs注入到swagger实例(单例)中
             @swag_from(specs=specs)
             @wraps(f)

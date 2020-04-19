@@ -13,8 +13,7 @@ from flask import redirect, url_for, g, request, _request_ctx_stack
 from .app import Flask
 from app.core.db import db
 from app.web import web
-from app.api import create_blueprint_list
-from app.core.redprint import route_meta_infos
+from app.core.redprint import RedPrintAssigner, route_meta_infos
 from app.core.error import APIException, ServerError
 
 __author__ = 'Allen7D'
@@ -46,7 +45,14 @@ def load_config(app):
 
 def register_blueprint(app):
     '''注册蓝图'''
-    bp_list = create_blueprint_list(app)
+    assigner = RedPrintAssigner(app=app, rp_api_list=app.config['ALL_RP_API_LIST'])
+    # 将红图的每个api的tag注入SWAGGER_TAGS中
+    @assigner.handle_rp
+    def handle_swagger_tag(api):
+        tag = api.tag
+        app.config['SWAGGER_TAGS'].append(tag)
+
+    bp_list = assigner.create_bp_list()
     for url_prefix, bp in bp_list:
         app.register_blueprint(bp, url_prefix=url_prefix)
     app.register_blueprint(web, url_prefix='/web')

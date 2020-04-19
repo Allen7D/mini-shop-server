@@ -5,6 +5,7 @@
   RedPrintAssigner 红图分派者(生成蓝图)
 """
 from functools import namedtuple
+from importlib import import_module
 from flask import Blueprint
 
 __author__ = 'Allen7D'
@@ -56,7 +57,7 @@ class RedPrintAssigner():
 
     def __init__(self, app, rp_api_list):
         self.app = app
-        self.api_path = self.app.config['API_PATH']
+        self.api_path = self.app.config['API_PATH'] # 默认是app.api
         self.rp_api_list = rp_api_list
         self.handle_callback_list = []  # 处理红图的回调函数列表
 
@@ -97,13 +98,7 @@ class RedPrintAssigner():
         :param api_name: string: 红图的名称: 'token', 'user', ...
         :return: 红图列表
         """
-        # __import__的参数level的取值：「等于0」绝对路径；「大于0」为相对路径
-        # 当level=1，相对路径是从当前文件所在目录开始
-        # 当level=1, module_name为'v1'时，module为 'app.core.v1'
-        # module = __import__('{}.{}'.format(module_name, api_name), globals(), fromlist=("***"), level=1)
-        # 当level=0, 绝对路径必须从app目录开始
-        # 当level=0, module_name为'app.api.v1'时，module为 'app.api.v1'
-        module = __import__('{}.{}.{}'.format(self.api_path, module_name, api_name), globals(), fromlist=('***'), level=0)
+        module = import_module('{}.{}.{}'.format(self.api_path, module_name, api_name))
         api = getattr(module, 'api')
         # 依次执行红图的回调函数
         self.__run_callback_list(api)

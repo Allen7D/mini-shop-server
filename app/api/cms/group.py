@@ -4,7 +4,7 @@
   ↓↓↓ 权限组管理接口 ↓↓↓
 """
 
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import group as api_doc
 from app.core.token_auth import auth
 from app.models.group import Group as GroupModel
@@ -15,7 +15,7 @@ from app.validators.forms import UpdateGroupValidator
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='group', description='权限组管理', api_doc=api_doc, alias='cms_group')
+api = Redprint(name='group', description='权限组管理', api_doc=api_doc, alias='cms_group')
 
 
 @api.route('/all', methods=['GET'])

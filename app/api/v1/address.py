@@ -5,7 +5,7 @@
 """
 from flask import g
 
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import address as api_doc
 from app.core.token_auth import auth
 from app.models.user_address import UserAddress
@@ -15,7 +15,7 @@ from app.validators.forms import CreateOrUpdateAddressValidator
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='address', description='配送信息', api_doc=api_doc)
+api = Redprint(name='address', description='配送信息', api_doc=api_doc)
 
 
 @api.route('/all', methods=['GET'])

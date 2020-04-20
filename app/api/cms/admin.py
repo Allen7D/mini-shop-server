@@ -5,7 +5,7 @@
 """
 from flask import request
 
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import admin as api_doc
 from app.core.token_auth import auth
 from app.dao.admin import AdminDao
@@ -15,7 +15,7 @@ from app.validators.forms import PaginateValidator, ResetPasswordValidator, Crea
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='admin', description='管理员管理', api_doc=api_doc, alias='cms_admin')
+api = Redprint(name='admin', description='管理员管理', api_doc=api_doc, alias='cms_admin')
 
 
 @api.route('/auths', methods=['GET'])

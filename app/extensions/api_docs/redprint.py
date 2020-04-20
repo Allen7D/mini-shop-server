@@ -7,17 +7,17 @@ from functools import wraps
 from flasgger import swag_from
 
 from app.core.swagger_filed import SwaggerSpecs
-from app.core.redprint import RedPrint as _RedPrint
+from app.core.redprint import Redprint as _Redprint
 
 __author__ = 'Allen7D'
 
 
-class RedPrint(_RedPrint):
+class Redprint(_Redprint):
     def __init__(self, name, description, api_doc=None, alias=''):
         self.alias = alias  # 接口的别名
         self.description = description
         self.api_doc = api_doc
-        super(RedPrint, self).__init__(name)
+        super(Redprint, self).__init__(name)
 
     def doc(self, args: list = [], auth: bool = False, body_desc: str = None):
         '''应该对args分批处理, path, query, body'''

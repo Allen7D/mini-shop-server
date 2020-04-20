@@ -6,6 +6,7 @@
 import os
 import json
 import time
+from functools import wraps
 
 from werkzeug.exceptions import HTTPException
 from flask import redirect, url_for, g, request, _request_ctx_stack
@@ -175,10 +176,22 @@ def apply_swagger(app):
     from flasgger import Swagger
     # 默认与 config/setting.py 的 SWAGGER 合并
     # 可以将secure.py中的SWAGGER全部写入template
-    swagger = Swagger(template={
-        'tags': app.config['SWAGGER_TAGS'],
-        'host': app.config['SERVER_URL']
-    })
+
+    # 访问swagger文档前自动执行(可以用于文档的安全访问管理)
+    def before_access(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            return f(*args, **kwargs)
+
+        return decorated
+
+    swagger = Swagger(
+        decorators=[before_access],
+        template={
+            'host': app.config['SERVER_URL'], # Swagger请求的服务端地址
+            'tags': app.config['SWAGGER_TAGS'], # 接口在文档中的类别和顺序
+            'schemes': app.config['SERVER_SCHEMES'] # 通信协议: http或https或多个
+        })
     swagger.init_app(app)
 
 

@@ -44,15 +44,12 @@ class BaseValidator(PropVelifyMixin, WTForm):
 
     def get_data(self, as_dict: bool = False):
         '''默认为nt'''
-        self.validate_for_api()
-        if as_dict:
-            self._data._asdict()
-        return self._data
+        return self._data._asdict() if as_dict else self._data
 
     @property
     def dt_data(self):
         '''返回结果以dict的形式，常用于数据库查询'''
-        return self._data._asdict()
+        self._data._asdict()
 
     @property
     def nt_data(self):
@@ -64,6 +61,7 @@ class BaseValidator(PropVelifyMixin, WTForm):
         ''' 默认返回namedtuple，若是要返回dict则有validate_for_api决定
         :return:
         '''
+        self.validate_for_api()
         key_list, value_list = [], []
         for key, value in self._fields.items():
             if value.data is not None:

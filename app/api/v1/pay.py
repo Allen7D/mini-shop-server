@@ -4,7 +4,7 @@
   ↓↓↓ 支付接口 ↓↓↓
   「pay接口」只能用户访问，CMS管理员不能访问
 """
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import pay as api_doc
 from app.core.token_auth import auth
 from app.service.pay import Pay as PayService
@@ -13,7 +13,7 @@ from app.validators.forms import IDMustBePositiveIntValidator
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='pay', description='支付', api_doc=api_doc)
+api = Redprint(name='pay', description='支付', api_doc=api_doc)
 
 
 @api.route('/pre_order', methods=['POST'])

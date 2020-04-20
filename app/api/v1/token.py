@@ -5,7 +5,7 @@
 """
 from flask import current_app
 
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import token as api_doc
 from app.service.login_verify import LoginVerifyService
 from app.libs.error_code import Success
@@ -13,7 +13,7 @@ from app.validators.forms import ClientValidator, TokenValidator
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='token', description='登录令牌', api_doc=api_doc)
+api = Redprint(name='token', description='登录令牌', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])

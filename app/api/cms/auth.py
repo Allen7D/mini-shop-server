@@ -3,7 +3,7 @@
   Created by Allen7D on 2020/3/24.
   ↓↓↓ 权限管理接口 ↓↓↓
 """
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import auth as api_doc
 from app.core.token_auth import auth
 from app.dao.auth import AuthDao
@@ -12,7 +12,7 @@ from app.validators.forms import AuthsValidator
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='auth', description='权限管理', api_doc=api_doc, alias='cms_auth')
+api = Redprint(name='auth', description='权限管理', api_doc=api_doc, alias='cms_auth')
 
 
 @api.route('/append', methods=['POST'])

@@ -5,7 +5,6 @@
 __author__ = 'Allen7D'
 
 # Swagger相关配置
-version = "0.3.0"  # 项目版本
 description = """API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
 访问之前，先使用/v1/token查询token，并将token放入Authorize中。
 """
@@ -14,14 +13,12 @@ description = """API接口分为cms版本和v1版本，大部分接口需要toke
 内部只支持http
 外部（云服务器）支持 https 和 http 协议
 '''
-SERVER_SCHEMES = ["https", "http"]
-
 SWAGGER_TAGS = []  # 在'/app/api/__init__.py'中create_blueprint_list设置
 SWAGGER = {
     "swagger_version": "2.0",
     "info": {
         "title": "微信小程序商城: API",
-        "version": version,
+        "version": "0.3.0", # 项目版本
         "description": description,
         "contact": {
             "responsibleOrganization": "Shema(聆听)",
@@ -31,10 +28,10 @@ SWAGGER = {
         },
         "termsOfService": "http://ivinetrue.com"
     },
-    "host": '',  # "api.ivinetrue.com",
+    "host": '',
     "basePath": "/",  # base bash for blueprint registration
-    "tags": SWAGGER_TAGS,
-    "schemes": SERVER_SCHEMES,
+    "tags": SWAGGER_TAGS, # 接口在文档中的类别和顺序
+    "schemes": ['http'], # 通信协议: http或https或多个，默认http
     "operationId": "getmyData",
     "securityDefinitions": {
         'basicAuth': {

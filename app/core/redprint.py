@@ -1,8 +1,8 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2020/4/9.
-  RedPrint 红图
-  RedPrintAssigner 红图分派者(生成蓝图)
+  Redprint 红图
+  RedprintAssigner 红图分派者(生成蓝图)
 """
 from functools import namedtuple
 from importlib import import_module
@@ -16,13 +16,10 @@ Meta = namedtuple('meta', ['name', 'module'])
 route_meta_infos = {}
 
 
-class RedPrint(object):
-    def __init__(self, name, description, api_doc=None, alias=''):
+class Redprint(object):
+    def __init__(self, name):
         self.name = name
-        self.alias = alias  # 接口的别名
-        self.description = description
         self.mound = []
-        self.api_doc = api_doc
 
     def route(self, rule, **options):
         def decorator(f):
@@ -52,12 +49,12 @@ class RedPrint(object):
         return wrapper
 
 
-class RedPrintAssigner():
+class RedprintAssigner():
     '''红图分派者，将红图分配给各自所属于的蓝图'''
 
     def __init__(self, app, rp_api_list):
         self.app = app
-        self.api_path = self.app.config['API_PATH'] # 默认是app.api
+        self.api_path = self.app.config['API_PATH']  # 默认是app.api
         self.rp_api_list = rp_api_list
         self.handle_callback_list = []  # 处理红图的回调函数列表
 

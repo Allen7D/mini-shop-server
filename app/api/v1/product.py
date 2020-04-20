@@ -3,7 +3,7 @@
   Created by Allen7D on 2018/6/17.
   ↓↓↓ 产品接口 ↓↓↓
 """
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import product as api_doc
 from app.core.token_auth import auth
 from app.models.product import Product
@@ -13,7 +13,7 @@ from app.validators.forms import PaginateValidator, CountValidator, IDMustBePosi
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='product', description='产品', api_doc=api_doc)
+api = Redprint(name='product', description='产品', api_doc=api_doc)
 
 
 @api.route('/recent', methods=['GET'])

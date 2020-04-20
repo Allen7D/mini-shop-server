@@ -9,7 +9,7 @@ import os
 from flask import request, current_app
 from flask import send_from_directory
 
-from app.extensions.api_docs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import file as api_doc
 from app.extensions.file.local_uploader import LocalUploader
 from app.core.token_auth import auth
@@ -20,7 +20,7 @@ from app.validators.forms import UploadFileValidator, UploadPDFValidator, Pagina
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
+api = Redprint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
 
 
 @api.route('', methods=['POST'])

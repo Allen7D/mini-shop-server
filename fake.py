@@ -15,7 +15,8 @@ with app.app_context():
         user = User()
         user.openid = '999'
         user.email = '999@qq.com'
-        user.nickname = 'Super'
+        user.nickname = '超级管理员'
+        user.username = 'super'
         user.auth = 2
         user.password = '123456'
         db.session.add(user)
@@ -25,7 +26,19 @@ with app.app_context():
         user = User()
         user.openid = '777'
         user.email = '777@qq.com'
-        user.nickname = 'Admin'
+        user.nickname = '普通管理员'
+        user.username = 'admin'
+        user.auth = 1
+        user.password = '123456'
+        db.session.add(user)
+
+    with db.auto_commit():
+        # 创建一个用户
+        user = User()
+        user.openid = '111'
+        user.email = '111@qq.com'
+        user.nickname = '我是用户'
+        user.username = 'user'
         user.auth = 1
         user.password = '123456'
         db.session.add(user)

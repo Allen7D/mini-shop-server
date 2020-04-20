@@ -6,7 +6,7 @@ from sqlalchemy import Column, Integer, String
 
 from app.libs.error_code import ThemeException
 from app.core.db import EntityModel as Base, db
-from app.models.image import Image
+from app.models.image import Image as ImageModel
 
 __author__ = 'Allen7D'
 
@@ -26,7 +26,7 @@ class Theme(Base):
 
     @property
     def topic_img_url(self):
-        return Image.get_img_by_id(self.topic_img_id).url
+        return ImageModel.get(id=self.topic_img_id).get('url', '')
 
     @property
     def products(self):
@@ -34,13 +34,10 @@ class Theme(Base):
 
     @property
     def head_img_url(self):
-        return Image.get_img_by_id(self.head_img_id).url
-
-    @staticmethod
-    def get_theme_by_id(id):
-        return Theme.query.filter_by(id=id).first_or_404(e=ThemeException)
+        image = ImageModel.get(id=self.head_img_id)
+        return image.url if image else ''
 
     @staticmethod
     def get_theme_detail(id):
-        theme_detail = db.session.query(Theme).filter(Theme.id == id).first_or_404(e=ThemeException)
+        theme_detail = Theme.get_or_404(id=id, e=ThemeException)
         return theme_detail.append('products')

@@ -17,17 +17,6 @@ __author__ = 'Allen7D'
 
 api = Redprint(name='admin', description='管理员管理', api_doc=api_doc, alias='cms_admin')
 
-
-@api.route('/auths', methods=['GET'])
-@api.route_meta(auth='查询所有可分配的权限', module='管理员', mount=False)
-@api.doc(auth=True)
-@auth.admin_required
-def get_auths():
-    '''查询所有可分配的权限'''
-    auths = AdminDao.get_auths()
-    return Success(auths)
-
-
 @api.route('/list', methods=['GET'])
 @api.route_meta(auth='查询管理员列表', module='管理员', mount=False)
 @api.doc(args=['g.query.page', 'g.query.size', 'query.group_id'], auth=True)

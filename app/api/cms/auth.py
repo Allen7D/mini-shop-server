@@ -15,13 +15,23 @@ __author__ = 'Allen7D'
 api = Redprint(name='auth', description='权限管理', api_doc=api_doc, alias='cms_auth')
 
 
+@api.route('/all', methods=['GET'])
+@api.route_meta(auth='查询所有可分配的权限', module='管理员', mount=False)
+@api.doc(auth=True)
+@auth.admin_required
+def get_auths():
+    '''查询所有可分配的权限'''
+    auths = AuthDao.get_auths()
+    return Success(auths)
+
+
 @api.route('/append', methods=['POST'])
 @api.route_meta(auth='新增多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
 @auth.admin_required
 def append_auth_list():
     '''添加多个权限(到某个权限组)'''
-    validator = AuthsValidator().get_data()
+    validator = AuthsValidator().nt_data
     AuthDao.append_auth_list(group_id=validator.group_id, auth_ids=validator.auth_ids)
     return Success(error_code=1)
 

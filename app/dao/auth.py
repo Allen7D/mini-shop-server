@@ -2,14 +2,22 @@
 """
   Created by Allen7D on 2020/4/16.
 """
-from app.models.auth import Auth as AuthModel
+from flask import current_app
+
 from app.core.db import db
 from app.core.auth import get_ep_name, find_auth_module, get_ep_id
+from app.models.auth import Auth as AuthModel
 
 __author__ = 'Allen7D'
 
 
 class AuthDao():
+    # 查询所有可分配的权限
+    @staticmethod
+    def get_auths():
+        auths = current_app.config['EP_INFOS']
+        return auths
+
     @staticmethod
     def append_auth_list(group_id, auth_ids=[]):
         '''

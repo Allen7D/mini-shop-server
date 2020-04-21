@@ -65,5 +65,5 @@ def update_group(id):
 @auth.admin_required
 def delete_group(id):
     '''删除权限组'''
-    GroupDao.delete_group(group_id=id)
+    GroupDao.delete_group(id=id)
     return Success(error_code=2)

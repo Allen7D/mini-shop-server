@@ -5,11 +5,11 @@
 """
 
 from flask import request
-from wtforms import StringField, IntegerField, PasswordField, FileField, MultipleFileField, FieldList
-from wtforms.validators import DataRequired, length, Email, Regexp, EqualTo, Optional, ValidationError, NumberRange
+from wtforms import StringField, IntegerField, PasswordField, FileField, FieldList, MultipleFileField
+from wtforms.validators import DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, NumberRange
 
 from app.libs.enums import ClientTypeEnum
-from app.models.user import User
+from app.models.user import User as UserModel
 from app.validators.base import BaseValidator
 
 __author__ = 'Allen7D'
@@ -105,8 +105,9 @@ class UserEmailValidator(ClientValidator):
     ])
 
     def validate_account(self, value):
-        if User.query.filter_by(email=value.data).first():
-            raise ValidationError()
+        UserModel.abort_repeat(msg='该用户已注册')
+        self.account.data = value.data
+
 
 
 class UpdateUserValidator(BaseValidator):
@@ -167,7 +168,10 @@ class AuthsValidator(BaseValidator):
         DataRequired(message='请输入分组id'),
         NumberRange(message='分组id必须大于0', min=1)
     ])
-    auth_ids = FieldList('权限id列表', IntegerField(validators=[DataRequired(message='请输入auths字段')]))
+    auth_ids = FieldList(
+        IntegerField(validators=[DataRequired(message='请输入auths字段')]),
+        '权限id列表'
+    )
 
 
 ########## 用户相关 ##########

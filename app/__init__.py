@@ -173,8 +173,16 @@ def apply_file_admin(admin):
 
 
 def apply_swagger(app):
-    from flasgger import Swagger, LazyString, LazyJSONEncoder
-    app.json_encoder = LazyJSONEncoder # Set the custom Encoder to customize
+    from flasgger import Swagger, LazyString
+    from app.app import JSONEncoder as _JSONEncoder
+
+    class JSONEncoder(_JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, LazyString):
+                return str(obj)
+            return super(JSONEncoder, self).default(obj)
+
+    app.json_encoder = JSONEncoder
     # 访问swagger文档前自动执行(可以用于文档的安全访问管理)
     def before_access(f):
         @wraps(f)
@@ -186,9 +194,9 @@ def apply_swagger(app):
     swagger = Swagger(
         decorators=[before_access],
         template={
-            'host': LazyString(lambda: request.host), # Swagger请求的服务端地址
-            'schemes': [LazyString(lambda: 'https' if request.is_secure else 'http')], # 通信协议: http或https或多个
-            'tags': app.config['SWAGGER_TAGS'], # 接口在文档中的类别和顺序
+            'host': LazyString(lambda: request.host),  # Swagger请求的服务端地址
+            'schemes': [LazyString(lambda: 'https' if request.is_secure else 'http')],  # 通信协议: http或https或多个
+            'tags': app.config['SWAGGER_TAGS'],  # 接口在文档中的类别和顺序
         })
     swagger.init_app(app)
 

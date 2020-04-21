@@ -2,8 +2,6 @@
 """
   Created by Allen7D on 2020/4/16.
 """
-from flask import current_app
-
 from app.libs.enums import ScopeEnum
 from app.models.user import User as UserModel
 
@@ -11,12 +9,6 @@ __author__ = 'Allen7D'
 
 
 class AdminDao():
-    # 查询所有可分配的权限
-    @staticmethod
-    def get_auths():
-        auths = current_app.config['EP_INFOS']
-        return auths
-
     # 查询管理员列表
     @staticmethod
     def get_admin_list(group_id, page, size):

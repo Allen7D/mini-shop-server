@@ -51,8 +51,7 @@ def register_blueprint(app):
     # 将红图的每个api的tag注入SWAGGER_TAGS中
     @assigner.handle_rp
     def handle_swagger_tag(api):
-        tag = api.tag
-        app.config['SWAGGER_TAGS'].append(tag)
+        app.config['SWAGGER_TAGS'].append(api.tag)
 
     bp_list = assigner.create_bp_list()
     for url_prefix, bp in bp_list:
@@ -174,10 +173,8 @@ def apply_file_admin(admin):
 
 
 def apply_swagger(app):
-    from flasgger import Swagger
-    # 默认与 config/setting.py 的 SWAGGER 合并
-    # 可以将secure.py中的SWAGGER全部写入template
-
+    from flasgger import Swagger, LazyString, LazyJSONEncoder
+    app.json_encoder = LazyJSONEncoder # Set the custom Encoder to customize
     # 访问swagger文档前自动执行(可以用于文档的安全访问管理)
     def before_access(f):
         @wraps(f)
@@ -189,9 +186,9 @@ def apply_swagger(app):
     swagger = Swagger(
         decorators=[before_access],
         template={
-            'host': app.config['SERVER_URL'], # Swagger请求的服务端地址
+            'host': LazyString(lambda: request.host), # Swagger请求的服务端地址
+            'schemes': [LazyString(lambda: 'https' if request.is_secure else 'http')], # 通信协议: http或https或多个
             'tags': app.config['SWAGGER_TAGS'], # 接口在文档中的类别和顺序
-            'schemes': app.config['SERVER_SCHEMES'] # 通信协议: http或https或多个
         })
     swagger.init_app(app)
 

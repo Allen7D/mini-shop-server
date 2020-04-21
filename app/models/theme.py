@@ -26,7 +26,8 @@ class Theme(Base):
 
     @property
     def topic_img_url(self):
-        return ImageModel.get(id=self.topic_img_id).get('url', '')
+        image = ImageModel.get(id=self.topic_img_id)
+        return image.url if image else ''
 
     @property
     def products(self):

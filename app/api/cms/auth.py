@@ -25,18 +25,18 @@ def get_auths():
     return Success(auths)
 
 
-@api.route('/append', methods=['POST'])
+@api.route('', methods=['POST'])
 @api.route_meta(auth='新增多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
 @auth.admin_required
 def append_auth_list():
-    '''添加多个权限(到某个权限组)'''
+    '''新增多个权限(到某个权限组)'''
     validator = AuthsValidator().nt_data
     AuthDao.append_auth_list(group_id=validator.group_id, auth_ids=validator.auth_ids)
     return Success(error_code=1)
 
 
-@api.route('/remove', methods=['POST'])
+@api.route('', methods=['DELETE'])
 @api.route_meta(auth='删除多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
 @auth.admin_required

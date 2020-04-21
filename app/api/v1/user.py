@@ -42,7 +42,7 @@ def create_user():
 @api.doc(args=['g.body.nickname', 'g.body.username', 'g.body.email', 'g.body.mobile'], auth=True)
 @auth.login_required
 def update_user():
-    '''修改自身'''
+    '''更新自身'''
     form = UpdateUserValidator().get_data()
     UserDao.update_user(uid=g.user.id, form=form)
     return Success(error_code=1)

@@ -9,11 +9,11 @@ import time
 from functools import wraps
 
 from werkzeug.exceptions import HTTPException
-from flask import redirect, url_for, g, request, _request_ctx_stack
+from flask import Flask, redirect, url_for, g, request, _request_ctx_stack
 
-from .app import Flask
 from app.core.db import db
 from app.web import web
+from app.core.json_encoder import JSONEncoder
 from app.core.redprint import RedprintAssigner, route_meta_infos
 from app.core.error import APIException, ServerError
 
@@ -96,6 +96,7 @@ def mount_route_meta_to_endpoint(app):
 
 
 def register_plugin(app):
+    apply_json_encoder(app) # JSON序列化
     apply_cors(app)  # 应用跨域扩展，使项目支持请求跨域
     connect_db(app)  # 连接数据库
     handle_error(app)  # 统一处理异常
@@ -106,6 +107,10 @@ def register_plugin(app):
         apply_default_router(app)  # 应用默认路由
         apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
         apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
+
+
+def apply_json_encoder(app):
+    app.json_encoder = JSONEncoder
 
 
 def apply_cors(app):
@@ -183,6 +188,7 @@ def apply_swagger(app):
             return super(JSONEncoder, self).default(obj)
 
     app.json_encoder = JSONEncoder
+
     # 访问swagger文档前自动执行(可以用于文档的安全访问管理)
     def before_access(f):
         @wraps(f)

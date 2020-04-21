@@ -36,7 +36,7 @@ def get_user(uid):
     return Success(user)
 
 
-@api.route('/<int:uid>', methods=['PUT'])
+@api.route('/<int:uid>/group', methods=['PUT'])
 @api.route_meta(auth='更新用户分组', module='用户')
 @api.doc(args=['g.path.uid+', 'g.body.group_id'], auth=True)
 @auth.group_required

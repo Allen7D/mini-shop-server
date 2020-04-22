@@ -179,7 +179,7 @@ def apply_file_admin(admin):
 
 def apply_swagger(app):
     from flasgger import Swagger, LazyString
-    from app.app import JSONEncoder as _JSONEncoder
+    from app.core.json_encoder import JSONEncoder as _JSONEncoder
 
     class JSONEncoder(_JSONEncoder):
         def default(self, obj):

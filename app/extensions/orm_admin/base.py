@@ -18,13 +18,16 @@ class ModelView(_ModelView):
 
     def __add__(self, other):
         self.column_exclude_list = list(set(self.column_exclude_list + other.column_exclude_list))
-
         return self
 
     # 对于查询，进行条件过滤
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.delete_time != None)
+        if hasattr(self.model, 'delete_time'):
+            return self.session.query(self.model).filter(self.model.delete_time == None)
+        return super(ModelView, self).get_query()
 
     # 对于查询统计，进行条件过滤
     def get_count_query(self):
-        return self.session.query(func.count('*')).filter(self.model.delete_time != None)
+        if hasattr(self.model, 'delete_time'):
+            return self.session.query(func.count('*')).filter(self.model.delete_time == None)
+        return super(ModelView, self).get_count_query()

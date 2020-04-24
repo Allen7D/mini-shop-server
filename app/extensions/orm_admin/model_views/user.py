@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2020/3/6.
 """
-from app.extensions.model_views.base import ModelView
+from ..base import ModelView
 
 __author__ = 'Allen7D'
 

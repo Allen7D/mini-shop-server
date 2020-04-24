@@ -7,6 +7,7 @@ import os
 import json
 import time
 from functools import wraps
+from importlib import import_module
 
 from werkzeug.exceptions import HTTPException
 from flask import Flask, redirect, url_for, g, request, _request_ctx_stack
@@ -41,7 +42,7 @@ def load_config(app):
 
     app.config.from_object('app.extensions.file.config')
     app.config.from_object('app.extensions.api_docs.config')
-    app.config.from_object('app.extensions.model_views.config')
+    app.config.from_object('app.extensions.orm_admin.config')
 
 
 def register_blueprint(app):
@@ -140,7 +141,7 @@ def apply_default_router(app):
 
 def apply_orm_admin(app):
     from flask_admin import Admin
-    from app.extensions.model_views.base import ModelView
+    from app.extensions.orm_admin.base import ModelView
 
     object_origins = {}
     for module, items in app.config['ALL_MODEL_BY_MODULE'].items():
@@ -149,12 +150,11 @@ def apply_orm_admin(app):
 
     admin = Admin(name='商城后台', template_mode='bootstrap3')
     for model_name, module_name in object_origins.items():
-        model_module = __import__('models.{}'.format(module_name), globals(), fromlist=('***'), level=1)
+        model_module = import_module('app.models.{}'.format(module_name))
         model = getattr(model_module, model_name)
         try:
             # model_view_module 可能不存在
-            model_view_module = __import__('model_views.{}'.format(module_name), globals(), fromlist=('***'),
-                                           level=1)
+            model_view_module = import_module('app.extensions.orm_admin.model_views.{}'.format(module_name))
             model_view = getattr(model_view_module, '{}View'.format(model_name), ModelView)
         except ModuleNotFoundError as e:
             model_view = ModelView

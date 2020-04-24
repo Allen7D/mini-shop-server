@@ -10,6 +10,7 @@ FLASK_ADMIN_SWATCH = 'cerulean'
 # all model by module for flask-admin
 ALL_MODEL_BY_MODULE = {
     'user': ['User'],
+    'identity': ['Identity'],
     # 'user': {'name': '用户', 'modules': ['user.User', 'auth.Auth', 'group.Group', 'user_address.UserAddress']}
     'user_address': ['UserAddress'],
     'order': ['Order'],
@@ -18,5 +19,6 @@ ALL_MODEL_BY_MODULE = {
     'theme': ['Theme'],
     'category': ['Category'],
     'product': ['Product'],
-    'image': ['Image']
+    'image': ['Image'],
+    'file': ['File'],
 }

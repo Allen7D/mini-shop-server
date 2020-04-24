@@ -14,9 +14,9 @@ __author__ = 'Allen7D'
 class File(Base):
     __tablename__ = 'file'
     id = Column(Integer, primary_key=True)
-    path = Column(String(500), nullable=False, comment='路径')
-    name = Column(String(100), nullable=False, comment='原始名称')
     uuid_name = Column(String(100), nullable=False, comment='唯一名称')
+    name = Column(String(100), nullable=False, comment='原始名称')
+    path = Column(String(500), nullable=False, comment='路径')
     extension = Column(String(50), nullable=False, comment='后缀')
     _from = Column('type', SmallInteger, default=1, comment='来源: 1 本地，2 公网')
     size = Column(Integer, comment='大小')

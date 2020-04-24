@@ -6,7 +6,7 @@ from contextlib import contextmanager
 from datetime import datetime
 from time import localtime, strftime
 
-from flask import current_app, json
+from flask import current_app, json, request
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, Pagination as _Pagination, BaseQuery
 from sqlalchemy import Column, Integer, orm, inspect
 
@@ -280,6 +280,7 @@ class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
     def get_url(self, url):
         '''图片来源'''
         if (UrlFromEnum(self._from) == UrlFromEnum.LOCAL):
-            img_url_prefix = current_app.config['SERVER_URL'] + current_app.config['IMG_FOLDER']
+            host_url = request.host_url
+            img_url_prefix = host_url + current_app.config['IMG_FOLDER']
             return img_url_prefix + url
         return url

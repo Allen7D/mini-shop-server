@@ -10,10 +10,9 @@ from functools import wraps
 from importlib import import_module
 
 from werkzeug.exceptions import HTTPException
-from flask import Flask, redirect, url_for, g, request, _request_ctx_stack
+from flask import Flask, redirect, url_for, g, request, _request_ctx_stack, current_app, render_template
 
 from app.core.db import db
-from app.web import web
 from app.core.json_encoder import JSONEncoder
 from app.core.redprint import RedprintAssigner, route_meta_infos
 from app.core.error import APIException, ServerError
@@ -57,7 +56,6 @@ def register_blueprint(app):
     bp_list = assigner.create_bp_list()
     for url_prefix, bp in bp_list:
         app.register_blueprint(bp, url_prefix=url_prefix)
-    app.register_blueprint(web, url_prefix='/web')
     mount_route_meta_to_endpoint(app)
     load_endpint_infos(app)
 
@@ -97,7 +95,7 @@ def mount_route_meta_to_endpoint(app):
 
 
 def register_plugin(app):
-    apply_json_encoder(app) # JSON序列化
+    apply_json_encoder(app)  # JSON序列化
     apply_cors(app)  # 应用跨域扩展，使项目支持请求跨域
     connect_db(app)  # 连接数据库
     handle_error(app)  # 统一处理异常
@@ -131,7 +129,11 @@ def apply_default_router(app):
     @app.route('/')
     def index():
         '''跳转到「首页」'''
-        return redirect(url_for('web.index'))
+        url = {
+            'github': current_app.config['GITHUB_URL'],
+            'doc': current_app.config['DOC_URL'],
+        }
+        return render_template("index.html", url=url)
 
     @app.route('/doc')
     def doc():

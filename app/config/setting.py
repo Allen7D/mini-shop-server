@@ -11,7 +11,6 @@ __author__ = 'Allen7D'
 local_setting.py中 SERVER_URL = '127.0.0.1:8010'
 '''
 SERVER_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址
-SERVER_SCHEMES = ["https", "http"]
 # 所有红图的路径
 API_PATH = 'app.api'
 # all api by module(version)

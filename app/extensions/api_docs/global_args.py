@@ -71,7 +71,7 @@ username_in_body = BodyField(name='username', type='string', description='用户
 email_in_body = BodyField(name='email', type='string', description='邮箱', enum=['462870781@qq.com'])
 mobile_in_body = BodyField(name='mobile', type='string', description='手机', enum=['13758787058'])
 
-# UserAddress
+# Address
 address_id_in_path = IntegerPathFiled(
     name='id', description="地址ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 

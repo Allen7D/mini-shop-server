@@ -19,8 +19,8 @@ from flask import g
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import order as api_doc
 from app.core.token_auth import auth
-from app.service.order import Order as OrderService
-from app.models.order import Order as OrderModel
+from app.service.order import OrderService
+from app.models.order import Order
 from app.dao.order import OrderDao
 from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, OrderPlaceValidator, IDMustBePositiveIntValidator
@@ -34,7 +34,7 @@ api = Redprint(name='order', description='订单', api_doc=api_doc)
 @api.doc(auth=True)
 @auth.login_required
 def place_order():
-    '''提交订单(管理员X)'''
+    '''提交订单'''
     products = OrderPlaceValidator().validate_for_api().products.data
     status = OrderService().palce(uid=g.user.id, o_products=products)
     return Success(status)
@@ -58,7 +58,7 @@ def get_summary_by_user():
 @auth.login_required
 def get_order(id):
     '''订单详情'''
-    order = OrderModel.query.get_or_404(id).hide('prepay_id')
+    order = Order.query.get_or_404(id).hide('prepay_id')
     return Success(order)
 
 

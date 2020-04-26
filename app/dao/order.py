@@ -2,7 +2,7 @@
 """
   Created by Allen7D on 2020/4/16.
 """
-from app.models.order import Order as OrderModel
+from app.models.order import Order
 
 __author__ = 'Allen7D'
 
@@ -10,8 +10,8 @@ __author__ = 'Allen7D'
 class OrderDao():
     @staticmethod
     def get_summary_by_user(uid, page=1, size=10):
-        paginator = OrderModel.query.filter_by(user_id=uid) \
-            .order_by(OrderModel.create_time.desc()) \
+        paginator = Order.query.filter_by(user_id=uid) \
+            .order_by(Order.create_time.desc()) \
             .paginate(page=page, per_page=size, error_out=True)
         paginator.hide('snap_items', 'snap_address', 'prepay_id')
         return {
@@ -22,8 +22,8 @@ class OrderDao():
 
     @staticmethod
     def get_summary(page=1, size=10):
-        paginator = OrderModel.query.filter_by().order_by(
-            OrderModel.create_time.desc()
+        paginator = Order.query.filter_by().order_by(
+            Order.create_time.desc()
         ).paginate(
             page=page,
             per_page=size,

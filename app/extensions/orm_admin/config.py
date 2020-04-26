@@ -11,8 +11,8 @@ FLASK_ADMIN_SWATCH = 'cerulean'
 ALL_MODEL_BY_MODULE = {
     'user': ['User'],
     'identity': ['Identity'],
-    # 'user': {'name': '用户', 'modules': ['user.User', 'auth.Auth', 'group.Group', 'user_address.UserAddress']}
-    'user_address': ['UserAddress'],
+    # 'user': {'name': '用户', 'modules': ['user.User', 'auth.Auth', 'group.Group', 'address.Address']}
+    'address': ['Address'],
     'order': ['Order'],
     'banner': ['Banner'],
     'banner_item': ['BannerItem'],

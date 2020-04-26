@@ -5,7 +5,7 @@
 from flask import current_app
 from werkzeug.local import LocalProxy
 
-from app.models.auth import Auth as AuthModel
+from app.models.auth import Auth
 from app.libs.error_code import NotFound
 
 __author__ = 'Allen7D'
@@ -63,5 +63,5 @@ def is_in_auth_scope(group_id, endpoint):
     meta = current_app.config['EP_META'].get(endpoint)
     allowed = False
     if meta:
-        allowed = AuthModel.get(group_id=group_id, name=meta.name, module=meta.module)
+        allowed = Auth.get(group_id=group_id, name=meta.name, module=meta.module)
     return True if allowed else False

@@ -10,14 +10,14 @@ from flask import g
 from app.libs.enums import OrderStatusEnum
 from app.libs.error_code import OrderException, TokenException
 from app.models.user import User
-from app.service.order import Order as OrderService
-from app.models.order import Order as OrderModel
+from app.service.order import OrderService
+from app.models.order import Order
 from app.dao.token import TokenDao
 
 __author__ = 'Allen7D'
 
 
-class Pay():
+class PayService():
     order_id = None
     order_no = None
 
@@ -55,7 +55,7 @@ class Pay():
     def __check_order_valid(self):
         '''对订单作3种情况的检测'''
         # 1. 验证订单号是否存在
-        order = OrderModel.query.filter_by(id=self.order_id) \
+        order = Order.query.filter_by(id=self.order_id) \
             .first_or_404(e=OrderException)
         # 2. 如果订单号存在的，验证订单号与当前用户是否匹配
         if not TokenDao.is_valid_operate(order.user_id):

@@ -9,7 +9,7 @@ from wtforms import StringField, IntegerField, PasswordField, FileField, FieldLi
 from wtforms.validators import DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, NumberRange
 
 from app.libs.enums import ClientTypeEnum
-from app.models.user import User as UserModel
+from app.models.user import User
 from app.validators.base import BaseValidator
 
 __author__ = 'Allen7D'
@@ -105,7 +105,7 @@ class UserEmailValidator(ClientValidator):
     ])
 
     def validate_account(self, value):
-        UserModel.abort_repeat(msg='该用户已注册')
+        User.abort_repeat(msg='该用户已注册')
         self.account.data = value.data
 
 

@@ -10,7 +10,7 @@ from flask_httpauth import HTTPBasicAuth as _HTTPBasicAuth
 from itsdangerous import TimedJSONWebSignatureSerializer \
     as Serializer, BadSignature, SignatureExpired
 
-from app.models.user import User as UserModel
+from app.models.user import User
 from app.libs.error_code import AuthFailed
 from app.core.auth import is_in_auth_scope
 
@@ -80,7 +80,7 @@ UserTuple = namedtuple('User', ['uid', 'ac_type', 'scope'])
 @auth.verify_admin
 def verify_admin(token, password):
     (uid, ac_type, scope) = decrypt_token(token)
-    current_user = UserModel.get_or_404(id=uid)
+    current_user = User.get_or_404(id=uid)
     if not current_user.is_admin:
         raise AuthFailed(msg='该接口为超级管理员权限操作')
     g.user = current_user # UserTuple(uid, ac_type, scope)
@@ -90,7 +90,7 @@ def verify_admin(token, password):
 @auth.verify_group
 def verify_group(token, password):
     (uid, ac_type, scope) = decrypt_token(token)
-    current_user = UserModel.get_or_404(id=uid)
+    current_user = User.get_or_404(id=uid)
     group_id = current_user.group_id
     # 非admin用户，先进行校验
     if not current_user.is_admin:
@@ -109,7 +109,7 @@ def verify_password(token, password):
     user_info = verify_auth_token(token)
     if not user_info:
         return False
-    g.user = UserModel.get_or_404(id=user_info.uid) # 用「g.user」来记录登录的状态；g只能用于一次请求
+    g.user = User.get_or_404(id=user_info.uid) # 用「g.user」来记录登录的状态；g只能用于一次请求
     return True
 
 

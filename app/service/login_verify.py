@@ -10,8 +10,8 @@ from flask import current_app
 from app.core.token_auth import generate_auth_token
 from app.libs.enums import ClientTypeEnum
 from app.libs.error_code import AuthFailed, IdentityException
-from app.models.identity import Identity as IdentityModel
-from app.models.user import User as UserModel
+from app.models.identity import Identity
+from app.models.user import User
 from app.dao.user import UserDao
 from app.service.open_token import OpenToken
 from app.service.wx_token import WxToken
@@ -67,26 +67,26 @@ class LoginVerifyService():
 
     @staticmethod
     def verify_by_username(username, password):
-        identity = IdentityModel.get_or_404(identifier=username, type=ClientTypeEnum.USERNAME.value,
+        identity = Identity.get_or_404(identifier=username, type=ClientTypeEnum.USERNAME.value,
                                        e=IdentityException(msg='该用户名未注册'))
         identity.check_password(password, e=AuthFailed(msg='密码错误'))
-        user = UserModel.get(id=identity.user_id)
+        user = User.get(id=identity.user_id)
         return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
     def verify_by_email(email, password):
-        identity = IdentityModel.get_or_404(identifier=email, type=ClientTypeEnum.EMAIL.value,
+        identity = Identity.get_or_404(identifier=email, type=ClientTypeEnum.EMAIL.value,
                                        e=IdentityException(msg='该邮箱未注册'))
         identity.check_password(password, e=AuthFailed(msg='密码错误'))
-        user = UserModel.get(id=identity.user_id)
+        user = User.get(id=identity.user_id)
         return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
     def verify_by_mobile(mobile, password):
-        identity = IdentityModel.get_or_404(identifier=mobile, type=ClientTypeEnum.MOBILE.value,
+        identity = Identity.get_or_404(identifier=mobile, type=ClientTypeEnum.MOBILE.value,
                                        e=IdentityException(msg='该手机号未注册'))
         identity.check_password(password, e=AuthFailed(msg='密码错误'))
-        user = UserModel.get(id=identity.user_id)
+        user = User.get(id=identity.user_id)
         return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
@@ -94,12 +94,12 @@ class LoginVerifyService():
         ut = WxToken(code)
         wx_result = ut.get()  # wx_result = {session_key, expires_in, openid}
         openid = wx_result['openid']
-        identity = IdentityModel.get(identifier=openid, type=ClientTypeEnum.WX_MINA.value)
+        identity = Identity.get(identifier=openid, type=ClientTypeEnum.WX_MINA.value)
         # 如果不在数据库，则新建用户
         if not identity:
             user = UserDao.register_by_wx_mina(openid=openid)
         else:
-            user = UserModel.get(id=identity.user_id)
+            user = User.get(id=identity.user_id)
         return {'uid': user.id, 'scope': user.auth_scope}
 
     @staticmethod
@@ -108,7 +108,7 @@ class LoginVerifyService():
         ot = OpenToken(code)
         user_info = ot.get()
         openid = user_info['openid']  # 用户唯一标识
-        user = UserModel.query.filter_by(openid=openid).first()
+        user = User.query.filter_by(openid=openid).first()
         if not user:
             user = UserDao.register_by_wx_open(form=user_info)
         return {'uid': user.id, 'scope': user.auth_scope}
@@ -118,7 +118,7 @@ class LoginVerifyService():
         ot = AccountToken(code)
         user_info = ot.get()
         unionid = user_info['unionid']
-        user = UserModel.query.filter_by(unionid=unionid).first()
+        user = User.query.filter_by(unionid=unionid).first()
         if not user:
             user = UserDao.register_by_wx_account(form=user_info)
         return {'uid': user.id, 'scope': user.auth_scope}

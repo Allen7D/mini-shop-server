@@ -7,7 +7,7 @@
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import group as api_doc
 from app.core.token_auth import auth
-from app.models.group import Group as GroupModel
+from app.models.group import Group
 from app.dao.group import GroupDao
 from app.libs.error_code import Success, NotFound
 from app.validators.base import BaseValidator
@@ -24,7 +24,7 @@ api = Redprint(name='group', description='权限组管理', api_doc=api_doc, ali
 @auth.admin_required
 def get_group_all():
     '''查询所有权限组'''
-    group_list = GroupModel.get_all()
+    group_list = Group.get_all()
     if not group_list:
         raise NotFound(msg='不存在任何权限组')
     return Success(group_list)
@@ -35,7 +35,7 @@ def get_group_all():
 @auth.admin_required
 def get_group(id):
     '''查询一个权限组及其权限'''
-    group = GroupModel.get_or_404(id=id, msg='分组不存在')
+    group = Group.get_or_404(id=id, msg='分组不存在')
     group.append('auth_list')
     return Success(group)
 

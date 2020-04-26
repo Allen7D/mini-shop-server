@@ -12,14 +12,14 @@ from app.libs.error_code import OrderException, UserException
 from app.core.utils import jsonify
 from app.core.db import db
 from app.models.product import Product
-from app.models.order import Order as OrderModel
-from app.models.user_address import UserAddress
+from app.models.order import Order
+from app.models.address import Address
 from app.models.m2m import Order2Product
 
 __author__ = 'Allen7D'
 
 
-class Order():
+class OrderService():
     o_products = None  # order products (订单商品)缩写
     s_products = None  # stock products (库存商品)缩写
     uid = None
@@ -44,10 +44,9 @@ class Order():
 
     def __create_order(self, snap):
         '''将订单写入到数据库'''
-        order_no = Order.make_order_no()
-        from app.models.order import Order as OrderModel
+        order_no = OrderService.make_order_no()
         with db.auto_commit():
-            order = OrderModel()
+            order = Order()
             order.user_id = self.uid
             order.order_no = order_no
             order.total_price = snap['order_price']
@@ -86,17 +85,17 @@ class Order():
         snap['order_price'] = status['order_price']
         snap['total_count'] = status['total_count']
         snap['p_status'] = status['p_status_array']
-        snap['snap_address'] = json.dumps(self.__get_user_address(), ensure_ascii=False)  # 建议:放在非关系型数据库(MongoDB)
+        snap['snap_address'] = json.dumps(self.__get_address(), ensure_ascii=False)  # 建议:放在非关系型数据库(MongoDB)
         snap['snap_name'] = self.s_products[0]['name'] + (' 等' if len(self.s_products) > 1 else '')
         snap['snap_img'] = self.s_products[0]['main_img_url']
 
         return snap
 
-    def __get_user_address(self):
-        user_address = UserAddress.query \
+    def __get_address(self):
+        address = Address.query \
             .filter_by(user_id=self.uid) \
-            .first_or_404(e=UserException(error_code=6001, msg='用户地址不存在, 下单失败'))
-        order_address = jsonify(user_address)  # 序列化，因为要存入到数据库
+            .first_or_404(e=UserException(error_code=6001, msg='配送信息不存在, 下单失败'))
+        order_address = jsonify(address)  # 序列化，因为要存入到数据库
         return order_address
 
     def check_order_stock(self, order_id):
@@ -190,7 +189,7 @@ class Order():
         ''' 将订单状态从「已支付」转为「已发货」
             jump_page(跳转页面)
         '''
-        order = OrderModel.query.filter_by(id=order_id).first_or_404()
+        order = Order.query.filter_by(id=order_id).first_or_404()
         # 判断是否已付款
         if order.order_status != OrderStatusEnum.PAID:
             raise OrderException(code=403, error_code=8002, msg='订单未支付，或已经更新过订单了')

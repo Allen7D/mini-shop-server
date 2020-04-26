@@ -13,8 +13,8 @@ from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import file as api_doc
 from app.extensions.file.local_uploader import LocalUploader
 from app.core.token_auth import auth
+from app.models.file import File
 from app.service.file import FileService
-from app.models.file import File as FileModel
 from app.libs.error_code import Success
 from app.validators.forms import UploadFileValidator, UploadPDFValidator, PaginateValidator
 
@@ -40,7 +40,7 @@ def upload_file():
 def get_file_list():
     '''查询文件列表'''
     validator = PaginateValidator().validate_for_api().nt_data
-    paginator = FileModel.query.filter_by() \
+    paginator = File.query.filter_by() \
         .paginate(page=validator.page, per_page=validator.size, error_out=False)
     return Success({
         'total': paginator.total,
@@ -54,7 +54,7 @@ def get_file_list():
 @auth.login_required
 def get_file(id):
     '''查询文件·基于文件ID'''
-    file = FileModel.query.filter_by(id=id).first_or_404()
+    file = File.query.filter_by(id=id).first_or_404()
     return Success(file)
 
 
@@ -66,7 +66,7 @@ def get_file_by_name():
     可能存在同名文件，返回结果为list
     '''
     filename = request.args.get('filename')
-    file_list = FileModel.query.filter_by(name=filename).all()
+    file_list = File.query.filter_by(name=filename).all()
     return Success({
         'items': file_list
     })

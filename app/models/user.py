@@ -6,8 +6,8 @@ from flask import g
 from sqlalchemy import Column, Integer, String, SmallInteger
 from app.libs.enums import ScopeEnum
 from app.core.db import EntityModel as Base, db
-from app.models.group import Group as GroupModel
-from app.models.identity import Identity as IdentityModel
+from app.models.group import Group
+from app.models.identity import Identity
 
 __author__ = 'Allen7D'
 
@@ -24,7 +24,7 @@ class User(Base):
     mobile = Column(String(16), unique=True, comment='手机号(唯一)')
     auth = Column(SmallInteger, default=ScopeEnum.COMMON.value, comment='权限')
     group_id = Column(Integer, comment='用户所属的权限组id')
-    _user_address = db.relationship('UserAddress', backref='author', lazy='dynamic')  # 配送地址
+    _address = db.relationship('Address', backref='author', lazy='dynamic')  # 配送地址
     _order = db.relationship('Order', backref='author', lazy='dynamic')  # 订单
     extend = Column(String(255), comment='额外备注')
 
@@ -33,13 +33,13 @@ class User(Base):
 
     def keys(self):
         self.hide('openid', 'unionid', '_password', 'extend')
-        self.append('username', 'mobile', 'email', 'user_address', 'auth_scope')
+        self.append('username', 'mobile', 'email', 'address', 'auth_scope')
         return self.fields
 
     # 登录的所有身份
     @property
     def identities(self):
-        return IdentityModel.get_all(user_id=self.id)
+        return Identity.get_all(user_id=self.id)
 
     # 用户的订单
     @property
@@ -48,13 +48,13 @@ class User(Base):
 
     # 用户所有的配送信息
     @property
-    def user_address(self):
-        return self._user_address.all()
+    def address(self):
+        return self._address.all()
 
     @property
     def auth_scope(self):
-        return db.session.query(GroupModel.name) \
-            .filter(GroupModel.id == self.group_id).scalar()
+        return db.session.query(Group.name) \
+            .filter(Group.id == self.group_id).scalar()
 
     @property
     def is_admin(self):

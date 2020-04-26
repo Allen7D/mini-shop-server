@@ -3,7 +3,7 @@
   Created by Allen7D on 2020/4/16.
 """
 from app.libs.enums import ScopeEnum
-from app.models.user import User as UserModel
+from app.models.user import User
 
 __author__ = 'Allen7D'
 
@@ -18,7 +18,7 @@ class AdminDao():
         } if group_id else {
             'auth': ScopeEnum.COMMON.value
         }
-        user_list = UserModel.query \
+        user_list = User.query \
             .filter_by(**query_condition) \
             .paginate(page=page, per_page=size, error_out=False)
 
@@ -27,15 +27,15 @@ class AdminDao():
     # 新增管理员
     @staticmethod
     def create_admin(**form):
-        UserModel.abort_repeat(nickname=form.nickname.data, msg='用户名重复，请重新输入')
-        UserModel.create(auth=ScopeEnum.COMMON.value, **form.data)
+        User.abort_repeat(nickname=form.nickname.data, msg='用户名重复，请重新输入')
+        User.create(auth=ScopeEnum.COMMON.value, **form.data)
 
     #
     @staticmethod
     def update_admin(uid, *form):
-        user = UserModel.get_or_404(id=uid, msg='用户不存在')
+        user = User.get_or_404(id=uid, msg='用户不存在')
 
     @staticmethod
     def delete_admin(uid):
-        user = UserModel.get_or_404(id=uid, msg='用户不存在')
+        user = User.get_or_404(id=uid, msg='用户不存在')
         user.hard_delete()

@@ -5,7 +5,7 @@
 """
 from app.extensions.api_docs.redprint import Redprint
 from app.core.token_auth import auth
-from app.models.user import User as UserModel
+from app.models.user import User
 from app.dao.user import UserDao
 from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, ResetPasswordValidator, UpdateAdminValidator
@@ -32,7 +32,7 @@ def get_user_list():
 @auth.group_required
 def get_user(uid):
     '''查询用户信息'''
-    user = UserModel.query.filter_by(id=uid).first_or_404()
+    user = User.query.filter_by(id=uid).first_or_404()
     return Success(user)
 
 

@@ -9,9 +9,9 @@ from app.core.db import EntityModel as Base
 __author__ = 'Allen7D'
 
 
-class UserAddress(Base):
+class Address(Base):
     '''配送信息'''
-    __tablename__ = 'user_address'
+    __tablename__ = 'address'
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False, comment='外键: 下单的用户id')
     name = Column(String(30), nullable=False, comment='收货人姓名')

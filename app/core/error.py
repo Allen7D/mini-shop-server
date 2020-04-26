@@ -109,19 +109,19 @@ class Forbidden(APIException):
 ##########  查询相关(10100~10200)  ##########
 class NotFound(APIException):
     code = 404  # http 状态码
-    error_code = 100100  # 约定的异常码
+    error_code = 10100  # 约定的异常码
     msg = '未查询到数据'  # 异常信息
 
 
 class RepeatException(APIException):
     code = 400
-    error_code = 100110
+    error_code = 10110
     msg = '重复数据'
 
 
 class ParameterException(APIException):
     code = 400
-    error_code = 100120
+    error_code = 10120
     msg = '参数错误'
 
 

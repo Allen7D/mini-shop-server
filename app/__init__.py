@@ -103,6 +103,7 @@ def register_plugin(app):
     if app.config['DEBUG']:
         apply_request_log(app)  # 打印请求日志
         apply_default_router(app)  # 应用默认路由
+        apply_error_code_view(app)
         apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
         apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
 
@@ -178,6 +179,24 @@ def apply_file_admin(admin):
     import os.path as op
     path = op.join(op.dirname(__file__), 'static')
     admin.add_view(FileAdmin(path, '/static/', name='静态资源'))
+
+
+def apply_error_code_view(app):
+    def load_exception():
+        module = import_module('app.libs.error_code')
+        exception_list = []
+        for elem_name in dir(module):
+            elem = getattr(module, elem_name)
+            if type(elem) == type and issubclass(elem, APIException):
+                exception_list.append(elem())
+        exception_list.sort(key=lambda x: x.error_code)
+        return exception_list
+
+    exception_list = load_exception()
+
+    @app.route('/error_code')
+    def error_code():
+        return render_template('error_code.html', exception_list=exception_list)
 
 
 def apply_swagger(app):

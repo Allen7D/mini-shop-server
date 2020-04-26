@@ -9,6 +9,7 @@ from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import admin as api_doc
 from app.core.token_auth import auth
 from app.dao.admin import AdminDao
+from app.models.user import User
 from app.dao.user import UserDao
 from app.libs.error_code import Success
 from app.validators.forms import PaginateValidator, ResetPasswordValidator, CreateAdminValidator
@@ -63,11 +64,11 @@ def delete_admin(uid):
 
 @api.route('/password/<int:uid>', methods=['PUT'])
 @api.route_meta(auth='修改管理员密码', module='管理员', mount=False)
-@api.doc(auth=True)
+@api.doc(args=['g.body.new_password', 'g.body.confirm_password'], auth=True)
 @auth.admin_required
 def change_user_password(uid):
     '''修改管理员密码'''
-    new_password = ResetPasswordValidator().get_data().new_password
+    new_password = ResetPasswordValidator().nt_data.new_password
     UserDao.reset_password(uid=uid, password=new_password)
     return Success(error_code=1, msg='密码修改成功')
 
@@ -77,6 +78,7 @@ def change_user_password(uid):
 @auth.admin_required
 def trans2active(uid):
     '''激活管理员'''
+    user = User.get_or_404(id=uid)
     return Success(msg='操作成功')
 
 
@@ -85,4 +87,5 @@ def trans2active(uid):
 @auth.admin_required
 def trans2disable(uid):
     '''禁用管理员'''
+    user = User.get_or_404(id=uid)
     return Success(msg='操作成功')

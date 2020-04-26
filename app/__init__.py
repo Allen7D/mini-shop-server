@@ -40,12 +40,11 @@ def load_config(app):
         app.config.from_object('app.config.setting')
 
     app.config.from_object('app.extensions.file.config')
-    app.config.from_object('app.extensions.api_docs.config')
-    app.config.from_object('app.extensions.orm_admin.config')
 
 
 def register_blueprint(app):
     '''注册蓝图'''
+    app.config.from_object('app.extensions.api_docs.config')
     assigner = RedprintAssigner(app=app, rp_api_list=app.config['ALL_RP_API_LIST'])
 
     # 将红图的每个api的tag注入SWAGGER_TAGS中
@@ -144,6 +143,8 @@ def apply_default_router(app):
 def apply_orm_admin(app):
     from flask_admin import Admin
     from app.extensions.orm_admin.base import ModelView
+    # 配置config
+    app.config.from_object('app.extensions.orm_admin.config')
 
     object_origins = {}
     for module, items in app.config['ALL_MODEL_BY_MODULE'].items():

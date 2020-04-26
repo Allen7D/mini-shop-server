@@ -30,7 +30,9 @@ class File(Base):
     def url(self):
         '''Nginx配置的静态资源地址'''
         if (UrlFromEnum(self._from) == UrlFromEnum.LOCAL):
-            host_url = request.host_url[:-1] # 当前host的路径 http://192.168.10.80:8010
+            host_url = request.host_url
+            host_url = host_url.split(',')[-1] if ',' in host_url else host_url
+            host_url = host_url[:-1] # 当前host的路径 http://192.168.10.80:8010
             static_url_path = current_app.static_url_path[1:] + '/files' # static/files
             return '{0}/{1}/{2}'.format(host_url, static_url_path, self.path)
         return self.path

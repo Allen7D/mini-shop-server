@@ -199,10 +199,16 @@ def apply_swagger(app):
 
         return decorated
 
+    def on_host():
+        host = request.host
+        if ',' in host:
+            return host.split(',')[-1]
+        return host
+
     swagger = Swagger(
         decorators=[before_access],
         template={
-            'host': LazyString(lambda: request.host),  # Swagger请求的服务端地址
+            'host': LazyString(on_host),  # Swagger请求的服务端地址
             'schemes': [LazyString(lambda: 'https' if request.is_secure else 'http')],  # 通信协议: http或https或多个
             'tags': app.config['SWAGGER_TAGS'],  # 接口在文档中的类别和顺序
         })

@@ -281,6 +281,7 @@ class EntityModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
         '''图片来源'''
         if (UrlFromEnum(self._from) == UrlFromEnum.LOCAL):
             host_url = request.host_url
+            host_url = host_url.split(',')[-1] if ',' in host_url else host_url
             img_url_prefix = host_url + current_app.config['IMG_FOLDER']
             return img_url_prefix + url
         return url

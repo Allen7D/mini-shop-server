@@ -152,11 +152,12 @@ class CRUDMixin(object):
             db.session.commit()
         return self
 
-    def delete(self):
+    def delete(self, commit: bool = True):
         '''软删除'''
-        with db.auto_commit():
-            self.delete_time = int(round(datetime.now().timestamp()))
-            self.save()
+        self.delete_time = int(round(datetime.now().timestamp()))
+        self.save()
+        if commit:
+            db.session.commit()
 
     def hard_delete(self, commit: bool = True):
         '''硬删除'''
@@ -246,10 +247,11 @@ class BaseModel(CRUDMixin, AbortMixin, JSONSerializerMixin, db.Model):
     '''
     __abstract__ = True
 
-    def delete(self):
+    def delete(self, commit=True):
         '''删除'''
         db.session.delete(self)
-        db.session.commit()
+        if commit:
+            db.session.commit()
 
     def _set_fields(self):
         self._exclude = []

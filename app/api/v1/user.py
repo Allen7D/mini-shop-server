@@ -96,7 +96,9 @@ def change_password():
 @api.route_meta(auth='查询自己拥有的权限', module='用户', mount=False)
 @api.doc(auth=True)
 @auth.login_required
-def get_auth_list():
+def get_auths():
     '''查询自己拥有的权限'''
-    rv = AuthDao.get_auth_list(user=g.user)
-    return Success(rv)
+    auth_list = AuthDao.get_auth_list(group_id=g.user.group_id)
+    return Success({
+        'items': auth_list
+    })

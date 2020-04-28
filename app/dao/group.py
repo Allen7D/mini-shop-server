@@ -53,5 +53,6 @@ class GroupDao():
             raise Forbidden(msg='分组下存在用户，不可删除')
 
         # 删除group拥有的权限
-        Auth.query.filter_by(group_id=id).delete()
-        group.delete()
+        with db.auto_commit():
+            Auth.query.filter_by(group_id=id).delete(commit=False)
+            group.delete(commit=False)

@@ -19,20 +19,44 @@
 * 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
 * 感谢慕课网的[七月老师](https://www.imooc.com/t/4294850)，本项目属于他课程思路的复现
-* QQ 交流群 163801325（聊天、斗图、学习、交流，伸手党勿进），欢迎入群一同讨论
-<div align="center">
-  <img alt="img" src="./media/qq_group_qr_code.jpg" width="250px">
-  <div>👆QQ 扫码 👆</div>
-</div>
+
+## 🎮 互动
+QQ交流群:聊天、斗图、学习、交流，伸手党勿进
+
+<table align="center">
+  <tr>
+    <td><img alt="img" src="./media/qq_group_qr_code.jpg" width="250px"></td>
+    <td><img alt="img" src="./media/qq_group_from_lin.png" width="250px"></td>
+  </tr>
+  <tr>
+    <td>
+    <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=ee34348c8d177a4218594598de6c3fb404861a1c7a7091cd9f4384e6dcd6ea32"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="葬爱代码家族群" title="葬爱代码家族群"></a>
+    </td>
+    <td>
+    <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=184ed5a00c7f903271f8d55beb814b7c9779347e114e2db51db7962bf9d016de"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="林间有风团队官方交流" title="林间有风团队官方交流"></a>
+    </td>
+  </tr>
+  <tr>
+  	<td>葬爱家族QQ交流群</td>
+  	<td>林间有风团队官方QQ交流群</td>
+  </tr>
+</table>
 
 
-## 亮点
-- [自动激活](#auto_active)虚拟环境(autoenv)
-- [装饰器的扩展](#extend_decorator)(对第三方库)
+## ✨ 亮点
 - 基于原生的 Flask 构建 RESTfull API
 - 更灵活的 API文档生成方式(可带 **Token**)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
 - Ubuntu 16.04上 Nginx + Gunicorn + Pipenv部署
+
+## 🔩 内置
+1. 用户管理：
+2. 权限组(角色)管理：接口权限分配和菜单权限分配。
+3. 字典管理：维护系统中的参数数据。
+4. 日志管理: 操作日志和登录日志
+5. 接口文档：根据业务代码自动生成相关的api接口文档(Swagger风格)。
+6. 文件上传(扩展模块)
+
 
 
 ## 目录
@@ -284,7 +308,7 @@ Controller层(业务层)
 <br>管理用户的操作，用户界面传过的请求，调用对应的服务（service），完成用户请求的处理.
 
 ### 自动生成 api 接口文档
-[Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。
+[Swagger](https://swagger.io/) 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful风格的 Web 服务。
 
 本项目使用 [Flasgger库](https://github.com/rochacbruno/flasgger)自动生成 Swagger 风格[(Demo)](https://editor.swagger.io/?_ga=2.211085136.492521077.1539840591-1920768432.1536803925)的API文档。
 
@@ -349,43 +373,9 @@ http://0.0.0.0:8080/static/images/1@theme.png
 http://0.0.0.0:8080/static/files/Python面向对象编程指南.epub
 ```
 
-#### 2. 「数据库内存储的文件」下载
-send_from_directory
-(占坑)
 
-## 骚操作
-### Python相关
-#### 1. <span id="auto_active">自动激活<span>
-进入项目目录时，自动激活项目所需的虚拟环境
 
-1.1 全局安装
-
- ```$ pip3 install autoenv```
-  
-1.2 配置
-
-项目根目录下创建.env文件<br>
-写入`pipenv shell`
-
-1.3 将 autoenv 的激活脚本写入 profile 文件中
-
-bash模式
-
-```bash
-$ echo "source `which activate.sh`" >> ~/.bashrc # 追加到 .bashrc 文件
-$ source ~/.bashrc
-```
-
-zsh模式
-
-```bash
-$ echo "source `which activate.sh`" >> ~/.zshrc
-$ source ~/.zshrc
-```
-
-1.4 完成
-
-#### 2. <span id="extend_decorator">对第三方库的装饰器的扩展<span>
+###对第三方库的装饰器的扩展
 具体查看 **`app/lib/redprint.py`** 的 **`doc`** 函数
 
 不改动第三方库 Flasgger的 swag_from(装饰器函数)的源码，对其进行了功能的扩展
@@ -465,10 +455,19 @@ stdout_logfile=/tmp/blog_stdout.log
 
 运行`supervisorctl restart server`
 
+## 使用
+
+### 第一步: 
+
+### 第二步:
+
+### 第三步: 
+
+
 ## 后续
 ### 三端分离
 #### 1.客户端: mini-shop-wx
-基于美团的 [mpvue框架](http://mpvue.com/)开发的微信小程序。（未开始，占坑）
+微信小程序。（未开始，占坑）
 
 #### 2.服务端: mini-shop-server
 基于 Flask框架构建 RESTful API。
@@ -478,7 +477,7 @@ stdout_logfile=/tmp/blog_stdout.log
 #### 3.CMS: mini-shop-cms
 基于 Vue.js框架和Element-UI组件库[链接](https://github.com/Allen7D/mini-shop-cms)
 
-## Python3 学习路线(皆亲测)
+## Python3 学习路线(亲测)
 路线: 1 -> 2 -> 3 -> 4
 
 1. [《全面系统 Python3 入门+进阶课程》](https://coding.imooc.com/class/136.html) 
@@ -509,3 +508,5 @@ stdout_logfile=/tmp/blog_stdout.log
 【10】[Lin-CMS](http://doc.cms.7yue.pro/)：优秀的 Flask & Vue 结合的前后端分离的 CMS 解决方案
 
 【11】[基于Linux环境搭建Nginx+uWSGI+Python框](https://segmentfault.com/a/1190000012918535?utm_medium=referral&utm_source=tuicool)
+
+

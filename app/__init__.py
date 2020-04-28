@@ -143,43 +143,9 @@ def apply_default_view(app):
 
 
 def apply_orm_admin(app):
-    from flask_admin import Admin
-    from app.extensions.orm_admin.base import ModelView
-    # 配置config
-    app.config.from_object('app.extensions.orm_admin.config')
-
-    object_origins = {}
-    for module, items in app.config['ALL_MODEL_BY_MODULE'].items():
-        for item in items:
-            object_origins[item] = module
-
-    admin = Admin(name='商城后台', template_mode='bootstrap3')
-    for model_name, module_name in object_origins.items():
-        model_module = import_module('app.models.{}'.format(module_name))
-        model = getattr(model_module, model_name)
-        try:
-            # model_view_module 可能不存在
-            model_view_module = import_module('app.extensions.orm_admin.model_views.{}'.format(module_name))
-            model_view = getattr(model_view_module, '{}View'.format(model_name), ModelView)
-        except ModuleNotFoundError as e:
-            model_view = ModelView
-        # admin添加model_view
-        # endpoint & url有默认值，也可以随意修改
-        lower_model_name = model_name.lower()
-        admin.add_view(model_view(model, db.session,
-                                  endpoint='admin.{}'.format(lower_model_name),
-                                  url='/admin/{}'.format(lower_model_name)))
-
-    apply_file_admin(admin)
-    admin.init_app(app)
-
-
-def apply_file_admin(admin):
-    # Admin添加文件管理系统
-    from flask_admin.contrib.fileadmin import FileAdmin
-    import os.path as op
-    path = op.join(op.dirname(__file__), 'static')
-    admin.add_view(FileAdmin(path, '/static/', name='静态资源'))
+    from app.extensions.orm_admin.admin import Extension
+    orm_admin = Extension(name='商城后台', template_mode='bootstrap3')
+    orm_admin.init_app(app)
 
 
 def apply_error_code_view(app):

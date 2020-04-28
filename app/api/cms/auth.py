@@ -3,6 +3,8 @@
   Created by Allen7D on 2020/3/24.
   ↓↓↓ 权限管理接口 ↓↓↓
 """
+from flask import request
+
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import auth as api_doc
 from app.core.token_auth import auth
@@ -23,6 +25,19 @@ def get_auths():
     '''查询所有可分配的权限'''
     auths = AuthDao.get_auths()
     return Success(auths)
+
+
+@api.route('/by_group', methods=['GET'])
+@api.route_meta(auth='查询权限组的所有权限')
+@api.doc(args=['query.group_id'], auth=True)
+@auth.admin_required
+def get_auths_by_group():
+    '''查询权限组的所有权限'''
+    group_id = int(request.args.get('group_id'))
+    auth_list = AuthDao.get_auth_list(group_id=group_id)
+    return Success({
+        'items': auth_list
+    })
 
 
 @api.route('', methods=['POST'])

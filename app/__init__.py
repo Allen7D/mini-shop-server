@@ -13,7 +13,6 @@ from werkzeug.exceptions import HTTPException
 from flask import Flask, redirect, url_for, g, request, _request_ctx_stack, current_app, render_template
 
 from app.core.db import db
-from app.core.json_encoder import JSONEncoder
 from app.core.redprint import RedprintAssigner, route_meta_infos
 from app.core.error import APIException, ServerError
 
@@ -108,6 +107,7 @@ def register_plugin(app):
 
 
 def apply_json_encoder(app):
+    from app.core.json_encoder import JSONEncoder
     app.json_encoder = JSONEncoder
 
 

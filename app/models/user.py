@@ -2,8 +2,9 @@
 """
   Created by Allen7D on 2018/5/31.
 """
-from flask import g
+from flask import g, request, current_app
 from sqlalchemy import Column, Integer, String, SmallInteger
+
 from app.libs.enums import ScopeEnum
 from app.core.db import EntityModel as Base, db
 from app.models.group import Group
@@ -24,6 +25,7 @@ class User(Base):
     mobile = Column(String(16), unique=True, comment='手机号(唯一)')
     auth = Column(SmallInteger, default=ScopeEnum.COMMON.value, comment='权限')
     group_id = Column(Integer, comment='用户所属的权限组id')
+    _avatar = Column('avatar', String(255), comment='头像url')
     _address = db.relationship('Address', backref='author', lazy='dynamic')  # 配送地址
     _order = db.relationship('Order', backref='author', lazy='dynamic')  # 订单
     extend = Column(String(255), comment='额外备注')
@@ -32,9 +34,19 @@ class User(Base):
         return '<User(id={0}, nickname={1})>'.format(self.id, self.nickname)
 
     def keys(self):
-        self.hide('openid', 'unionid', '_password', 'extend')
-        self.append('username', 'mobile', 'email', 'address', 'auth_scope')
+        self.hide('openid', 'unionid', '_password', '_avatar', 'extend')
+        self.append('username', 'mobile', 'email', 'avatar', 'address', 'auth_scope')
         return self.fields
+
+    @property
+    def avatar(self):
+        if self._avatar is not None:
+            host_url = request.host_url
+            host_url = host_url.split(',')[-1] if ',' in host_url else host_url
+            host_url = host_url[:-1]  # 当前host的路径 http://192.168.10.80:8010
+            static_url_path = current_app.static_url_path[1:] + '/avatars'  # static/avatars
+            return '{0}/{1}/{2}'.format(host_url, static_url_path, self._avatar)
+        return self._avatar
 
     # 登录的所有身份
     @property

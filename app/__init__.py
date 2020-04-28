@@ -13,7 +13,6 @@ from werkzeug.exceptions import HTTPException
 from flask import Flask, redirect, url_for, g, request, _request_ctx_stack, current_app, render_template
 
 from app.core.db import db
-from app.core.json_encoder import JSONEncoder
 from app.core.redprint import RedprintAssigner, route_meta_infos
 from app.core.error import APIException, ServerError
 
@@ -102,13 +101,13 @@ def register_plugin(app):
     # Debug模式(以下为非必选应用，且用户不可见)
     if app.config['DEBUG']:
         apply_request_log(app)  # 打印请求日志
-        apply_default_router(app)  # 应用默认路由
-        apply_error_code_view(app)
+        apply_default_view(app)  # 应用默认路由
         apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
         apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
 
 
 def apply_json_encoder(app):
+    from app.core.json_encoder import JSONEncoder
     app.json_encoder = JSONEncoder
 
 
@@ -125,7 +124,7 @@ def connect_db(app):
         db.create_all()  # 首次模型映射(ORM ==> SQL),若无则建表
 
 
-def apply_default_router(app):
+def apply_default_view(app):
     @app.route('/')
     def index():
         '''跳转到「首页」'''
@@ -139,6 +138,8 @@ def apply_default_router(app):
     def doc():
         '''跳转到「api文档」'''
         return redirect('/apidocs/#/')
+
+    apply_error_code_view(app)
 
 
 def apply_orm_admin(app):

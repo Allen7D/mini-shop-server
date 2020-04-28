@@ -49,7 +49,7 @@ class BaseValidator(PropVelifyMixin, WTForm):
     @property
     def dt_data(self):
         '''返回结果以dict的形式，常用于数据库查询'''
-        self._data._asdict()
+        return self._data._asdict()
 
     @property
     def nt_data(self):

@@ -5,8 +5,8 @@
 """
 
 from flask import request
-from wtforms import StringField, IntegerField, PasswordField, FileField, FieldList, MultipleFileField
-from wtforms.validators import DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, NumberRange
+from wtforms import BooleanField, StringField, IntegerField, PasswordField, FileField, FieldList, MultipleFileField
+from wtforms.validators import InputRequired, DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, NumberRange
 
 from app.libs.enums import ClientTypeEnum
 from app.models.user import User
@@ -271,3 +271,32 @@ class UploadFileValidator(BaseValidator):
 class UploadPDFValidator(BaseValidator):
     origin = FileField(validators=[DataRequired()])
     comparer = FileField(validators=[DataRequired()])
+
+
+########## 路由相关 ##########
+class MenuNodeValidator(BaseValidator):
+    id = IntegerField(validators=[NumberRange(min=0, message="id must over 0")])
+    children = FieldList(unbound_field=StringField(validators=[DataRequired()]), min_entries=1)
+
+
+class RouteNodeWithoutIdValidator(BaseValidator):
+    parent_id = IntegerField(validators=[NumberRange(min=0, message="parent id must over 0")])
+    title = StringField(validators=[DataRequired()])
+    name = StringField(validators=[DataRequired()])
+    icon = StringField(validators=[DataRequired()])
+    path = StringField(validators=[DataRequired()])
+    component = StringField(validators=[DataRequired()])
+    hidden = BooleanField(validators=[])
+    # hidden = BooleanField(validators=[InputRequired()])
+
+
+class RouteNodeValidator(RouteNodeWithoutIdValidator):
+    id = IntegerField(validators=[NumberRange(min=0, message="id must over 0")])
+
+
+class MenuGroupIdValidator(UpdateAdminValidator):
+    pass
+
+
+class MenuValidator(MenuGroupIdValidator):
+    routes = FieldList(unbound_field=IntegerField(validators=[DataRequired()]), min_entries=1)

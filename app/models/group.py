@@ -3,6 +3,7 @@
   Created by Allen7D on 2020/3/24.
 """
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship  # edit by mh
 
 from app.core.auth import get_ep_id
 from app.core.db import BaseModel as Base, db
@@ -16,6 +17,7 @@ class Group(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(60), unique=True, comment='权限组名称')
     info = Column(String(255), comment='权限组描述')
+    route = relationship('Route', secondary='menu', back_populates='group')  # edit by mh
 
     @property
     def auth_list(self):

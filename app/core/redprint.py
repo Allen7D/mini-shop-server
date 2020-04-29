@@ -12,7 +12,7 @@ __author__ = 'Allen7D'
 
 # 路由函数的权限和模块信息(meta信息)
 # name 权限名；module 权限所属模块
-Meta = namedtuple('meta', ['name', 'module'])
+Meta = namedtuple('Meta', ['name', 'module'])
 route_meta_infos = {}
 
 

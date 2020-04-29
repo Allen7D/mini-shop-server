@@ -47,24 +47,21 @@ class UserDao():
         with db.auto_commit():
             user = User.create(
                 commit=False,
-                username=getattr(form, 'username', None),
-                mobile=getattr(form, 'mobile', None),
-                email=getattr(form, 'email', None),
                 nickname=getattr(form, 'nickname', None),
                 auth=ScopeEnum.COMMON.value
             )
             if (hasattr(form, 'username')):
                 Identity.abort_repeat(identifier=form.username, msg='该用户名已被使用，请重新输入新的用户名')
                 Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.USERNAME.value, verified=1,
-                                     identifier=form.username, password=form.password)
+                                identifier=form.username, password=form.password)
             if (hasattr(form, 'mobile')):
                 Identity.abort_repeat(identifier=form.mobile, msg='手机号已被使用，请重新输入新的手机号')
                 Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.MOBILE.value,
-                                     identifier=form.mobile, password=form.password)
+                                identifier=form.mobile, password=form.password)
             if (hasattr(form, 'email')):
                 Identity.abort_repeat(identifier=form.email, msg='邮箱已被使用，请重新输入新的邮箱号')
                 Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.EMAIL.value,
-                                     identifier=form.email, password=form.password)
+                                identifier=form.email, password=form.password)
 
     @staticmethod
     def register_by_wx_mina(openid: str):
@@ -108,24 +105,27 @@ class UserDao():
                 Identity.abort_repeat(identifier=item['identifier'], msg=item['msg'])
                 identity = Identity.get(user_id=uid, type=item['type'])
                 if not identity:
+                    data = db.session.query(Identity._credential) \
+                        .filter(Identity.user_id == user.id, Identity._credential != None).first()
+                    credential = data[0]
                     Identity.create(
-                        commit=False, user_id=user.id, type=item['type'], identifier=item['identifier'])
+                        commit=False, user_id=user.id, type=item['type'], identifier=item['identifier'], credential=credential)
                 else:
                     identity.update(commit=False, identifier=item['identifier'])
 
-            user.update(
-                commit=False,
-                username=getattr(form, 'username', None),
-                mobile=getattr(form, 'mobile', None),
-                email=getattr(form, 'email', None),
-                nickname=getattr(form, 'nickname', None)
-            )
+            if hasattr(form, 'nickname'):
+                user.update(
+                    commit=False,
+                    nickname=form.nickname
+                )
 
     # 删除用户
     @staticmethod
     def delete_user(uid):
         user = User.query.filter_by(id=uid).first_or_404()
-        user.delete()
+        with db.auto_commit():
+            Identity.query.filter_by(user_id=user.id).delete(commit=False)
+            user.delete(commit=False)
 
     # 更换权限组
     @staticmethod

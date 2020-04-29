@@ -42,12 +42,7 @@ class Identity(Base):
 
     @credential.setter
     def credential(self, raw):
-        # 站内登录方式(用户名、手机、邮箱)的密码需要加密
-        if ClientTypeEnum(self.type) in current_app.config['CLINET_INNER_TYPES']:
-            self._credential = generate_password_hash(raw)
-        # 第三方应用的token
-        else:
-            self._credential = raw
+        self._credential = raw
 
     @property
     def password(self):

@@ -5,7 +5,7 @@
 from flask import g, request, current_app
 from sqlalchemy import Column, Integer, String, SmallInteger
 
-from app.libs.enums import ScopeEnum
+from app.libs.enums import ScopeEnum, ClientTypeEnum
 from app.core.db import EntityModel as Base, db
 from app.models.group import Group
 from app.models.identity import Identity
@@ -17,12 +17,7 @@ class User(Base):
     '''用户'''
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    openid = Column(String(50), unique=True, comment='小程序唯一ID(仅该小程序)')
-    unionid = Column(String(50), unique=True, comment='微信唯一ID(全网所有)')
     nickname = Column(String(24), comment='昵称')
-    username = Column(String(24), unique=True, comment='用户名(唯一)')
-    email = Column(String(50), unique=True, comment='邮箱(唯一)')
-    mobile = Column(String(16), unique=True, comment='手机号(唯一)')
     auth = Column(SmallInteger, default=ScopeEnum.COMMON.value, comment='权限')
     group_id = Column(Integer, comment='用户所属的权限组id')
     _avatar = Column('avatar', String(255), comment='头像url')
@@ -34,9 +29,21 @@ class User(Base):
         return '<User(id={0}, nickname={1})>'.format(self.id, self.nickname)
 
     def keys(self):
-        self.hide('openid', 'unionid', '_password', '_avatar', 'extend')
-        self.append('username', 'mobile', 'email', 'avatar', 'address', 'auth_scope')
+        self.hide('_password', '_avatar', 'extend')
+        self.append('username', 'mobile', 'email', 'openid', 'unionid', 'avatar', 'address', 'auth_scope')
         return self.fields
+
+    @property
+    def username(self):
+        return Identity.get(user_id=self.id, type=ClientTypeEnum.USERNAME.value).identifier
+
+    @property
+    def mobile(self):
+        return Identity.get(user_id=self.id, type=ClientTypeEnum.MOBILE.value).identifier
+
+    @property
+    def email(self):
+        return Identity.get(user_id=self.id, type=ClientTypeEnum.EMAIL.value).identifier
 
     @property
     def avatar(self):

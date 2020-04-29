@@ -8,6 +8,7 @@ from flask import g
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import user as api_doc
 from app.core.token_auth import auth
+from app.models.user import User
 from app.dao.user import UserDao
 from app.dao.auth import AuthDao
 from app.dao.identity import IdentityDao
@@ -24,8 +25,8 @@ api = Redprint(name='user', description='用户', api_doc=api_doc)
 @auth.login_required
 def get_user():
     '''查询自身'''
-    # g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
-    return Success(g.user)
+    user = User.get(id=g.user.id)
+    return Success(user)
 
 
 @api.route('', methods=['POST'])
@@ -43,7 +44,7 @@ def create_user():
 @auth.login_required
 def update_user():
     '''更新自身'''
-    form = UpdateUserValidator().get_data()
+    form = UpdateUserValidator().nt_data
     UserDao.update_user(uid=g.user.id, form=form)
     return Success(error_code=1)
 

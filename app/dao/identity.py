@@ -40,15 +40,26 @@ class IdentityDao():
         # 判断是否是网站内部的身份类型
         if ClientTypeEnum(type) in current_app.config['CLINET_INNER_TYPES']:
             with db.auto_commit():
-                attr = ClientTypeEnum(type).name.lower()
                 user = User.get(id=user_id)
+                attr = ClientTypeEnum(type).name.lower()
                 setattr(user, attr, identifier)
-                user.save(commit=False)
                 Identity.create(commit=False, user_id=user_id, type=type,
-                                     identifier=identifier, credential=credential)
+                                identifier=identifier, credential=credential)
+                user.save(commit=False)
         # 第三方平台，则无需修改用户信息
         else:
             Identity.create(user_id=user_id, type=type, identifier=identifier)
+
+    # 更新身份
+    @staticmethod
+    def update_identity(commit=True, user_id=None, identifier=None, credential=None, type=None):
+        identity = Identity.get(user_id=user_id, type=type)
+        if identity:
+            identity.update(commit=commit,
+                            identifier=identifier, credential=credential)
+        else:
+            Identity.create(commit=commit, user_id=user_id, type=type,
+                            identifier=identifier, credential=credential)
 
     # 删除身份
     @staticmethod
@@ -65,3 +76,16 @@ class IdentityDao():
                 user.save(commit=False)
             identity = Identity.get_or_404(user_id=user_id, type=type)
             identity.hard_delete(commit=False)  # 硬删除
+
+    # 获取加密后的密码
+    @staticmethod
+    def get_credential(user_id):
+        credential, = db.session.query(Identity._credential).filter(
+            Identity.user_id == user_id,
+            Identity.type.in_([
+                ClientTypeEnum.USERNAME.value,
+                ClientTypeEnum.EMAIL.value,
+                ClientTypeEnum.MOBILE.value]),
+            Identity._credential != None
+        ).first()
+        return credential

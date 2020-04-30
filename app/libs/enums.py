@@ -17,7 +17,8 @@ class ClientTypeEnum(Enum):
     MOBILE = 102  # 手机登录
     # 微信
     WX_MINA = 200  # 微信小程序(该小程序的openid)
-    WX_OPEN = 201  # 微信第三方登录(Web端)
+    WX_MINA_UNIONID = 201  # 微信唯一ID(全网所有))
+    WX_OPEN = 202  # 微信第三方登录(Web端)
     WX_ACCOUNT = 203  # 微信第三方登录(公众号H5端)
 
     # 腾讯QQ

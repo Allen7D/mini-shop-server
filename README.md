@@ -106,7 +106,7 @@ $ mysql -u root -p123456 # 直接输入密码，进入(我的密码是: 123456)
  上面命令输入之后，会提示输入密码(Enter password)
 
 #### 三、导入
-下载 MySQL数据  [SQL文件](https://github.com/bodanli159951/mini-shop-server/blob/master/zerd.sql)
+下载 MySQL数据  [SQL文件](https://server.mini-shop.ivinetrue.com/static/files/zerd.sql)
 
 > mysql的每条执行以「分号」结尾
 ```

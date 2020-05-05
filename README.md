@@ -467,7 +467,7 @@ stdout_logfile=/tmp/blog_stdout.log
 ## 后续
 ### 三端分离
 #### 1.客户端: mini-shop-wx
-微信小程序。（未开始，占坑）
+微信小程序n[链接](https://github.com/Allen7D/mini-shop-wx)。
 
 #### 2.服务端: mini-shop-server
 基于 Flask框架构建 RESTful API。
@@ -475,7 +475,7 @@ stdout_logfile=/tmp/blog_stdout.log
 点击查阅 [API文档](http://118.25.25.229/apidocs/#/)(Swagger风格)
 
 #### 3.CMS: mini-shop-cms
-基于 Vue.js框架和Element-UI组件库[链接](https://github.com/Allen7D/mini-shop-cms)
+基于 Vue.js框架和Element-UI组件库 [链接](https://github.com/Allen7D/mini-shop-cms)
 
 ## Python3 学习路线(亲测)
 路线: 1 -> 2 -> 3 -> 4

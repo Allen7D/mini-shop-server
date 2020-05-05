@@ -28,7 +28,7 @@ def get_auths():
 
 
 @api.route('/by_group', methods=['GET'])
-@api.route_meta(auth='查询权限组的所有权限')
+@api.route_meta(auth='查询权限组的所有权限', module='管理员', mount=False)
 @api.doc(args=['query.group_id'], auth=True)
 @auth.admin_required
 def get_auths_by_group():

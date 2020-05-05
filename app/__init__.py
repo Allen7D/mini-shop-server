@@ -99,12 +99,11 @@ def register_plugin(app):
     handle_error(app)  # 统一处理异常
 
     # Debug模式(以下为非必选应用，且用户不可见)
+    apply_default_view(app)  # 应用默认路由
+    apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
+    apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
     if app.config['DEBUG']:
         apply_request_log(app)  # 打印请求日志
-        apply_default_view(app)  # 应用默认路由
-        apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
-        apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
-
 
 def apply_json_encoder(app):
     from app.core.json_encoder import JSONEncoder

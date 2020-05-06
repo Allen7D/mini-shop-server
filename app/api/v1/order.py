@@ -23,7 +23,7 @@ from app.service.order import OrderService
 from app.models.order import Order
 from app.dao.order import OrderDao
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, OrderPlaceValidator, IDMustBePositiveIntValidator
+from app.validators.forms import PaginateValidator, OrderPlaceValidator, OrderIDValidator
 
 __author__ = 'Allen7D'
 
@@ -80,6 +80,6 @@ def get_list_by_summary():
 @auth.group_required
 def delivery():
     '''订单发货'''
-    order_id = IDMustBePositiveIntValidator().validate_for_api().id.data
+    order_id = OrderIDValidator().nt_data.order_id
     result = OrderService.delivery(order_id)
     Success(result)

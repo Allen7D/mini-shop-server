@@ -54,5 +54,14 @@ class GroupDao():
 
         # 删除group拥有的权限
         with db.auto_commit():
-            Auth.query.filter_by(group_id=id).delete(commit=False)
-            group.delete(commit=False)
+            db.session.query(Auth).filter(
+                Auth.group_id == id
+            ).delete(synchronize_session=False)
+            group.hard_delete(commit=False)
+
+    # 迁移权限组
+    @staticmethod
+    def migrate_users(src_id, dest_id):
+        with db.auto_commit():
+            db.session.query(User).filter(User.group_id == src_id) \
+                .update({User.group_id: dest_id})

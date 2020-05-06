@@ -7,7 +7,9 @@ from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import theme as api_doc
 from app.core.token_auth import auth
 from app.models.theme import Theme
+from app.dao.theme import ThemeDao
 from app.libs.error_code import Success
+from app.validators.base import BaseValidator
 from app.validators.forms import PaginateValidator, IDCollectionValidator
 
 __author__ = 'Allen7D'
@@ -75,8 +77,30 @@ def update_theme(id):
 
 @api.route('/<int:id>', methods=['DELETE'])
 @api.route_meta(auth='删除主题', module='主题')
-@api.doc(auth=True)
+@api.doc(args=['g.path.theme_id'], auth=True)
 @auth.group_required
 def delete_theme(id):
     '''删除主题'''
+    return Success(error_code=2)
+
+
+@api.route('/<int:id>/product', methods=['POST'])
+@api.route_meta(auth='添加商品到主题', module='主题')
+@api.doc(args=['g.path.theme_id', 'g.body.product_id'], auth=True)
+@auth.group_required
+def append_product(id):
+    '''添加商品到主题'''
+    product_id = BaseValidator.get_args_json().product_id
+    ThemeDao.append_product(t_id=id, p_id=product_id)
+    return Success(error_code=1)
+
+
+@api.route('/<int:id>/product', methods=['DELETE'])
+@api.route_meta(auth='删除商品从主题', module='主题')
+@api.doc(args=['g.path.theme_id', 'g.body.product_id'], auth=True)
+@auth.group_required
+def delete_product(id):
+    '''删除商品从主题'''
+    product_id = BaseValidator.get_args_json().product_id
+    ThemeDao.delete_product(t_id=id, p_id=product_id)
     return Success(error_code=2)

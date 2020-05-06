@@ -2,12 +2,15 @@
 """
   Created by Allen7D on 2020/3/13.
 """
-from app.core.swagger_filed import IntegerQueryFiled, IntegerPathFiled, StringPathFiled, StringQueryFiled, BodyField
+from app.core.swagger_filed import IntegerQueryFiled, IntegerPathFiled, \
+    StringPathFiled, StringQueryFiled, ArrayQueryField, \
+    BodyField
 
 __author__ = 'Allen7D'
 
 # Token登录相关
-token_in_body = BodyField(name='token', type='string', description='Token', enum=['eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4NjM2ODEzMCwiZXhwIjoxNTg4OTYwMTMwfQ.eyJ1aWQiOjEsInR5cGUiOjEwMCwic2NvcGUiOiLns7vnu5_nrqHnkIblkZgifQ.ovFuc5Ti5zGm5B7JS7AGOBBmrYHGCRsVk9OFAWb88LhY7v9Ubw4c_3xGik7K8Emd6_fz4Ho6Hk3GI1_fjcSIww'])
+token_in_body = BodyField(name='token', type='string', description='Token', enum=[
+    'eyJhbGciOiJIUzUxMiIsImlhdCI6MTU4NjM2ODEzMCwiZXhwIjoxNTg4OTYwMTMwfQ.eyJ1aWQiOjEsInR5cGUiOjEwMCwic2NvcGUiOiLns7vnu5_nrqHnkIblkZgifQ.ovFuc5Ti5zGm5B7JS7AGOBBmrYHGCRsVk9OFAWb88LhY7v9Ubw4c_3xGik7K8Emd6_fz4Ho6Hk3GI1_fjcSIww'])
 account_in_body = BodyField(name='account', type='string', description='用户名(此处可以传邮箱，或者微信登录的code)', enum=["666@qq.com"])
 secret_in_body = BodyField(name='secret', type='string', description='密码', enum=["123456"])
 type_in_body = BodyField(name='type', type='integer', description='登录方式', enum=[101])
@@ -16,44 +19,49 @@ type_in_body = BodyField(name='type', type='integer', description='登录方式'
 page = IntegerQueryFiled(name='page', description="第几页", enum=[1, 2, 3, 4, 5], default=1)
 size = IntegerQueryFiled(name='size', description="每页大小", enum=[10, 20, 30, 40, 50, 100], default=10)
 
-
 uid_in_path = IntegerPathFiled(
     name='uid', description="用户ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
 uid_in_query = IntegerQueryFiled(
     name='uid', description="用户ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
 
 product_id_in_path = IntegerPathFiled(
-    name='id', description="商品 ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+    name='id', description="商品ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 product_id_in_query = IntegerQueryFiled(
-    name='id', description="商品 ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+    name='product_id', description="商品ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+product_id_in_body = BodyField(
+    name='product_id', type='integer', description="商品ID", enum=[1, 2, 3, 4, 5, 10, 15, 20])
 
 category_id_in_path = IntegerPathFiled(
     name='id', description="类别 ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 category_id_in_query = IntegerQueryFiled(
-    name='id', description="类别 ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+    name='category_id', description="类别 ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 
 theme_id_in_path = IntegerPathFiled(
     name='id', description="主题ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 theme_id_in_query = IntegerQueryFiled(
-    name='id', description="主题ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+    name='theme_id', description="主题ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 
 banner_id_in_path = IntegerPathFiled(
     name='id', description="轮播图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 banner_id_in_query = IntegerQueryFiled(
-    name='id', description="轮播图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+    name='banner_id', description="轮播图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 
 order_id_in_path = IntegerPathFiled(
     name='id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 order_id_in_query = IntegerQueryFiled(
-    name='id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+    name='order_id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 
 # 权限组
 group_id_in_path = IntegerPathFiled(
     name='id', description="权限组ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 group_id_in_query = IntegerQueryFiled(
-    name='id', description="权限组ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+    name='group_id', description="权限组ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 group_id_in_body = BodyField(
-    name='group_id', type='string', description="权限组ID", enum=[1, 2, 3, 4, 5, 10, 15, 20])
+    name='group_id', type='integer', description="权限组ID", enum=[1, 2, 3, 4, 5, 10, 15, 20])
+src_id_in_body = BodyField(
+    name='src_id', type='integer', description="源权限组ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100])
+dest_id_in_body = BodyField(
+    name='dest_id', type='integer', description="目标权限组ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100])
 
 # 权限
 auth_ids_in_body = BodyField(name='auth_ids', type='array', description='权限ID列表',
@@ -77,8 +85,13 @@ address_id_in_path = IntegerPathFiled(
 
 # File
 file_id_in_path = IntegerPathFiled(
-    name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
+    name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
 file_id_in_query = IntegerQueryFiled(
-    name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
+    name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
+file_ids_in_query = ArrayQueryField(
+    name='ids', description='文件ID集(多选)',
+    item_type='integer', enum=[1, 2, 3, 4, 5, 10, 100],
+    default=1, required=True)
 
-filename_in_query = StringQueryFiled(name='filename', description='文件名', enum=['virtualmachine1.png', 'cellphone.png'], required=True)
+filename_in_query = StringQueryFiled(name='filename', description='文件名', enum=['virtualmachine1.png', 'cellphone.png'],
+                                     required=True)

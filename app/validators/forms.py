@@ -209,6 +209,23 @@ class CategoryIDValidator(BaseValidator):
         self.category_id.data = int(id)
 
 
+class ReorderValidator(BaseValidator):
+    src_order = IntegerField(validators=[DataRequired()])
+    dest_order = IntegerField(validators=[DataRequired()])
+
+    def validate_src_order(self, value):
+        id = value.data
+        if not self.isPositiveInteger(id):
+            raise ValidationError(message='ID 必须为正整数')
+        self.src_order.data = int(id)
+
+    def validate_dest_order(self, value):
+        id = value.data
+        if not self.isPositiveInteger(id):
+            raise ValidationError(message='ID 必须为正整数')
+        self.dest_order.data = int(id)
+
+
 ########## 订单相关 ##########
 class OrderPlaceValidator(BaseValidator):
     products = StringField()

@@ -19,17 +19,13 @@ class Theme2Product(Base):
 class Product2Image(Base):
     __tablename__ = 'product_image'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, comment='外键, 商品id')
     img_id = Column(Integer, ForeignKey('image.id'), nullable=False, comment='外键，关联图片表')
     order = Column(Integer, nullable=False, comment='图片排序序号')
-    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, comment='外键, 商品id')
 
     def keys(self):
-        self.hide('id', 'img_id', 'product_id', 'order').append('img_url')
+        self.hide('id')
         return self.fields
-
-    @property
-    def img_url(self):
-        return Image.get_img_by_id(id=self.img_id).url
 
 
 class Product2Property(Base):

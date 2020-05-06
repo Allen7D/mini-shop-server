@@ -40,6 +40,17 @@ def get_auths_by_group():
     })
 
 
+@api.route('by_group', methods=['DELETE'])
+@api.route_meta(auth='删除权限组的所有权限', module='管理员', mount=False)
+@api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
+@auth.admin_required
+def delete_auths_by_group():
+    '''删除权限组的所有权限'''
+    group_id = int(request.args.get('group_id'))
+    AuthDao.delete_auths_by_group(group_id=group_id)
+    return Success(error_code=2)
+
+
 @api.route('', methods=['POST'])
 @api.route_meta(auth='新增多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)

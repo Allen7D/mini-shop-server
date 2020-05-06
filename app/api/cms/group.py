@@ -45,8 +45,8 @@ def get_group(id):
 @auth.admin_required
 def create_group():
     '''新建权限组'''
-    validator = BaseValidator.get_data()
-    GroupDao.create_group(name=validator.name, auth_ids=validator.auth_ids, info=validator.info)
+    form = BaseValidator.get_args_json()
+    GroupDao.create_group(name=form.name, auth_ids=form.auth_ids, info=form.info)
     return Success(error_code=1)
 
 
@@ -55,7 +55,7 @@ def create_group():
 @auth.admin_required
 def update_group(id):
     '''更新权限组'''
-    form = UpdateGroupValidator().get_data()
+    form = UpdateGroupValidator().nt_data
     GroupDao.update_group(id=id, name=form.name, info=form.info)
     return Success(error_code=1)
 

@@ -67,3 +67,13 @@ def delete_group(id):
     '''删除权限组'''
     GroupDao.delete_group(id=id)
     return Success(error_code=2)
+
+
+@api.route('/migrate', methods=['PUT'])
+@api.doc(args=['g.body.src_id', 'g.body.dest_id'], auth=True)
+@auth.admin_required
+def migrate_users():
+    '''迁移权限组下的用户'''
+    validator = BaseValidator.get_args_json()
+    GroupDao.migrate_users(src_id=validator.src_id, dest_id=validator.dest_id)
+    return Success(error_code=1)

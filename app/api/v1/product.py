@@ -9,7 +9,7 @@ from app.core.token_auth import auth
 from app.models.product import Product
 from app.dao.product import ProductDao
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, CountValidator, IDMustBePositiveIntValidator
+from app.validators.forms import PaginateValidator, CountValidator, CategoryIDValidator
 
 __author__ = 'Allen7D'
 
@@ -28,8 +28,8 @@ def get_recent():
 @api.route('/all/by_category', methods=['GET'])
 @api.doc(args=['g.query.category_id'])
 def get_all_by_category():
-    '''查询某类别所有商品'''
-    category_id = IDMustBePositiveIntValidator().get_data().id
+    '''查询类别下所有商品'''
+    category_id = CategoryIDValidator().nt_data.category_id
     product_list = Product.query.filter_by(category_id=category_id).all_by_wrap()
     return Success(product_list)
 
@@ -38,8 +38,8 @@ def get_all_by_category():
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.category_id'], auth=True)
 @auth.login_required
 def get_list_by_category():
-    '''查询某类别商品列表'''
-    category_id = IDMustBePositiveIntValidator().get_data().id
+    '''查询类别下商品列表'''
+    category_id = CategoryIDValidator().nt_data.category_id
     paginate = PaginateValidator().get_data()
 
     rv = ProductDao.get_list_by_category(category_id=category_id, page=paginate.page, size=paginate.size)

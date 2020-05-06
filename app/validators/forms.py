@@ -23,7 +23,7 @@ class IDMustBePositiveIntValidator(BaseValidator):
         id = value.data
         if not self.isPositiveInteger(id):
             raise ValidationError(message='ID 必须为正整数')
-        self.id.data = id
+        self.id.data = int(id)
 
 
 class IDCollectionValidator(BaseValidator):
@@ -107,7 +107,6 @@ class UserEmailValidator(ClientValidator):
     def validate_account(self, value):
         User.abort_repeat(msg='该用户已注册')
         self.account.data = value.data
-
 
 
 class UpdateUserValidator(BaseValidator):
@@ -200,6 +199,16 @@ class CountValidator(BaseValidator):
         self.count.data = int(count)
 
 
+class CategoryIDValidator(BaseValidator):
+    category_id = IntegerField(validators=[DataRequired()])
+
+    def validate_category_id(self, value):
+        id = value.data
+        if not self.isPositiveInteger(id):
+            raise ValidationError(message='ID 必须为正整数')
+        self.category_id.data = int(id)
+
+
 ########## 订单相关 ##########
 class OrderPlaceValidator(BaseValidator):
     products = StringField()
@@ -219,6 +228,16 @@ class OrderPlaceValidator(BaseValidator):
                 raise ValidationError(message='商品列表参数错误')
 
         self.products.data = products
+
+
+class OrderIDValidator(BaseValidator):
+    order_id = IntegerField(validators=[DataRequired()])
+
+    def validate_order_id(self, value):
+        id = value.data
+        if not self.isPositiveInteger(id):
+            raise ValidationError(message='ID 必须为正整数')
+        self.order_id.data = int(id)
 
 
 ########## 上传相关 ##########

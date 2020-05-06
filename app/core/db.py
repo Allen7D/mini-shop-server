@@ -74,6 +74,12 @@ class Query(BaseQuery):
         rv = list(self)
         return rv if len(rv) != 0 else []
 
+    def all_or_404(self, e=None, error_code=None, msg=None):
+        rv = self.all()
+        if not rv:
+            raise e if e else NotFound(error_code=error_code, msg=msg)
+        return rv
+
     def all_by_wrap(self, wrap='items'):
         rv = self.all()
         return {wrap: rv} if wrap else rv

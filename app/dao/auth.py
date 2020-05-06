@@ -58,3 +58,11 @@ class AuthDao():
             .filter_by(group_id=group_id).all()
         auth_list = [{'id': get_ep_id(auth[0]), 'name': auth[0], 'module': auth[1]} for auth in auth_list]
         return auth_list
+
+    # 清空某个权限组的权限
+    @staticmethod
+    def delete_auths_by_group(group_id):
+        with db.auto_commit():
+            db.session.query(Auth).filter(
+                Auth.group_id == group_id
+            ).delete(synchronize_session=False)

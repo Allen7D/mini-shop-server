@@ -54,9 +54,8 @@ def update_user():
 @auth.login_required
 def bind_identity():
     '''绑定账号'''
-    account = BaseValidator.get_args_json()['account']
-    type = BaseValidator.get_args_json()['type']
-    IdentityDao.bind(user_id=g.user.id, identifier=account, type=type)
+    validator = BaseValidator.get_args_json()
+    IdentityDao.bind(user_id=g.user.id, identifier=validator.account, type=validator.type)
     pass
 
 
@@ -65,7 +64,7 @@ def bind_identity():
 @auth.login_required
 def unbind_identity():
     '''解绑账号'''
-    type = BaseValidator.get_args_json()['type']
+    type = BaseValidator.get_args_json().type
     IdentityDao.unbind(user_id=g.user.id, type=type)
     return Success()
 

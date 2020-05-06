@@ -39,6 +39,14 @@ def get_category_list():
     })
 
 
+@api.route('/<int:id>', methods=['GET'])
+@api.doc(args=['g.path.category_id'])
+def get_category(id):
+    '''查询类别'''
+    category = Category.get_or_404(id=id)
+    return Success(category)
+
+
 @api.route('', methods=['POST'])
 @api.route_meta(auth='新增类别', module='类别')
 @api.doc(auth=True)

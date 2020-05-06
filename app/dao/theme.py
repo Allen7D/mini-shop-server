@@ -15,13 +15,13 @@ class ThemeDao():
     def append_product(t_id, p_id):
         theme, product = ThemeDao._check_relation_exist(t_id, p_id)
         with db.auto_commit():
-            theme.product.append(product)
+            theme.products.append(product)
 
     @staticmethod
     def delete_product(t_id, p_id):
         theme, product = ThemeDao._check_relation_exist(t_id, p_id)
         with db.auto_commit():
-            theme.product.remove(product)
+            theme.products.remove(product)
 
     @staticmethod
     def _check_relation_exist(t_id, p_id):

@@ -4,10 +4,13 @@
 """
 from flask import g, request, current_app
 from sqlalchemy import Column, Integer, String, SmallInteger
+from sqlalchemy.orm import relationship, backref
 
 from app.libs.enums import ScopeEnum, ClientTypeEnum
 from app.core.db import EntityModel as Base, db
 from app.models.group import Group
+from app.models.address import Address
+from app.models.order import Order
 from app.models.identity import Identity
 
 __author__ = 'Allen7D'
@@ -21,8 +24,8 @@ class User(Base):
     auth = Column(SmallInteger, default=ScopeEnum.COMMON.value, comment='权限')
     group_id = Column(Integer, comment='用户所属的权限组id')
     _avatar = Column('avatar', String(255), comment='头像url')
-    _address = db.relationship('Address', backref='author', lazy='dynamic')  # 配送地址
-    _order = db.relationship('Order', backref='author', lazy='dynamic')  # 订单
+    address = relationship('Address', backref=backref('user', uselist=False))  # 配送地址
+    order = relationship('Order', backref=backref('user', uselist=False))  # 订单
     extend = Column(String(255), comment='额外备注')
 
     def __repr__(self):
@@ -59,16 +62,6 @@ class User(Base):
     @property
     def identities(self):
         return Identity.get_all(user_id=self.id)
-
-    # 用户的订单
-    @property
-    def order(self):
-        return self._order.all()
-
-    # 用户所有的配送信息
-    @property
-    def address(self):
-        return self._address.all()
 
     @property
     def auth_scope(self):

@@ -9,7 +9,7 @@ from app.core.token_auth import auth
 from app.models.product import Product
 from app.dao.product import ProductDao
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, CountValidator, CategoryIDValidator
+from app.validators.forms import PaginateValidator, CountValidator, CategoryIDValidator, ReorderValidator
 
 __author__ = 'Allen7D'
 
@@ -80,3 +80,13 @@ def delete_product(id):
     '''删除商品'''
     ProductDao.delete_product(id)
     return Success(error_code=2)
+
+@api.route('/<int:id>/reorder', methods=['PUT'])
+@api.route_meta(auth='排序商品图片', module='商品')
+@api.doc(args=['g.path.product_id', 'g.body.src_order', 'g.body.dest_order'], auth=True)
+@auth.group_required
+def reorder_image(id):
+    '''排序商品图片'''
+    validator = ReorderValidator().nt_data
+    ProductDao.reorder_image(p_id=id, src_order=validator.src_order, dest_order=validator.dest_order)
+    return Success(error_code=1)

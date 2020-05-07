@@ -81,6 +81,7 @@ def delete_product(id):
     ProductDao.delete_product(id)
     return Success(error_code=2)
 
+
 @api.route('/<int:id>/reorder', methods=['PUT'])
 @api.route_meta(auth='排序商品图片', module='商品')
 @api.doc(args=['g.path.product_id', 'g.body.src_order', 'g.body.dest_order'], auth=True)

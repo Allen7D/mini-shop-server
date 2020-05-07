@@ -24,6 +24,7 @@ class User(Base):
     auth = Column(SmallInteger, default=ScopeEnum.COMMON.value, comment='权限')
     group_id = Column(Integer, comment='用户所属的权限组id')
     _avatar = Column('avatar', String(255), comment='头像url')
+    identities = relationship('Identity', backref=backref('user', uselist=False))  # 身份
     address = relationship('Address', backref=backref('user', uselist=False))  # 配送地址
     order = relationship('Order', backref=backref('user', uselist=False))  # 订单
     extend = Column(String(255), comment='额外备注')
@@ -57,11 +58,6 @@ class User(Base):
             static_url_path = current_app.static_url_path[1:] + '/avatars'  # static/avatars
             return '{0}/{1}/{2}'.format(host_url, static_url_path, self._avatar)
         return self._avatar
-
-    # 登录的所有身份
-    @property
-    def identities(self):
-        return Identity.get_all(user_id=self.id)
 
     @property
     def auth_scope(self):

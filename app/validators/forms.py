@@ -51,7 +51,7 @@ class PaginateValidator(BaseValidator):
 ########## 登录相关 ##########
 class ClientValidator(BaseValidator):
     account = StringField(validators=[DataRequired(message='账户不为空'),
-                                      length(min=5, max=32)])
+                                      length(min=4, max=32)])
     secret = StringField()
     type = IntegerField(validators=[DataRequired()])
 
@@ -287,7 +287,6 @@ class RouteNodeWithoutIdValidator(BaseValidator):
     path = StringField(validators=[DataRequired()])
     component = StringField(validators=[DataRequired()])
     hidden = BooleanField(validators=[])
-    # hidden = BooleanField(validators=[InputRequired()])
 
 
 class RouteNodeValidator(RouteNodeWithoutIdValidator):
@@ -295,7 +294,8 @@ class RouteNodeValidator(RouteNodeWithoutIdValidator):
 
 
 class MenuGroupIdValidator(UpdateAdminValidator):
-    pass
+    def validate_group_id(self, value):
+        self.group_id.data = int(value.group_id)
 
 
 class MenuValidator(MenuGroupIdValidator):

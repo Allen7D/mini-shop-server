@@ -2,22 +2,22 @@
 """
     Created by Mohan on 2020/05/06
     [mini-shop-server]Menu:
-    
+
 """
 __author__ = "Mohan"
 
 from app.models.group import Group
 from app.models.route import Route
 from app.models.menu import Menu
-from app.dao.route import Tree, RouteNode
+from app.dao.route import RouteTree, RouteNode
 from app.core.db import db
-from app.core.error import Forbidden, RepeatException
 
 
 class MenuDao(object):
     @staticmethod
     def get_routes(gid: int) -> dir:
-        id2route_node = {route.id: dict(route) for route in Group.get(id=gid).route}
+        print(gid, type(gid))
+        id2route_node = {route.id: dict(route) for route in Group.get_or_404(id=gid).route}
         id2route_node_clone = id2route_node.copy()
 
         def add_parent_node(cur_route_node):
@@ -32,7 +32,8 @@ class MenuDao(object):
         for route_node in id2route_node.values():
             add_parent_node(route_node)
 
-        t = Tree(RouteNode)
+        t = RouteTree(RouteNode)
+        print([route_node for route_node in id2route_node_clone.values()])
         t.generate_by_list([route_node for route_node in id2route_node_clone.values()])
         return t.serialize()['children']
 
@@ -48,9 +49,21 @@ class MenuDao(object):
     @staticmethod
     def delete_routes(gid, routes):
         with db.auto_commit():
-            for route_id in routes:
-                menu = Menu.get_or_404(
-                    group_id=gid,
-                    route_id=route_id,
-                    msg='该路由不在指定权限组内'
-                ).delete(commit=False)
+            Menu.query.filter(
+                Menu.group_id == gid,
+                Menu.route_id.in_(routes)
+            ).delete(synchronize_session=False)
+
+    @staticmethod
+    def cover_menus(group_id, routes):
+        Menu.query.filter_by(group_id=group_id).delete(synchronize_session=False)
+        t = RouteTree()
+        t.generate_by_dir({
+            'id': 0,
+            'children': routes
+        })
+
+        with db.auto_commit():
+            for route in t.deserialize():
+                Menu.create(group_id=group_id, route_id=route['id'])
+

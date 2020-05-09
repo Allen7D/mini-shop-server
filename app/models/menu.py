@@ -16,12 +16,3 @@ class Menu(Base):
     __tablename__ = 'menu'
     group_id = Column(Integer, ForeignKey('group.id'), primary_key=True, comment='外键 权限组ID')
     route_id = Column(Integer, ForeignKey('route.id'), primary_key=True, comment='外键 路由节点ID')
-
-    # def __repr__(self):
-    #     return "<Menus(group_id=%s, route_id=%s, title=%s, name=%s)>" %\
-    #            (self.group_id, self.route_id, self.title, self.name)
-
-    def keys(self):
-        self.hide('_route', '_group')
-        self.append('create_time', 'update_time')
-        return self.fields

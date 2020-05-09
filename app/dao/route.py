@@ -13,8 +13,20 @@ __author__ = 'Mohan'
 
 
 class RouteNode(TreeNode):
-    def __init__(self, id=None, parent_id=None, title=None, name=None, icon=None, path=None, component=None, hidden=None):
+    def __init__(
+            self,
+            id=None,
+            order=None,
+            parent_id=None,
+            title=None,
+            name=None,
+            icon=None,
+            path=None,
+            component=None,
+            hidden=None,
+            **kwargs):
         super(RouteNode, self).__init__(id=id, parent_id=parent_id)
+        self.order = order
         self.title = title
         self.name = name
         self.icon = icon
@@ -24,7 +36,7 @@ class RouteNode(TreeNode):
 
     def keys(self):
         attrs = super(RouteNode, self).keys()
-        return attrs + ('title', 'name', 'icon', 'path', 'component', 'hidden')
+        return attrs + ('order', 'title', 'name', 'icon', 'path', 'component', 'hidden')
 
 
 class RouteTree(Tree):
@@ -40,19 +52,26 @@ class RouteDao(object):
         return t.serialize()
 
     @staticmethod
-    def change_route(route_dir):
+    def change_route(route_list: list):
         cur_t = RouteTree()
-        cur_t.generate_by_dir(route_dir)
+        cur_t.generate_by_dir({
+            'id': 0,
+            'children': route_list
+        })
         cur_list = cur_t.deserialize()
-        for cur_route in cur_list:
-            old_route = Route.get(id=cur_route['id'])
-            if old_route and\
-                    old_route.parent_id != cur_route['parent_id']:
-                old_route.update(id=cur_route['id'], parent_id=cur_route['parent_id'], commit=False)
-        pass
+        with db.auto_commit():
+            for cur_route in cur_list:
+                old_route = Route.get(id=cur_route['id'])
+                if old_route and \
+                        old_route.parent_id != cur_route['parent_id']:
+                    old_route.update(
+                        id=cur_route['id'],
+                        parent_id=cur_route['parent_id'],
+                        commit=False
+                    )
 
     @staticmethod
-    def get_route_node_by_id(id) -> dir:
+    def get_route_node(id) -> dir:
         return Route.filte(id=id).first()
 
     @staticmethod

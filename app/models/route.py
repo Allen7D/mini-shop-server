@@ -16,7 +16,7 @@ class Route(Base):
     parent_id = Column(Integer, nullable=False, comment='路由节点父级ID')
     title = Column(String(20), nullable=False, comment='路由节点标签')
     name = Column(String(20), unique=True, comment='路由节点名')
-    icon = Column(String(20), default='', comment='图标')
+    icon = Column(String(100), default='', comment='图标')
     path = Column(String(100), nullable=False, comment='路由节点相对路径')
     component = Column(String(100), comment='组件路径')
     hidden = Column(Boolean, default=False, nullable=False, comment='路由节点是否隐藏')
@@ -25,7 +25,3 @@ class Route(Base):
     def __repr__(self):
         return "<Route(id=%s, parent_id=%s, title=%s, name=%s, group=%s)>" %\
                (self.id, self.parent_id, self.title, self.name, self.group)
-
-    def keys(self):
-        self.append('create_time', 'update_time')
-        return self.fields

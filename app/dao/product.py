@@ -64,26 +64,28 @@ class ProductDao():
             Product2Image.product_id == p_id,
             Product2Image.order.between(min, max)
         ).order_by(Product2Image.order.asc()).all()
+
         if len(pending_reorder_list) <= 1:
             raise ProductException(msg='该商品仅有一张图片，无法重新排序')
+        
         # 往后移动(1,2,「3」,4,5 ==> 1,2,4,5,「3」)
         # 3放在5的位置(即prev_order为3，next_order为5)
         if src_order < dest_order:
             with db.auto_commit():
-                src_obj = pending_reorder_list[0]
+                src_obj = pending_reorder_list.pop(0) # 抛除首位
                 dest_obj = pending_reorder_list[-1]
                 src_obj.update(commit=False, order=dest_obj.order)
-                # order向前移动(变小)，
-                for obj in pending_reorder_list[1:]:
+                # order向前移动(变小)
+                for obj in pending_reorder_list:
                     obj.update(commit=False, order=obj.order-1)
 
         # 往后移动(1,2,「3」,4,5 ==> 「3」,1,2,4,5)
         # 3放在5的位置(即prev_order为3，next_order为1)
         if src_order >= dest_order:
             with db.auto_commit():
-                src_obj = pending_reorder_list[-1]
+                src_obj = pending_reorder_list.pop() # 抛除末位
                 dest_obj = pending_reorder_list[0]
                 src_obj.update(commit=False, order=dest_obj.order)
                 # order向后移动(变大)
-                for obj in pending_reorder_list[:-1]:
+                for obj in pending_reorder_list:
                     obj.update(commit=False, order=obj.order+1)

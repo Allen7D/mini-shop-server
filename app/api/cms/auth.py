@@ -29,7 +29,7 @@ def get_auths():
 
 @api.route('/by_group', methods=['GET'])
 @api.route_meta(auth='查询权限组的所有权限', module='管理员', mount=False)
-@api.doc(args=['query.group_id'], auth=True)
+@api.doc(args=['g.query.group_id'], auth=True)
 @auth.admin_required
 def get_auths_by_group():
     '''查询权限组的所有权限'''
@@ -40,9 +40,9 @@ def get_auths_by_group():
     })
 
 
-@api.route('by_group', methods=['DELETE'])
+@api.route('/by_group', methods=['DELETE'])
 @api.route_meta(auth='删除权限组的所有权限', module='管理员', mount=False)
-@api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
+@api.doc(args=['g.query.group_id',], auth=True)
 @auth.admin_required
 def delete_auths_by_group():
     '''删除权限组的所有权限'''
@@ -51,7 +51,7 @@ def delete_auths_by_group():
     return Success(error_code=2)
 
 
-@api.route('', methods=['POST'])
+@api.route('/append', methods=['PUT'])
 @api.route_meta(auth='新增多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
 @auth.admin_required
@@ -62,12 +62,12 @@ def append_auth_list():
     return Success(error_code=1)
 
 
-@api.route('', methods=['DELETE'])
+@api.route('/remove', methods=['PUT'])
 @api.route_meta(auth='删除多个权限', module='管理员', mount=False)
 @api.doc(args=['g.body.group_id', 'g.body.auth_ids'], auth=True)
 @auth.admin_required
-def delete_auth_list():
-    '''删除多个权限(从某个权限组)'''
+def remove_auth_list():
+    '''移除多个权限(从某个权限组)'''
     validator = AuthsValidator().get_data()
     AuthDao.delete_auth_list(group_id=validator.group_id, auth_ids=validator.auth_ids)
     return Success(error_code=2)

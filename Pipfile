@@ -1,6 +1,6 @@
 [[source]]
 name = "pypi"
-url = "https://pypi.python.org/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 verify_ssl = true
 
 [packages]
@@ -14,6 +14,7 @@ flask-script = "==2.0.6"
 requests = "==2.20.0"
 wechatpy = "==1.8.3"
 gunicorn = "==19.9.0"
+email-validator = "*"
 
 [dev-packages]
 pylint = "==2.4.4"

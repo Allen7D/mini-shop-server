@@ -21,7 +21,7 @@ api = Redprint(name='order', description='订单', api_doc=api_doc, alias='cms_o
 @api.route_meta(auth='查询订单列表', module='订单')
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.start', 'g.query.end'], auth=True)
 @auth.group_required
-def get_order_list_in_summary():
+def get_order_list():
     '''查询所有的订单列表'''
     page_validator = PaginateValidator().nt_data
     time_validator = TimeIntervalValidator().nt_data
@@ -35,7 +35,7 @@ def get_order_list_in_summary():
 @api.route('/search', methods=['GET'])
 @api.doc(args=['g.query.order_no'], auth=True)
 @auth.group_required
-def query_order_by_order_no():
+def get_order_by_order_no():
     '''查询订单详情(基于订单编号)'''
     order_no = BaseValidator.get_args_json().order_no
     order = Order.get_or_404(order_no=order_no).hide('prepay_id')

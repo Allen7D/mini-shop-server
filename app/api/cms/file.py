@@ -98,4 +98,3 @@ def upload_double_file():
 def download_file(file_name):
     '''文件下载'''
     return Success(file_name)
-# return send_from_directory(file_name, file_name, mimetype='application/octet-stream')

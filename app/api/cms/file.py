@@ -14,9 +14,11 @@ from app.extensions.api_docs.cms import file as api_doc
 from app.extensions.file.local_uploader import LocalUploader
 from app.core.token_auth import auth
 from app.models.file import File
+from app.dao.file import FileDao
 from app.service.file import FileService
 from app.libs.error_code import Success
-from app.validators.forms import UploadFileValidator, UploadPDFValidator, PaginateValidator
+from app.validators.forms import UploadFileValidator, FileParentIDValidator, PaginateValidator, IDCollectionValidator, \
+    CreateFileValidator, UpdateFileValidator, MoveOrCopyFileValidator
 
 __author__ = 'Allen7D'
 
@@ -35,17 +37,23 @@ def upload_file():
 
 
 @api.route('/list', methods=['GET'])
-@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.login_required
+@api.doc(args=['g.query.parent_id'], auth=True)
+@auth.group_required
 def get_file_list():
-    '''查询文件列表'''
-    validator = PaginateValidator().validate_for_api().nt_data
-    paginator = File.query.filter_by() \
-        .paginate(page=validator.page, per_page=validator.size, error_out=False)
+    '''查询文件夹下列表'''
+    page_validator = PaginateValidator().nt_data
+    other_validator = FileParentIDValidator().dt_data
+
+    # parent_id非空则查询所有parent_id为空的「文件夹和文件」
+    if not other_validator.get('parent_id'):
+        other_validator.setdefault('parent_id', None)
+
+    files = File.query.filter_by(**other_validator) \
+        .paginate(page=page_validator.page, per_page=page_validator.size, error_out=False)
     return Success({
-        'total': paginator.total,
-        'current_page': paginator.page,
-        'items': paginator.items
+        'total': files.total,
+        'current_page': files.page,
+        'items': files.items
     })
 
 
@@ -81,16 +89,55 @@ def post_file():
     return Success(msg='{} 保存成功'.format(filename), error_code=1)
 
 
-@api.route('/upload/double', methods=['POST'])
-@auth.login_required
-def upload_double_file():
-    '''双文件上传'''
-    form = UploadPDFValidator().validate_for_api()
-    origin_file = request.files[form.origin.name]
-    origin_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], origin_file.filename))
-    comparer_file = request.files[form.comparer.name]
-    comparer_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], comparer_file.filename))
+@api.route('/new', methods=['POST'])
+@api.doc(args=['g.query.parent_id', 'g.query.filename'], auth=True)
+# @auth.group_required
+def create_folder():
+    '''新建文件夹'''
+    validator = CreateFileValidator().dt_data
+    FileDao.create_folder(**validator)
+    return Success()
+
+
+@api.route('/move', methods=['PUT'])
+@api.doc(args=['g.query.parent_id', 'g.query.file_id'], auth=True)
+@auth.group_required
+def move_file():
+    '''移动文件'''
+    validator = MoveOrCopyFileValidator().nt_data
+    file = File.get_or_404(id=validator.file_id)
+    file.update(parent_id=validator.parent_id)
     return Success(error_code=1)
+
+
+@api.route('/copy', methods=['POST'])
+@api.doc(args=['g.query.parent_id', 'g.query.file_id'], auth=True)
+@auth.group_required
+def copy_file():
+    '''复制文件'''
+    validator = MoveOrCopyFileValidator().nt_data
+    return Success(error_code=1)
+
+
+@api.route('/rename', methods=['PUT'])
+@api.doc(args=['g.query.filename', 'g.query.file_id'], auth=True)
+@auth.group_required
+def rename_file():
+    '''重命名文件'''
+    validator = UpdateFileValidator().nt_data
+    file = File.get_or_404(id=validator.file_id)
+    file.update(name=validator.filename)
+    return Success(file)
+
+
+@api.route('', methods=['DELETE'])
+@api.route_meta(auth='删除多个文件', module='文件', mount=True)
+@api.doc(args=['g.query.file_ids'], auth=True)
+@auth.group_required
+def delete_file_list():
+    '''删除多个文件'''
+    ids = IDCollectionValidator().nt_data.ids
+    return Success(ids)
 
 
 @api.route('/download/<string:file_name>', methods=['GET'])

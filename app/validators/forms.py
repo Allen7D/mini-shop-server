@@ -47,6 +47,7 @@ class PaginateValidator(BaseValidator):
     def validate_size(self, value):
         self.size.data = int(value.data)
 
+
 class TimeIntervalValidator(BaseValidator):
     start = IntegerField(validators=[DataRequired(message='开始时间不能为空'), length(min=10, max=10, message='时间戳长度必须为10')])
     end = IntegerField(validators=[DataRequired(message='结束时间不能为空'), length(min=10, max=10, message='时间戳长度必须为10')])
@@ -56,7 +57,6 @@ class TimeIntervalValidator(BaseValidator):
 
     def validate_end(self, value):
         self.end.data = int(value.data)
-
 
 
 ########## 登录相关 ##########
@@ -268,7 +268,7 @@ class OrderIDValidator(BaseValidator):
         self.order_id.data = int(id)
 
 
-########## 上传相关 ##########
+########## 文件相关 ##########
 # 上传文件的校验(单个文件)
 class UploadFileValidator(BaseValidator):
     # ref==> https://wtforms.readthedocs.io/en/latest/fields.html
@@ -282,3 +282,41 @@ class UploadFileValidator(BaseValidator):
 class UploadPDFValidator(BaseValidator):
     origin = FileField(validators=[DataRequired()])
     comparer = FileField(validators=[DataRequired()])
+
+
+class FileParentIDValidator(BaseValidator):
+    parent_id = IntegerField('父级目录ID', validators=[
+        NumberRange(message='id必须非负', min=0)
+    ], default=0)
+
+    def validate_parent_id(self, value):
+        id = value.data
+        if not self.isNaturalNumber(id):
+            raise ValidationError(message='ID 必须为非负整数')
+        self.parent_id.data = int(id)
+
+
+class FileIDValidator(BaseValidator):
+    file_id = IntegerField(validators=[DataRequired()])
+
+    def validate_order_id(self, value):
+        id = value.data
+        if not self.isPositiveInteger(id):
+            raise ValidationError(message='ID 必须为正整数')
+        self.file_id.data = int(id)
+
+
+class FilenameValidator(BaseValidator):
+    filename = StringField('文件名', validators=[DataRequired()])
+
+
+class CreateFileValidator(FileParentIDValidator, FilenameValidator):
+    pass
+
+
+class UpdateFileValidator(FilenameValidator, FileIDValidator):
+    pass
+
+
+class MoveOrCopyFileValidator(FileParentIDValidator, FileIDValidator):
+    pass

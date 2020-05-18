@@ -15,6 +15,7 @@ __author__ = 'Allen7D'
 class PropVelifyMixin(object):
     '''属性校验的方法集'''
 
+    # 判断正整数
     def isPositiveInteger(self, value):
         try:
             value = int(value)
@@ -22,9 +23,19 @@ class PropVelifyMixin(object):
             return False
         return True if (isinstance(value, int) and value > 0) else False
 
+    # 判断自然数
+    def isNaturalNumber(self, value):
+        try:
+            value = int(value)
+        except ValueError:
+            return False
+        return True if (isinstance(value, int) and value >= 0) else False
+
+    # 判断数组
     def isList(self, value):
         return True if isinstance(value, list) else False
 
+    # 判断空数组
     def isEmptyList(self, value):
         return True if self.isList(value) and len(value) == 0 else False
 

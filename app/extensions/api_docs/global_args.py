@@ -101,11 +101,18 @@ address_id_in_path = IntegerPathFiled(
 file_id_in_path = IntegerPathFiled(
     name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
 file_id_in_query = IntegerQueryFiled(
-    name='id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
+    name='file_id', description="文件ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
 file_ids_in_query = ArrayQueryField(
     name='ids', description='文件ID集(多选)',
     item_type='integer', enum=[1, 2, 3, 4, 5, 10, 100],
     default=1, required=True)
 
-filename_in_query = StringQueryFiled(name='filename', description='文件名', enum=['virtualmachine1.png', 'cellphone.png'],
+parent_id_in_path = IntegerPathFiled(
+    name='id', description="父级目录ID", enum=[0, 1, 2, 3, 4, 5, 10, 100], default=1)
+parent_id_in_query = IntegerQueryFiled(
+    name='parent_id', description="父级目录ID", enum=[0, 1, 2, 3, 4, 5, 10, 100], default=1)
+
+
+
+filename_in_query = StringQueryFiled(name='filename', description='文件名', enum=['virtualmachine1.png', 'cellphone.png', '新建文件夹', '新建文件夹2'],
                                      required=True)

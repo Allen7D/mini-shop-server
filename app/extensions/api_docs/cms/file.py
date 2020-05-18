@@ -38,34 +38,6 @@ upload_file = {
     }
 }
 
-upload_double_file = {
-    "parameters": [
-        {
-            "name": "origin",
-            "in": "formData",
-            "type": "file",
-            "required": 'false'
-        },
-        {
-            "name": "comparer",
-            "in": "formData",
-            "type": "file",
-            "required": 'false'
-        }
-    ],
-    "security": [
-        {
-            "basicAuth": []
-        }
-    ],
-    "responses": {
-        "200": {
-            "description": "上传文件成功",
-            "examples": {}
-        }
-    }
-}
-
 download_file = {
     "parameters": [
         {

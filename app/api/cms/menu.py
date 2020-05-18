@@ -17,7 +17,7 @@ __author__ = 'Mohan'
 api = Redprint(name='menu', alias='cms_menu', description='菜单', api_doc=api_doc)
 
 
-@api.route('/', methods=['GET'])
+@api.route('', methods=['GET'])
 @api.doc(args=['query.group_id'], auth=True)
 @auth.admin_required
 def get_routes():
@@ -26,7 +26,7 @@ def get_routes():
     return Success(MenuDao.get_routes(gid))
 
 
-@api.route('/', methods=['PUT'])
+@api.route('', methods=['PUT'])
 @api.doc(args=['body.routes', 'body.group_id'], auth=True)
 @auth.admin_required
 def delete_route():

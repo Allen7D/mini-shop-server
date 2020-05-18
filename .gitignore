@@ -12,8 +12,8 @@ app/config/local_secure.py
 app/static/uploads/
 app/static/files/
 guide/
-wx-tool/
-php-resource/
+/wx-tool/
+/php-resource/
 .venv/*
 tmp/
 .env

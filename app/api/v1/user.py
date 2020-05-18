@@ -49,7 +49,7 @@ def update_user():
     return Success(error_code=1)
 
 
-@api.route('/bind', methods=['POST'])
+@api.route('/bind', methods=['PUT'])
 @api.doc(args=['g.body.account', 'type'], auth=True)
 @auth.login_required
 def bind_identity():
@@ -59,7 +59,7 @@ def bind_identity():
     pass
 
 
-@api.route('/unbind', methods=['DELETE'])
+@api.route('/unbind', methods=['PUT'])
 @api.doc(args=['type'], auth=True)
 @auth.login_required
 def unbind_identity():

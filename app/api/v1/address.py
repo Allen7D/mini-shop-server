@@ -56,7 +56,7 @@ def update_address(id):
     return Success(error_code=1)
 
 
-@api.route('<int:id>', methods=['DELETE'])
+@api.route('/<int:id>', methods=['DELETE'])
 @api.doc(args=['*int.path.address_id'], auth=True)
 @auth.login_required
 def delete_address(id):

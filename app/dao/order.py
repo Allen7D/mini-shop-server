@@ -21,8 +21,10 @@ class OrderDao():
         }
 
     @staticmethod
-    def get_summary(page=1, size=10):
-        paginator = Order.query.filter_by().order_by(
+    def get_summary(page=1, size=10, start=None, end=None):
+        paginator = Order.query.filter(
+            Order.create_time.between(start, end)
+        ).order_by(
             Order.create_time.desc()
         ).paginate(
             page=page,

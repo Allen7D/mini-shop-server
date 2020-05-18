@@ -86,7 +86,7 @@ def delete_theme(id):
 
 @api.route('/<int:id>/product', methods=['POST'])
 @api.route_meta(auth='添加商品到主题', module='主题')
-@api.doc(args=['g.path.theme_id', 'g.body.product_id'], auth=True)
+@api.doc(args=['g.path.theme_id', 'g.query.product_id'], auth=True)
 @auth.group_required
 def append_product(id):
     '''添加商品到主题'''
@@ -97,7 +97,7 @@ def append_product(id):
 
 @api.route('/<int:id>/product', methods=['DELETE'])
 @api.route_meta(auth='删除商品从主题', module='主题')
-@api.doc(args=['g.path.theme_id', 'g.body.product_id'], auth=True)
+@api.doc(args=['g.path.theme_id', 'g.query.product_id'], auth=True)
 @auth.group_required
 def delete_product(id):
     '''删除商品从主题'''

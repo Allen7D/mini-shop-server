@@ -25,5 +25,5 @@ class Order(Base):
     prepay_id = Column(String(100), unique=True, comment='预支付id')
 
     def keys(self):
-        self.hide('user_id').append('create_time')
+        self.append('create_time')
         return self.fields

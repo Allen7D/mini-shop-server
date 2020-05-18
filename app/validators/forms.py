@@ -5,8 +5,8 @@
 """
 
 from flask import request
-from wtforms import StringField, IntegerField, PasswordField, FileField, FieldList, MultipleFileField
-from wtforms.validators import DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, NumberRange
+from wtforms import BooleanField, StringField, IntegerField, PasswordField, FileField, FieldList, MultipleFileField
+from wtforms.validators import InputRequired, DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, NumberRange
 
 from app.libs.enums import ClientTypeEnum
 from app.models.user import User
@@ -62,7 +62,7 @@ class TimeIntervalValidator(BaseValidator):
 ########## 登录相关 ##########
 class ClientValidator(BaseValidator):
     account = StringField(validators=[DataRequired(message='账户不为空'),
-                                      length(min=5, max=32)])
+                                      length(min=4, max=32)])
     secret = StringField()
     type = IntegerField(validators=[DataRequired()])
 
@@ -320,3 +320,31 @@ class UpdateFileValidator(FilenameValidator, FileIDValidator):
 
 class MoveOrCopyFileValidator(FileParentIDValidator, FileIDValidator):
     pass
+
+########## 路由相关 ##########
+class MenuNodeValidator(BaseValidator):
+    id = IntegerField(validators=[NumberRange(min=0, message="id must over 0")])
+    children = FieldList(unbound_field=StringField(validators=[DataRequired()]), min_entries=1)
+
+
+class RouteNodeWithoutIdValidator(BaseValidator):
+    parent_id = IntegerField(validators=[NumberRange(min=0, message="parent id must over 0")])
+    title = StringField(validators=[DataRequired()])
+    name = StringField(validators=[DataRequired()])
+    icon = StringField(validators=[DataRequired()])
+    path = StringField(validators=[DataRequired()])
+    component = StringField(validators=[DataRequired()])
+    hidden = BooleanField(validators=[])
+
+
+class RouteNodeValidator(RouteNodeWithoutIdValidator):
+    id = IntegerField(validators=[NumberRange(min=0, message="id must over 0")])
+
+
+class MenuGroupIdValidator(UpdateAdminValidator):
+    def validate_group_id(self, value):
+        self.group_id.data = int(value.group_id)
+
+
+class MenuValidator(MenuGroupIdValidator):
+    routes = FieldList(unbound_field=IntegerField(validators=[DataRequired()]), min_entries=1)

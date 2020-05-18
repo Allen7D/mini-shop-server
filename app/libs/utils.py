@@ -40,7 +40,6 @@ class Tree(object):
         # 建立id-route映射表
         id2node_dir = {}
         for line in tree_list:
-            print(line['component'])
             node = self.nodeType(**line)
             id2node_dir[node.id] = node
         # 遍历映射表, 将当前节点添加至父节点的children中

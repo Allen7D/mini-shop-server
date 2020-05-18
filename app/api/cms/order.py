@@ -64,5 +64,5 @@ def get_order_list_by_user():
 def delivery():
     '''订单发货'''
     order_id = OrderIDValidator().nt_data.order_id
-    result = OrderService.delivery(order_id)
-    Success(result)
+    rv = OrderService.delivery(order_id)
+    return Success(rv)

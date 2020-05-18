@@ -45,7 +45,7 @@ def query_order_by_order_no():
 @api.route('/list/by_user', methods=['GET'])
 @api.route_meta(auth='查询订单列表', module='订单')
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.uid'], auth=True)
-# @auth.group_required
+@auth.group_required
 def get_order_list_by_user():
     '''查询用户的订单列表'''
     validator = PaginateValidator().nt_data

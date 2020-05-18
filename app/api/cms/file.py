@@ -44,10 +44,6 @@ def get_file_list():
     page_validator = PaginateValidator().nt_data
     other_validator = FileParentIDValidator().dt_data
 
-    # parent_id非空则查询所有parent_id为空的「文件夹和文件」
-    if not other_validator.get('parent_id'):
-        other_validator.setdefault('parent_id', None)
-
     files = File.query.filter_by(**other_validator) \
         .paginate(page=page_validator.page, per_page=page_validator.size, error_out=False)
     return Success({
@@ -91,7 +87,7 @@ def post_file():
 
 @api.route('/new', methods=['POST'])
 @api.doc(args=['g.query.parent_id', 'g.query.filename'], auth=True)
-# @auth.group_required
+@auth.group_required
 def create_folder():
     '''新建文件夹'''
     validator = CreateFileValidator().dt_data

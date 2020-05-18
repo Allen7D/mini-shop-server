@@ -47,6 +47,17 @@ class PaginateValidator(BaseValidator):
     def validate_size(self, value):
         self.size.data = int(value.data)
 
+class TimeIntervalValidator(BaseValidator):
+    start = IntegerField(validators=[DataRequired(message='开始时间不能为空'), length(min=10, max=10, message='时间戳长度必须为10')])
+    end = IntegerField(validators=[DataRequired(message='结束时间不能为空'), length(min=10, max=10, message='时间戳长度必须为10')])
+
+    def validate_start(self, value):
+        self.start.data = int(value.data)
+
+    def validate_end(self, value):
+        self.end.data = int(value.data)
+
+
 
 ########## 登录相关 ##########
 class ClientValidator(BaseValidator):

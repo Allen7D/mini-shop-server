@@ -40,11 +40,11 @@ def place_order():
     return Success(status)
 
 
-@api.route('/by_user', methods=['GET'])
+@api.route('', methods=['GET'])
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.login_required
-def get_summary_by_user():
-    '''用户查询「自身订单列表」'''
+def get_order_list():
+    '''查询订单列表'''
     validator = PaginateValidator().get_data()
     paged_orders = OrderDao.get_summary_by_user(
         uid=g.user.id,
@@ -57,29 +57,6 @@ def get_summary_by_user():
 @api.doc(args=['g.path.order_id'], auth=True)
 @auth.login_required
 def get_order(id):
-    '''订单详情'''
+    '''查询订单详情'''
     order = Order.query.get_or_404(id).hide('prepay_id')
     return Success(order)
-
-
-@api.route('/list', methods=['GET'])
-@api.route_meta(auth='查询订单列表', module='订单')
-@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.group_required
-def get_list_by_summary():
-    '''查询订单列表'''
-    page_validator = PaginateValidator().get_data()
-    paged_orders = OrderDao.get_summary(page=page_validator.page,
-                                        size=page_validator.size)
-    return Success(paged_orders)
-
-
-@api.route('/delivery', methods=['PUT'])
-@api.route_meta(auth='订单发货', module='订单')
-@api.doc(args=['g.query.order_id'], auth=True)
-@auth.group_required
-def delivery():
-    '''订单发货'''
-    order_id = OrderIDValidator().nt_data.order_id
-    result = OrderService.delivery(order_id)
-    Success(result)

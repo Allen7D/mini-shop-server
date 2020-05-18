@@ -19,6 +19,11 @@ type_in_body = BodyField(name='type', type='integer', description='登录方式'
 page = IntegerQueryFiled(name='page', description="第几页", enum=[1, 2, 3, 4, 5], default=1)
 size = IntegerQueryFiled(name='size', description="每页大小", enum=[10, 20, 30, 40, 50, 100], default=10)
 
+# 时间区间
+start = IntegerQueryFiled(name='start', description="开始时间(时间戳)", enum=[1588130000, 1588131000, 1588132000, 1588133000, 1588134000, ])
+end = IntegerQueryFiled(name='end', description="结束时间(时间戳)", enum=[1588135000, 1588136000, 1588137000, 1588138000, 1588139000,])
+
+
 uid_in_path = IntegerPathFiled(
     name='uid', description="用户ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
 uid_in_query = IntegerQueryFiled(
@@ -56,6 +61,9 @@ order_id_in_path = IntegerPathFiled(
     name='id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 order_id_in_query = IntegerQueryFiled(
     name='order_id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+
+order_no_in_query = StringQueryFiled(
+    name='order_no', description='订单号', enum=['B0X439892335427188', 'B0X433513735427169'])
 
 # 权限组
 group_id_in_path = IntegerPathFiled(

@@ -8,7 +8,7 @@
 </h4>
 
 <div align="center">
-  <img alt="img" src="https://ws1.sinaimg.cn/large/006tNbRwly1fx19fcgb2pg308w099kjl.gif" width="550px">
+  <img alt="img" src="" width="550px">
   <div>
     <a href="http://server.mini-shop.ivinetrue.com/apidocs/#/" target="__blank">线上 API 文档</a>
   </div>
@@ -302,7 +302,7 @@ DAO层(数据访问层)，全称为data access object
 <br>DAO一定是和数据库的某一张表一一对应的，其中封装了增删改查基本操作，建议DAO只做原子操作，增删改查。
 
 Service层(服务层)
-<br>是对一个或多个DAO进行的再次封装，封装成一个服务，因此不只是一个原子操作，需要事物控制。  
+<br>是对一个或多个DAO进行的再次封装，封装成一个服务，因此不只是一个原子操作，需要事务控制。  
 
 Controller层(业务层)
 <br>管理用户的操作，用户界面传过的请求，调用对应的服务（service），完成用户请求的处理.

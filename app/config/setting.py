@@ -18,6 +18,7 @@ API_PATH = 'app.api'
 ALL_RP_API_LIST = \
     ['v1.token'] + \
     ['cms.admin', 'cms.group', 'cms.auth'] + \
+    ['cms.order'] + \
     ['v1.user', 'v1.address',
      'v1.banner', 'v1.theme', 'v1.category', 'v1.product', 'v1.order', 'v1.pay'] + \
     ['cms.user', 'cms.file']

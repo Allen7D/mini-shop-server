@@ -5,7 +5,12 @@
 __author__ = 'Allen7D'
 
 # Swagger相关配置
-description = '''API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
+description = '''
+👑标注的接口，只有超级管理员(admin)的权限才能访问；
+🔰标注的接口，需要有相应权限组(group)的权限才能访问；
+🔒标注的接口，需要登录(login)获取Token才能访问。
+
+API接口分为cms版本和v1版本，大部分接口需要token权限才能访问。
 访问之前，先使用/v1/token查询token，并将token放入Authorize中。
 '''
 

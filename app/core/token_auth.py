@@ -38,6 +38,7 @@ class HTTPBasicAuth(_HTTPBasicAuth):
         self.verify_password(None)
 
     def admin_required(self, f):
+        f.__doc__ = '👑' + f.__doc__
         @wraps(f)
         def decorated(*args, **kwargs):
             auth = request.authorization
@@ -55,6 +56,7 @@ class HTTPBasicAuth(_HTTPBasicAuth):
         return f
 
     def group_required(self, f):
+        f.__doc__ = '🔰' + f.__doc__
         @wraps(f)
         def decorated(*args, **kwargs):
             auth = request.authorization

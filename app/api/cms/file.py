@@ -4,10 +4,7 @@
   ↓↓↓ 文件上传下载接口 ↓↓↓
   可以用来处理上传产品图片、Excel等
 """
-import os
-
-from flask import request, current_app
-from flask import send_from_directory
+from flask import request
 
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import file as api_doc
@@ -26,10 +23,11 @@ api = Redprint(name='file', description='文件管理', api_doc=api_doc, alias='
 
 
 @api.route('', methods=['POST'])
+@api.route_meta(auth='上传文件', module='文件')
 @api.doc(auth=True)
-@auth.login_required
+@auth.group_required
 def upload_file():
-    '''文件上传'''
+    '''上传文件'''
     files = request.files
     uploader = LocalUploader(files)
     res = uploader.upload()
@@ -37,10 +35,11 @@ def upload_file():
 
 
 @api.route('/list', methods=['GET'])
+@api.route_meta(auth='查询文件列表', module='文件')
 @api.doc(args=['g.query.parent_id'], auth=True)
 @auth.group_required
 def get_file_list():
-    '''查询文件夹下列表'''
+    '''查询文件列表'''
     page_validator = PaginateValidator().nt_data
     other_validator = FileParentIDValidator().dt_data
 
@@ -54,38 +53,30 @@ def get_file_list():
 
 
 @api.route('/<int:id>', methods=['GET'])
+@api.route_meta(auth='查询文件详情', module='文件')
 @api.doc(args=['g.path.file_id'], auth=True)
 @auth.login_required
 def get_file(id):
-    '''查询文件·基于文件ID'''
+    '''查询文件详情'''
     file = File.query.filter_by(id=id).first_or_404()
     return Success(file)
 
 
-@api.route('/by_name', methods=['GET'])
+@api.route('/all/by_name', methods=['GET'])
+@api.route_meta(auth='查询文件(基于文件名)', module='文件')
 @api.doc(args=['g.query.filename'], auth=True)
-@auth.login_required
-def get_file_by_name():
-    '''查询文件·基于文件名
-    可能存在同名文件，返回结果为list
-    '''
+@auth.group_required
+def get_file_list_by_name():
+    '''查询文件(基于文件名)'''
     filename = request.args.get('filename')
-    file_list = File.query.filter_by(name=filename).all()
+    files = File.query.filter_by(name=filename).all()
     return Success({
-        'items': file_list
+        'items': files
     })
 
 
-@api.route('/upload', methods=['POST'])
-@auth.login_required
-def post_file():
-    '''文件上传'''
-    validator = UploadFileValidator().validate_for_api()
-    filename = FileService(file=validator.file.data).save()
-    return Success(msg='{} 保存成功'.format(filename), error_code=1)
-
-
 @api.route('/new', methods=['POST'])
+@api.route_meta(auth='新建文件夹', module='文件')
 @api.doc(args=['g.query.parent_id', 'g.query.filename'], auth=True)
 @auth.group_required
 def create_folder():
@@ -96,22 +87,30 @@ def create_folder():
 
 
 @api.route('/move', methods=['PUT'])
+@api.route_meta(auth='移动文件', module='文件')
 @api.doc(args=['g.query.parent_id', 'g.query.file_id'], auth=True)
 @auth.group_required
-def move_file():
+def move_files():
     '''移动文件'''
     validator = MoveOrCopyFileValidator().nt_data
-    file = File.get_or_404(id=validator.file_id)
-    file.update(parent_id=validator.parent_id)
+    FileDao.move_file(
+        dest_parent_id=validator.parent_id,
+        file_id=validator.file_id
+    )
     return Success(error_code=1)
 
 
 @api.route('/copy', methods=['POST'])
+@api.route_meta(auth='复制文件', module='文件')
 @api.doc(args=['g.query.parent_id', 'g.query.file_id'], auth=True)
 @auth.group_required
 def copy_file():
     '''复制文件'''
     validator = MoveOrCopyFileValidator().nt_data
+    FileDao.copy_file(
+        dest_parent_id=validator.parent_id,
+        src_file_id=validator.file_id
+    )
     return Success(error_code=1)
 
 
@@ -121,23 +120,25 @@ def copy_file():
 def rename_file():
     '''重命名文件'''
     validator = UpdateFileValidator().nt_data
-    file = File.get_or_404(id=validator.file_id)
-    file.update(name=validator.filename)
-    return Success(file)
+    FileDao.rename_file(file_id=validator.file_id, new_filename=validator.filename)
+    return Success(error_code=1)
 
 
 @api.route('', methods=['DELETE'])
 @api.route_meta(auth='删除多个文件', module='文件', mount=True)
 @api.doc(args=['g.query.file_ids'], auth=True)
 @auth.group_required
-def delete_file_list():
+def delete_files():
     '''删除多个文件'''
     ids = IDCollectionValidator().nt_data.ids
-    return Success(ids)
+    FileDao.delete_files(ids)
+    return Success(error_code=2)
 
 
-@api.route('/download/<string:file_name>', methods=['GET'])
+@api.route('/upload', methods=['POST'])
 @auth.login_required
-def download_file(file_name):
-    '''文件下载'''
-    return Success(file_name)
+def post_file():
+    '''文件上传(废弃)'''
+    validator = UploadFileValidator().nt_data
+    filename = FileService(file=validator.file).save()
+    return Success(msg='{} 保存成功'.format(filename), error_code=1)

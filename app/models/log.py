@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2020/4/8.
+  # 操作日志和登录日志
 """
 from datetime import datetime
 
@@ -25,14 +26,3 @@ class Log(Base):
     def __init__(self):
         # 时间戳
         self.create_time = int(round(datetime.now().timestamp()))
-
-    @staticmethod
-    def create_log(**kwargs):
-        log = Log()
-        for key in kwargs.keys():
-            if hasattr(log, key):
-                setattr(log, key, kwargs[key])
-        db.session.add(log)
-        if kwargs.get('commit') is True:
-            db.session.commit()
-        return log

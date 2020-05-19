@@ -39,15 +39,18 @@ class User(Base):
 
     @property
     def username(self):
-        return Identity.get(user_id=self.id, type=ClientTypeEnum.USERNAME.value).identifier
+        identity = Identity.get(user_id=self.id, type=ClientTypeEnum.USERNAME.value)
+        return identity.identifier if identity else None
 
     @property
     def mobile(self):
-        return Identity.get(user_id=self.id, type=ClientTypeEnum.MOBILE.value).identifier
+        identity = Identity.get(user_id=self.id, type=ClientTypeEnum.MOBILE.value)
+        return identity.identifier if identity else None
 
     @property
     def email(self):
-        return Identity.get(user_id=self.id, type=ClientTypeEnum.EMAIL.value).identifier
+        identity = Identity.get(user_id=self.id, type=ClientTypeEnum.EMAIL.value)
+        return identity.identifier if identity else None
 
     @property
     def avatar(self):

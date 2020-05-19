@@ -333,7 +333,7 @@ class RouteNodeWithoutIdValidator(BaseValidator):
     name = StringField(validators=[DataRequired()])
     icon = StringField(validators=[DataRequired()])
     path = StringField(validators=[DataRequired()])
-    component = StringField(validators=[DataRequired()])
+    component = StringField()
     hidden = BooleanField(validators=[])
 
 

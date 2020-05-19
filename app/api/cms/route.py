@@ -64,7 +64,7 @@ def delete_route_node_by_id(id):
     return Success()
 
 
-@api.route('/', methods=['POST'])
+@api.route('', methods=['POST'])
 @api.doc(args=api_doc.api_doc_args[2:], auth=True)
 @auth.admin_required
 def create_route_node():

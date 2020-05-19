@@ -6,7 +6,6 @@
 __author__ = 'Allen7D'
 
 
-# edit by Mohan
 class TreeNode(object):
     def __init__(self, id, parent_id):
         self.id = id
@@ -70,6 +69,12 @@ class Tree(object):
     def serialize(self) -> dir:
         def serialize_node(tree_node):
             result = dict(tree_node)
+            result['meta'] = {
+                'icon': result['icon'],
+                'title': result['title']
+            }
+            result.pop('icon')
+            result.pop('title')
             result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
             return result
 
@@ -87,4 +92,3 @@ class Tree(object):
 
         deserialize_node(self.root, self.root.parent_id)
         return tree_list
-# edit by Mohan

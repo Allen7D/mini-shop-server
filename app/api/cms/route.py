@@ -46,7 +46,8 @@ def get_route_node_by_id(id):
 
 
 @api.route('/<id>', methods=['PUT'])
-@api.doc(args=api_doc.api_doc_args, auth=True)
+@api.doc(args=['path.route_id', 'body.route_id', 'body.parent_id', 'body.title',
+               'body.name', 'body.icon', 'body.path', 'body.component', 'body.hidden'], auth=True)
 @auth.admin_required
 def update_route_node(id):
     """按ID修改路由节点"""
@@ -65,7 +66,8 @@ def delete_route_node_by_id(id):
 
 
 @api.route('', methods=['POST'])
-@api.doc(args=api_doc.api_doc_args[2:], auth=True)
+@api.doc(args=['body.parent_id', 'body.title', 'body.name', 'body.icon',
+               'body.path', 'body.component', 'body.hidden'], auth=True)
 @auth.admin_required
 def create_route_node():
     """新增某个路由"""

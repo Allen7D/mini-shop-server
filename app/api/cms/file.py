@@ -4,7 +4,7 @@
   ↓↓↓ 文件上传下载接口 ↓↓↓
   可以用来处理上传产品图片、Excel等
 """
-from flask import request
+from flask import request, current_app
 
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import file as api_doc
@@ -21,29 +21,39 @@ __author__ = 'Allen7D'
 
 api = Redprint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
 
+@api.route('/types', methods=['GET'])
+@api.doc()
+def get_file_types():
+    '''支持的文件类型'''
+    types = list(current_app.config['FILE']['INCLUDE'])
+    return Success({
+        'items': types
+    })
 
-@api.route('', methods=['POST'])
+
+@api.route('/<id>', methods=['POST'])
 @api.route_meta(auth='上传文件', module='文件')
 @api.doc(auth=True)
 @auth.group_required
-def upload_file():
-    '''上传文件'''
+def upload_file(id):
+    '''上传文件到目录下'''
     files = request.files
     uploader = LocalUploader(files)
+    uploader.locate(parent_id=id)
     res = uploader.upload()
     return Success(res)
 
 
 @api.route('/list', methods=['GET'])
 @api.route_meta(auth='查询文件列表', module='文件')
-@api.doc(args=['g.query.parent_id'], auth=True)
+@api.doc(args=['g.query.parent_id', 'g.query.page', 'g.query.size'], auth=True)
 @auth.group_required
 def get_file_list():
     '''查询文件列表'''
+    main_validator = FileParentIDValidator().dt_data
     page_validator = PaginateValidator().nt_data
-    other_validator = FileParentIDValidator().dt_data
 
-    files = File.query.filter_by(**other_validator) \
+    files = File.query.filter_by(**main_validator) \
         .paginate(page=page_validator.page, per_page=page_validator.size, error_out=False)
     return Success({
         'total': files.total,
@@ -55,7 +65,7 @@ def get_file_list():
 @api.route('/<int:id>', methods=['GET'])
 @api.route_meta(auth='查询文件详情', module='文件')
 @api.doc(args=['g.path.file_id'], auth=True)
-@auth.login_required
+@auth.group_required
 def get_file(id):
     '''查询文件详情'''
     file = File.query.filter_by(id=id).first_or_404()

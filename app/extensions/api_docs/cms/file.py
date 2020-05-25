@@ -7,6 +7,12 @@ __author__ = 'Allen7D'
 upload_file = {
     "parameters": [
         {
+          "name": "id",
+          "in": "path",
+          "type": "integer",
+          "emun": [0, 1, 2, 3, 4, 5]
+        },
+        {
             "name": "file",
             "in": "formData",
             "type": "file",

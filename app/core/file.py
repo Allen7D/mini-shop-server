@@ -43,7 +43,7 @@ class Uploader(object):
         :param filename: 原始文件名
         :return: string 文件的扩展名
         """
-        return '.' + filename.lower().split('.')[-1]
+        return filename.lower().split('.')[-1]
 
     @staticmethod
     def _generate_md5(data: bytes):

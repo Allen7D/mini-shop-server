@@ -65,3 +65,4 @@ class FileDao():
             size=src_file.size,
             md5=src_file.md5
         )
+        return File.get(parent_id=dest_parent_id, md5=src_file.md5)

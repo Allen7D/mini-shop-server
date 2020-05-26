@@ -16,47 +16,47 @@
 """
 from flask import g
 
-from app.libs.redprint import RedPrint
+from app.extensions.api_docs.redprint import Redprint
+from app.extensions.api_docs.v1 import order as api_doc
+from app.core.token_auth import auth
+from app.service.order import OrderService
+from app.models.order import Order
+from app.dao.order import OrderDao
 from app.libs.error_code import Success
-from app.libs.token_auth import auth
-from app.service.order import Order as OrderService
-from app.models.order import Order as OrderModel
-from app.validators.forms import PaginateValidator
-from app.validators.params import OrderPlace
-from app.api_docs.v1 import order as api_doc
+from app.validators.forms import PaginateValidator, OrderPlaceValidator, OrderIDValidator
 
 __author__ = 'Allen7D'
 
-api = RedPrint(name='order', description='订单', api_doc=api_doc)
+api = Redprint(name='order', description='订单', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])
 @api.doc(auth=True)
 @auth.login_required
 def place_order():
-    '''提交订单(管理员不能调用)'''
-    products = OrderPlace().validate_for_api().products.data
-    status = OrderService().palce(uid=g.user.uid, o_products=products)
+    '''提交订单'''
+    products = OrderPlaceValidator().validate_for_api().products.data
+    status = OrderService().palce(uid=g.user.id, o_products=products)
     return Success(status)
+
+
+@api.route('', methods=['GET'])
+@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
+@auth.login_required
+def get_order_list():
+    '''查询订单列表'''
+    validator = PaginateValidator().get_data()
+    paged_orders = OrderDao.get_summary_by_user(
+        uid=g.user.id,
+        page=validator.page,
+        size=validator.size)
+    return Success(paged_orders)
 
 
 @api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['g.path.order_id'], auth=True)
 @auth.login_required
-def get_one(id):
-    '''订单详情'''
-    order = OrderModel.query.get_or_404(id).hide('prepay_id')
+def get_order(id):
+    '''查询订单详情'''
+    order = Order.query.get_or_404(id).hide('prepay_id')
     return Success(order)
-
-
-@api.route('/by_user', methods=['GET'])
-@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.login_required
-def get_summary_by_user():
-    '''订单摘要(基于用户ID&分页)'''
-    validator = PaginateValidator().validate_for_api()
-    paged_orders = OrderModel.get_summary_by_user(uid=g.user.uid,
-                                                  page=validator.page.data,
-                                                  size=validator.size.data)
-    return Success(paged_orders)
-

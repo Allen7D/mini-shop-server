@@ -10,7 +10,7 @@ __author__ = 'Allen7D'
 
 
 class AccountToken(OpenToken):
-	def __init__(self, code):
-		super(AccountToken, self).__init__(code)
-		self.app_id = current_app.config['ACCOUNT_APP_ID']
-		self.app_secret = current_app.config['ACCOUNT_APP_SECRET']
+    def __init__(self, code):
+        super(AccountToken, self).__init__(code)
+        self.app_id = current_app.config['ACCOUNT_APP_ID']
+        self.app_secret = current_app.config['ACCOUNT_APP_SECRET']

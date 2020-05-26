@@ -1,25 +1,26 @@
 [[source]]
 name = "pypi"
-url = "https://pypi.python.org/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 verify_ssl = true
 
 [packages]
-flask = "==1.0.2"
-flask-sqlalchemy = "==2.3.2"
-flask-wtf = "==0.14.2"
+flask = "==1.1.2"
 cymysql = "==0.9.1"
-flask-httpauth = "==2.7.0"
-requests = "==2.20.0"
+flask-sqlalchemy = "==2.3.2"
+flask-httpauth = "==3.3.0"
+flask-wtf = "==0.14.2"
 flask-cors = "==3.0.6"
 flask-script = "==2.0.6"
-flasgger = "==0.9.1"
-gunicorn = "==19.9.0"
+requests = "==2.20.0"
 wechatpy = "==1.8.3"
-flask-admin = "==1.5.5"
-flask-login = "==0.5.0"
+gunicorn = "==19.9.0"
+email-validator = "*"
 
 [dev-packages]
 pylint = "==2.4.4"
+pytest = "==5.4.1"
+flasgger = "==0.9.1"
+flask-admin = "==1.5.5"
 
 [requires]
 python_version = "3.6"

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Code List</title>
+</head>
+<body>
+<h1>错误码</h1>
+<table>
+    <tr>
+        <th>错误码</th>
+        <th>异常</th>
+        <th>HTTP状态码</th>
+        <th>异常信息</th>
+    </tr>
+    {% for e in exception_list %}
+        <tr>
+            <td>{{ e.error_code }}</td>
+            <td>{{ e.__class__.__name__ }}</td>
+            <td>{{ e.code }}</td>
+            <td>{{ e.msg }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

@@ -17,11 +17,11 @@ API_PATH = 'app.api'
 # 可以控制Swagger API文档的显示顺序
 ALL_RP_API_LIST = \
     ['v1.token'] + \
-    ['cms.admin', 'cms.group', 'cms.auth'] + \
-    ['cms.order'] + \
+    ['cms.admin', 'cms.group', 'cms.auth', 'cms.menu', 'cms.route'] + \
+    ['cms.file'] + \
     ['v1.user', 'v1.address',
      'v1.banner', 'v1.theme', 'v1.category', 'v1.product', 'v1.order', 'v1.pay'] + \
-    ['cms.user', 'cms.file']
+    ['cms.user', 'cms.order', 'cms.article']
 
 # 所有endpoint的meta信息
 EP_META = {}

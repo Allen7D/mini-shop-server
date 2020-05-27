@@ -22,7 +22,7 @@ api = Redprint(name='order', description='订单', api_doc=api_doc, alias='cms_o
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.start', 'g.query.end'], auth=True)
 @auth.group_required
 def get_order_list():
-    '''查询所有的订单列表'''
+    '''查询订单列表'''
     page_validator = PaginateValidator().nt_data
     time_validator = TimeIntervalValidator().nt_data
     paged_orders = OrderDao.get_summary(page=page_validator.page,

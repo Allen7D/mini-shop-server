@@ -26,7 +26,9 @@ api = Redprint(name='token', description='登录令牌', api_doc=api_doc)
 def get_token():
     '''生成「令牌」(5种登录方式)'''
     form = ClientValidator().get_data()
-    token = LoginVerifyService.get_token(account=form.account, secret=form.secret, type=form.type)
+    token = LoginVerifyService.get_token(
+        account=form.account, secret=form.secret, type=form.type
+    )
     return Success(data=token)
 
 

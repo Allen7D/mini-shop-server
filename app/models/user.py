@@ -11,6 +11,7 @@ from app.core.db import EntityModel as Base, db
 from app.models.group import Group
 from app.models.address import Address
 from app.models.order import Order
+from app.models.article import Article
 from app.models.identity import Identity
 
 __author__ = 'Allen7D'
@@ -27,6 +28,7 @@ class User(Base):
     identities = relationship('Identity', backref=backref('user', uselist=False))  # 身份
     address = relationship('Address', backref=backref('user', uselist=False))  # 配送地址
     order = relationship('Order', backref=backref('user', uselist=False))  # 订单
+    article = relationship('Article', backref=backref('user', uselist=False))  # 文章
     extend = Column(String(255), comment='额外备注')
 
     def __repr__(self):

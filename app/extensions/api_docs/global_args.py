@@ -28,6 +28,8 @@ uid_in_path = IntegerPathFiled(
     name='uid', description="用户ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
 uid_in_query = IntegerQueryFiled(
     name='uid', description="用户ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
+uid_in_body = BodyField(
+    name='uid_id', type='integer', description="用户ID", enum=[1, 2, 3, 4, 5, 10, 15, 20])
 
 product_id_in_path = IntegerPathFiled(
     name='id', description="商品ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
@@ -116,3 +118,9 @@ parent_id_in_query = IntegerQueryFiled(
 
 filename_in_query = StringQueryFiled(name='filename', description='文件名', enum=['virtualmachine1.png', 'cellphone.png', '新建文件夹', '新建文件夹2'],
                                      required=True)
+
+# Article
+article_id_in_path = IntegerPathFiled(
+    name='id', description="文章ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
+article_id_in_query = IntegerQueryFiled(
+    name='article_id', description="文章ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)

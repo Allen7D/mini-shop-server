@@ -5,12 +5,17 @@
 from app.core.db import db
 from app.models.theme import Theme
 from app.models.product import Product
-from app.libs.error_code import ThemeNotFound, ProductNotFound
+from app.libs.error_code import ThemeException, ThemeNotFound, ProductNotFound
 
 __author__ = 'Allen7D'
 
 
 class ThemeDao():
+    @staticmethod
+    def get_theme_detail(id):
+        theme_detail = Theme.get_or_404(id=id, e=ThemeException)
+        return theme_detail.append('products')
+
     @staticmethod
     def append_product(t_id, p_id):
         theme, product = ThemeDao._check_relation_exist(t_id, p_id)

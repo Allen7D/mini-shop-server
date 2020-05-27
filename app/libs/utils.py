@@ -36,8 +36,12 @@ class Tree(object):
         """
             :param tree_list: 节点元素不含有children
         """
+        # 生成一个带根节点(id=0)的id-route映射表
+        def generate_id2node():
+            return {0: self.nodeType(id=0, parent_id=0)}
+
         # 建立id-route映射表
-        id2node_dir = {}
+        id2node_dir = generate_id2node()
         for line in tree_list:
             node = self.nodeType(**line)
             id2node_dir[node.id] = node
@@ -48,7 +52,7 @@ class Tree(object):
                     dir_node.parent_id
                 ].add_sub_node(dir_node)
 
-        self.root = id2node_dir[0] if id2node_dir != {} else self.nodeType(id=0, parent_id=0)
+        self.root = id2node_dir[0]
 
     def generate_by_dir(self, tree_dir: dir):
         """
@@ -69,12 +73,6 @@ class Tree(object):
     def serialize(self) -> dir:
         def serialize_node(tree_node):
             result = dict(tree_node)
-            result['meta'] = {
-                'icon': result['icon'],
-                'title': result['title']
-            }
-            result.pop('icon')
-            result.pop('title')
             result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
             return result
 

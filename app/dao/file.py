@@ -4,8 +4,24 @@
 """
 from app.core.db import db
 from app.models.file import File
+from app.libs.utils import TreeNode, Tree
 
 __author__ = 'Allen7D'
+
+
+class FolderNode(TreeNode):
+    def __init__(self, id=None, parent_id=None, name=None, **kwargs):
+        super(FolderNode, self).__init__(id=id, parent_id=parent_id)
+        self.name = name
+
+    def keys(self):
+        attrs = super(FolderNode, self).keys()
+        return attrs + ('name',)
+
+
+class FolderTree(Tree):
+    def __init__(self, root=None):
+        super(FolderTree, self).__init__(root, nodeType=FolderNode)
 
 
 class FileDao():
@@ -65,3 +81,10 @@ class FileDao():
             size=src_file.size,
             md5=src_file.md5
         )
+
+    @staticmethod
+    def get_folder_tree():
+        folder_list = File.get_all(extension=None)
+        t = FolderTree()
+        t.generate_by_list(folder_list)
+        return t.serialize()

@@ -135,6 +135,14 @@ def delete_files():
     return Success(error_code=2)
 
 
+@api.route('/folder', methods=['GET'])
+@api.doc(auth=True)
+@auth.group_required
+def get_folder_tree():
+    '''获取目录树'''
+    return Success(FileDao.get_folder_tree())
+
+
 @api.route('/upload', methods=['POST'])
 @auth.login_required
 def post_file():

@@ -43,6 +43,19 @@ class RouteTree(Tree):
     def __init__(self, root=None):
         super(RouteTree, self).__init__(root, nodeType=RouteNode)
 
+    def serialize(self) -> dir:
+        def serialize_node(tree_node):
+            result = dict(tree_node)
+            result['meta'] = {
+                'icon': result['icon'],
+                'title': result['title']
+            }
+            result.pop('icon')
+            result.pop('title')
+            result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
+            return result
+        return serialize_node(self.root)
+
 
 class RouteDao(object):
     @staticmethod

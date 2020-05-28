@@ -34,7 +34,7 @@ def get_user():
                'g.body.password', 'g.body.confirm_password'])
 def create_user():
     '''用户注册'''
-    form = CreateUserValidator().get_data()
+    form = CreateUserValidator().nt_data
     UserDao.create_user(form)
     return Success(error_code=1)
 
@@ -83,7 +83,7 @@ def delete_user():
 @auth.login_required
 def change_password():
     '''更改密码'''
-    validator = ChangePasswordValidator().get_data()
+    validator = ChangePasswordValidator().nt_data
     UserDao.change_password(
         uid=g.user.id,
         old_password=validator.old_password,

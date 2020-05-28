@@ -21,7 +21,7 @@ api = Redprint(name='user', description='用户管理', api_doc=None, alias='cms
 @auth.group_required
 def get_user_list():
     '''查询用户列表(分页)'''
-    page_validator = PaginateValidator().get_data()
+    page_validator = PaginateValidator().nt_data
     rv = UserDao.get_user_list(page_validator.page, page_validator.size)
     return Success(rv)
 

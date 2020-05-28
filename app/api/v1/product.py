@@ -40,7 +40,7 @@ def get_all_by_category():
 def get_list_by_category():
     '''查询类别下商品列表'''
     category_id = CategoryIDValidator().nt_data.category_id
-    paginate = PaginateValidator().get_data()
+    paginate = PaginateValidator().nt_data
 
     rv = ProductDao.get_list_by_category(category_id=category_id, page=paginate.page, size=paginate.size)
     return Success(rv)

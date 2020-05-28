@@ -45,7 +45,7 @@ def place_order():
 @auth.login_required
 def get_order_list():
     '''查询订单列表'''
-    validator = PaginateValidator().get_data()
+    validator = PaginateValidator().nt_data
     paged_orders = OrderDao.get_summary_by_user(
         uid=g.user.id,
         page=validator.page,

@@ -24,7 +24,7 @@ api = Redprint(name='article', description='文章', api_doc=api_doc, alias='cms
 @api.doc(args=['*int.query.type', 'g.query.page', 'g.query.size'])
 def get_article_list():
     '''查询文章列表'''
-    page_validator = PaginateValidator().get_data()
+    page_validator = PaginateValidator().nt_data
     articles = ArticleDao.get_article_list(
         ArticleTypeEnum.COMMON.value,
         page_validator.page,

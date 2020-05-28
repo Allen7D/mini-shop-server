@@ -26,8 +26,8 @@ def get_admin_list():
     '''查询管理员列表'''
     paginate = PaginateValidator().nt_data
     group_id = int(request.args.get('group_id'))  # 可选
-    user_list = AdminDao.get_admin_list(group_id=group_id, page=paginate.page, size=paginate.size)
-    return Success(user_list)
+    rv = AdminDao.get_admin_list(group_id=group_id, page=paginate.page, size=paginate.size)
+    return Success(rv)
 
 
 @api.route('', methods=['POST'])

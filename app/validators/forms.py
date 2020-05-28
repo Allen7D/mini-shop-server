@@ -26,6 +26,7 @@ class IDMustBePositiveIntValidator(BaseValidator):
             raise ValidationError(message='ID 必须为正整数')
         self.id.data = int(id)
 
+
 # id必须为非负整数
 class IDMustBeNaturalNumValidator(BaseValidator):
     id = IntegerField(validators=[DataRequired()])
@@ -35,6 +36,7 @@ class IDMustBeNaturalNumValidator(BaseValidator):
         if not self.isNaturalNumber(id):
             raise ValidationError(message='ID 必须为非负整数')
         self.id.data = int(id)
+
 
 # id序列的校验
 class IDCollectionValidator(BaseValidator):
@@ -143,6 +145,12 @@ class CreateUserValidator(UpdateUserValidator, CreatePasswordValidator):
     username = StringField(validators=[
         DataRequired(message='用户名不可为空'),
         length(min=2, max=10, message='用户名长度必须在2~10之间')])
+
+
+class UpdateAvatarValidator(BaseValidator):
+    avatar = StringField('头像', validators=[
+        DataRequired(message='请输入头像url')
+    ])
 
 
 ########## 权限管理相关 ##########

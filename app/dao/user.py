@@ -8,7 +8,6 @@ from app.models.user import User
 from app.models.identity import Identity
 from app.dao.identity import IdentityDao
 
-
 __author__ = 'Allen7D'
 
 
@@ -116,6 +115,18 @@ class UserDao():
                 IdentityDao.update_identity(
                     commit=False, user_id=uid, identifier=item['identifier'], credential=credential, type=item['type']
                 )
+
+    # 更新头像
+    @staticmethod
+    def set_avatar(id, avatar):
+        '''
+        :param id: 用户id
+        :param avatar: 头像url
+        :return:
+        '''
+        with db.auto_commit():
+            user = User.get(id=id)
+            user._avatar = avatar
 
     # 删除用户
     @staticmethod

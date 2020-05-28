@@ -94,6 +94,7 @@ nickname_in_body = BodyField(name='nickname', type='string', description='昵称
 username_in_body = BodyField(name='username', type='string', description='用户名', enum=['Allen7D'])
 email_in_body = BodyField(name='email', type='string', description='邮箱', enum=['462870781@qq.com'])
 mobile_in_body = BodyField(name='mobile', type='string', description='手机', enum=['13758787058'])
+avatar_in_body = BodyField(name='avatar', type='string', description='头像url', enum=['http://abc/xzy.jpg'])
 
 # Address
 address_id_in_path = IntegerPathFiled(

@@ -18,10 +18,15 @@ class AdminDao():
         } if group_id else {
             'auth': ScopeEnum.COMMON.value
         }
-        user_list = User.query \
+        paginator = User.query \
             .filter_by(**sql_query) \
             .paginate(page=page, per_page=size, error_out=False)
-        return user_list
+        paginator.hide('address')
+        return {
+            'total': paginator.total,
+            'current_page': paginator.page,
+            'items': paginator.items
+        }
 
     # 新增管理员
     @staticmethod

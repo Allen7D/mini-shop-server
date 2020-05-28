@@ -26,3 +26,14 @@ def jsonify(*args, **kwargs):
         dumps(data, indent=indent, separators=separators) + '\n',
         mimetype=current_app.config['JSONIFY_MIMETYPE']
     ).json
+
+def paginate():
+    from app.validators.forms import PaginateValidator
+    validator = PaginateValidator().dt_data
+    page_default = current_app.config.get('PAGE_DEFAULT')
+    size_default = current_app.config.get('SIZE_DEFAULT')
+
+    page = validator.get('page', page_default if page_default else 1)
+    size = validator.get('size', size_default if size_default else 1)
+
+    return page, size

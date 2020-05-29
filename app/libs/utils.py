@@ -97,6 +97,9 @@ class Tree(object):
 
 
 def discard_html(htmlstr):
+    """
+    去除字符串中的html标签
+    """
     s2 = re.sub(r'<.*?>', '', htmlstr)
     return s2
 

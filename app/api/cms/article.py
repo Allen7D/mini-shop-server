@@ -46,7 +46,7 @@ def get_article(id):
 @auth.group_required
 def update_article(id):
     '''更新文章'''
-    form = ArticleValidator().validate_for_api().dt_data
+    form = ArticleValidator().dt_data
     article = ArticleDao.update_article(id, **form)
     return Success(article, error_code=1)
 
@@ -65,6 +65,6 @@ def delete_user(id):
 @auth.group_required
 def create_group():
     '''新建文章'''
-    form = ArticleValidator().validate_for_api().dt_data
+    form = ArticleValidator().dt_data
     Article.create(author_id=g.user.id, **form)
     return Success(error_code=1)

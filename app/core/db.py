@@ -148,6 +148,7 @@ class CRUDMixin(object):
         '''更新'''
         for attr, value in kwargs.items():
             if hasattr(self, attr):
+                print(attr)
                 setattr(self, attr, value)
         return self.save(commit)
 

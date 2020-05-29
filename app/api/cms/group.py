@@ -10,7 +10,7 @@ from app.core.token_auth import auth
 from app.models.group import Group
 from app.dao.group import GroupDao
 from app.libs.error_code import Success, NotFound
-from app.validators.base import BaseValidator
+from app.core.validator import BaseValidator
 from app.validators.forms import UpdateGroupValidator
 
 __author__ = 'Allen7D'

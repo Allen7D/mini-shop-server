@@ -9,7 +9,7 @@ from app.core.token_auth import auth
 from app.models.theme import Theme
 from app.dao.theme import ThemeDao
 from app.libs.error_code import Success
-from app.validators.base import BaseValidator
+from app.core.validator import BaseValidator
 from app.validators.forms import PaginateValidator, IDCollectionValidator
 
 __author__ = 'Allen7D'

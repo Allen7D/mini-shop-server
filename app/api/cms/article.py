@@ -12,7 +12,7 @@ from app.core.token_auth import auth
 from app.models.article import Article
 from app.libs.enums import ArticleTypeEnum
 from app.dao.article import ArticleDao
-from app.validators.base import BaseValidator
+from app.core.validator import BaseValidator
 from app.validators.forms import PaginateValidator
 
 __author__ = 'Allen7D'

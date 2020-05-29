@@ -10,7 +10,7 @@ from wtforms.validators import DataRequired, ValidationError, length, Email, Reg
     NumberRange
 
 from app.libs.enums import ClientTypeEnum
-from app.validators.base import BaseValidator
+from app.core.validator import BaseValidator
 
 __author__ = 'Allen7D'
 

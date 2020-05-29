@@ -9,7 +9,7 @@ from app.models.order import Order
 from app.dao.order import OrderDao
 from app.service.order import OrderService
 from app.libs.error_code import Success
-from app.validators.base import BaseValidator
+from app.core.validator import BaseValidator
 from app.validators.forms import PaginateValidator, TimeIntervalValidator, OrderIDValidator
 
 __author__ = 'Allen7D'

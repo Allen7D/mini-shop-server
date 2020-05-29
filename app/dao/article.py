@@ -34,3 +34,10 @@ class ArticleDao():
     def delete_article(id):
         artitle = Article.get_or_404(id=id)
         artitle.delete()
+
+    @staticmethod
+    def update_article(id, **form):
+        article = Article.get_or_404(id=id)
+        article.update(**form)
+        return article
+

@@ -363,3 +363,13 @@ class MenuGroupIdValidator(UpdateAdminValidator):
 
 class MenuValidator(MenuGroupIdValidator):
     routes = FieldList(unbound_field=IntegerField(validators=[DataRequired()]), min_entries=1)
+
+class ArticleValidator(BaseValidator):
+    author_id = IntegerField()
+    type = IntegerField(validators=[DataRequired()])
+    title = StringField(validators=[DataRequired()])
+    summary = StringField()
+    content = StringField()
+    img = StringField()
+    theme = IntegerField()
+    views = IntegerField()

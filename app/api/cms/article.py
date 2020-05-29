@@ -13,7 +13,7 @@ from app.models.article import Article
 from app.libs.enums import ArticleTypeEnum
 from app.dao.article import ArticleDao
 from app.validators.base import BaseValidator
-from app.validators.forms import PaginateValidator
+from app.validators.forms import PaginateValidator, ArticleValidator
 
 __author__ = 'Allen7D'
 
@@ -46,7 +46,9 @@ def get_article(id):
 @auth.group_required
 def update_article(id):
     '''更新文章'''
-    return Success(error_code=1)
+    form = ArticleValidator().dt_data
+    article = ArticleDao.update_article(id, **form)
+    return Success(article, error_code=1)
 
 
 @api.route('/<int:id>', methods=['DELETE'])
@@ -63,6 +65,6 @@ def delete_user(id):
 @auth.group_required
 def create_group():
     '''新建文章'''
-    form = BaseValidator().get_args_json(as_dict=True)
+    form = ArticleValidator().dt_data
     Article.create(author_id=g.user.id, **form)
     return Success(error_code=1)

@@ -2,6 +2,7 @@
 """
   Created by Allen7D on 2018/6/14.
 """
+import re
 
 __author__ = 'Allen7D'
 
@@ -90,3 +91,15 @@ class Tree(object):
 
         deserialize_node(self.root, self.root.parent_id)
         return tree_list
+
+
+
+def discard_html(htmlstr):
+    """
+    去除字符串中的html标签
+    """
+    s2 = re.sub(r'<.*?>', '', htmlstr)
+    return s2
+
+
+

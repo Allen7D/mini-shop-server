@@ -71,9 +71,12 @@ class Tree(object):
         self.root = create_node(tree_dir)
 
     def serialize(self) -> dir:
+        def getOrder(elm):
+            return elm['order']
+
         def serialize_node(tree_node):
             result = dict(tree_node)
-            result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
+            result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children].sort(key=getOrder)
             return result
 
         return serialize_node(self.root)
@@ -90,3 +93,45 @@ class Tree(object):
 
         deserialize_node(self.root, self.root.parent_id)
         return tree_list
+
+
+class OrderNode(TreeNode):
+    def __init__(self, id, parent_id, order=0):
+        super(OrderNode, self).__init__(id, parent_id)
+        self.order = order
+
+
+class OrderTree(Tree):
+    def __init__(self, root, nodeType):
+        super(OrderTree, self).__init__(root, nodeType)
+
+    def generate_by_dir(self, tree_dir: dir):
+        """
+            :param tree_dir: 节点元素不含有parent
+        """
+        def create_node(cur_node_dir):
+            node = self.nodeType(**cur_node_dir)
+            if 'children' in cur_node_dir and \
+                    len(cur_node_dir['children']) != 0:
+                order = 0
+                for child_node_dir in cur_node_dir['children']:
+                    child_node_dir['order'] = order
+                    order += 1
+                    print(order, child_node_dir)
+                    node.add_sub_node(create_node(child_node_dir))
+            else:
+                pass
+            return node
+
+        self.root = create_node(tree_dir)
+
+    def serialize(self) -> dir:
+        def getOrder(elm):
+            return elm['order']
+
+        def serialize_node(tree_node):
+            result = dict(tree_node)
+            result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
+            result['children'].sort(key=getOrder) if len(result['children']) != 0 else None
+            return result
+        return serialize_node(self.root)

@@ -6,13 +6,12 @@ from app.models.route import Route
 from app.models.menu import Menu
 from app.core.db import db
 from app.core.error import Forbidden
-from app.libs.utils import TreeNode, Tree
-from sqlalchemy.exc import IntegrityError
+from app.libs.utils import OrderNode, OrderTree
 
 __author__ = 'Mohan'
 
 
-class RouteNode(TreeNode):
+class RouteNode(OrderNode):
     def __init__(
             self,
             id=None,
@@ -25,8 +24,7 @@ class RouteNode(TreeNode):
             component=None,
             hidden=None,
             **kwargs):
-        super(RouteNode, self).__init__(id=id, parent_id=parent_id)
-        self.order = order
+        super(RouteNode, self).__init__(id=id, parent_id=parent_id, order=order)
         self.title = title
         self.name = name
         self.icon = icon
@@ -39,11 +37,14 @@ class RouteNode(TreeNode):
         return attrs + ('order', 'title', 'name', 'icon', 'path', 'component', 'hidden')
 
 
-class RouteTree(Tree):
-    def __init__(self, root=None):
-        super(RouteTree, self).__init__(root, nodeType=RouteNode)
+class RouteTree(OrderTree):
+    def __init__(self, root=None, nodeType=RouteNode):
+        super(RouteTree, self).__init__(root, nodeType)
 
     def serialize(self) -> dir:
+        def getOrder(elm):
+            return elm['order']
+
         def serialize_node(tree_node):
             result = dict(tree_node)
             result['meta'] = {
@@ -53,6 +54,7 @@ class RouteTree(Tree):
             result.pop('icon')
             result.pop('title')
             result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
+            result['children'].sort(key=getOrder) if len(result['children']) != 0 else None
             return result
         return serialize_node(self.root)
 
@@ -76,10 +78,12 @@ class RouteDao(object):
             for cur_route in cur_list:
                 old_route = Route.get(id=cur_route['id'])
                 if old_route and \
-                        old_route.parent_id != cur_route['parent_id']:
+                        (old_route.parent_id != cur_route['parent_id'] or
+                         old_route.order != cur_route['order']):
                     old_route.update(
                         id=cur_route['id'],
                         parent_id=cur_route['parent_id'],
+                        order=cur_route['order'],
                         commit=False
                     )
 

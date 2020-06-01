@@ -4,6 +4,7 @@
   Flask 对配置项的限制，你必须保证命名全都大写，才能注入到current_app.config中
 """
 from app.libs.enums import ClientTypeEnum
+
 __author__ = 'Allen7D'
 
 '''
@@ -17,16 +18,20 @@ API_PATH = 'app.api'
 # 可以控制Swagger API文档的显示顺序
 ALL_RP_API_LIST = \
     ['v1.token'] + \
-    ['cms.admin', 'cms.group', 'cms.auth'] + \
-    ['cms.order'] + \
+    ['cms.admin', 'cms.group', 'cms.auth', 'cms.menu', 'cms.route'] + \
+    ['cms.file'] + \
     ['v1.user', 'v1.address',
      'v1.banner', 'v1.theme', 'v1.category', 'v1.product', 'v1.order', 'v1.pay'] + \
-    ['cms.user', 'cms.file']
+    ['cms.user', 'cms.order', 'cms.article']
 
 # 所有endpoint的meta信息
 EP_META = {}
 EP_INFO_LIST = []
 EP_INFOS = {}
+
+# 分页配置
+PAGE_DEFAULT = 1
+SIZE_DEFAULT = 10
 
 # 项目的github地址
 GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'

@@ -5,17 +5,18 @@
 """
 
 from flask import request
-from wtforms import BooleanField, StringField, IntegerField, PasswordField, FileField, FieldList, MultipleFileField
-from wtforms.validators import InputRequired, DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, NumberRange
+from wtforms import BooleanField, StringField, IntegerField, PasswordField, FileField, FieldList
+from wtforms.validators import DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, \
+    NumberRange
 
 from app.libs.enums import ClientTypeEnum
-from app.models.user import User
-from app.validators.base import BaseValidator
+from app.core.validator import BaseValidator
 
 __author__ = 'Allen7D'
 
 
 ########## 基础公用的参数校验器 ##########
+# id必须为正整数
 class IDMustBePositiveIntValidator(BaseValidator):
     id = IntegerField(validators=[DataRequired()])
 
@@ -26,6 +27,18 @@ class IDMustBePositiveIntValidator(BaseValidator):
         self.id.data = int(id)
 
 
+# id必须为非负整数
+class IDMustBeNaturalNumValidator(BaseValidator):
+    id = IntegerField(validators=[DataRequired()])
+
+    def validate_id(self, value):
+        id = value.data
+        if not self.isNaturalNumber(id):
+            raise ValidationError(message='ID 必须为非负整数')
+        self.id.data = int(id)
+
+
+# id序列的校验
 class IDCollectionValidator(BaseValidator):
     ids = StringField(validators=[DataRequired()])
 
@@ -115,10 +128,6 @@ class UserEmailValidator(ClientValidator):
         length(min=2, max=22)
     ])
 
-    def validate_account(self, value):
-        User.abort_repeat(msg='该用户已注册')
-        self.account.data = value.data
-
 
 class UpdateUserValidator(BaseValidator):
     username = StringField(validators=[length(min=2, max=10, message='用户名长度必须在2~10之间'), Optional()])
@@ -136,6 +145,12 @@ class CreateUserValidator(UpdateUserValidator, CreatePasswordValidator):
     username = StringField(validators=[
         DataRequired(message='用户名不可为空'),
         length(min=2, max=10, message='用户名长度必须在2~10之间')])
+
+
+class UpdateAvatarValidator(BaseValidator):
+    avatar = StringField('头像', validators=[
+        DataRequired(message='请输入头像url')
+    ])
 
 
 ########## 权限管理相关 ##########
@@ -321,9 +336,9 @@ class UpdateFileValidator(FilenameValidator, FileIDValidator):
 class MoveOrCopyFileValidator(FileParentIDValidator, FileIDValidator):
     pass
 
+
 ########## 路由相关 ##########
-class MenuNodeValidator(BaseValidator):
-    id = IntegerField(validators=[NumberRange(min=0, message="id must over 0")])
+class MenuNodeValidator(IDMustBeNaturalNumValidator):
     children = FieldList(unbound_field=StringField(validators=[DataRequired()]), min_entries=1)
 
 
@@ -337,8 +352,8 @@ class RouteNodeWithoutIdValidator(BaseValidator):
     hidden = BooleanField(validators=[])
 
 
-class RouteNodeValidator(RouteNodeWithoutIdValidator):
-    id = IntegerField(validators=[NumberRange(min=0, message="id must over 0")])
+class RouteNodeValidator(RouteNodeWithoutIdValidator, IDMustBeNaturalNumValidator):
+    pass
 
 
 class MenuGroupIdValidator(UpdateAdminValidator):
@@ -348,3 +363,13 @@ class MenuGroupIdValidator(UpdateAdminValidator):
 
 class MenuValidator(MenuGroupIdValidator):
     routes = FieldList(unbound_field=IntegerField(validators=[DataRequired()]), min_entries=1)
+
+class ArticleValidator(BaseValidator):
+    author_id = IntegerField()
+    type = IntegerField(validators=[DataRequired()])
+    title = StringField(validators=[DataRequired()])
+    summary = StringField()
+    content = StringField()
+    img = StringField()
+    theme = IntegerField()
+    views = IntegerField()

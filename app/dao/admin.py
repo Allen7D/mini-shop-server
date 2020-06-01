@@ -12,17 +12,21 @@ class AdminDao():
     # 查询管理员列表
     @staticmethod
     def get_admin_list(group_id, page, size):
-        query_condition = {
+        sql_query = {
             'auth': ScopeEnum.COMMON.value,
             'group_id': group_id  # 管理员(至少拥有权限组)
         } if group_id else {
             'auth': ScopeEnum.COMMON.value
         }
-        user_list = User.query \
-            .filter_by(**query_condition) \
+        paginator = User.query \
+            .filter_by(**sql_query) \
             .paginate(page=page, per_page=size, error_out=False)
-
-        return user_list
+        paginator.hide('address')
+        return {
+            'total': paginator.total,
+            'current_page': paginator.page,
+            'items': paginator.items
+        }
 
     # 新增管理员
     @staticmethod

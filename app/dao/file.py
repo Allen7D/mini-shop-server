@@ -40,6 +40,7 @@ class FileDao():
     @staticmethod
     def rename_file(file_id, new_filename):
         file = File.get_or_404(id=file_id)
+        File.abort_repeat(parent_id=file.parent_id, name=new_filename, msg='文件名重复，请重命名!')
         file.update(name=new_filename)
 
     # 批量删除文件或文件夹
@@ -81,6 +82,7 @@ class FileDao():
             size=src_file.size,
             md5=src_file.md5
         )
+        return File.get(parent_id=dest_parent_id, md5=src_file.md5)
 
     @staticmethod
     def get_folder_tree():

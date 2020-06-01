@@ -21,7 +21,7 @@ class File(Base):
     extension = Column(String(50), comment='后缀')
     _from = Column('from', SmallInteger, default=1, comment='来源: 1 本地，2 公网')
     size = Column(Integer, comment='大小')
-    md5 = Column(String(40), unique=True, comment='文件md5值，防止上传重复文件')
+    md5 = Column(String(40), comment='文件md5值，防止上传重复文件')
 
     def keys(self):
         self.hide('_from', 'path', 'md5').append('url')

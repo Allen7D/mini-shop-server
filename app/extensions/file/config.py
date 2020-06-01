@@ -13,6 +13,9 @@ FILE = {
     "SINGLE_LIMIT": 1024 * 1024 * 2,
     "TOTAL_LIMIT": 1024 * 1024 * 20,
     "NUMS": 10,
-    "INCLUDE": set(['jpg', 'png', 'jpeg']),
+    "INCLUDE": set(['jpg', 'jpeg', 'png'] +
+                   ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'md'] +
+                   ['mp3', 'mp4'] +
+                   ['zip']),
     "EXCLUDE": set([])
 }

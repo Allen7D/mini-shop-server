@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Allen7D on 2018/5/13.
+  Created by Allen7D on 2020/5/28.
 """
 from collections import namedtuple
 
@@ -53,13 +53,19 @@ class BaseValidator(PropVelifyMixin, WTForm):
             raise ParameterException(msg=self.errors)
         return self
 
-    def get_data(self, as_dict: bool = False):
-        '''默认为nt'''
-        return self._data._asdict() if as_dict else self._data
+    def get_data(self, *args):
+        '''按次序获取通过参数校验的参数
+        :param args: 要解析的参数名数组
+        :return:
+        '''
+        order_list = []
+        for arg in args:
+            order_list.append(getattr(self._data, arg, None))
+        return order_list[0] if len(args) else set(order_list)
 
     @property
     def dt_data(self):
-        '''返回结果以dict的形式，常用于数据库查询'''
+        '''返回结果以dict的形式，常用于数据库相关操作'''
         return self._data._asdict()
 
     @property
@@ -106,7 +112,7 @@ class BaseValidator(PropVelifyMixin, WTForm):
     def get_view_args(as_dict: bool = False):
         '''获取所有的path中的数据'''
         view_args = _request_ctx_stack.top.request.view_args
-        data =  {
+        data = {
             key: value for key, value in view_args.items() if (value is not None and value != '')
         }
         if as_dict:

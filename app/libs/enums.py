@@ -52,3 +52,9 @@ class AtLeastEnum(Enum):
     '''至少的数目'''
     ONE = 1
     TEN = 10
+
+class ArticleTypeEnum(Enum):
+    '''文章类型'''
+    COMMON = 1 # 普通文章
+    COMPANY = 2 # 公司相关
+    INDUSTRY = 3 # 行业相关

@@ -13,7 +13,8 @@ from app.dao.user import UserDao
 from app.dao.auth import AuthDao
 from app.dao.identity import IdentityDao
 from app.libs.error_code import Success
-from app.validators.forms import BaseValidator, ChangePasswordValidator, CreateUserValidator, UpdateUserValidator
+from app.validators.forms import BaseValidator, ChangePasswordValidator, \
+    CreateUserValidator, UpdateUserValidator, UpdateAvatarValidator
 
 __author__ = 'Allen7D'
 
@@ -34,7 +35,7 @@ def get_user():
                'g.body.password', 'g.body.confirm_password'])
 def create_user():
     '''用户注册'''
-    form = CreateUserValidator().get_data()
+    form = CreateUserValidator().nt_data
     UserDao.create_user(form)
     return Success(error_code=1)
 
@@ -83,13 +84,23 @@ def delete_user():
 @auth.login_required
 def change_password():
     '''更改密码'''
-    validator = ChangePasswordValidator().get_data()
+    validator = ChangePasswordValidator().nt_data
     UserDao.change_password(
         uid=g.user.id,
         old_password=validator.old_password,
         new_password=validator.new_password
     )
     return Success(error_code=1)
+
+
+@api.route('/avatar', methods=['PUT'])
+@api.doc(args=['g.body.avatar'], auth=True)
+@auth.login_required
+def set_avatar():
+    '''更新用户头像'''
+    validator = UpdateAvatarValidator().nt_data
+    UserDao.set_avatar(id=g.user.id, avatar=validator.avatar)
+    return Success(error_code=1, msg='更新头像成功')
 
 
 @api.route('/auths', methods=['GET'])

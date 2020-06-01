@@ -2,6 +2,7 @@
 """
   Created by Allen7D on 2018/6/14.
 """
+import re
 
 __author__ = 'Allen7D'
 
@@ -135,3 +136,11 @@ class OrderTree(Tree):
             result['children'].sort(key=getOrder) if len(result['children']) != 0 else None
             return result
         return serialize_node(self.root)
+
+
+def discard_html(htmlstr):
+    """
+    去除字符串中的html标签
+    """
+    s2 = re.sub(r'<.*?>', '', htmlstr)
+    return s2

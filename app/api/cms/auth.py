@@ -68,6 +68,6 @@ def append_auth_list():
 @auth.admin_required
 def remove_auth_list():
     '''移除多个权限(从某个权限组)'''
-    validator = AuthsValidator().get_data()
+    validator = AuthsValidator().nt_data
     AuthDao.delete_auth_list(group_id=validator.group_id, auth_ids=validator.auth_ids)
     return Success(error_code=2)

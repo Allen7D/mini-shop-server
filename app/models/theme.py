@@ -5,7 +5,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship, backref
 
-from app.libs.error_code import ThemeException
 from app.core.db import EntityModel as Base, db
 from app.models.image import Image
 
@@ -35,8 +34,3 @@ class Theme(Base):
     def head_img_url(self):
         image = Image.get(id=self.head_img_id)
         return image.url if image else ''
-
-    @staticmethod
-    def get_theme_detail(id):
-        theme_detail = Theme.get_or_404(id=id, e=ThemeException)
-        return theme_detail.append('products')

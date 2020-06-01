@@ -9,7 +9,7 @@ from app.core.token_auth import auth
 from app.models.theme import Theme
 from app.dao.theme import ThemeDao
 from app.libs.error_code import Success
-from app.validators.base import BaseValidator
+from app.core.validator import BaseValidator
 from app.validators.forms import PaginateValidator, IDCollectionValidator
 
 __author__ = 'Allen7D'
@@ -26,19 +26,21 @@ def get_simple_list():
     :return: 一组theme模型
     '''
     ids = IDCollectionValidator().validate_for_api().ids.data
-    theme = Theme.query.filter(Theme.id.in_(ids)).all_by_wrap()
-    return Success(theme)
+    themes = Theme.query.filter(Theme.id.in_(ids)).all()
+    return Success({
+        'items': themes
+    })
 
 
 @api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['g.path.theme_id'])
 def get_complex_one(id):
-    '''主题详情接口
+    '''查询主题详情
     :param id: 专题theme的id
     :return: 专题theme的详情
     '''
-    theme_detail = Theme.get_theme_detail(id=id)
-    return Success(theme_detail)
+    theme = ThemeDao.get_theme_detail(id=id)
+    return Success(theme)
 
 
 @api.route('/list', methods=['GET'])
@@ -46,9 +48,8 @@ def get_complex_one(id):
 @auth.login_required
 def get_theme_list():
     '''查询主题列表(分页)'''
-    page_validator = PaginateValidator().validate_for_api()
-    page = page_validator.page.data
-    size = page_validator.size.data
+    validator = PaginateValidator().nt_data
+    page, size = validator.page, validator.size
     paginator = Theme.query.filter_by().paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': paginator.total,

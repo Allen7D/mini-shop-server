@@ -9,6 +9,7 @@ from app.core.token_auth import auth
 from app.models.product import Product
 from app.dao.product import ProductDao
 from app.libs.error_code import Success
+from app.core.utils import paginate
 from app.validators.forms import PaginateValidator, CountValidator, CategoryIDValidator, ReorderValidator
 
 __author__ = 'Allen7D'
@@ -21,8 +22,8 @@ api = Redprint(name='product', description='产品', api_doc=api_doc)
 def get_recent():
     '''最新的商品'''
     count = CountValidator().validate_for_api().count.data
-    product_list = ProductDao.get_most_recent(count=count)
-    return Success(product_list)
+    rv = ProductDao.get_most_recent(count=count)
+    return Success(rv)
 
 
 @api.route('/all/by_category', methods=['GET'])
@@ -30,8 +31,10 @@ def get_recent():
 def get_all_by_category():
     '''查询类别下所有商品'''
     category_id = CategoryIDValidator().nt_data.category_id
-    product_list = Product.query.filter_by(category_id=category_id).all_by_wrap()
-    return Success(product_list)
+    product_list = Product.query.filter_by(category_id=category_id).all()
+    return Success({
+        'items': product_list
+    })
 
 
 @api.route('/list/by_category', methods=['GET'])
@@ -40,9 +43,8 @@ def get_all_by_category():
 def get_list_by_category():
     '''查询类别下商品列表'''
     category_id = CategoryIDValidator().nt_data.category_id
-    paginate = PaginateValidator().get_data()
-
-    rv = ProductDao.get_list_by_category(category_id=category_id, page=paginate.page, size=paginate.size)
+    page, size = paginate()
+    rv = ProductDao.get_list_by_category(c_id=category_id, page=page, size=size)
     return Success(rv)
 
 
@@ -50,7 +52,7 @@ def get_list_by_category():
 @api.doc(args=['g.path.product_id'])
 def get_product(id):
     '''查询商品'''
-    product = ProductDao.get_product_detail(id=id)
+    product = ProductDao.get_product(id=id)
     return Success(product)
 
 

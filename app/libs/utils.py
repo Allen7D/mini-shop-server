@@ -72,12 +72,11 @@ class Tree(object):
         self.root = create_node(tree_dir)
 
     def serialize(self) -> dir:
-        def getOrder(elm):
-            return elm['order']
-
         def serialize_node(tree_node):
             result = dict(tree_node)
-            result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children].sort(key=getOrder)
+            result['children'] = [
+                serialize_node(sub_node) for sub_node in tree_node.children
+            ].sort(key=lambda ele: ele['order'])
             return result
 
         return serialize_node(self.root)

@@ -12,18 +12,8 @@ __author__ = 'Mohan'
 
 
 class RouteNode(OrderNode):
-    def __init__(
-            self,
-            id=None,
-            order=None,
-            parent_id=None,
-            title=None,
-            name=None,
-            icon=None,
-            path=None,
-            component=None,
-            hidden=None,
-            **kwargs):
+    def __init__(self, id=None, order=None, parent_id=None, title=None,
+                 name=None, icon=None, path=None, component=None, hidden=None, **kwargs):
         super(RouteNode, self).__init__(id=id, parent_id=parent_id, order=order)
         self.title = title
         self.name = name
@@ -42,9 +32,6 @@ class RouteTree(OrderTree):
         super(RouteTree, self).__init__(root, nodeType)
 
     def serialize(self) -> dir:
-        def getOrder(elm):
-            return elm['order']
-
         def serialize_node(tree_node):
             result = dict(tree_node)
             result['meta'] = {
@@ -54,7 +41,7 @@ class RouteTree(OrderTree):
             result.pop('icon')
             result.pop('title')
             result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
-            result['children'].sort(key=getOrder) if len(result['children']) != 0 else None
+            result['children'].sort(key=lambda ele: ele['order']) if len(result['children']) != 0 else None
             return result
         return serialize_node(self.root)
 
@@ -80,12 +67,8 @@ class RouteDao(object):
                 if old_route and \
                         (old_route.parent_id != cur_route['parent_id'] or
                          old_route.order != cur_route['order']):
-                    old_route.update(
-                        id=cur_route['id'],
-                        parent_id=cur_route['parent_id'],
-                        order=cur_route['order'],
-                        commit=False
-                    )
+                    old_route.update(id=cur_route['id'], parent_id=cur_route['parent_id'],
+                                     order=cur_route['order'], commit=False)
 
     @staticmethod
     def get_route_node(id) -> dir:

@@ -19,8 +19,11 @@ class ArticleDao():
     # 获取文章列表
     @staticmethod
     def get_article_list(type, page, size):
+        query_dict = {}
+        if type != 0:
+            query_dict['type'] = type
         paginator = Article.query \
-            .filter_by(type=type) \
+            .filter_by(**query_dict) \
             .paginate(page=page, per_page=size, error_out=True)
         paginator.hide('content')
         return {

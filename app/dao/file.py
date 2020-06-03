@@ -59,7 +59,7 @@ class FileDao():
             parent_id=dest_parent_id,
             name=file.name,
             extension=file.extension,
-            msg='文件名重复，无法复制！')
+            msg='文件名重复，无法移动！')
         # 如果不重名则可以复制
         file.update(parent_id=dest_parent_id)
 

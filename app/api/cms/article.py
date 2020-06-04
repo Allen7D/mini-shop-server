@@ -23,8 +23,8 @@ api = Redprint(name='article', description='文章', api_doc=api_doc, alias='cms
 @api.doc(args=['*int.query.type', 'g.query.page', 'g.query.size'])
 def get_article_list():
     '''查询文章列表'''
-    validator = BaseValidator().dt_data
-    type = int(validator['type'])
+    validator = BaseValidator().get_args_json()
+    type = int(validator.type)
     page_validator = PaginateValidator().nt_data
     articles = ArticleDao.get_article_list(
         type,
@@ -33,6 +33,17 @@ def get_article_list():
     )
     return Success(articles)
 
+@api.route('/latest', methods=['GET'])
+def get_article_latest():
+    validator = BaseValidator().get_args_json()
+    type = int(validator.type)
+    page_validator = PaginateValidator().nt_data
+    articles = ArticleDao.get_article_latest(
+        type,
+        page_validator.page,
+        page_validator.size
+    )
+    return Success(articles)
 
 @api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['g.path.article_id'])

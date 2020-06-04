@@ -32,6 +32,21 @@ class ArticleDao():
             'items': paginator.items
         }
 
+    @staticmethod
+    def get_article_latest(type, page, size):
+        query_dict = {}
+        if type != 0:
+            query_dict['type'] = type
+        paginator = Article.query \
+            .filter_by(**query_dict).order_by(Article.create_time.desc()) \
+            .paginate(page=page, per_page=size, error_out=True)
+        paginator.hide('content')
+        return {
+            'total': paginator.total,
+            'current_page': paginator.page,
+            'items': paginator.items
+        }
+
     # 删除
     @staticmethod
     def delete_article(id):

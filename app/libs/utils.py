@@ -74,9 +74,7 @@ class Tree(object):
     def serialize(self) -> dir:
         def serialize_node(tree_node):
             result = dict(tree_node)
-            result['children'] = [
-                serialize_node(sub_node) for sub_node in tree_node.children
-            ].sort(key=lambda ele: ele['order'])
+            result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
             return result
 
         return serialize_node(self.root)

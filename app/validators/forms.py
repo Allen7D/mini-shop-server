@@ -53,7 +53,6 @@ class IDCollectionValidator(BaseValidator):
 class PaginateValidator(BaseValidator):
     page = IntegerField(default=1)  # 当前页
     size = IntegerField(NumberRange(min=1, max=100), default=10)  # 每页条目个数
-    type = IntegerField()
 
     def validate_page(self, value):
         self.page.data = int(value.data)
@@ -61,8 +60,6 @@ class PaginateValidator(BaseValidator):
     def validate_size(self, value):
         self.size.data = int(value.data)
 
-    def validate_type(self, value):
-        self.type.data = int(value.data)
 
 
 class TimeIntervalValidator(BaseValidator):

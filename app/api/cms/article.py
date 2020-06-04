@@ -12,7 +12,7 @@ from app.core.token_auth import auth
 from app.models.article import Article
 from app.libs.enums import ArticleTypeEnum
 from app.dao.article import ArticleDao
-from app.validators.forms import PaginateValidator, ArticleValidator
+from app.validators.forms import PaginateValidator, ArticleValidator, BaseValidator
 
 __author__ = 'Allen7D'
 
@@ -23,9 +23,11 @@ api = Redprint(name='article', description='文章', api_doc=api_doc, alias='cms
 @api.doc(args=['*int.query.type', 'g.query.page', 'g.query.size'])
 def get_article_list():
     '''查询文章列表'''
+    validator = BaseValidator().dt_data
+    type = int(validator['type'])
     page_validator = PaginateValidator().nt_data
     articles = ArticleDao.get_article_list(
-        page_validator.type,
+        type,
         page_validator.page,
         page_validator.size
     )

@@ -33,8 +33,11 @@ def get_article_list():
     )
     return Success(articles)
 
+
 @api.route('/latest', methods=['GET'])
+@api.doc(args=['*int.query.type', 'g.query.page', 'g.query.size'])
 def get_article_latest():
+    '''查询最新文章列表'''
     validator = BaseValidator().get_args_json()
     type = int(validator.type)
     page_validator = PaginateValidator().nt_data
@@ -44,6 +47,7 @@ def get_article_latest():
         page_validator.size
     )
     return Success(articles)
+
 
 @api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['g.path.article_id'])
@@ -73,7 +77,8 @@ def delete_user(id):
 
 
 @api.route('', methods=['POST'])
-@api.doc(args=['*int.body.type', '*str.body.title', '*str.body.summary', '*str.body.content', '*str.body.img'], auth=True)
+@api.doc(args=['*int.body.type', '*str.body.title', '*str.body.summary', '*str.body.content', '*str.body.img'],
+         auth=True)
 @auth.group_required
 def create_group():
     '''新建文章'''

@@ -8,12 +8,13 @@ from flask import g
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import user as api_doc
 from app.core.token_auth import auth
+from app.core.utils import get_request_args
 from app.models.user import User
 from app.dao.user import UserDao
 from app.dao.auth import AuthDao
 from app.dao.identity import IdentityDao
 from app.libs.error_code import Success
-from app.validators.forms import BaseValidator, ChangePasswordValidator, \
+from app.validators.forms import ChangePasswordValidator, \
     CreateUserValidator, UpdateUserValidator, UpdateAvatarValidator
 
 __author__ = 'Allen7D'
@@ -55,9 +56,9 @@ def update_user():
 @auth.login_required
 def bind_identity():
     '''绑定账号'''
-    validator = BaseValidator.get_args_json()
+    validator = get_request_args()
     IdentityDao.bind(user_id=g.user.id, identifier=validator.account, type=validator.type)
-    pass
+    return Success(error_code=1)
 
 
 @api.route('/unbind', methods=['PUT'])
@@ -65,9 +66,9 @@ def bind_identity():
 @auth.login_required
 def unbind_identity():
     '''解绑账号'''
-    type = BaseValidator.get_args_json().type
-    IdentityDao.unbind(user_id=g.user.id, type=type)
-    return Success()
+    validator = get_request_args()
+    IdentityDao.unbind(user_id=g.user.id, type=validator.type)
+    return Success(error_code=1)
 
 
 @api.route('', methods=['DELETE'])

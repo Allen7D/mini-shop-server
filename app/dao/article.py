@@ -3,7 +3,6 @@
   Created by Allen7D on 2020/5/26.
 """
 from app.models.article import Article
-from app.core.db import db
 
 __author__ = 'Allen7D'
 
@@ -33,7 +32,7 @@ class ArticleDao():
         }
 
     @staticmethod
-    def get_article_latest(type, page, size):
+    def get_recent_articles(type, page, size):
         query_dict = {}
         if type != 0:
             query_dict['type'] = type

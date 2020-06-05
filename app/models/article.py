@@ -45,9 +45,7 @@ def on_content(target, value, oldvalue, initiator):
     # 不填写摘要
     if not target.summary:
         target.update(summary=discard_html(value[:60]) + '...')
-    else:
-        target.update(summary=discard_html(value[:60]) + '...')
 
-    # # 文章更新时
+    # 文章更新时
     # if target.summary and target.summary in oldvalue:
     #     target.summary = value[:100] + '...'

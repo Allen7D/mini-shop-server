@@ -6,10 +6,10 @@
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import theme as api_doc
 from app.core.token_auth import auth
+from app.core.utils import get_request_args
 from app.models.theme import Theme
 from app.dao.theme import ThemeDao
 from app.libs.error_code import Success
-from app.core.validator import BaseValidator
 from app.validators.forms import PaginateValidator, IDCollectionValidator
 
 __author__ = 'Allen7D'
@@ -91,7 +91,7 @@ def delete_theme(id):
 @auth.group_required
 def append_product(id):
     '''添加商品到主题'''
-    product_id = BaseValidator.get_args_json().product_id
+    product_id = get_request_args().product_id
     ThemeDao.append_product(t_id=id, p_id=product_id)
     return Success(error_code=1)
 
@@ -102,6 +102,6 @@ def append_product(id):
 @auth.group_required
 def delete_product(id):
     '''删除商品从主题'''
-    product_id = BaseValidator.get_args_json().product_id
+    product_id = get_request_args().product_id
     ThemeDao.delete_product(t_id=id, p_id=product_id)
     return Success(error_code=2)

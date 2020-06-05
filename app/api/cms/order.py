@@ -5,11 +5,11 @@
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import order as api_doc
 from app.core.token_auth import auth
+from app.core.utils import get_request_args
 from app.models.order import Order
 from app.dao.order import OrderDao
 from app.service.order import OrderService
 from app.libs.error_code import Success
-from app.core.validator import BaseValidator
 from app.validators.forms import PaginateValidator, TimeIntervalValidator, OrderIDValidator
 
 __author__ = 'Allen7D'
@@ -37,7 +37,7 @@ def get_order_list():
 @auth.group_required
 def get_order_by_order_no():
     '''查询订单详情(基于订单编号)'''
-    order_no = BaseValidator.get_args_json().order_no
+    order_no = get_request_args().order_no
     order = Order.get_or_404(order_no=order_no).hide('prepay_id')
     return Success(order)
 
@@ -49,7 +49,7 @@ def get_order_by_order_no():
 def get_order_list_by_user():
     '''查询用户的订单列表'''
     validator = PaginateValidator().nt_data
-    user_id = BaseValidator.get_args_json().uid
+    user_id = get_request_args().uid
     order_list = OrderDao.get_summary_by_user(
         uid=user_id,
         page=validator.page,

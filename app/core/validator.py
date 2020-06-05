@@ -4,8 +4,8 @@
 """
 from collections import namedtuple
 
-from flask import request, _request_ctx_stack
-from wtforms import Form as WTForm, ValidationError
+from flask import request
+from wtforms import Form as WTForm
 
 from app.libs.error_code import ParameterException
 
@@ -56,7 +56,7 @@ class BaseValidator(PropVelifyMixin, WTForm):
     def get_data(self, *args):
         '''按次序获取通过参数校验的参数
         :param args: 要解析的参数名数组
-        :return:
+        :return: 单个数据 或 有序的元祖
         '''
         order_list = []
         for arg in args:
@@ -84,47 +84,5 @@ class BaseValidator(PropVelifyMixin, WTForm):
             if value.data is not None:
                 key_list.append(key)
                 value_list.append(value.data)
-        NamedTuple = namedtuple('NamedTuple', [key for key in key_list])
-        return NamedTuple(*value_list)
-
-    @staticmethod
-    def get(key, default=None):
-        data = BaseValidator.get_args_json(as_dict=True)
-        try:
-            rv = data[key]
-        except KeyError:
-            return default
-        return rv
-
-    @staticmethod
-    def get_args_json(as_dict: bool = False):
-        '''获取query和body中的所有参数'''
-        data, args = request.get_json(silent=True), request.args.to_dict()
-        args_json = dict(data, **args) if data is not None else args
-        data = {
-            key: value for key, value in args_json.items() if value is not None
-        }
-        if as_dict:
-            return data
-        return BaseValidator.__as_namedtuple(data)
-
-    @staticmethod
-    def get_view_args(as_dict: bool = False):
-        '''获取所有的path中的数据'''
-        view_args = _request_ctx_stack.top.request.view_args
-        data = {
-            key: value for key, value in view_args.items() if (value is not None and value != '')
-        }
-        if as_dict:
-            return data
-        return BaseValidator.__as_namedtuple(data)
-
-    @staticmethod
-    def __as_namedtuple(dict_obj):
-        key_list, value_list = [], []
-        for key, value in dict_obj.items():
-            if value is not None:
-                key_list.append(key)
-                value_list.append(value)
         NamedTuple = namedtuple('NamedTuple', [key for key in key_list])
         return NamedTuple(*value_list)

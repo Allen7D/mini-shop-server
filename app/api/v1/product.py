@@ -10,7 +10,7 @@ from app.models.product import Product
 from app.dao.product import ProductDao
 from app.libs.error_code import Success
 from app.core.utils import paginate
-from app.validators.forms import PaginateValidator, CountValidator, CategoryIDValidator, ReorderValidator
+from app.validators.forms import CountValidator, CategoryIDValidator, ReorderValidator
 
 __author__ = 'Allen7D'
 

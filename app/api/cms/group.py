@@ -7,10 +7,10 @@
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import group as api_doc
 from app.core.token_auth import auth
+from app.core.utils import get_request_args
 from app.models.group import Group
 from app.dao.group import GroupDao
 from app.libs.error_code import Success, NotFound
-from app.core.validator import BaseValidator
 from app.validators.forms import UpdateGroupValidator
 
 __author__ = 'Allen7D'
@@ -45,7 +45,7 @@ def get_group(id):
 @auth.admin_required
 def create_group():
     '''新建权限组'''
-    form = BaseValidator.get_args_json()
+    form = get_request_args()
     GroupDao.create_group(name=form.name, auth_ids=form.auth_ids, info=form.info)
     return Success(error_code=1)
 
@@ -74,6 +74,6 @@ def delete_group(id):
 @auth.admin_required
 def migrate_users():
     '''迁移权限组下的用户'''
-    validator = BaseValidator.get_args_json()
+    validator = get_request_args()
     GroupDao.migrate_users(src_id=validator.src_id, dest_id=validator.dest_id)
     return Success(error_code=1)

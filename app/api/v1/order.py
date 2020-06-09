@@ -19,11 +19,12 @@ from flask import g
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import order as api_doc
 from app.core.token_auth import auth
+from app.core.utils import paginate
 from app.service.order import OrderService
 from app.models.order import Order
 from app.dao.order import OrderDao
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, OrderPlaceValidator, OrderIDValidator
+from app.validators.forms import OrderPlaceValidator, OrderIDValidator
 
 __author__ = 'Allen7D'
 
@@ -45,11 +46,8 @@ def place_order():
 @auth.login_required
 def get_order_list():
     '''查询订单列表'''
-    validator = PaginateValidator().nt_data
-    paged_orders = OrderDao.get_summary_by_user(
-        uid=g.user.id,
-        page=validator.page,
-        size=validator.size)
+    page, size = paginate()
+    paged_orders = OrderDao.get_summary_by_user(uid=g.user.id, page=page, size=size)
     return Success(paged_orders)
 
 

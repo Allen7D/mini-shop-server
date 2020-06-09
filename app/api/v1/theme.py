@@ -6,11 +6,11 @@
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import theme as api_doc
 from app.core.token_auth import auth
-from app.core.utils import get_request_args
+from app.core.utils import get_request_args, paginate
 from app.models.theme import Theme
 from app.dao.theme import ThemeDao
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, IDCollectionValidator
+from app.validators.forms import IDCollectionValidator
 
 __author__ = 'Allen7D'
 
@@ -48,8 +48,7 @@ def get_complex_one(id):
 @auth.login_required
 def get_theme_list():
     '''查询主题列表(分页)'''
-    validator = PaginateValidator().nt_data
-    page, size = validator.page, validator.size
+    page, size = paginate()
     paginator = Theme.query.filter_by().paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': paginator.total,

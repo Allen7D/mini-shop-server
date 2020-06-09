@@ -5,12 +5,12 @@
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.v1 import order as api_doc
 from app.core.token_auth import auth
-from app.core.utils import get_request_args
+from app.core.utils import get_request_args, paginate
 from app.models.order import Order
 from app.dao.order import OrderDao
 from app.service.order import OrderService
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, TimeIntervalValidator, OrderIDValidator
+from app.validators.forms import TimeIntervalValidator, OrderIDValidator
 
 __author__ = 'Allen7D'
 
@@ -23,10 +23,10 @@ api = Redprint(name='order', description='订单', api_doc=api_doc, alias='cms_o
 @auth.group_required
 def get_order_list():
     '''查询订单列表'''
-    page_validator = PaginateValidator().nt_data
+    page, size = paginate()
     time_validator = TimeIntervalValidator().nt_data
-    paged_orders = OrderDao.get_summary(page=page_validator.page,
-                                        size=page_validator.size,
+    paged_orders = OrderDao.get_summary(page=page,
+                                        size=size,
                                         start=time_validator.start,
                                         end=time_validator.end)
     return Success(paged_orders)
@@ -48,12 +48,9 @@ def get_order_by_order_no():
 @auth.group_required
 def get_order_list_by_user():
     '''查询用户的订单列表'''
-    validator = PaginateValidator().nt_data
+    page, size = paginate()
     user_id = get_request_args().uid
-    order_list = OrderDao.get_summary_by_user(
-        uid=user_id,
-        page=validator.page,
-        size=validator.size)
+    order_list = OrderDao.get_summary_by_user(uid=user_id, page=page, size=size)
     return Success(order_list)
 
 

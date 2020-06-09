@@ -8,11 +8,12 @@ from flask import request
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import admin as api_doc
 from app.core.token_auth import auth
+from app.core.utils import paginate
 from app.dao.admin import AdminDao
 from app.models.user import User
 from app.dao.user import UserDao
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, ResetPasswordValidator, CreateAdminValidator
+from app.validators.forms import ResetPasswordValidator, CreateAdminValidator
 
 __author__ = 'Allen7D'
 
@@ -24,9 +25,9 @@ api = Redprint(name='admin', description='管理员管理', api_doc=api_doc, ali
 @auth.admin_required
 def get_admin_list():
     '''查询管理员列表'''
-    paginate = PaginateValidator().nt_data
+    page, size = paginate()
     group_id = int(request.args.get('group_id'))  # 可选
-    rv = AdminDao.get_admin_list(group_id=group_id, page=paginate.page, size=paginate.size)
+    rv = AdminDao.get_admin_list(group_id=group_id, page=page, size=size)
     return Success(rv)
 
 

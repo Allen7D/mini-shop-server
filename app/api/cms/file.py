@@ -10,11 +10,12 @@ from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import file as api_doc
 from app.extensions.file.local_uploader import LocalUploader
 from app.core.token_auth import auth
+from app.core.utils import paginate
 from app.models.file import File
 from app.dao.file import FileDao
 from app.service.file import FileService
 from app.libs.error_code import Success
-from app.validators.forms import UploadFileValidator, FileParentIDValidator, PaginateValidator, IDCollectionValidator, \
+from app.validators.forms import UploadFileValidator, FileParentIDValidator, IDCollectionValidator, \
     CreateFileValidator, UpdateFileValidator, MoveOrCopyFileValidator
 
 __author__ = 'Allen7D'
@@ -51,10 +52,10 @@ def upload_file(id):
 def get_file_list():
     '''查询文件列表'''
     main_validator = FileParentIDValidator().dt_data
-    page_validator = PaginateValidator().nt_data
+    page, size = paginate()
 
     files = File.query.filter_by(**main_validator) \
-        .paginate(page=page_validator.page, per_page=page_validator.size, error_out=False)
+        .paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': files.total,
         'current_page': files.page,

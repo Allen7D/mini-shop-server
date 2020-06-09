@@ -5,10 +5,11 @@
 """
 from app.extensions.api_docs.redprint import Redprint
 from app.core.token_auth import auth
+from app.core.utils import paginate
 from app.models.user import User
 from app.dao.user import UserDao
 from app.libs.error_code import Success
-from app.validators.forms import PaginateValidator, ResetPasswordValidator, UpdateAdminValidator
+from app.validators.forms import ResetPasswordValidator, UpdateAdminValidator
 
 __author__ = 'Allen7D'
 
@@ -21,8 +22,8 @@ api = Redprint(name='user', description='用户管理', api_doc=None, alias='cms
 @auth.group_required
 def get_user_list():
     '''查询用户列表(分页)'''
-    page_validator = PaginateValidator().nt_data
-    rv = UserDao.get_user_list(page_validator.page, page_validator.size)
+    page, size = paginate()
+    rv = UserDao.get_user_list(page, size)
     return Success(rv)
 
 

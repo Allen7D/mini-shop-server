@@ -9,11 +9,11 @@ from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import article as api_doc
 from app.core.error import Success
 from app.core.token_auth import auth
-from app.core.utils import get_request_args
+from app.core.utils import get_request_args, paginate
 from app.models.article import Article
 from app.libs.enums import ArticleTypeEnum
 from app.dao.article import ArticleDao
-from app.validators.forms import PaginateValidator, ArticleValidator
+from app.validators.forms import ArticleValidator
 
 __author__ = 'Allen7D'
 
@@ -26,12 +26,8 @@ def get_article_list():
     '''查询文章列表'''
     validator = get_request_args()
     type = int(validator.type)
-    page_validator = PaginateValidator().nt_data
-    articles = ArticleDao.get_article_list(
-        type,
-        page_validator.page,
-        page_validator.size
-    )
+    page, size = paginate()
+    articles = ArticleDao.get_article_list(type, page, size)
     return Success(articles)
 
 
@@ -41,12 +37,8 @@ def get_article_latest():
     '''查询最新文章列表'''
     validator = get_request_args()
     type = int(validator.type)
-    page_validator = PaginateValidator().nt_data
-    articles = ArticleDao.get_article_latest(
-        type,
-        page_validator.page,
-        page_validator.size
-    )
+    page, size = paginate()
+    articles = ArticleDao.get_recent_articles(type, page, size)
     return Success(articles)
 
 

@@ -65,8 +65,6 @@ class Tree(object):
                     len(cur_node_dir['children']) != 0:
                 for child_node_dir in cur_node_dir['children']:
                     node.add_sub_node(create_node(child_node_dir))
-            else:
-                pass
             return node
 
         self.root = create_node(tree_dir)
@@ -115,10 +113,7 @@ class OrderTree(Tree):
                 for child_node_dir in cur_node_dir['children']:
                     child_node_dir['order'] = order
                     order += 1
-                    print(order, child_node_dir)
                     node.add_sub_node(create_node(child_node_dir))
-            else:
-                pass
             return node
 
         self.root = create_node(tree_dir)

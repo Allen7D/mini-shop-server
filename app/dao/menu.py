@@ -16,7 +16,6 @@ from app.core.db import db
 class MenuDao(object):
     @staticmethod
     def get_routes(gid: int) -> dir:
-        print(gid, type(gid))
         id2route_node = {route.id: dict(route) for route in Group.get_or_404(id=gid).route}
         id2route_node_clone = id2route_node.copy()
 
@@ -33,7 +32,6 @@ class MenuDao(object):
             add_parent_node(route_node)
 
         t = RouteTree(RouteNode)
-        print([route_node for route_node in id2route_node_clone.values()])
         t.generate_by_list([route_node for route_node in id2route_node_clone.values()])
         return t.serialize()['children']
 

@@ -1,12 +1,14 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2020/3/24.
+  权限相关的变量与方法
 """
 from flask import current_app
 from werkzeug.local import LocalProxy
 
 from app.models.auth import Auth
 from app.libs.error_code import NotFound
+from app.core.redprint import route_meta_infos
 
 __author__ = 'Allen7D'
 
@@ -65,3 +67,37 @@ def is_in_auth_scope(group_id, endpoint):
     if meta:
         allowed = Auth.get(group_id=group_id, name=meta.name, module=meta.module)
     return True if allowed else False
+
+
+def load_endpint_infos(app):
+    """
+    返回权限管理中的所有视图函数的信息，包含它所属module
+    :return:
+    """
+    infos = {}
+    index = 0
+    for ep, meta in app.config['EP_META'].items():
+        index += 1
+        # 此处的id仅作为Vue的v-for使用，无实际意义
+        endpint_info = {'id': index, 'name': meta.name, 'module': meta.module}
+        module = infos.get(meta.module, None)
+        #  infos是否已经存在该module
+        if module:
+            module.append(endpint_info)
+        else:
+            infos[meta.module] = [endpint_info]
+        app.config['EP_INFO_LIST'].append(endpint_info)
+    app.config['EP_INFOS'] = infos
+    return infos
+
+
+def mount_route_meta_to_endpoint(app):
+    '''
+    将route_mate挂载到对应的endpoint上
+    :param app:
+    :return:
+    '''
+    for endpoint, func in app.view_functions.items():
+        info = route_meta_infos.get(func.__name__ + str(func.__hash__()), None)
+        if info:
+            app.config['EP_META'].setdefault(endpoint, info)

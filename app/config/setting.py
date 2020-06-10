@@ -33,10 +33,5 @@ EP_INFOS = {}
 PAGE_DEFAULT = 1
 SIZE_DEFAULT = 10
 
-# 项目的github地址
-GITHUB_URL = 'https://github.com/Allen7D/mini-shop-serve'
-# 项目文档地址
-DOC_URL = 'http://doc.mini-shop.ivinetrue.com'
-
 # 登录类型(站内)
 CLINET_INNER_TYPES = (ClientTypeEnum.USERNAME, ClientTypeEnum.EMAIL, ClientTypeEnum.MOBILE)

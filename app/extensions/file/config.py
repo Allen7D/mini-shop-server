@@ -10,8 +10,8 @@ IMG_FOLDER = 'static/images'
 
 FILE = {
     "STORE_DIR": UPLOAD_FOLDER,  # 'app/assets',
-    "SINGLE_LIMIT": 1024 * 1024 * 2,
-    "TOTAL_LIMIT": 1024 * 1024 * 20,
+    "SINGLE_LIMIT": 1024 * 1024 * 100,
+    "TOTAL_LIMIT": 1024 * 1024 * 200,
     "NUMS": 10,
     "INCLUDE": set(['jpg', 'jpeg', 'png'] +
                    ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'md'] +

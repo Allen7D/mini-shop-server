@@ -12,10 +12,9 @@ from app.core.utils import paginate
 from app.models.notice import Notice
 from app.dao.notice import NoticeDao
 from app.libs.error_code import Success
+from app.validators.forms import CreateNoticeValidator, UpdateNoticeValidator
 
 __author__ = 'Allen7D'
-
-from app.validators.forms import CreateNoticeValidator, UpdateNoticeValidator
 
 api = Redprint(name='notice', description='通知(公告)管理', api_doc=api_doc, alias='cms_notice')
 

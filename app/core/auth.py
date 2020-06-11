@@ -7,7 +7,7 @@ from flask import current_app
 from werkzeug.local import LocalProxy
 
 from app.models.auth import Auth
-from app.libs.error_code import NotFound
+from app.core.error import NotFound
 from app.core.redprint import route_meta_infos
 
 __author__ = 'Allen7D'

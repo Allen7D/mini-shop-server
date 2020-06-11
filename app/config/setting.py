@@ -22,7 +22,7 @@ ALL_RP_API_LIST = \
     ['cms.file'] + \
     ['v1.user', 'v1.address',
      'v1.banner', 'v1.theme', 'v1.category', 'v1.product', 'v1.order', 'v1.pay'] + \
-    ['cms.user', 'cms.order', 'cms.article']
+    ['cms.user', 'cms.order', 'cms.notice', 'cms.article']
 
 # 所有endpoint的meta信息
 EP_META = {}

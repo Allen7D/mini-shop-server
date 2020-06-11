@@ -58,3 +58,8 @@ class ArticleTypeEnum(Enum):
     COMMON = 1 # 普通文章
     COMPANY = 2 # 公司相关
     INDUSTRY = 3 # 行业相关
+
+class NoticeTypeEnum(Enum):
+    '''通知类型'''
+    NOTICE = 1 # 通知
+    ANNOUNCE =2 # 公告

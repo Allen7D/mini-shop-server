@@ -21,5 +21,6 @@ ALL_MODEL_BY_MODULE = {
     'product': ['Product'],
     'image': ['Image'],
     'file': ['File'],
+    'notice': ['Notice'],
     'article': ['Article']
 }

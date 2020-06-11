@@ -61,7 +61,6 @@ class PaginateValidator(BaseValidator):
         self.size.data = int(value.data)
 
 
-
 class TimeIntervalValidator(BaseValidator):
     start = IntegerField(validators=[DataRequired(message='开始时间不能为空'), length(min=10, max=10, message='时间戳长度必须为10')])
     end = IntegerField(validators=[DataRequired(message='结束时间不能为空'), length(min=10, max=10, message='时间戳长度必须为10')])
@@ -365,6 +364,25 @@ class MenuGroupIdValidator(UpdateAdminValidator):
 class MenuValidator(MenuGroupIdValidator):
     routes = FieldList(unbound_field=IntegerField(validators=[DataRequired()]), min_entries=1)
 
+
+########## 系统相关 ##########
+class CreateNoticeValidator(BaseValidator):
+    type = IntegerField(validators=[DataRequired()])
+    title = StringField(validators=[DataRequired()])
+    content = StringField(validators=[DataRequired()])
+    status = BooleanField()
+    remark = StringField()
+
+
+class UpdateNoticeValidator(BaseValidator):
+    type = IntegerField()
+    title = StringField()
+    content = StringField()
+    status = BooleanField()
+    remark = StringField()
+
+
+########## 文章相关 ##########
 class ArticleValidator(BaseValidator):
     author_id = IntegerField()
     type = IntegerField(validators=[DataRequired()])

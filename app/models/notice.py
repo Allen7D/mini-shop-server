@@ -16,7 +16,7 @@ class Notice(Model):
     type = Column(SmallInteger, default=NoticeTypeEnum.NOTICE.value, comment='类型(1通知, 2公告)')
     title = Column(String(64), comment='标题')
     content = Column(Text, comment='内容')
-    status = Column(Boolean, default=False, comment='状态(0正常, 1关闭)')
+    status = Column(Boolean, default=False, comment='状态(True正常, False关闭)')
     remark = Column(Text, comment='备注')
     create_by = Column(String(32), default='', comment='创建者')
     update_by = Column(String(32), default='', comment='更新者')

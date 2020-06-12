@@ -17,7 +17,7 @@ from app.validators.forms import RouteNodeValidator, RouteNodeWithoutIdValidator
 
 __author__ = 'Mohan'
 
-api = Redprint(name='route', alias='cms_route', description='路由', api_doc=api_doc)
+api = Redprint(name='route', alias='cms_route', description='路由管理', api_doc=api_doc)
 
 
 @api.route('/tree', methods=['GET'])

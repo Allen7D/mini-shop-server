@@ -9,7 +9,7 @@ from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import article as api_doc
 from app.core.error import Success
 from app.core.token_auth import auth
-from app.core.utils import get_request_args, paginate
+from app.core.utils import paginate
 from app.models.article import Article
 from app.libs.enums import ArticleTypeEnum
 from app.dao.article import ArticleDao
@@ -21,7 +21,7 @@ api = Redprint(name='article', description='文章管理', api_doc=api_doc, alia
 
 
 @api.route('/list', methods=['GET'])
-@api.doc(args=['*int.query.type', 'g.query.page', 'g.query.size'])
+@api.doc(args=['query.type', 'g.query.page', 'g.query.size'])
 def get_article_list():
     '''查询文章列表'''
     validator = get_request_args()
@@ -32,8 +32,8 @@ def get_article_list():
 
 
 @api.route('/latest', methods=['GET'])
-@api.doc(args=['*int.query.type', 'g.query.page', 'g.query.size'])
-def get_article_latest():
+@api.doc(args=['query.type', 'g.query.page', 'g.query.size'])
+def get_latest_article_list():
     '''查询最新文章列表'''
     validator = get_request_args()
     type = int(validator.type)

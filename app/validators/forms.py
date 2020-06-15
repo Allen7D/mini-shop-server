@@ -383,6 +383,9 @@ class UpdateNoticeValidator(BaseValidator):
 
 
 ########## 文章相关 ##########
+class ArticleTypeValidator(BaseValidator):
+    type = IntegerField(validators=[DataRequired()])
+
 class ArticleValidator(BaseValidator):
     author_id = IntegerField()
     type = IntegerField(validators=[DataRequired()])

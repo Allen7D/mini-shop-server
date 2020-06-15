@@ -36,8 +36,9 @@ def get_dict_list():
 @api.route_meta(auth='查询某类字典数据', module='字典数据')
 @api.doc(args=['query.type'], auth=True)
 @auth.group_required
-def get_all_dict_by_type(type):
+def get_all_dict_by_type():
     '''查询某类字典数据'''
+    type = DictTypeValidator().get_data('type')
     dict_datas = Dict.get_all(type=type)
     return Success({
         'items': dict_datas

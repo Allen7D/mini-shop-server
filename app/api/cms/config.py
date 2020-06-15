@@ -30,13 +30,14 @@ def get_config_list():
         'items': paginator.items
     })
 
+
 @api.route('/<int:id>', methods=['GET'])
 @api.route_meta(auth='查询参数配置', module='参数')
 @api.doc(args=['path.config_id'], auth=True)
 @auth.group_required
-def get_config(key):
+def get_config(id):
     '''查询参数配置'''
-    config = Config.get_or_404(key=key)
+    config = Config.get_or_404(id=id)
     return Success(config)
 
 

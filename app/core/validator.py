@@ -61,7 +61,7 @@ class BaseValidator(PropVelifyMixin, WTForm):
         order_list = []
         for arg in args:
             order_list.append(getattr(self._data, arg, None))
-        return order_list[0] if len(args) else set(order_list)
+        return order_list[0] if len(order_list) == 1 else tuple(order_list)
 
     @property
     def dt_data(self):

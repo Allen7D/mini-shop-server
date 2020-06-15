@@ -6,6 +6,7 @@
 from app.extensions.api_docs.redprint import Redprint
 from app.core.token_auth import auth
 from app.core.utils import paginate
+from app.core.logger import Logger
 from app.models.user import User
 from app.dao.user import UserDao
 from app.libs.error_code import Success
@@ -40,6 +41,7 @@ def get_user(uid):
 @api.route('/<int:uid>/group', methods=['PUT'])
 @api.route_meta(auth='更新用户分组', module='用户')
 @api.doc(args=['g.path.uid+', 'g.body.group_id'], auth=True)
+@Logger(template='更新用户的权限组')
 @auth.group_required
 def update_user(uid):
     '''更新用户分组'''
@@ -51,6 +53,7 @@ def update_user(uid):
 @api.route('/<int:uid>', methods=['DELETE'])
 @api.route_meta(auth='删除用户', module='用户')
 @api.doc(args=['g.path.uid+'], auth=True)
+@Logger(template='删除用户')
 @auth.group_required
 def delete_user(uid):
     '''删除用户'''
@@ -61,6 +64,7 @@ def delete_user(uid):
 @api.route('/<int:uid>/password', methods=['PUT'])
 @api.route_meta(auth='更改用户密码', module='用户')
 @api.doc(args=['g.path.uid+', 'g.body.new_password', 'g.body.confirm_password'], auth=True)
+@Logger(template='更改用户密码')
 @auth.group_required
 def reset_password(uid):
     '''更改用户密码'''

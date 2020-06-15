@@ -13,6 +13,7 @@ __author__ = 'Allen7D'
 
 
 class Log(Base):
+    __tablename__ = 'log'
     id = Column(Integer, primary_key=True, autoincrement=True)
     message = Column(String(450), comment='日志信息')
     user_id = Column(Integer, nullable=False, comment='用户id')

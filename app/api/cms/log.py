@@ -21,7 +21,7 @@ api = Redprint(name='log', description='日志管理', api_doc=api_doc, alias='c
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.start', 'g.query.end'], auth=True)
 @auth.group_required
 def get_log_list():
-    '''查询浏览列表(按人员&时间)'''
+    '''查询日志列表(按人员&时间)'''
     page, size = paginate()
     start, end = time_interval()
     user_name = LogFindValidator().get_data('user')

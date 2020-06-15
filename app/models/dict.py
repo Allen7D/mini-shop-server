@@ -9,7 +9,7 @@ from app.core.db import BaseModel as Model
 __author__ = 'Allen7D'
 
 
-class DictData(Model):
+class Dict(Model):
     '''字典数据'''
     __tablename__ = 'dict_data'
     id = Column(Integer, primary_key=True, autoincrement=True)

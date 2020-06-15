@@ -366,6 +366,7 @@ class MenuValidator(MenuGroupIdValidator):
 
 
 ########## 系统相关 ##########
+# 通知(公告)
 class CreateNoticeValidator(BaseValidator):
     type = IntegerField(validators=[DataRequired()])
     title = StringField(validators=[DataRequired()])
@@ -378,6 +379,49 @@ class UpdateNoticeValidator(BaseValidator):
     type = IntegerField()
     title = StringField()
     content = StringField()
+    status = BooleanField()
+    remark = StringField()
+
+
+# 字典类型校验
+class DictTypeValidator(BaseValidator):
+    type = StringField(validators=[DataRequired()])
+
+
+class CreateDictTypeValidator(BaseValidator):
+    name = StringField(validators=[DataRequired()])
+    type = StringField(validators=[DataRequired()])
+    status = BooleanField(default=True) # 状态(True正常, False停用)
+    remark = StringField()
+
+
+class UpdateDictTypeValidator(BaseValidator):
+    name = StringField()
+    type = StringField()
+    status = BooleanField()
+    remark = StringField()
+
+
+class CreateDictValidator(BaseValidator):
+    order = IntegerField(validators=[DataRequired()])
+    label = StringField(validators=[DataRequired()])
+    value = StringField(validators=[DataRequired()])
+    type = StringField(validators=[DataRequired()])
+    css_class = StringField()
+    list_class = StringField()
+    is_default = BooleanField(default=False)  # 是否默认(True是, False否)
+    status = BooleanField(default=True)  # 状态(True正常, False停用)
+    remark = StringField()
+
+
+class UpdateDictValidator(BaseValidator):
+    order = IntegerField()
+    label = StringField()
+    value = StringField()
+    type = StringField()
+    css_class = StringField()
+    list_class = StringField()
+    is_default = BooleanField()
     status = BooleanField()
     remark = StringField()
 

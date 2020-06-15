@@ -366,6 +366,18 @@ class MenuValidator(MenuGroupIdValidator):
 
 
 ########## 系统相关 ##########
+# 日志
+# 日志查找范围校验
+class LogFindValidator(BaseValidator):
+    # user可选，若无则表示全部
+    user = StringField(validators=[Optional()]) # 用户名
+
+
+class LogSearchValidator(BaseValidator):
+    user = StringField(validators=[Optional()])
+    keyword = StringField(validators=[DataRequired(message='搜索关键字不可为空')])
+
+
 # 通知(公告)
 class CreateNoticeValidator(BaseValidator):
     type = IntegerField(validators=[DataRequired()])
@@ -391,7 +403,7 @@ class DictTypeValidator(BaseValidator):
 class CreateDictTypeValidator(BaseValidator):
     name = StringField(validators=[DataRequired()])
     type = StringField(validators=[DataRequired()])
-    status = BooleanField(default=True) # 状态(True正常, False停用)
+    status = BooleanField(default=True)  # 状态(True正常, False停用)
     remark = StringField()
 
 

@@ -5,30 +5,77 @@
 """
 import json
 import time
-from datetime import datetime
-import logging
-from logging.handlers import BaseRotatingHandler
+import re
+from functools import wraps
 
-from flask import g, request, _request_ctx_stack
+from flask import g, Response, request, _request_ctx_stack
+
+from app.core.auth import find_info_by_ep
+from app.dao.log import LogDao
 
 __author__ = 'Allen7D'
 
+REG_XP = r'[{](.*?)[}]'
+OBJECTS = ['user', 'response', 'request']
 
-class Logger():
-    def __init__(self, app):
-        self.app = app
-        self.register_log()
 
-    def register_log(self):
-        self.app.logger.setLevel(logging.INFO)
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-        logging.basicConfig(level=logging.DEBUG)
-        filename = datetime.now().strftime("%Y-%m-%d")
-        handler = BaseRotatingHandler(filename, mode='a', encoding='UTF-8', delay=False)
-        handler.setFormatter(formatter)
+class Logger(object):
+    # message template
+    template = None
 
-        if not self.app.debug:
-            self.app.logger.addHandler(handler)
+    def __init__(self, template=None):
+        if template:
+            self.template: str = template
+        elif self.template is None:
+            raise Exception('template must not be None!')
+        self.message = ''
+        self.response = None
+        self.user = None
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrap(*args, **kwargs):
+            response: Response = func(*args, **kwargs)
+            self.response = response
+            self.user = g.user
+            if not self.user:
+                raise Exception('Logger must be used in the login state')
+            self.message = self._parse_template()
+            self.write_log()
+            return response
+
+        return wrap
+
+    def write_log(self):
+        info = find_info_by_ep(request.endpoint)
+        auth = info.name if info is not None else ''
+        status_code = getattr(self.response, 'status_code', None)
+        if status_code is None:
+            status_code = getattr(self.response, 'code', None)
+        if status_code is None:
+            status_code = 0
+        LogDao.create_log(message=self.message, user_id=self.user.id, user_name=self.user.username,
+                          status_code=status_code, method=request.method,
+                          path=request.path, auth=auth, commit=True)
+
+    # 解析自定义模板
+    def _parse_template(self):
+        message = self.template
+        total = re.findall(REG_XP, message)
+        for it in total:
+            assert '.' in it, '%s中必须包含 . ,且为一个' % it
+            i = it.rindex('.')
+            obj = it[:i]
+            assert obj in OBJECTS, '%s只能为user, response, request中的一个' % obj
+            prop = it[i + 1:]
+            if obj == 'user':
+                item = getattr(self.user, prop, '')
+            elif obj == 'response':
+                item = getattr(self.response, prop, '')
+            else:
+                item = getattr(request, prop, '')
+            message = message.replace('{%s}' % it, str(item))
+        return message
 
     # 记录每次请求的性能
     @staticmethod

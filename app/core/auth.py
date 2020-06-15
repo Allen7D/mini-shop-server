@@ -14,6 +14,10 @@ __author__ = 'Allen7D'
 
 ep_meta = LocalProxy(lambda: get_ep_meta())
 
+def find_info_by_ep(ep):
+    '''通过请求的endpoint寻找路由函数的meta信息'''
+    _ep_meta = current_app.config['EP_META']
+    return _ep_meta.get(ep)
 
 def get_ep_meta():
     _ep_meta = current_app.config['EP_META']

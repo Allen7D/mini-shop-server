@@ -116,9 +116,11 @@ parent_id_in_path = IntegerPathFiled(
 parent_id_in_query = IntegerQueryFiled(
     name='parent_id', description="父级目录ID", enum=[0, 1, 2, 3, 4, 5, 10, 100], default=1)
 
-filename_in_query = StringQueryFiled(name='filename', description='文件名',
-                                     enum=['virtualmachine1.png', 'cellphone.png', '新建文件夹', '新建文件夹2'],
-                                     required=True)
+filename_in_path = StringPathFiled(
+    name='name', description='文件名', enum=['virtualmachine1.png', 'cellphone.png', '新建文件夹', '新建文件夹2'])
+filename_in_query = StringQueryFiled(
+    name='name', description='文件名', enum=['virtualmachine1.png', 'cellphone.png', '新建文件夹', '新建文件夹2'])
+
 
 # Article
 article_id_in_path = IntegerPathFiled(

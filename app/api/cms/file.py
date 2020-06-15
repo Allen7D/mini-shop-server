@@ -22,6 +22,7 @@ __author__ = 'Allen7D'
 
 api = Redprint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
 
+
 @api.route('/types', methods=['GET'])
 @api.doc()
 def get_file_types():
@@ -73,14 +74,13 @@ def get_file(id):
     return Success(file)
 
 
-@api.route('/all/by_name', methods=['GET'])
+@api.route('/name/<string:name>', methods=['GET'])
 @api.route_meta(auth='查询文件(基于文件名)', module='文件')
-@api.doc(args=['g.query.filename'], auth=True)
+@api.doc(args=['g.path.filename'], auth=True)
 @auth.group_required
-def get_file_list_by_name():
+def get_files_by_name(name):
     '''查询文件(基于文件名)'''
-    filename = request.args.get('filename')
-    files = File.query.filter_by(name=filename).all()
+    files = File.query.filter_by(name=name).all()
     return Success({
         'items': files
     })

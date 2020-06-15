@@ -44,6 +44,16 @@ def paginate():
 
     return page, size
 
+def time_interval():
+    '''
+    :return:
+    '''
+    from app.validators.forms import TimeIntervalValidator
+    validator = TimeIntervalValidator().dt_data
+    start = validator.get('start', None)
+    end = validator.get('end', None)
+    return start, end
+
 
 def as_namedtuple(dict_obj):
     '''将字典类型转为namedtuple类型

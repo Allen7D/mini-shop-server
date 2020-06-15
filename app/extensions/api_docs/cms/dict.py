@@ -17,7 +17,7 @@ dict_id_in_query = StringQueryFiled(
     name='dict_id', description='字典数据ID', enum=[0, 1, 2, 3, 4, 5, 10, 100], default=1)
 
 order = BodyField(name='order', type='integer', description='字典排序', enum=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-label = BodyField(name='label', type='string', description='字典标签', enum=['男or女)'])
+label = BodyField(name='label', type='string', description='字典标签', enum=['男or女'])
 value = BodyField(name='value', type='string', description='字典键值', enum=['0or1'])
 type = BodyField(name='type', type='string', description='字典类型', enum=['sys_user_sex', 'sys_show_hide'])
 css_class = BodyField(name='css_class', type='string', description='样式属性（其他样式扩展）', enum=[''])

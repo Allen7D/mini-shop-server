@@ -382,9 +382,27 @@ class UpdateNoticeValidator(BaseValidator):
     remark = StringField()
 
 
+# 参数配置
+class CreateConfigValidator(BaseValidator):
+    name = StringField(validators=[DataRequired()])
+    key = StringField(validators=[DataRequired()])
+    value = StringField(validators=[DataRequired()])
+    type = BooleanField(validators=[DataRequired()])
+    remark = StringField()
+
+
+class UpdateConfigValidator(BaseValidator):
+    name = StringField()
+    key = StringField()
+    value = StringField()
+    type = BooleanField()
+    remark = StringField()
+
+
 ########## 文章相关 ##########
 class ArticleTypeValidator(BaseValidator):
     type = IntegerField(validators=[DataRequired()])
+
 
 class ArticleValidator(BaseValidator):
     author_id = IntegerField()

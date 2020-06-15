@@ -22,5 +22,6 @@ ALL_MODEL_BY_MODULE = {
     'image': ['Image'],
     'file': ['File'],
     'notice': ['Notice'],
+    'config': ['Config'],
     'article': ['Article']
 }

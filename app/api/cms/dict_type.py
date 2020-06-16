@@ -48,8 +48,8 @@ def get_dict_type(id):
 def create_dict_type():
     '''新建字典类型'''
     form = CreateDictTypeValidator().dt_data
-    dict_type = DictType.create(**form)
-    return Success(dict_type, error_code=1)
+    DictType.create(**form)
+    return Success(error_code=1)
 
 
 @api.route('/<int:id>', methods=['PUT'])

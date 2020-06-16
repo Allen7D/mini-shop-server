@@ -65,7 +65,7 @@ def create_dict():
     '''新建字典数据'''
     form = CreateDictValidator().dt_data
     dict_data = Dict.create(**form)
-    return Success(dict_data, error_code=1)
+    return Success(error_code=1)
 
 
 @api.route('/<int:id>', methods=['PUT'])

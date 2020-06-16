@@ -14,7 +14,7 @@ class Route(Base):
     __tablename__ = 'route'
     id = Column(Integer, primary_key=True, autoincrement=True, comment='路由节点ID')
     parent_id = Column(Integer, nullable=False, comment='路由节点父级ID')
-    order = Column(Integer, nullable=False, comment='节点排序')
+    order = Column(Integer, default=0, comment='节点排序')
     title = Column(String(20), nullable=False, comment='路由节点标签')
     name = Column(String(20), unique=True, comment='路由节点名')
     icon = Column(String(100), default='', comment='图标')

@@ -23,8 +23,7 @@ OBJECTS = ['user', 'response', 'request']
 
 
 class Logger(object):
-    # message template
-    template = None
+    template = None # 消息模版
 
     def __init__(self, template=None, type=OperTyepEnum.OTHER):
         if template:
@@ -61,7 +60,7 @@ class Logger(object):
             status_code = 0
         OperLog.create(message=self.message, user_id=self.user.id, user_name=self.user.username,
                        status_code=status_code, method=request.method,
-                       path=request.path, auth=auth, type=self.type, commit=True)
+                       path=request.path, auth=auth, _type=self.type, commit=True)
 
     # 解析自定义模板
     def _parse_template(self):

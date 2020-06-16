@@ -4,8 +4,9 @@
   Redprint 红图
   RedprintAssigner 红图分派者(生成蓝图)
 """
-from functools import namedtuple
+from collections import namedtuple
 from importlib import import_module
+
 from flask import Blueprint
 
 __author__ = 'Allen7D'

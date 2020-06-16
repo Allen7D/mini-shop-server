@@ -11,7 +11,7 @@ from app.core.db import db
 from app.core.auth import load_endpint_infos, mount_route_meta_to_endpoint
 from app.core.redprint import RedprintAssigner
 from app.core.error import APIException, ServerError
-from app.core.logger import Logger
+from app.core.logger import apply_request_log
 from app.extensions.api_docs.swagger import apply_swagger
 from app.extensions.default_view import apply_default_view
 from app.extensions.orm_admin import apply_orm_admin
@@ -69,7 +69,7 @@ def register_plugin(app):
     apply_orm_admin(app)  # 应用flask-admin, 可以进行简易的 ORM 管理
     apply_swagger(app)  # 应用flassger, 可以查阅Swagger风格的 API文档
     if app.config['DEBUG']:
-        Logger.apply_request_log(app)  # 打印请求日志
+        apply_request_log(app)  # 打印请求日志
 
 
 def apply_json_encoder(app):

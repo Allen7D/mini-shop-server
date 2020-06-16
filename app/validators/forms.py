@@ -368,14 +368,9 @@ class MenuValidator(MenuGroupIdValidator):
 ########## 系统相关 ##########
 # 日志
 # 日志查找范围校验
-class LogFindValidator(BaseValidator):
-    # user可选，若无则表示全部
-    user = StringField(validators=[Optional()]) # 用户名
-
-
 class LogSearchValidator(BaseValidator):
-    user = StringField(validators=[Optional()])
-    keyword = StringField(validators=[DataRequired(message='搜索关键字不可为空')])
+    username = StringField(validators=[Optional()])
+    keyword = StringField(validators=[Optional()]) # 日志信息内的关键字
 
 
 # 通知(公告)

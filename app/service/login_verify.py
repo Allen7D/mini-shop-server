@@ -8,6 +8,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, \
 from flask import current_app
 
 from app.core.token_auth import generate_auth_token
+from app.core.logger import record_login_log
 from app.libs.enums import ClientTypeEnum
 from app.libs.error_code import AuthFailed, IdentityException
 from app.models.identity import Identity
@@ -35,6 +36,7 @@ class LoginVerifyService():
         identity = promise[ClientTypeEnum(type)](account, secret)
         # token生成
         expiration = current_app.config['TOKEN_EXPIRATION']  # token有效期
+        record_login_log(identity['uid'], message='登录成功')
         token = generate_auth_token(identity['uid'],
                                     type.value,
                                     identity['scope'],

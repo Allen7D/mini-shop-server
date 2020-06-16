@@ -44,6 +44,7 @@ def paginate():
 
     return page, size
 
+
 def time_interval():
     '''
     :return:

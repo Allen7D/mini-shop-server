@@ -11,7 +11,7 @@ __author__ = 'Allen7D'
 
 class Dict(Model):
     '''字典数据'''
-    __tablename__ = 'dict_data'
+    __tablename__ = 'dict'
     id = Column(Integer, primary_key=True, autoincrement=True)
     order = Column(Integer, nullable=False, comment='字典排序')
     label  = Column(String(64), comment='字典标签')

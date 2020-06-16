@@ -97,6 +97,9 @@ email_in_body = BodyField(name='email', type='string', description='邮箱', enu
 mobile_in_body = BodyField(name='mobile', type='string', description='手机', enum=['13758787058'])
 avatar_in_body = BodyField(name='avatar', type='string', description='头像url', enum=['http://abc/xzy.jpg'])
 
+username_in_query = StringQueryFiled(
+    name='username', description='用户名', enum=['Allen7D'])
+
 # Address
 address_id_in_path = IntegerPathFiled(
     name='id', description="地址ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
@@ -121,7 +124,6 @@ filename_in_path = StringPathFiled(
 filename_in_query = StringQueryFiled(
     name='name', description='文件名', enum=['virtualmachine1.png', 'cellphone.png', '新建文件夹', '新建文件夹2'])
 
-
 # Article
 article_id_in_path = IntegerPathFiled(
     name='id', description="文章ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
@@ -132,3 +134,9 @@ notice_id_in_path = IntegerPathFiled(
     name='id', description="通知ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
 notice_id_in_query = IntegerQueryFiled(
     name='notice_id', description="通知ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)
+
+# Log
+log_id_in_path = StringPathFiled(
+    name='id', description='日志ID', enum=[1, 2, 3, 4, 5, 10, 100], default=1)
+log_id_in_query = StringQueryFiled(
+    name='log_id', description='日志ID', enum=[1, 2, 3, 4, 5, 10, 100], default=1)

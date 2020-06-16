@@ -14,7 +14,7 @@ from app.validators.forms import CountValidator, CategoryIDValidator, ReorderVal
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='product', description='产品', api_doc=api_doc)
+api = Redprint(name='product', module='产品', api_doc=api_doc)
 
 
 @api.route('/recent', methods=['GET'])

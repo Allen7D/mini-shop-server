@@ -13,7 +13,7 @@ from app.validators.forms import DictTypeValidator, UpdateDictValidator, CreateD
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='dict', description='字典管理', api_doc=api_doc, alias='cms_dict')
+api = Redprint(name='dict', module='字典管理', api_doc=api_doc, alias='cms_dict')
 
 
 @api.route('/list', methods=['GET'])

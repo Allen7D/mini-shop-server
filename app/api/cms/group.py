@@ -15,7 +15,7 @@ from app.validators.forms import UpdateGroupValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='group', description='权限组管理', api_doc=api_doc, alias='cms_group')
+api = Redprint(name='group', module='权限组管理', api_doc=api_doc, alias='cms_group')
 
 
 @api.route('/all', methods=['GET'])

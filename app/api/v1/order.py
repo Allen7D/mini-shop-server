@@ -28,7 +28,7 @@ from app.validators.forms import OrderPlaceValidator, OrderIDValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='order', description='订单', api_doc=api_doc)
+api = Redprint(name='order', module='订单', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])

@@ -15,7 +15,7 @@ from app.validators.forms import ResetPasswordValidator, UpdateAdminValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='user', description='用户管理', api_doc=None, alias='cms_user')
+api = Redprint(name='user', module='用户管理', api_doc=None, alias='cms_user')
 
 
 @api.route('/list', methods=['GET'])

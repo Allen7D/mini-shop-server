@@ -12,7 +12,7 @@ from app.libs.error_code import Success
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='category', description='产品类别', api_doc=api_doc)
+api = Redprint(name='category', module='产品类别', api_doc=api_doc)
 
 
 @api.route('/all', methods=['GET'])

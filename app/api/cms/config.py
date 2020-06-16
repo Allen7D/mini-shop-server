@@ -13,7 +13,7 @@ from app.validators.forms import CreateConfigValidator, UpdateConfigValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='config', description='参数配置管理', api_doc=api_doc, alias='cms_config')
+api = Redprint(name='config', module='参数配置管理', api_doc=api_doc, alias='cms_config')
 
 
 @api.route('/list', methods=['GET'])

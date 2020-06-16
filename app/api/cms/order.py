@@ -14,7 +14,7 @@ from app.validators.forms import TimeIntervalValidator, OrderIDValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='order', description='订单管理', api_doc=api_doc, alias='cms_order')
+api = Redprint(name='order', module='订单管理', api_doc=api_doc, alias='cms_order')
 
 
 @api.route('/list', methods=['GET'])

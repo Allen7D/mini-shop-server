@@ -14,7 +14,7 @@ from app.libs.error_code import Success
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='log/login', description='登录日志管理', api_doc=api_doc, alias='cms_login_log')
+api = Redprint(name='log/login', module='登录日志管理', api_doc=api_doc, alias='cms_login_log')
 
 
 @api.route('/list', methods=['GET'])

@@ -14,7 +14,7 @@ from app.validators.forms import MenuGroupIdValidator
 
 __author__ = 'Mohan'
 
-api = Redprint(name='menu', description='菜单管理', api_doc=api_doc, alias='cms_menu')
+api = Redprint(name='menu', module='菜单管理', api_doc=api_doc, alias='cms_menu')
 
 
 @api.route('', methods=['GET'])

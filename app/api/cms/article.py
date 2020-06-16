@@ -16,7 +16,7 @@ from app.validators.forms import ArticleValidator, ArticleTypeValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='article', description='文章管理', api_doc=api_doc, alias='cms_article')
+api = Redprint(name='article', module='文章管理', api_doc=api_doc, alias='cms_article')
 
 
 @api.route('/list', methods=['GET'])

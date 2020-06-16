@@ -13,7 +13,7 @@ from app.validators.forms import ClientValidator, TokenValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='token', description='登录令牌', api_doc=api_doc)
+api = Redprint(name='token', module='令牌', api_doc=api_doc)
 
 
 @api.route('', methods=['POST'])

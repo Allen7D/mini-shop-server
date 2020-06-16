@@ -15,7 +15,7 @@ from app.validators.forms import CreateOrUpdateAddressValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='address', description='配送信息', api_doc=api_doc)
+api = Redprint(name='address', module='配送信息', api_doc=api_doc)
 
 
 @api.route('/all', methods=['GET'])

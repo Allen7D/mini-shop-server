@@ -20,7 +20,7 @@ from app.validators.forms import UploadFileValidator, FileParentIDValidator, IDC
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='file', description='文件管理', api_doc=api_doc, alias='cms_file')
+api = Redprint(name='file', module='文件管理', api_doc=api_doc, alias='cms_file')
 
 
 @api.route('/types', methods=['GET'])

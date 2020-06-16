@@ -14,7 +14,7 @@ from app.validators.forms import AuthsValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='auth', description='权限管理', api_doc=api_doc, alias='cms_auth')
+api = Redprint(name='auth', module='权限管理', api_doc=api_doc, alias='cms_auth')
 
 
 @api.route('/all', methods=['GET'])

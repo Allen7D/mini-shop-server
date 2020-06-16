@@ -10,7 +10,7 @@ from app.libs.error_code import Success, BannerException
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='banner', description='首页轮播图', api_doc=api_doc)
+api = Redprint(name='banner', module='首页轮播图', api_doc=api_doc)
 
 
 @api.route('/<int:id>', methods=['GET'])

@@ -17,8 +17,9 @@ route_meta_infos = {}
 
 
 class Redprint(object):
-    def __init__(self, name):
+    def __init__(self, name, module):
         self.name = name
+        self.module = module
         self.mound = []
 
     def route(self, rule, **options):

@@ -14,7 +14,7 @@ from app.validators.forms import IDCollectionValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='theme', description='主题', api_doc=api_doc)
+api = Redprint(name='theme', module='主题', api_doc=api_doc)
 
 
 @api.route('', methods=['GET'])

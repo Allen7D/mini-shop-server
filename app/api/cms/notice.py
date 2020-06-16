@@ -16,7 +16,7 @@ from app.validators.forms import CreateNoticeValidator, UpdateNoticeValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='notice', description='通知(公告)管理', api_doc=api_doc, alias='cms_notice')
+api = Redprint(name='notice', module='通知(公告)管理', api_doc=api_doc, alias='cms_notice')
 
 
 @api.route('/list', methods=['GET'])

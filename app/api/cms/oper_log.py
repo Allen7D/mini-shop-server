@@ -15,7 +15,7 @@ from app.validators.forms import LogSearchValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='log/oper', description='操作日志管理', api_doc=api_doc, alias='cms_oper_log')
+api = Redprint(name='log/oper', module='操作日志管理', api_doc=api_doc, alias='cms_oper_log')
 
 
 @api.route('/list/search', methods=['GET'])

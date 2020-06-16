@@ -19,7 +19,7 @@ from app.validators.forms import ChangePasswordValidator, \
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='user', description='用户', api_doc=api_doc)
+api = Redprint(name='user', module='用户', api_doc=api_doc)
 
 
 @api.route('', methods=['GET'])

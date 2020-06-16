@@ -13,7 +13,7 @@ from app.validators.forms import IDMustBePositiveIntValidator
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='pay', description='支付', api_doc=api_doc)
+api = Redprint(name='pay', module='支付', api_doc=api_doc)
 
 
 @api.route('/pre_order', methods=['POST'])

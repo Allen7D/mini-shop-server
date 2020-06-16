@@ -13,11 +13,18 @@ __author__ = 'Allen7D'
 
 
 class Redprint(_Redprint):
-    def __init__(self, name, description, api_doc=None, alias=''):
+    def __init__(self, name, module, description='', api_doc=None, alias=''):
+        '''
+        :param name: 接口名称(英文)
+        :param module: 接口模块名(接口中文名称)
+        :param description: 接口描述
+        :param api_doc: 接口的文档模块
+        :param alias: 接口的别名
+        '''
         self.alias = alias  # 接口的别名
-        self.description = description
+        self.description = description if description else module
         self.api_doc = api_doc
-        super(Redprint, self).__init__(name)
+        super(Redprint, self).__init__(name, module)
 
     def doc(self, args: list = [], auth: bool = False, body_desc: str = None):
         '''应该对args分批处理, path, query, body'''

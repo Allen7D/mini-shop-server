@@ -12,9 +12,9 @@ type_in_query = StringQueryFiled(
     name='type', description='字典类型', enum=['sys_user_sex', 'sys_show_hide'])
 
 dict_id_in_path = StringPathFiled(
-    name='id', description='字典数据ID', enum=[0, 1, 2, 3, 4, 5, 10, 100], default=1)
+    name='id', description='字典数据ID', enum=[1, 2, 3, 4, 5, 10, 100], default=1)
 dict_id_in_query = StringQueryFiled(
-    name='dict_id', description='字典数据ID', enum=[0, 1, 2, 3, 4, 5, 10, 100], default=1)
+    name='dict_id', description='字典数据ID', enum=[1, 2, 3, 4, 5, 10, 100], default=1)
 
 order = BodyField(name='order', type='integer', description='字典排序', enum=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 label = BodyField(name='label', type='string', description='字典标签', enum=['男or女'])

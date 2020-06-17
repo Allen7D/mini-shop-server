@@ -14,7 +14,8 @@ flask-script = "==2.0.6"
 requests = "==2.20.0"
 wechatpy = "==1.8.3"
 gunicorn = "==19.9.0"
-email-validator = "*"
+email-validator = "==1.1.0"
+psutil = "==5.7.0"
 
 [dev-packages]
 pylint = "==2.4.4"

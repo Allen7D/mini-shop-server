@@ -51,8 +51,8 @@ class IDCollectionValidator(BaseValidator):
 
 
 class PaginateValidator(BaseValidator):
-    page = IntegerField(default=1)  # 当前页
-    size = IntegerField(NumberRange(min=1, max=100), default=10)  # 每页条目个数
+    page = IntegerField('当前页数', validators=[NumberRange(min=1)], default=1)  # 当前页
+    size = IntegerField('每页条数', validators=[NumberRange(min=1, max=100)], default=10)  # 每页条目个数
 
     def validate_page(self, value):
         self.page.data = int(value.data)
@@ -156,8 +156,9 @@ class UpdateAvatarValidator(BaseValidator):
 ########## 权限管理相关 ##########
 # 注册管理员校验
 class CreateAdminValidator(CreatePasswordValidator):
-    nickname = StringField(validators=[DataRequired(message='用户名不可为空'),
-                                       length(min=2, max=10, message='用户名长度必须在2~10之间')])
+    nickname = StringField('昵称', validators=[
+        DataRequired(message='用户名不可为空'),
+        length(min=2, max=10, message='用户名长度必须在2~10之间')])
 
     group_id = IntegerField('分组id', validators=[
         DataRequired(message='请输入分组id'),
@@ -167,7 +168,7 @@ class CreateAdminValidator(CreatePasswordValidator):
         Regexp(r'^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$', message='电子邮箱不符合规范，请输入正确的邮箱'),
         Optional()
     ])
-    mobile = StringField(validators=[
+    mobile = StringField('手机号', validators=[
         length(min=11, max=11, message='手机号为11个数字'),
         Regexp(r'^1(3|4|5|7|8)[0-9]\d{8}$'),
         Optional()
@@ -177,21 +178,21 @@ class CreateAdminValidator(CreatePasswordValidator):
 class UpdateAdminValidator(BaseValidator):
     group_id = IntegerField('权限组id', validators=[
         DataRequired(message='请输入分组id'),
-        NumberRange(message='分组id必须大于0', min=1)
+        NumberRange(min=1, message='分组id必须大于0')
     ])
 
 
 # 管理员更新分组
 class UpdateGroupValidator(BaseValidator):
     name = StringField('权限组名', validators=[DataRequired(message='请输入分组名称')])
-    info = StringField(validators=[Optional()])  # 非必须
+    info = StringField('权限组描述', validators=[Optional()])  # 非必须
 
 
 # 权限组的权限更新
 class AuthsValidator(BaseValidator):
     group_id = IntegerField('权限组id', validators=[
         DataRequired(message='请输入分组id'),
-        NumberRange(message='分组id必须大于0', min=1)
+        NumberRange(min=1, message='分组id必须大于0')
     ])
     auth_ids = FieldList(
         IntegerField(validators=[DataRequired(message='请输入auths字段')]),
@@ -216,7 +217,7 @@ class CreateOrUpdateAddressValidator(BaseValidator):
 
 ########## 商品相关 ##########
 class CountValidator(BaseValidator):
-    count = IntegerField(default='15')  # 默认为15，可以省略 DataRequired()
+    count = IntegerField('数量', default='15')  # 默认为15，可以省略 DataRequired()
 
     def validate_count(self, value):
         count = value.data
@@ -226,7 +227,7 @@ class CountValidator(BaseValidator):
 
 
 class CategoryIDValidator(BaseValidator):
-    category_id = IntegerField(validators=[DataRequired()])
+    category_id = IntegerField('类别id', validators=[DataRequired()])
 
     def validate_category_id(self, value):
         id = value.data
@@ -236,8 +237,8 @@ class CategoryIDValidator(BaseValidator):
 
 
 class ReorderValidator(BaseValidator):
-    src_order = IntegerField(validators=[DataRequired()])
-    dest_order = IntegerField(validators=[DataRequired()])
+    src_order = IntegerField('原先的顺序', validators=[DataRequired()])
+    dest_order = IntegerField('目标的顺序', validators=[DataRequired()])
 
     def validate_src_order(self, value):
         id = value.data
@@ -301,7 +302,7 @@ class UploadPDFValidator(BaseValidator):
 
 class FileParentIDValidator(BaseValidator):
     parent_id = IntegerField('父级目录ID', validators=[
-        NumberRange(message='id必须非负', min=0)
+        NumberRange(min=0, message='id必须非负')
     ], default=0)
 
     def validate_parent_id(self, value):
@@ -343,7 +344,8 @@ class MenuNodeValidator(IDMustBeNaturalNumValidator):
 
 
 class RouteNodeWithoutIdValidator(BaseValidator):
-    parent_id = IntegerField(validators=[NumberRange(min=0, message="parent id must over 0")])
+    parent_id = IntegerField(validators=[
+        NumberRange(min=0, message="父级ID必须大于0")])
     title = StringField(validators=[DataRequired()])
     name = StringField(validators=[DataRequired()])
     icon = StringField(validators=[DataRequired()])
@@ -370,7 +372,7 @@ class MenuValidator(MenuGroupIdValidator):
 # 日志查找范围校验
 class LogSearchValidator(BaseValidator):
     username = StringField(validators=[Optional()])
-    keyword = StringField(validators=[Optional()]) # 日志信息内的关键字
+    keyword = StringField(validators=[Optional()])  # 日志信息内的关键字
 
 
 # 通知(公告)
@@ -410,7 +412,7 @@ class UpdateDictTypeValidator(BaseValidator):
 
 
 class CreateDictValidator(BaseValidator):
-    order = IntegerField(validators=[DataRequired()])
+    order = IntegerField(validators=[NumberRange(min=0)])
     label = StringField(validators=[DataRequired()])
     value = StringField(validators=[DataRequired()])
     type = StringField(validators=[DataRequired()])
@@ -422,7 +424,7 @@ class CreateDictValidator(BaseValidator):
 
 
 class UpdateDictValidator(BaseValidator):
-    order = IntegerField()
+    order = IntegerField(validators=[Optional(), NumberRange(min=0)])
     label = StringField()
     value = StringField()
     type = StringField()
@@ -452,12 +454,16 @@ class UpdateConfigValidator(BaseValidator):
 
 ########## 文章相关 ##########
 class ArticleTypeValidator(BaseValidator):
-    type = IntegerField(validators=[DataRequired()])
+    type = IntegerField('文章类型', validators=[
+        NumberRange(min=0, max=2, message='文章类型必须0, 1, 2'),
+    ], default=0)
 
 
 class ArticleValidator(BaseValidator):
     author_id = IntegerField()
-    type = IntegerField(validators=[DataRequired()])
+    type = IntegerField('文章类型', validators=[
+        NumberRange(min=0, max=2, message='文章类型必须0, 1, 2')
+    ], default=0)
     title = StringField(validators=[DataRequired()])
     summary = StringField()
     content = StringField()

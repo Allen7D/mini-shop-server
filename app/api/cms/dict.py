@@ -64,7 +64,7 @@ def get_dict(id):
 def create_dict():
     '''新建字典数据'''
     form = CreateDictValidator().dt_data
-    dict_data = Dict.create(**form)
+    Dict.create(**form)
     return Success(error_code=1)
 
 

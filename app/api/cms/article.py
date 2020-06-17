@@ -35,7 +35,7 @@ def get_latest_article_list():
     '''查询最新文章列表'''
     type = ArticleTypeValidator().get_data('type')
     page, size = paginate()
-    articles = ArticleDao.get_recent_articles(type, page, size)
+    articles = ArticleDao.get_recent_article_list(type, page, size)
     return Success(articles)
 
 

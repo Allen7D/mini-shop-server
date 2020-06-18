@@ -52,12 +52,10 @@ class Server(object):
     def disk(self):
         disk_usage = psutil.disk_usage('/')
         free = round(disk_usage.free / (1024.0 * 1024.0 * 1024.0), 2)
-        used = round(disk_usage.used / (1024.0 * 1024.0 * 1024.0), 2)
         total = round(disk_usage.total / (1024.0 * 1024.0 * 1024.0), 2)
         percent = round((total - free) / total, 2)
         return {
             'free': str(free) + 'G',
-            'used': str(used) + 'G',
             'total': str(total) + 'G',
             'percent': str(percent * 100) + '%'
         }

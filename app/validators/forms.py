@@ -452,6 +452,10 @@ class UpdateConfigValidator(BaseValidator):
     remark = StringField()
 
 
+class UpdateConfigValueValidator(BaseValidator):
+    value = StringField(validators=[DataRequired()])
+
+
 ########## 文章相关 ##########
 class ArticleTypeValidator(BaseValidator):
     type = IntegerField('文章类型', validators=[

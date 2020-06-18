@@ -9,7 +9,7 @@ from app.core.token_auth import auth
 from app.core.utils import paginate
 from app.models.config import Config
 from app.libs.error_code import Success
-from app.validators.forms import CreateConfigValidator, UpdateConfigValidator
+from app.validators.forms import CreateConfigValidator, UpdateConfigValidator, UpdateConfigValueValidator
 
 __author__ = 'Allen7D'
 
@@ -19,7 +19,6 @@ api = Redprint(name='config', module='参数配置管理', api_doc=api_doc, alia
 @api.route('/list', methods=['GET'])
 @api.route_meta(auth='查询参数配置列表', module='参数')
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.group_required
 def get_config_list():
     '''查询参数配置列表'''
     page, size = paginate()
@@ -34,7 +33,6 @@ def get_config_list():
 @api.route('/<int:id>', methods=['GET'])
 @api.route_meta(auth='查询参数配置', module='参数')
 @api.doc(args=['path.config_id'], auth=True)
-@auth.group_required
 def get_config(id):
     '''查询参数配置'''
     config = Config.get_or_404(id=id)
@@ -44,7 +42,6 @@ def get_config(id):
 @api.route('/key/<string:key>', methods=['GET'])
 @api.route_meta(auth='查询参数配置(基于key)', module='参数')
 @api.doc(args=['path.key'], auth=True)
-@auth.group_required
 def get_config_by_key(key):
     '''查询参数配置(基于key)'''
     config = Config.get_or_404(key=key)
@@ -71,6 +68,18 @@ def update_config(id):
     form = UpdateConfigValidator().dt_data
     config = Config.get_or_404(id=id)
     config.update(**form)
+    return Success(config, error_code=1)
+
+
+@api.route('/key/<string:key>', methods=['PUT'])
+@api.route_meta(auth='更新参数配置', module='参数')
+@api.doc(args=['path.key', 'body.value'], auth=True)
+@auth.group_required
+def update_config_value(key):
+    '''更新参数的value'''
+    value = UpdateConfigValueValidator().get_data('value')
+    config = Config.get_or_404(key=key)
+    config.update({'value': value})
     return Success(config, error_code=1)
 
 

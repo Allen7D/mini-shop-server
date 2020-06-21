@@ -187,6 +187,19 @@ class UpdateGroupValidator(BaseValidator):
     name = StringField('权限组名', validators=[DataRequired(message='请输入分组名称')])
     info = StringField('权限组描述', validators=[Optional()])  # 非必须
 
+class MigrateUserValidator(BaseValidator):
+    src_id = IntegerField('源权限组id', validators=[
+        NumberRange(min=1, message='src_id必须大于0')
+    ])
+    dest_id = IntegerField('目标权限组id', validators=[
+        NumberRange(min=1, message='dest_id必须大于0')
+    ])
+
+    def validate_dest_id(self, value):
+        if value.data == self.src_id.data:
+            raise ValidationError(message='src_id与dest_id不能相同')
+
+
 
 # 权限组的权限更新
 class AuthsValidator(BaseValidator):

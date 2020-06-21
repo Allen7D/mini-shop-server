@@ -10,8 +10,8 @@ from app.core.token_auth import auth
 from app.core.utils import get_request_args
 from app.models.group import Group
 from app.dao.group import GroupDao
-from app.libs.error_code import Success, NotFound
-from app.validators.forms import UpdateGroupValidator
+from app.libs.error_code import Success
+from app.validators.forms import UpdateGroupValidator, MigrateUserValidator
 
 __author__ = 'Allen7D'
 
@@ -22,12 +22,12 @@ api = Redprint(name='group', module='权限组管理', api_doc=api_doc, alias='c
 @api.route_meta(auth='查询所有权限组', module='管理员', mount=False)
 @api.doc(auth=True)
 @auth.admin_required
-def get_group_all():
+def get_all_group():
     '''查询所有权限组'''
     group_list = Group.get_all()
-    if not group_list:
-        raise NotFound(msg='不存在任何权限组')
-    return Success(group_list)
+    return Success({
+        'items': group_list
+    })
 
 
 @api.route('/<int:id>', methods=['GET'])
@@ -74,6 +74,6 @@ def delete_group(id):
 @auth.admin_required
 def migrate_users():
     '''迁移权限组下的用户'''
-    validator = get_request_args()
+    validator = MigrateUserValidator().nt_data
     GroupDao.migrate_users(src_id=validator.src_id, dest_id=validator.dest_id)
     return Success(error_code=1)

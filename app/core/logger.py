@@ -23,7 +23,7 @@ OBJECTS = ['user', 'response', 'request']
 
 
 class Logger(object):
-    template = None # 消息模版
+    template = None # 默认消息模版
 
     def __init__(self, template=None, type=OperTyepEnum.OTHER):
         if template:

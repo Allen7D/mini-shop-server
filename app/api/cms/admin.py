@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2020/3/24.
-  ↓↓↓ 管理员(能登录CMS的系统工作人员)管理接口 ↓↓↓
+  ↓↓↓ admin管理接口 ↓↓↓
 """
 from flask import request
 

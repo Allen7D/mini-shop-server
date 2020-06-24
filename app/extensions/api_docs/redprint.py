@@ -6,8 +6,10 @@ from functools import wraps
 
 from flasgger import swag_from
 
-from app.core.swagger_filed import SwaggerSpecs
 from app.core.redprint import Redprint as _Redprint
+from app.core.swagger_filed import SwaggerSpecs
+from app.core.logger import Logger
+from app.libs.enums import OperTyepEnum
 
 __author__ = 'Allen7D'
 
@@ -25,6 +27,13 @@ class Redprint(_Redprint):
         self.description = description if description else module
         self.api_doc = api_doc
         super(Redprint, self).__init__(name, module)
+
+    @property
+    def tag(self):
+        return {
+            'name': self.alias if self.alias else self.name,
+            'description': self.description
+        }
 
     def doc(self, args: list = [], auth: bool = False, body_desc: str = None):
         '''应该对args分批处理, path, query, body'''
@@ -53,9 +62,5 @@ class Redprint(_Redprint):
 
         return decorator
 
-    @property
-    def tag(self):
-        return {
-            'name': self.alias if self.alias else self.name,
-            'description': self.description
-        }
+    def log(self, template=None, type=OperTyepEnum.OTHER):
+        return Logger(module=self.module, template=template, type=type)

@@ -23,15 +23,21 @@ OBJECTS = ['user', 'response', 'request']
 
 
 class Logger(object):
-    template = None # 默认消息模版
+    template = None  # 默认消息模版
 
-    def __init__(self, template=None, type=OperTyepEnum.OTHER):
+    def __init__(self, module='', template=None, type=OperTyepEnum.OTHER):
+        '''
+        :param module: 红图模块(红图中文名)
+        :param template: 消息模版
+        :param type: 操作类型
+        '''
         if template:
             self.template: str = template
         elif self.template is None:
             raise Exception('template must not be None!')
 
-        self.type = type.value if type.name in OperTyepEnum.__members__ else OperTyepEnum.OTHER.value
+        self.module = module
+        self.type = type.value if type in OperTyepEnum else OperTyepEnum.OTHER.value
         self.message = ''
         self.response = None
         self.user = None
@@ -58,9 +64,16 @@ class Logger(object):
             status_code = getattr(self.response, 'code', None)
         if status_code is None:
             status_code = 0
-        OperLog.create(message=self.message, user_id=self.user.id, user_name=self.user.username,
-                       status_code=status_code, method=request.method,
-                       path=request.path, auth=auth, _type=self.type, commit=True)
+        request_param = {
+            'path': _request_ctx_stack.top.request.view_args,
+            'query': request.args,
+            'body': request.get_json() if request.get_json() else {}
+        }
+        OperLog.create(user_id=self.user.id, user_name=self.user.username,
+                       module=self.module, endpoint=request.endpoint, message=self.message,
+                       path=request.path, request_method=request.method, request_param=request_param,
+                       status_code=status_code,
+                       auth=auth, _type=self.type, commit=True)
 
     # 解析自定义模板
     def _parse_template(self):

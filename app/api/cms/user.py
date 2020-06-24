@@ -42,7 +42,7 @@ def get_user(uid):
 @api.route('/<int:uid>/group', methods=['PUT'])
 @api.route_meta(auth='更新用户分组', module='用户')
 @api.doc(args=['g.path.uid+', 'g.body.group_id'], auth=True)
-@Logger(template='更新用户分组', type=OperTyepEnum.UPDATE)
+@api.log(template='更新用户分组', type=OperTyepEnum.UPDATE)
 @auth.group_required
 def update_user(uid):
     '''更新用户分组'''

@@ -33,8 +33,9 @@ class ArticleDao():
 
     @staticmethod
     def get_recent_article_list(type, page, size):
+        query_dict = {} if type == 0 else {'type': type}
         paginator = Article.query \
-            .filter_by({} if type == 0 else {'type': type}) \
+            .filter_by(**query_dict) \
             .order_by(Article.create_time.desc()) \
             .paginate(page=page, per_page=size, error_out=True)
         paginator.hide('content')

@@ -23,7 +23,7 @@ api = Redprint(name='dict/type', module='字典类型', api_doc=api_doc, alias='
 def get_dict_type_list():
     '''查询字典类型列表'''
     page, size = paginate()
-    paginator = DictType.query.paginate(page=page, per_page=size, error_out=True)
+    paginator = DictType.query.filter_by().paginate(page=page, per_page=size, error_out=True)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,

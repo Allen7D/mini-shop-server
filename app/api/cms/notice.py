@@ -26,7 +26,7 @@ api = Redprint(name='notice', module='通知(公告)', api_doc=api_doc, alias='c
 def get_notice_list():
     '''查询通知列表'''
     page, size = paginate()
-    paginator = Notice.query.paginate(page=page, per_page=size, error_out=True)
+    paginator = Notice.query.filter_by().paginate(page=page, per_page=size, error_out=True)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,

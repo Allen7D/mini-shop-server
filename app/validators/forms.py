@@ -129,6 +129,7 @@ class UserEmailValidator(ClientValidator):
     ])
 
 
+
 class UpdateUserValidator(BaseValidator):
     username = StringField(validators=[length(min=2, max=10, message='用户名长度必须在2~10之间'), Optional()])
 

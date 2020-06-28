@@ -22,7 +22,7 @@ api = Redprint(name='config', module='参数配置管理', api_doc=api_doc, alia
 def get_config_list():
     '''查询参数配置列表'''
     page, size = paginate()
-    paginator = Config.query.paginate(page=page, per_page=size, error_out=True)
+    paginator = Config.query.filter_by().paginate(page=page, per_page=size, error_out=True)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,

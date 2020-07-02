@@ -67,6 +67,11 @@ banner_id_in_path = IntegerPathFiled(
 banner_id_in_query = IntegerQueryFiled(
     name='banner_id', description="轮播图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 
+banner_item_id_in_path = IntegerPathFiled(
+    name='id', description="轮播子图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+banner_item_id_in_query = IntegerQueryFiled(
+    name='banner_item_id', description="轮播子图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+
 order_id_in_path = IntegerPathFiled(
     name='id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 order_id_in_query = IntegerQueryFiled(

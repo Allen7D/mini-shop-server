@@ -5,7 +5,7 @@ from app.core.error import Success
 from app.extensions.api_docs.cms import route as api_doc
 from app.extensions.api_docs.redprint import Redprint
 from app.dao.element import ElementDao
-
+from app.models.element import Element
 api = Redprint(name='element', module='元素管理', api_doc=api_doc, alias='cms_element')
 
 
@@ -35,3 +35,8 @@ def delete_element(id):
     """删除元素"""
     ElementDao.delete_element(id)
     return Success()
+
+@api.route('/list')
+def get_element_list():
+    elements = Element.get_all()
+    return Success(elements)

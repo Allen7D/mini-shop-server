@@ -44,7 +44,7 @@ QQ交流群:聊天、斗图、学习、交流，伸手党勿进
 
 
 ## ✨ 亮点
-- 基于原生的 Flask 构建 RESTfull API
+- 基于原生的 Flask 构建 RESTful API
 - 更灵活的 API文档生成方式(可带 **Token**)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
 - Ubuntu 16.04上 Nginx + Gunicorn + Pipenv部署

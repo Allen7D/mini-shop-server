@@ -4,7 +4,7 @@
   各种提交表单的验证
 """
 
-from flask import request
+from flask import request, _request_ctx_stack
 from wtforms import BooleanField, StringField, IntegerField, PasswordField, FileField, FieldList
 from wtforms.validators import DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, \
     NumberRange
@@ -38,8 +38,13 @@ class IDMustBeNaturalNumValidator(BaseValidator):
         self.id.data = int(id)
 
 
-# id序列的校验
+# id序列的校验(不论ids在path还是query)
 class IDCollectionValidator(BaseValidator):
+    def __init__(self):
+        view_args = _request_ctx_stack.top.request.view_args  # path中
+        args = dict(request.args.to_dict(), **view_args)  # query中
+        super(BaseValidator, self).__init__(data={}, **args)
+
     ids = StringField(validators=[DataRequired()])
 
     def validate_ids(self, value):
@@ -129,7 +134,6 @@ class UserEmailValidator(ClientValidator):
     ])
 
 
-
 class UpdateUserValidator(BaseValidator):
     username = StringField(validators=[length(min=2, max=10, message='用户名长度必须在2~10之间'), Optional()])
 
@@ -188,6 +192,7 @@ class UpdateGroupValidator(BaseValidator):
     name = StringField('权限组名', validators=[DataRequired(message='请输入分组名称')])
     info = StringField('权限组描述', validators=[Optional()])  # 非必须
 
+
 class MigrateUserValidator(BaseValidator):
     src_id = IntegerField('源权限组id', validators=[
         NumberRange(min=1, message='src_id必须大于0')
@@ -199,7 +204,6 @@ class MigrateUserValidator(BaseValidator):
     def validate_dest_id(self, value):
         if value.data == self.src_id.data:
             raise ValidationError(message='src_id与dest_id不能相同')
-
 
 
 # 权限组的权限更新

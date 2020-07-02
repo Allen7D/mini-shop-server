@@ -59,6 +59,36 @@ class BooleanPathFiled(ParamFiled):
         super().__init__(name, 'path', 'boolean', description, enum, required, default)
 
 
+class ArrayPathField():
+
+    def __init__(self, name, description, item_type, enum=None, required=None, default=None):
+        self.name = name
+        self.site = 'path'
+        self.item_type = item_type
+        self.description = description
+        self.enum = enum
+        self.required = required
+        self.default = default
+
+    @property
+    def items(self):
+        return {
+            'type': self.item_type,
+            'enum': self.enum,
+            'default': self.default
+        }
+
+    @property
+    def data(self):
+        return {
+            'name': self.name,
+            "in": "path",
+            "description": self.description,
+            "required": self.required,
+            "type": "array",
+            "items": self.items
+        }
+
 class ArrayQueryField():
 
     def __init__(self, name, description, item_type, enum=None, required=None, default=None):

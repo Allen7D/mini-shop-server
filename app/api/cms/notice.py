@@ -12,7 +12,7 @@ from app.core.utils import paginate
 from app.models.notice import Notice
 from app.dao.notice import NoticeDao
 from app.libs.error_code import Success
-from app.validators.forms import CreateNoticeValidator, UpdateNoticeValidator
+from app.validators.forms import CreateNoticeValidator, UpdateNoticeValidator, IDCollectionValidator
 
 __author__ = 'Allen7D'
 
@@ -34,9 +34,8 @@ def get_notice_list():
     })
 
 
-@api.route('/<int:id>', methods=['GET'])
+@api.route('/<string:id>', methods=['GET'])
 @api.doc(args=['g.path.notice_id'])
-@auth.group_required
 def get_notice(id):
     '''查询通知'''
     notice = Notice.get_or_404(id=id)
@@ -65,10 +64,11 @@ def update_article(id):
     return Success(notice, error_code=1)
 
 
-@api.route('/<int:id>', methods=['DELETE'])
-@api.doc(args=['g.path.notice_id'], auth=True)
+@api.route('/<string:ids>', methods=['DELETE'])
+@api.doc(args=['g.path.ids'], auth=True)
 @auth.group_required
-def delete_notice(id):
+def delete_notice(ids):
     '''删除通知'''
-    NoticeDao.delete_notice(id)
+    ids = IDCollectionValidator().nt_data.ids
+    NoticeDao.delete_notices(ids)
     return Success(error_code=2)

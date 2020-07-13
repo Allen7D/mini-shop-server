@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from app.models.element2group import Element2Group
+from app.models.m2m import Element2Group
 from app.models.element import Element
 from app.models.route import Route
 from app.core.db import db
@@ -14,7 +14,7 @@ class ElementDao:
             element = Element.get(id=eg.element_id)
             if element:
                 route = Route.get(id=element.route_id)
-                element_code = "system:" + route.name + ":" + element.element_sign
+                element_code = route.path + ":" + route.name + ":" + element.element_sign
                 element_list.append(element_code)
         return element_list
 
@@ -26,16 +26,16 @@ class ElementDao:
 
     @staticmethod
     def add_element(data):
-        with db.auto_commit():
-            route = Route.get_or_404(id=data['route_id'])
-            Element.create(**data)
+        route = Route.get_or_404(id=data['route_id'])
+        Element.create(**data)
 
 
     @staticmethod
-    def delete_element(element_id):
-        element = Element.get_or_404(id=element_id)
+    def delete_element(ids):
         with db.auto_commit():
-            db.session.query(Element2Group).filter(
-                Element2Group.element_id == element_id
+            Element2Group.query.filter(
+                Element2Group.element_id.in_(ids)
             ).delete(synchronize_session=False)
-            element.hard_delete(commit=False)
+            Element.query.filre(
+                Element.id.in_(ids)
+            ).delete(synchronize_session=False)

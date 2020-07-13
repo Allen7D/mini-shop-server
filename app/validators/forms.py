@@ -503,3 +503,6 @@ class ElementValidator(BaseValidator):
 class Element2GroupValidator(BaseValidator):
     group_id = IntegerField(validators=[DataRequired()])
     element_id = IntegerField(validators=[DataRequired()])
+
+class GroupIdValidator(BaseValidator):
+    group_id = IntegerField(validators=[DataRequired()])

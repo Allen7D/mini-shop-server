@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
 
-from app.core.db import BaseModel as Base
+from app.core.db import EntityModel as Base
 
 
 class Element(Base):

@@ -26,7 +26,6 @@ class ElementDao:
 
     @staticmethod
     def add_element(data):
-        print(data)
         with db.auto_commit():
             route = Route.get_or_404(id=data['route_id'])
             Element.create(**data)

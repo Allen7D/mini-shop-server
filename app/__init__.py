@@ -6,11 +6,12 @@ import os
 
 from flask import Flask
 from werkzeug.exceptions import HTTPException
+from sqlalchemy.exc import IntegrityError
 
 from app.core.db import db
 from app.core.auth import load_endpint_infos, mount_route_meta_to_endpoint
 from app.core.redprint import RedprintAssigner
-from app.core.error import APIException, ServerError
+from app.core.error import APIException, ServerError, RepeatException
 from app.core.logger import apply_request_log
 from app.extensions.api_docs.swagger import apply_swagger
 from app.extensions.default_view import apply_default_view
@@ -97,6 +98,8 @@ def handle_error(app):
             return e
         elif isinstance(e, HTTPException):
             return APIException(code=e.code, error_code=1007, msg=e.description)
+        elif isinstance(e, IntegrityError) and 'Duplicate entry' in e.orig.errmsg:
+            return RepeatException(msg='数据的unique字段重复')
         else:
             if not app.config['DEBUG']:
                 return ServerError()  # 未知错误(统一为服务端异常)

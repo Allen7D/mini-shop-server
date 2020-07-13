@@ -32,12 +32,11 @@ class ArticleDao():
         }
 
     @staticmethod
-    def get_recent_articles(type, page, size):
-        query_dict = {}
-        if type != 0:
-            query_dict['type'] = type
+    def get_recent_article_list(type, page, size):
+        query_dict = {} if type == 0 else {'type': type}
         paginator = Article.query \
-            .filter_by(**query_dict).order_by(Article.create_time.desc()) \
+            .filter_by(**query_dict) \
+            .order_by(Article.create_time.desc()) \
             .paginate(page=page, per_page=size, error_out=True)
         paginator.hide('content')
         return {
@@ -57,4 +56,3 @@ class ArticleDao():
         article = Article.get_or_404(id=id)
         article.update(**form)
         return article
-

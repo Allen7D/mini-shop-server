@@ -5,7 +5,7 @@
 """
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, SmallInteger
+from sqlalchemy import Column, Integer, String, SmallInteger, JSON
 
 from app.core.db import BaseModel as Base, db
 from app.libs.enums import OperTyepEnum
@@ -16,14 +16,17 @@ __author__ = 'Allen7D'
 class OperLog(Base):
     __tablename__ = 'oper_log'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    message = Column(String(450), comment='日志信息')
     user_id = Column(Integer, nullable=False, comment='用户id')
     user_name = Column(String(50), comment='用户当时的昵称')
-    status_code = Column(Integer, comment='请求的http返回码')
-    method = Column(String(20), comment='请求方法')
-    path = Column(String(50), comment='请求路径')
+    module = Column(String(20), comment='系统模块')
     auth = Column(String(100), comment='访问哪个权限')
     _type = Column('type', SmallInteger, default=OperTyepEnum.OTHER.value, comment='操作类型')
+    path = Column(String(50), comment='请求路径')
+    endpoint = Column(String(100), comment='端点')
+    request_method = Column(String(20), comment='请求方法(GET、PUT...)')
+    request_param = Column(JSON, comment='请求参数: path、query、body')
+    message = Column(String(450), comment='日志信息')
+    status_code = Column(Integer, comment='请求的http返回码')
     create_time = Column('create_time', Integer, comment='创建时间')
 
     def __init__(self):

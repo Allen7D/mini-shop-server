@@ -13,17 +13,17 @@ from app.validators.forms import UpdateDictTypeValidator, CreateDictTypeValidato
 
 __author__ = 'Allen7D'
 
-api = Redprint(name='dict/type', module='字典类型管理', api_doc=api_doc, alias='cms_dict_type')
+api = Redprint(name='dict/type', module='字典类型', api_doc=api_doc, alias='cms_dict_type')
 
 
 @api.route('/list', methods=['GET'])
-@api.route_meta(auth='查询字典类型列表', module='字典数据')
+@api.route_meta(auth='查询字典类型列表', module='字典类型')
 @api.doc(args=['g.query.page', 'g.query.size'], auth=True)
 @auth.group_required
 def get_dict_type_list():
     '''查询字典类型列表'''
     page, size = paginate()
-    paginator = DictType.query.paginate(page=page, per_page=size, error_out=True)
+    paginator = DictType.query.filter_by().paginate(page=page, per_page=size, error_out=True)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,
@@ -32,7 +32,7 @@ def get_dict_type_list():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@api.route_meta(auth='查询字典类型', module='字典数据')
+@api.route_meta(auth='查询字典类型', module='字典类型')
 @api.doc(args=['path.type_id'], auth=True)
 @auth.group_required
 def get_dict_type(id):
@@ -42,7 +42,7 @@ def get_dict_type(id):
 
 
 @api.route('', methods=['POST'])
-@api.route_meta(auth='新建字典数据', module='字典数据')
+@api.route_meta(auth='新建字典数据', module='字典类型')
 @api.doc(args=['body.name', 'body.type', 'body.status', 'body.remark'], auth=True)
 @auth.group_required
 def create_dict_type():
@@ -53,7 +53,7 @@ def create_dict_type():
 
 
 @api.route('/<int:id>', methods=['PUT'])
-@api.route_meta(auth='更新字典数据', module='字典数据')
+@api.route_meta(auth='更新字典数据', module='字典类型')
 @api.doc(args=['path.type_id',
                'body.name', 'body.type', 'body.status', 'body.remark'], auth=True)
 @auth.group_required
@@ -66,7 +66,7 @@ def update_dict_type(id):
 
 
 @api.route('/<int:id>', methods=['DELETE'])
-@api.route_meta(auth='删除字典类型', module='字典数据')
+@api.route_meta(auth='删除字典类型', module='字典类型')
 @api.doc(args=['path.type_id'], auth=True)
 @auth.group_required
 def delete_dict_type(id):

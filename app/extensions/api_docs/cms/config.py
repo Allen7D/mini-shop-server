@@ -8,9 +8,9 @@ from app.core.swagger_filed import IntegerPathFiled, IntegerQueryFiled, \
 __author__ = 'Allen7D'
 
 key_in_path = StringPathFiled(
-    name='key', description='参数key', enum=['sys.user.init_password', 'sys.layout.layout_theme'])
+    name='key', description='参数key', enum=['sys.user.init_password', 'sys.layout.theme'])
 key_in_query = StringQueryFiled(
-    name='key', description='参数key', enum=['sys.user.init_password', 'sys.layout.layout_theme'])
+    name='key', description='参数key', enum=['sys.user.init_password', 'sys.layout.theme'])
 
 config_id_in_path = IntegerPathFiled(
     name='id', description="参数配置ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1)

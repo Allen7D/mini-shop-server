@@ -3,7 +3,7 @@
   Created by Allen7D on 2020/3/13.
 """
 from app.core.swagger_filed import IntegerQueryFiled, IntegerPathFiled, \
-    StringPathFiled, StringQueryFiled, ArrayQueryField, \
+    StringPathFiled, StringQueryFiled, ArrayQueryField, ArrayPathField, \
     BodyField
 
 __author__ = 'Allen7D'
@@ -25,6 +25,13 @@ start = IntegerQueryFiled(name='start', description="开始时间(时间戳)",
 end = IntegerQueryFiled(name='end', description="结束时间(时间戳)",
                         enum=[1588135000, 1588136000, 1588137000, 1588138000, 1588139000, ])
 
+# 多个ids
+ids = ArrayPathField(
+    name='ids', description='id 多选',
+    item_type='integer', enum=[1, 2, 3, 4, 5, 10, 100],
+    default=1, required=True)
+
+#
 uid_in_path = IntegerPathFiled(
     name='uid', description="用户ID", enum=[1, 2, 3, 4, 5, 10, 100], default=1, required=True)
 uid_in_query = IntegerQueryFiled(
@@ -59,6 +66,11 @@ banner_id_in_path = IntegerPathFiled(
     name='id', description="轮播图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 banner_id_in_query = IntegerQueryFiled(
     name='banner_id', description="轮播图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+
+banner_item_id_in_path = IntegerPathFiled(
+    name='id', description="轮播子图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
+banner_item_id_in_query = IntegerQueryFiled(
+    name='banner_item_id', description="轮播子图ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)
 
 order_id_in_path = IntegerPathFiled(
     name='id', description="订单ID", enum=[1, 2, 3, 4, 5, 10, 15, 20, 100], required=True)

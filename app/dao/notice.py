@@ -3,15 +3,19 @@
   Created by Allen7D on 2020/6/11.
 """
 from app.models.notice import Notice
+from app.core.db import db
 
 __author__ = 'Allen7D'
 
 
 class NoticeDao():
+    # 基于id删除
     @staticmethod
-    def delete_notice(id):
-        notice = Notice.get_or_404(id=id)
-        notice.delete()
+    def delete_notices(ids):
+        with db.auto_commit():
+            Notice.query.filter(
+                Notice.id.in_(ids)
+            ).delete(synchronize_session=False)
 
     @staticmethod
     def update_notice(id, type, title, content, status, remark, update_by):

@@ -29,7 +29,7 @@ def get_category_list():
     '''查询「产品类别」列表'''
     page, size = paginate()
 
-    paginator = Category.query.paginate(page=page, per_page=size, error_out=False)
+    paginator = Category.query.filter_by().paginate(page=page, per_page=size, error_out=False)
     return Success({
         'total': paginator.total,
         'current_page': paginator.page,

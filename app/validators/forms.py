@@ -500,7 +500,7 @@ class ElementValidator(BaseValidator):
     route_id = IntegerField(validators=[DataRequired()])
 
 
-class Element2GroupValidator(BaseValidator):
+class Group2ElementValidator(BaseValidator):
     group_id = IntegerField(validators=[DataRequired()])
     element_id = IntegerField(validators=[DataRequired()])
 

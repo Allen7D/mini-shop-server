@@ -18,6 +18,7 @@ class Group(Base):
     name = Column(String(60), unique=True, comment='权限组名称')
     info = Column(String(255), comment='权限组描述')
     route = relationship('Route', secondary='menu', back_populates='group')
+    elements = relationship('Element', secondary='group_2_element', back_populates='groups')
 
     @property
     def auth_list(self):

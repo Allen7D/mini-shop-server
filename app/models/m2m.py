@@ -5,7 +5,6 @@
 from sqlalchemy import Column, Integer, ForeignKey
 
 from app.core.db import BaseModel as Model, db
-from app.core.db import EntityModel as Base
 
 __author__ = 'Allen7D'
 
@@ -40,8 +39,7 @@ class Order2Product(Model):
         self.count = count
 
 
-class Element2Group(Base):
-    __tablename__ = 'element_group'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    element_id = Column(Integer, ForeignKey('element.id'), primary_key=True)
+class Group2Element(Model):
+    __tablename__ = 'group_2_element'
     group_id = Column(Integer,  ForeignKey('group.id'), primary_key=True)
+    element_id = Column(Integer, ForeignKey('element.id'), primary_key=True)

@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-
+"""
+  Created by Chai on 2020/7/13.
+"""
 from sqlalchemy import Column, Integer, String, ForeignKey
 
 from app.core.db import EntityModel as Base
+
+__author__ = 'Chai'
 
 
 class Element(Base):

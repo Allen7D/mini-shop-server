@@ -492,3 +492,17 @@ class ArticleValidator(BaseValidator):
     img = StringField()
     theme = IntegerField()
     views = IntegerField()
+
+
+class ElementValidator(BaseValidator):
+    name = StringField(validators=[DataRequired()])
+    element_sign = StringField(validators=[DataRequired()])
+    route_id = IntegerField(validators=[DataRequired()])
+
+
+class Element2GroupValidator(BaseValidator):
+    group_id = IntegerField(validators=[DataRequired()])
+    element_id = IntegerField(validators=[DataRequired()])
+
+class GroupIdValidator(BaseValidator):
+    group_id = IntegerField(validators=[DataRequired()])

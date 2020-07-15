@@ -8,8 +8,8 @@ from app.extensions.api_docs.cms import element as api_doc
 from app.extensions.api_docs.redprint import Redprint
 from app.dao.element import ElementDao
 from app.models.element import Element
-from app.core.utils import paginate
-from app.validators.forms import ElementValidator, Group2ElementValidator, IDCollectionValidator, GroupIdValidator
+from app.validators.forms import ElementValidator, Group2ElementValidator, IDCollectionValidator, GroupIdValidator, \
+    RouteIdValidator
 from app.core.token_auth import auth
 
 __author__ = 'Chai'
@@ -65,14 +65,9 @@ def delete_element(ids):
 
 @api.route('/by_route')
 @api.route_meta(auth='查询页面元素(基于路由)', module='页面元素')
-@api.doc(args=['g.query.page', 'g.query.size', 'query.route_id'], auth=True)
+@api.doc(args=['query.route_id'], auth=True)
 def get_element_by_route():
     '''查询页面元素(基于路由)'''
-    page, size = paginate()
-    route_id = 7
-    elements = Element.query.filter_by(route_id=route_id).paginate(page=page, per_page=size, error_out=True)
-    return Success({
-        'total': elements.total,
-        'current_page': elements.page,
-        'items': elements.items
-    })
+    route_id = RouteIdValidator().nt_data.route_id
+    elements = Element.query.filter_by(route_id=route_id)
+    return Success(elements)

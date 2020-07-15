@@ -506,3 +506,7 @@ class Group2ElementValidator(BaseValidator):
 
 class GroupIdValidator(BaseValidator):
     group_id = IntegerField(validators=[DataRequired()])
+
+class RouteIdValidator(BaseValidator):
+    route_id = IntegerField(validators=[
+        NumberRange(min=0, message="父级ID必须大于0")])

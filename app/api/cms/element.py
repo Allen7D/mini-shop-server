@@ -40,11 +40,11 @@ def deploy_permission():
 
 
 @api.route('/by_group')
-@api.route_meta(auth='查询权限组所有的页面元素', module='页面元素')
+@api.route_meta(auth='查询页面元素(基于权限组)', module='页面元素')
 @api.doc(args=['g.query.group_id'], auth=True)
 @auth.group_required
 def get_elemnet_by_group():
-    '''查询权限组所有页面元素'''
+    '''查询页面元素(基于权限组)'''
     group_id = GroupIdValidator().nt_data.group_id
     element_list = ElementDao.get_element_by_group(group_id)
     return Success({
@@ -63,14 +63,14 @@ def delete_element(ids):
     return Success(error_code=2)
 
 
-@api.route('/list')
-@api.route_meta(auth='查询页面元素列表', module='页面元素')
-@api.doc(args=['g.query.page', 'g.query.size'], auth=True)
-@auth.group_required
-def get_element_list():
-    '''查询页面元素列表'''
+@api.route('/by_route')
+@api.route_meta(auth='查询页面元素(基于路由)', module='页面元素')
+@api.doc(args=['g.query.page', 'g.query.size', 'query.route_id'], auth=True)
+def get_element_by_route():
+    '''查询页面元素(基于路由)'''
     page, size = paginate()
-    elements = Element.query.filter_by().paginate(page=page, per_page=size, error_out=True)
+    route_id = 7
+    elements = Element.query.filter_by(route_id=route_id).paginate(page=page, per_page=size, error_out=True)
     return Success({
         'total': elements.total,
         'current_page': elements.page,

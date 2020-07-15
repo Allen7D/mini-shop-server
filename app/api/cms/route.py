@@ -23,9 +23,21 @@ api = Redprint(name='route', module='路由管理', api_doc=api_doc, alias='cms_
 @api.route('/tree', methods=['GET'])
 @api.doc(auth=True)
 @auth.admin_required
-def get_route_tree_all():
+def get_all_route_tree():
     """获取所有路由结构"""
-    return Success(RouteDao.get_route_tree_all()['children'])
+    route_root = RouteDao.get_all_route_tree()
+    route_tree = route_root['children']
+    return Success(route_tree)
+
+
+@api.route('/tree/with_element', methods=['GET'])
+@api.doc(auth=True)
+@auth.admin_required
+def get_all_route_tree_with_element():
+    """获取所有路由结构(含页面元素)"""
+    route_root = RouteDao.get_all_route_tree_with_element()
+    route_tree = route_root['children']
+    return Success(route_tree)
 
 
 @api.route('/tree', methods=['PUT'])
@@ -74,4 +86,3 @@ def create_route_node():
     validator = RouteNodeWithoutIdValidator()
     route = RouteDao.create(**validator.dt_data)
     return Success(route)
-

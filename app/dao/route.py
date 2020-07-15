@@ -2,6 +2,7 @@
 """
   Created by Mohan on 2020/4.
 """
+from app.models.element import Element
 from app.models.route import Route
 from app.models.menu import Menu
 from app.core.db import db
@@ -43,15 +44,33 @@ class RouteTree(OrderTree):
             result['children'] = [serialize_node(sub_node) for sub_node in tree_node.children]
             result['children'].sort(key=lambda ele: ele['order']) if len(result['children']) != 0 else None
             return result
+
         return serialize_node(self.root)
 
 
 class RouteDao(object):
+    # 获取整体嵌套路由(对应页面组件)
     @staticmethod
-    def get_route_tree_all() -> dir:
+    def get_all_route_tree() -> dir:
         t = RouteTree()
         t.generate_by_list(Route.query.all())
         return t.serialize()
+
+    # 获取整体嵌套路由(对应页面组件)和所有路由所含的页面元素
+    @staticmethod
+    def get_all_route_tree_with_element() -> dir:
+        def process_route_with_element(route):
+            if route.get('children', None):
+                for child_route in route['children']:
+                    process_route_with_element(child_route)
+            else:
+                elements = Element.get_all(route_id=route['id'])
+                if elements:
+                    route['elements'] = elements
+
+        route_root = RouteDao.get_all_route_tree()
+        process_route_with_element(route_root)
+        return route_root
 
     @staticmethod
     def change_route(route_list: list):

@@ -23,7 +23,7 @@ class MenuDao(object):
             if cur_route_node['parent_id'] == cur_route_node['id'] == 0:
                 pass
             else:
-                if not cur_route_node['parent_id'] in id2route_node.keys():
+                if not (cur_route_node['parent_id'] in id2route_node.keys() or cur_route_node['parent_id'] == 0):
                     parent_route = Route.get_or_404(id=cur_route_node['parent_id'])
                     id2route_node_clone[parent_route.id] = dict(parent_route)
                     add_parent_node(dict(parent_route))
@@ -63,5 +63,6 @@ class MenuDao(object):
 
         with db.auto_commit():
             for route in t.deserialize():
-                Menu.create(group_id=group_id, route_id=route['id'])
+                if route['id'] != 0:
+                    Menu.create(group_id=group_id, route_id=route['id'])
 

@@ -15,6 +15,6 @@ class Element(Base):
     __tablename__ = 'element'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50), comment='名称')
-    sign = Column(String(50), comment='元素标识') # system.notice.add
+    sign = Column(String(50), unique=True, comment='元素标识')  # system.notice.add
     route_id = Column(Integer, ForeignKey('route.id'), primary_key=True)
     groups = relationship('Group', secondary='group_2_element', back_populates='elements')

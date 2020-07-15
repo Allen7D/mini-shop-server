@@ -18,7 +18,7 @@ api = Redprint(name='log/error', module='异常日志管理', api_doc=api_doc, a
 
 
 @api.route('/list', methods=['GET'])
-@api.route_meta(auth='查询日志列表', module='异常日志')
+@api.route_meta(auth='查询异常日志列表', module='异常日志')
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.start', 'g.query.end'], auth=True)
 @auth.group_required
 def get_log_list():
@@ -29,7 +29,7 @@ def get_log_list():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@api.route_meta(auth='查询日志', module='异常日志')
+@api.route_meta(auth='查询异常日志', module='异常日志')
 @api.doc(args=['g.path.log_id'], auth=True)
 @auth.group_required
 def get_log(id):
@@ -38,7 +38,7 @@ def get_log(id):
 
 
 @api.route('/<string:ids>', methods=['DELETE'])
-@api.route_meta(auth='删除日志', module='异常日志')
+@api.route_meta(auth='删除异常日志', module='异常日志')
 @api.doc(args=['g.path.ids'], auth=True)
 @auth.admin_required
 def delete_log(ids):
@@ -48,7 +48,7 @@ def delete_log(ids):
 
 
 @api.route('/all', methods=['DELETE'])
-@api.route_meta(auth='清除所有日志', module='异常日志')
+@api.route_meta(auth='清除所有异常日志', module='异常日志')
 @api.doc(auth=True)
 @auth.admin_required
 def delete_all_log():

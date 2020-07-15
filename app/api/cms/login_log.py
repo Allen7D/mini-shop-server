@@ -18,7 +18,7 @@ api = Redprint(name='log/login', module='登录日志管理', api_doc=api_doc, a
 
 
 @api.route('/list', methods=['GET'])
-@api.route_meta(auth='查询日志列表', module='登录日志')
+@api.route_meta(auth='查询登录日志列表', module='登录日志')
 @api.doc(args=['g.query.page', 'g.query.size', 'g.query.start', 'g.query.end'], auth=True)
 @auth.group_required
 def get_log_list():
@@ -34,7 +34,7 @@ def get_log_list():
 
 
 @api.route('/<int:id>', methods=['GET'])
-@api.route_meta(auth='查询日志', module='登录日志')
+@api.route_meta(auth='查询登录日志', module='登录日志')
 @api.doc(args=['g.path.log_id'], auth=True)
 @auth.group_required
 def get_log(id):
@@ -44,7 +44,7 @@ def get_log(id):
 
 
 @api.route('/<int:id>', methods=['DELETE'])
-@api.route_meta(auth='删除日志', module='登录日志')
+@api.route_meta(auth='删除登录日志', module='登录日志')
 @api.doc(args=['g.path.log_id'], auth=True)
 @auth.admin_required
 def delete_log(id):
@@ -54,7 +54,7 @@ def delete_log(id):
 
 
 @api.route('/all', methods=['DELETE'])
-@api.route_meta(auth='清除所有日志', module='登录日志')
+@api.route_meta(auth='清除所有登录日志', module='登录日志')
 @api.doc(auth=True)
 @auth.admin_required
 def delete_all_log():

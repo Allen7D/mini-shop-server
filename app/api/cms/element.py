@@ -19,7 +19,7 @@ api = Redprint(name='element', module='页面元素管理', api_doc=api_doc, ali
 
 @api.route('', methods=['POST'])
 @api.route_meta(auth='新增页面元素', module='页面元素', mount=False)
-@api.doc(args=['body.name', 'body.element_sign', 'body.route_id'], auth=True)
+@api.doc(args=['body.name', 'body.sign', 'body.route_id'], auth=True)
 @auth.admin_required
 def create_element():
     '''新增页面元素'''

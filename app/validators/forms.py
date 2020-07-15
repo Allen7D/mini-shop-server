@@ -496,7 +496,7 @@ class ArticleValidator(BaseValidator):
 
 class ElementValidator(BaseValidator):
     name = StringField(validators=[DataRequired()])
-    element_sign = StringField(validators=[DataRequired()])
+    sign = StringField(validators=[DataRequired()])
     route_id = IntegerField(validators=[DataRequired()])
 
 

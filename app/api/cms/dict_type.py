@@ -42,7 +42,7 @@ def get_dict_type(id):
 
 
 @api.route('', methods=['POST'])
-@api.route_meta(auth='新建字典数据', module='字典类型')
+@api.route_meta(auth='新建字典类型', module='字典类型')
 @api.doc(args=['body.name', 'body.type', 'body.status', 'body.remark'], auth=True)
 @auth.group_required
 def create_dict_type():
@@ -53,7 +53,7 @@ def create_dict_type():
 
 
 @api.route('/<int:id>', methods=['PUT'])
-@api.route_meta(auth='更新字典数据', module='字典类型')
+@api.route_meta(auth='更新字典类型', module='字典类型')
 @api.doc(args=['path.type_id',
                'body.name', 'body.type', 'body.status', 'body.remark'], auth=True)
 @auth.group_required

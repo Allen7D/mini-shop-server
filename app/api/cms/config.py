@@ -72,7 +72,7 @@ def update_config(id):
 
 
 @api.route('/key/<string:key>', methods=['PUT'])
-@api.route_meta(auth='更新参数配置', module='参数')
+@api.route_meta(auth='更新参数的value', module='参数')
 @api.doc(args=['path.key', 'body.value'], auth=True)
 @auth.group_required
 def update_config_value(key):

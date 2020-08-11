@@ -19,10 +19,11 @@ class ElementDao:
         return group.elements
 
     @staticmethod
-    def deploy_permission(group_id, element_id):
+    def reset_permission(group_id, element_ids):
         with db.auto_commit():
             db.session.query(Group2Element).filter(Group2Element.group_id == group_id).delete(synchronize_session=False)
-            Group2Element.create(group_id=group_id, element_id=element_id, commit=False)
+            for element_id in element_ids:
+                Group2Element.create(group_id=group_id, element_id=element_id, commit=False)
 
     @staticmethod
     def create_element(form):

@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 """
   Created by Allen7D on 2018/5/31.
-  各种提交表单的验证
+  参数校验
 """
 
 from flask import request, _request_ctx_stack
@@ -218,6 +218,10 @@ class AuthsValidator(BaseValidator):
     )
 
 
+class GroupIdValidator(BaseValidator):
+    group_id = IntegerField(validators=[DataRequired()])
+
+
 ########## 用户相关 ##########
 # 配送地址的校验
 class CreateOrUpdateAddressValidator(BaseValidator):
@@ -333,7 +337,7 @@ class FileParentIDValidator(BaseValidator):
 class FileIDValidator(BaseValidator):
     file_id = IntegerField(validators=[DataRequired()])
 
-    def validate_order_id(self, value):
+    def validate_file_id(self, value):
         id = value.data
         if not self.isPositiveInteger(id):
             raise ValidationError(message='ID 必须为正整数')
@@ -352,7 +356,7 @@ class UpdateFileValidator(FilenameValidator, FileIDValidator):
     pass
 
 
-class MoveOrCopyFileValidator(FileParentIDValidator, FileIDValidator):
+class MoveOrCopyFileValidator(FileParentIDValidator, IDCollectionValidator):
     pass
 
 
@@ -472,37 +476,3 @@ class UpdateConfigValidator(BaseValidator):
 
 class UpdateConfigValueValidator(BaseValidator):
     value = StringField(validators=[DataRequired()])
-
-
-########## 文章相关 ##########
-class ArticleTypeValidator(BaseValidator):
-    type = IntegerField('文章类型', validators=[
-        NumberRange(min=0, max=2, message='文章类型必须0, 1, 2'),
-    ], default=0)
-
-
-class ArticleValidator(BaseValidator):
-    author_id = IntegerField()
-    type = IntegerField('文章类型', validators=[
-        NumberRange(min=0, max=2, message='文章类型必须0, 1, 2')
-    ], default=0)
-    title = StringField(validators=[DataRequired()])
-    summary = StringField()
-    content = StringField()
-    img = StringField()
-    theme = IntegerField()
-    views = IntegerField()
-
-
-class ElementValidator(BaseValidator):
-    name = StringField(validators=[DataRequired()])
-    element_sign = StringField(validators=[DataRequired()])
-    route_id = IntegerField(validators=[DataRequired()])
-
-
-class Group2ElementValidator(BaseValidator):
-    group_id = IntegerField(validators=[DataRequired()])
-    element_id = IntegerField(validators=[DataRequired()])
-
-class GroupIdValidator(BaseValidator):
-    group_id = IntegerField(validators=[DataRequired()])

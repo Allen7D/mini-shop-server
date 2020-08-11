@@ -12,7 +12,7 @@ from app.core.utils import paginate
 from app.models.article import Article
 from app.dao.article import ArticleDao
 from app.libs.error_code import Success
-from app.validators.forms import ArticleValidator, ArticleTypeValidator
+from app.validators.article import ArticleValidator, ArticleTypeValidator
 
 __author__ = 'Allen7D'
 

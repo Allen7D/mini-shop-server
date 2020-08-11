@@ -99,14 +99,14 @@ def create_folder():
 
 @api.route('/move', methods=['PUT'])
 @api.route_meta(auth='移动文件', module='文件')
-@api.doc(args=['g.query.parent_id', 'g.query.file_id'], auth=True)
-@auth.group_required
+@api.doc(args=['g.query.parent_id', 'g.query.file_ids'], auth=True)
+# @auth.group_required
 def move_files():
-    '''移动文件'''
+    '''批量移动文件'''
     validator = MoveOrCopyFileValidator().nt_data
-    FileDao.move_file(
+    FileDao.move_files(
         dest_parent_id=validator.parent_id,
-        file_id=validator.file_id
+        file_ids=validator.ids
     )
     return Success(error_code=1)
 
@@ -136,17 +136,18 @@ def rename_file():
 
 
 @api.route('', methods=['DELETE'])
-@api.route_meta(auth='删除多个文件', module='文件', mount=True)
+@api.route_meta(auth='删除文件', module='文件')
 @api.doc(args=['g.query.file_ids'], auth=True)
 @auth.group_required
 def delete_files():
-    '''删除多个文件'''
+    '''批量删除文件'''
     ids = IDCollectionValidator().nt_data.ids
     FileDao.delete_files(ids)
     return Success(error_code=2)
 
 
 @api.route('/folder', methods=['GET'])
+@api.route_meta(auth='获取目录树', module='文件')
 @api.doc(auth=True)
 @auth.group_required
 def get_folder_tree():

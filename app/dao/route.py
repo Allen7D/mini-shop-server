@@ -93,22 +93,26 @@ class RouteDao(object):
     def get_route_node(id) -> dir:
         return Route.filte(id=id).first()
 
+    # 更新路由
     @staticmethod
     def update(id: int, **kwargs):
         route = Route.get_or_404(id=id, msg='该节点不存在')
         route.update(**kwargs)
 
+    # 删除路由
     @staticmethod
     def delete(id: int):
         route = Route.get_or_404(id=id, msg='路由不存在, 删除失败')
+        # 禁止任意删除
         if Menu.get(route_id=id):
-            raise Forbidden(msg='存在权限组绑定路由，不可删除')
+            raise Forbidden(msg='存在权限组的菜单绑定路由，不可删除')
 
         with db.auto_commit():
             route.delete(commit=False)
             Route.query.filter_by(parent_id=id).delete(synchronize_session=False)
 
+    # 新建路由
     @staticmethod
     def create(**kwargs):
         Route.abort_repeat(msg='唯一键重复', name=kwargs['name'])
-        route = Route.create(**kwargs)
+        Route.create(**kwargs)

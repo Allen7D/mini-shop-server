@@ -4,7 +4,6 @@
   ↓↓↓ 文件上传下载接口 ↓↓↓
   可以用来处理上传产品图片、Excel等
 """
-from flask import g
 from flask import request
 
 from app.extensions.api_docs.redprint import Redprint
@@ -49,21 +48,22 @@ def update_route_tree():
     return Success()
 
 
-@api.route('/<id>', methods=['GET'])
+@api.route('/<int:id>', methods=['GET'])
 @api.doc(args=['path.route_id'], auth=True)
 @auth.admin_required
-def get_route_node_by_id(id):
+def get_route_node(id):
     """按ID获取路由节点"""
-    return Success(Route.get_or_404(id=id, msg='路由节点不存在'))
+    route_node = Route.get_or_404(id=id, msg='路由节点不存在')
+    return Success(route_node)
 
 
-@api.route('/<id>', methods=['PUT'])
+@api.route('/<int:id>', methods=['PUT'])
 @api.doc(args=['path.route_id', 'body.route_id', 'body.parent_id', 'body.title',
                'body.name', 'body.icon', 'body.path', 'body.component', 'body.hidden'], auth=True)
-@auth.admin_required
+# @auth.admin_required
 def update_route_node(id):
     """按ID修改路由节点"""
-    validator = RouteNodeValidator().dt_data
+    validator = RouteNodeValidator().dt_data # 包含对id的校验
     RouteDao.update(**validator)
     return Success()
 

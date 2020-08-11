@@ -51,17 +51,21 @@ class FileDao():
                 File.id.in_(ids),
             ).delete(synchronize_session=False)
 
-    # 移动文件或文件夹
+    # 批量移动文件或文件夹
     @staticmethod
-    def move_file(dest_parent_id, file_id):
-        file = File.get_or_404(id=file_id)
-        File.abort_repeat(
-            parent_id=dest_parent_id,
-            name=file.name,
-            extension=file.extension,
-            msg='文件名重复，无法移动！')
+    def move_files(dest_parent_id, file_ids):
+        '''
+        :param dest_parent_id: 目标父级目录ID
+        :param file_id: 文件ID
+        :return:
+        '''
+        file_list = File.query.filter(File.id.in_(file_ids)).all()
         # 如果不重名则可以复制
-        file.update(parent_id=dest_parent_id)
+        with db.auto_commit():
+            for file in file_list:
+                File.abort_repeat(parent_id=dest_parent_id, name=file.name, extension=file.extension,
+                                  msg='文件名重复，无法移动！')
+                file.update(parent_id=dest_parent_id, commit=False, )
 
     # 复制文件或文件夹
     @staticmethod
@@ -72,7 +76,7 @@ class FileDao():
         :return:
         '''
         src_file = File.get_or_404(id=src_file_id)
-        dest_file = File.create(
+        File.create(
             parent_id=dest_parent_id,
             uuid_name=src_file.uuid_name,
             name=src_file.name,
@@ -82,7 +86,6 @@ class FileDao():
             size=src_file.size,
             md5=src_file.md5
         )
-        return File.get(parent_id=dest_parent_id, md5=src_file.md5)
 
     @staticmethod
     def get_folder_tree():

@@ -12,6 +12,7 @@ __author__ = 'Allen7D'
 
 
 class LocalUploader(Uploader):
+    # 定位文件所属的文件夹位置
     def locate(self, parent_id=0):
         self.parent_id = parent_id
 
@@ -22,13 +23,16 @@ class LocalUploader(Uploader):
             file_md5 = self._generate_md5(single.read())
             single.seek(0)
             file = File.query.filter_by(md5=file_md5).first()
-            if file and self.parent_id != file.parent_id:
+            # 如果，文件已存在
+                # 如果，已存在的文件的父文件夹和目标文件夹不一致，则复制
+                # 否者，沿用file文件(不用else)
+            if file and file.parent_id != self.parent_id:
                 if not File.query.filter_by(parent_id=self.parent_id, md5=file_md5).first():
                     file = FileDao.copy_file(
                         dest_parent_id=self.parent_id,
                         src_file_id=file.id
                     )
-
+            # 如果，文件不存在
             if not file:
                 absolute_path, relative_path, uuid_filename = self._get_store_path(single.filename)
                 secure_filename(single.filename)

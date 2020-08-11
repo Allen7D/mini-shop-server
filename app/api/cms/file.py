@@ -9,6 +9,7 @@ from flask import request, current_app
 from app.extensions.api_docs.redprint import Redprint
 from app.extensions.api_docs.cms import file as api_doc
 from app.extensions.file.local_uploader import LocalUploader
+from app.extensions.file.qiniu_uploader import QiniuUploader
 from app.core.token_auth import auth
 from app.core.utils import paginate
 from app.models.file import File
@@ -35,12 +36,12 @@ def get_file_types():
 
 @api.route('/<id>', methods=['POST'])
 @api.route_meta(auth='上传文件', module='文件')
-@api.doc(auth=True)
-@auth.group_required
+@api.doc(args=['g.path.parent_id'], auth=True)
+# @auth.group_required
 def upload_file(id):
-    '''上传文件到目录下'''
+    '''上传文件'''
     files = request.files
-    uploader = LocalUploader(files)
+    uploader = LocalUploader(files) # 或者导入，使用 QiniuUploader
     uploader.locate(parent_id=id)
     res = uploader.upload()
     return Success(res)

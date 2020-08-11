@@ -149,3 +149,8 @@ class FileExtensionException(APIException):
     code = 401
     msg = '文件扩展名不符合规范'
     error_code = 10330
+
+class QiniuExcepition(APIException):
+    code = 401
+    msg = '七牛云配置参数异常'
+    error_code = 10350

@@ -19,7 +19,7 @@ class File(Base):
     name = Column(String(100), nullable=False, comment='原始名称')
     path = Column(String(500), comment='路径')
     extension = Column(String(50), comment='后缀')
-    _from = Column('from', SmallInteger, default=1, comment='来源: 1 本地，2 公网')
+    _from = Column('from', SmallInteger, default=UrlFromEnum.LOCAL, comment='来源: 1 本地，2 公网')
     size = Column(Integer, comment='大小')
     md5 = Column(String(40), comment='文件md5值，防止上传重复文件')
 

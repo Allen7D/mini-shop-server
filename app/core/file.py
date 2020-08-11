@@ -89,6 +89,7 @@ class Uploader(object):
 
     @staticmethod
     def __parse_files(files):
+        '''拆分文件列表'''
         ret = []
         for key, value in files.items():
             ret += files.getlist(key)
@@ -110,6 +111,9 @@ class Uploader(object):
         return os.path.join(store_dir, uuid_filename), format_day + '/' + uuid_filename, uuid_filename
 
     def mkdir_if_not_exists(self):
+        '''
+        日期的规则更新文件储存路径
+        '''
         if not os.path.isabs(self._store_dir):
             self._store_dir = os.path.abspath(self._store_dir)
         # mkdir by YYYY/MM/DD
@@ -119,6 +123,9 @@ class Uploader(object):
 
     @staticmethod
     def __get_format_day():
+        '''
+        返回年/月/日 (2020/08/08)
+        '''
         import time
         return str(time.strftime("%Y/%m/%d"))
 

@@ -2,6 +2,8 @@
 """
   Created by Allen7D on 2020/4/16.
 """
+from collections import namedtuple
+
 from app.core.db import db
 from app.libs.enums import ScopeEnum, ClientTypeEnum
 from app.models.user import User
@@ -12,16 +14,14 @@ __author__ = 'Allen7D'
 
 
 class UserDao():
+    inner_identity_types = [ClientTypeEnum.USERNAME.value, ClientTypeEnum.EMAIL.value, ClientTypeEnum.MOBILE.value] # 内部登录类型: username、email、mobile
     # 更改密码
     @staticmethod
     def change_password(uid, old_password, new_password):
         identity = Identity.get_or_404(user_id=uid)  # 找到一个
         if identity.check_password(old_password):
             identity_list = Identity.query.filter(
-                Identity.type.in_([
-                    ClientTypeEnum.USERNAME.value,
-                    ClientTypeEnum.EMAIL.value,
-                    ClientTypeEnum.MOBILE.value]),
+                Identity.type.in_(UserDao.inner_identity_types),
                 Identity.user_id == uid
             ).all()
             with db.auto_commit():
@@ -32,37 +32,41 @@ class UserDao():
     @staticmethod
     def reset_password(uid, password):
         identity_list = Identity.query.filter(
-            Identity.type.in_([
-                ClientTypeEnum.USERNAME.value,
-                ClientTypeEnum.EMAIL.value,
-                ClientTypeEnum.MOBILE.value]),
+            Identity.type.in_(UserDao.inner_identity_types),
             Identity.user_id == uid
         ).all()
         with db.auto_commit():
             for item in identity_list:
                 item.update(commit=False, password=password)
 
-    # 站内注册(用户名、手机号、邮箱、密码)
+    # 站内注册(用户名、手机号、邮箱、密码)，可以同时绑定多个
     @staticmethod
-    def create_user(form):
+    def create_user(form: namedtuple):
+        # form在validator层已经校验了必须包含username
         with db.auto_commit():
-            user = User.create(
-                commit=False,
-                nickname=getattr(form, 'nickname', None),
-                auth=ScopeEnum.COMMON.value
-            )
+            # 用户昵称(姓名)，可以重名
+            user = User.create(commit=False, nickname=getattr(form, 'nickname', None), auth=ScopeEnum.COMMON.value)
+            password = form.password
+            # 以下多个绑定可以同步进行
+            # 用户登录时的账号(必定)
             if (hasattr(form, 'username')):
-                Identity.abort_repeat(identifier=form.username, msg='该用户名已被使用，请重新输入新的用户名')
+                identifier = form.username
+                Identity.abort_repeat(identifier=identifier, msg='该用户名已被使用，请重新输入新的用户名')
                 Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.USERNAME.value, verified=1,
-                                identifier=form.username, password=form.password)
+                                identifier=identifier, password=password)
+
+            # 用户登录时的手机号(可选)
             if (hasattr(form, 'mobile')):
-                Identity.abort_repeat(identifier=form.mobile, msg='手机号已被使用，请重新输入新的手机号')
-                Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.MOBILE.value,
-                                identifier=form.mobile, password=form.password)
+                identifier = form.mobile
+                Identity.abort_repeat(identifier=identifier, msg='手机号已被使用，请重新输入新的手机号')
+                Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.MOBILE.value, verified=1,
+                                identifier=identifier, password=password)
+            # 用户登录时的邮箱号(可选)
             if (hasattr(form, 'email')):
-                Identity.abort_repeat(identifier=form.email, msg='邮箱已被使用，请重新输入新的邮箱号')
-                Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.EMAIL.value,
-                                identifier=form.email, password=form.password)
+                identifier = form.email
+                Identity.abort_repeat(identifier=identifier, msg='邮箱已被使用，请重新输入新的邮箱号')
+                Identity.create(commit=False, user_id=user.id, type=ClientTypeEnum.EMAIL.value, verified=1,
+                                identifier=identifier, password=password)
 
     @staticmethod
     def register_by_wx_mina(openid: str):

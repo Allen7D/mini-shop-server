@@ -50,15 +50,8 @@ class UrlFromEnum(Enum):
 
 class AtLeastEnum(Enum):
     '''至少的数目'''
-    ONE = 1
-    TEN = 10
-
-
-class ArticleTypeEnum(Enum):
-    '''文章类型'''
-    COMMON = 1  # 普通文章
-    COMPANY = 2  # 公司相关
-    INDUSTRY = 3  # 行业相关
+    ONE = 1 # 至少1个
+    TEN = 10 # 至少10个
 
 
 class NoticeTypeEnum(Enum):
@@ -69,7 +62,7 @@ class NoticeTypeEnum(Enum):
 
 class OperTyepEnum(Enum):
     '''操作日志类型'''
-    OTHER = 0 # 其他
+    OTHER = 0  # 其他
     CREATE = 1  # 新增
     UPDATE = 2  # 修改
     DELETE = 3  # 删除

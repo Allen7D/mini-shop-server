@@ -5,73 +5,112 @@
 """
 from flask import g
 
-from app.libs.enums import ScopeEnum
-from app.libs.error_code import Success
-from app.libs.redprint import RedPrint
-from app.libs.token_auth import auth
+from app.extensions.api_docs.redprint import Redprint
+from app.extensions.api_docs.v1 import user as api_doc
+from app.core.token_auth import auth
+from app.core.utils import get_request_args
 from app.models.user import User
-from app.api_docs.v1 import user as api_doc  # api_doc可以引入
-from app.validators.base import BaseValidator
-from app.validators.forms import ChangePasswordValidator
+from app.dao.user import UserDao
+from app.dao.auth import AuthDao
+from app.dao.identity import IdentityDao
+from app.libs.error_code import Success
+from app.validators.forms import ChangePasswordValidator, \
+    CreateUserValidator, UpdateUserValidator, UpdateAvatarValidator
 
 __author__ = 'Allen7D'
 
-# 直接将api文档的内容放入RedPrint中
-
-api = RedPrint(name='user', description='用户', api_doc=api_doc)
+api = Redprint(name='user', module='用户', api_doc=api_doc)
 
 
 @api.route('', methods=['GET'])
 @api.doc(auth=True)
 @auth.login_required
-def get_one():
-    '''用户获取自身信息'''
-    # g变量是「线程隔离」的，是全局变量(方便在各处调用)；「g.user」是当前用户
-    user = User.query.get_or_404(ident=g.user.uid)
+def get_user():
+    '''查询自身'''
+    user = User.get(id=g.user.id)
     return Success(user)
 
 
 @api.route('', methods=['POST'])
-@api.doc(args=['body.email', 'body.nickname', '*str.body.password'])
-def create_one():
+@api.doc(args=['g.body.username', 'g.body.email', 'g.body.mobile', 'g.body.nickname',
+               'g.body.password', 'g.body.confirm_password'])
+def create_user():
     '''用户注册'''
-    validator = BaseValidator().get_all_json()
-    validator['auth'] = ScopeEnum.USER.value
-    user = User.create(**validator)
-    return Success(data=user, error_code=1)
+    form = CreateUserValidator().nt_data
+    UserDao.create_user(form)
+    return Success(error_code=1)
 
 
 @api.route('', methods=['PUT'])
-@api.doc(auth=True)
+@api.doc(args=['g.body.nickname', 'g.body.username', 'g.body.email', 'g.body.mobile'], auth=True)
 @auth.login_required
-def update_one():
-    '''用户更改自身信息'''
-    validator = BaseValidator().get_all_json()  # 快速获取所有的非校验的参数
-    user = User.get_current_user()
+def update_user():
+    '''更新自身'''
+    form = UpdateUserValidator().nt_data
+    UserDao.update_user(uid=g.user.id, form=form)
+    return Success(error_code=1)
+
+
+@api.route('/bind', methods=['PUT'])
+@api.doc(args=['g.body.account', 'type'], auth=True)
+@auth.login_required
+def bind_identity():
+    '''绑定账号'''
+    validator = get_request_args()
+    IdentityDao.bind(user_id=g.user.id, identifier=validator.account, type=validator.type)
+    return Success(error_code=1)
+
+
+@api.route('/unbind', methods=['PUT'])
+@api.doc(args=['type'], auth=True)
+@auth.login_required
+def unbind_identity():
+    '''解绑账号'''
+    validator = get_request_args()
+    IdentityDao.unbind(user_id=g.user.id, type=validator.type)
     return Success(error_code=1)
 
 
 @api.route('', methods=['DELETE'])
 @api.doc(auth=True)
 @auth.login_required
-def delete_one():
-    '''用户注销'''
-    # 取代user = User.query.get_or_404(uid)，即使删除了还是能查到
-    user = User.get_current_user()
-    user.delete()
+def delete_user():
+    '''注销自身'''
+    UserDao.delete_user(uid=g.user.id)
     return Success(error_code=2)
 
 
 @api.route('/password', methods=['PUT'])
-@api.doc(args=['g.body.new_password', 'g.body.confirm_password'], auth=True)
+@api.doc(args=['g.body.new_password', 'g.body.old_password', 'g.body.confirm_password'], auth=True)
 @auth.login_required
 def change_password():
     '''更改密码'''
-    validator = ChangePasswordValidator().validate_for_api()
-    old_password = validator.old_password.data
-    new_password = validator.new_password.data
-
-    user = User.get_current_user()
-    if user.check_password(old_password):
-        user.update(password=new_password)
+    validator = ChangePasswordValidator().nt_data
+    UserDao.change_password(
+        uid=g.user.id,
+        old_password=validator.old_password,
+        new_password=validator.new_password
+    )
     return Success(error_code=1)
+
+
+@api.route('/avatar', methods=['PUT'])
+@api.doc(args=['g.body.avatar'], auth=True)
+@auth.login_required
+def set_avatar():
+    '''更新用户头像'''
+    validator = UpdateAvatarValidator().nt_data
+    UserDao.set_avatar(id=g.user.id, avatar=validator.avatar)
+    return Success(error_code=1, msg='更新头像成功')
+
+
+@api.route('/auths', methods=['GET'])
+@api.route_meta(auth='查询自己拥有的权限', module='用户', mount=False)
+@api.doc(auth=True)
+@auth.login_required
+def get_auths():
+    '''查询自己拥有的权限'''
+    auth_list = AuthDao.get_auth_list(group_id=g.user.group_id)
+    return Success({
+        'items': auth_list
+    })

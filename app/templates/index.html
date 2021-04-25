@@ -21,20 +21,29 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .link-item {
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
-    <div style="padding: 24px 48px;">
-        <p style="font-size:38px">
-            小程序商城项目<br/>
-            <span style="font-size:30px">欢迎你</span>
-        </p>
-        <div class="link">
+<div style="padding: 24px 48px;">
+    <p style="font-size:38px">
+        小程序商城项目<br/>
+        <span style="font-size:30px">欢迎你</span>
+    </p>
+    <div class="link">
+        <div class="link-item">
             <a href="/apidocs/#/">Swagger API文档</a>
-            <a href="/admin/">静态资源&ORM 管理</a>
+            <a href="/admin/">静态资源&ORM管理</a>
+            <a href="/error_code">错误码</a>
+        </div>
+        <div class="link-item">
             <a href="{{ url.github }}">GitHub 仓库</a>
             <a href="{{ url.doc }}">项目文档</a>
         </div>
     </div>
+</div>
 </body>
 </html>

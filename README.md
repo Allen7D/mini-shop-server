@@ -10,15 +10,12 @@
 <div align="center">
   <img alt="img" src="" width="550px">
   <div>
-    <a href="http://server.mini-shop.ivinetrue.com/apidocs/#/" target="__blank">线上 API 文档</a>
+    <a href="http://47.114.33.143:9000/apidocs/#/" target="__blank">线上 API 文档</a>
   </div>
 </div>
 
-
-* 借鉴慕课网的[《Python Flask 构建可扩展的 RESTful API》](http://coding.imooc.com/class/220.html)的设计模式
-* 重构慕课网的[《微信小程序商城构建全栈应用》](https://coding.imooc.com/learn/list/97.html)，源项目基于TP5 + MINA框架
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
-* 感谢慕课网的[七月老师](https://www.imooc.com/t/4294850)，本项目属于他课程思路的复现
+* 感谢慕课网的[七月老师](https://www.imooc.com/t/4294850)，本项目初期是基于他的课程思路
 
 ## 🎮 互动
 QQ交流群:聊天、斗图、学习、交流，伸手党勿进
@@ -209,35 +206,22 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 ├── app
 │   ├── __init__.py
 │   ├── api
-│   │   ├── v1 # v1的API接口
+│   │   ├── v1          # v1的API接口
 │   │   │   ├── __init__.py
-│   │   │   ├── address.py # 用户地址
-│   │   │   ├── banner.py # 推广横幅
+│   │   │   ├── address.py  # 用户地址
+│   │   │   ├── banner.py   # 推广横幅
 │   │   │   ├── category.py # 分类
 │   │   │   ├── client.py
-│   │   │   ├── order.py # 订单
-│   │   │   ├── pay.py # 支付
-│   │   │   ├── product.py # 产品
-│   │   │   ├── theme.py # 主题
-│   │   │   ├── token.py # 令牌
-│   │   │   └── user.py # 用户
+│   │   │   ├── order.py    # 订单
+│   │   │   ├── pay.py      # 支付
+│   │   │   ├── product.py  # 产品
+│   │   │   ├── theme.py    # 主题
+│   │   │   ├── token.py    # 令牌
+│   │   │   └── user.py     # 用户
 │   │   └── v2 # v2的API接口
 │   │       ├── __init__.py
-│   │       └── file.py # 文件上传
-│   ├── api_docs # 对应的 API文档
-│   │   ├── __init__.py
-│   │   ├── address.py
-│   │   ├── banner.py
-│   │   ├── base.py
-│   │   ├── category.py
-│   │   ├── client.py
-│   │   ├── file.py
-│   │   ├── order.py
-│   │   ├── pay.py
-│   │   ├── product.py
-│   │   ├── theme.py
-│   │   ├── token.py
-│   │   └── user.py
+│   │       └── file.py     # 文件上传
+│   ├── api_docs        # 对应的 API文档
 │   ├── config # 配置文件
 │   │   ├── secure.py
 │   │   ├── setting.py
@@ -253,19 +237,7 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 │   │   ├── swagger_filed.py
 │   │   ├── token_auth.py
 │   │   └── utils.py
-│   ├── models # Model 层
-│   │   ├── __init__.py
-│   │   ├── banner_item.py
-│   │   ├── banner.py
-│   │   ├── base.py
-│   │   ├── category.py
-│   │   ├── image.py
-│   │   ├── m2m.py
-│   │   ├── order.py
-│   │   ├── product.py
-│   │   ├── theme.py
-│   │   ├── user.py
-│   │   └── user_address.py
+│   ├── models          # Model 层
 │   ├── service # Service 层
 │   │   ├── __init__.py
 │   │   ├── app_token.py
@@ -273,22 +245,21 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 │   │   ├── pay.py
 │   │   ├── token.py
 │   │   └── wx_token.py
-│   ├── validators # 参数校验层
+│   ├── validators      # 参数校验层
 │   │   ├── __init__.py
 │   │   ├── base.py
 │   │   ├── forms.py
 │   │   └── params.py
-│   ├── web # 网页文件
+│   ├── web             # 网页文件
 │   │   ├── __init__.py
 │   │   └── auth.py
 │   └── app.py
-├── fake.py # 生成临时用户
-├── server.py # 启动程序(项目入口)
+├── fake.py             # 生成临时用户
+├── server.py           # 启动程序(项目入口)
 ├── config.ini
-├── Pipfile # 包依赖文件
-├── Pipfile.lock
-├── code.md # 错误码(用于前后端开发)
-├── README.md # 项目说明文档
+├── Pipfile             # 包依赖文件
+├── code.md             # 错误码(用于前后端开发)
+├── README.md           # 项目说明文档
 ├── zerd.sql
 └── LICENSE
 </code></pre>

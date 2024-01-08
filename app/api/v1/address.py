@@ -22,7 +22,7 @@ api = Redprint(name='address', module='配送信息', api_doc=api_doc)
 @api.doc(auth=True)
 @auth.login_required
 def get_all_address():
-    '''查询所有「配送信息」'''
+    '''查询所有的「配送信息」'''
     address_list = Address.query.filter_by(user_id=g.user.id).all_by_wrap()
     return Success(address_list)
 

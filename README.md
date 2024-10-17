@@ -486,3 +486,7 @@ stdout_logfile=/tmp/blog_stdout.log
 【11】[基于Linux环境搭建Nginx+uWSGI+Python框](https://segmentfault.com/a/1190000012918535?utm_medium=referral&utm_source=tuicool)
 
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Allen7D/mini-shop-server&type=Date)](https://star-history.com/#Allen7D/mini-shop-server&Date)
+

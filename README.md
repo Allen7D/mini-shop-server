@@ -17,29 +17,6 @@
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
 * 感谢慕课网的[七月老师](https://www.imooc.com/t/4294850)，本项目初期是基于他的课程思路
 
-## 🎮 互动
-QQ交流群:聊天、斗图、学习、交流，伸手党勿进
-
-<table align="center">
-  <tr>
-    <td><img alt="img" src="./media/qq_group_qr_code.jpg" width="250px"></td>
-    <td><img alt="img" src="./media/qq_group_from_lin.png" width="250px"></td>
-  </tr>
-  <tr>
-    <td>
-    <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=ee34348c8d177a4218594598de6c3fb404861a1c7a7091cd9f4384e6dcd6ea32"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="葬爱代码家族群" title="葬爱代码家族群"></a>
-    </td>
-    <td>
-    <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=184ed5a00c7f903271f8d55beb814b7c9779347e114e2db51db7962bf9d016de"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="林间有风团队官方交流" title="林间有风团队官方交流"></a>
-    </td>
-  </tr>
-  <tr>
-  	<td>葬爱家族QQ交流群</td>
-  	<td>林间有风团队官方QQ交流群</td>
-  </tr>
-</table>
-
-
 ## ✨ 亮点
 - 基于原生的 Flask 构建 RESTful API
 - 更灵活的 API文档生成方式(可带 **Token**)

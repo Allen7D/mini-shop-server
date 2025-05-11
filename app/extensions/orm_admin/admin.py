@@ -46,7 +46,7 @@ class Extension():
             # endpoint & url有默认值，也可以随意修改
             lower_model_name = model_name.lower()
             self.admin.add_view(model_view(model, db.session,
-                                           endpoint='admin.{}'.format(lower_model_name),
+                                           endpoint='admin-{}'.format(lower_model_name),
                                            url='/admin/{}'.format(lower_model_name)))
 
     def apply_file_admin(self, app):

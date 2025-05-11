@@ -8,7 +8,7 @@ import time
 import re
 from functools import wraps
 
-from flask import g, Response, request, _request_ctx_stack
+from flask import g, Response, request, current_app
 
 from app.core.auth import find_info_by_ep
 from app.models.user import User
@@ -65,7 +65,7 @@ class Logger(object):
         if status_code is None:
             status_code = 0
         request_param = {
-            'path': _request_ctx_stack.top.request.view_args,
+            'path': request.view_args,
             'query': request.args,
             'body': request.get_json() if request.get_json() else {}
         }
@@ -112,7 +112,7 @@ def apply_request_log(app):
         )
         req_body = request.get_json() if request.get_json() else {}
         data = {
-            'path': _request_ctx_stack.top.request.view_args,
+            'path': request.view_args,
             'query': request.args,
             'body': req_body
         }

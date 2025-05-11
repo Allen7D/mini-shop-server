@@ -444,7 +444,7 @@ stdout_logfile=/tmp/blog_stdout.log
 ## 后续
 ### 三端分离
 #### 1.客户端: mini-shop-wx
-微信小程序n[链接](https://github.com/Allen7D/mini-shop-wx)。
+微信小程序[链接](https://github.com/Allen7D/mini-shop-wx)。
 
 #### 2.服务端: mini-shop-server
 基于 Flask框架构建 RESTful API。

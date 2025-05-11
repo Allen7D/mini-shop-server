@@ -75,14 +75,14 @@ QQ交流群:聊天、斗图、学习、交流，伸手党勿进
 
 
 ## 开发工具
-* Python 3.6（虚拟环境：pipenv）
+* Python 3.8（虚拟环境：pipenv）
 * MySQL
 * PyCharm（开发工具）
 * Navicat（数据库可视化管理工具）
 
 ## 开发环境搭建
 * MySQL安装、运行，数据库的导入
-* Python 3.6
+* Python 3.8
 
 ### MySQL的安装和数据导入
 #### 一、安装
@@ -129,15 +129,15 @@ mysql>
 ```
 
 
-### Python3.6版本的安装
+### Python3.8版本的安装
 查询本地的python3的版本 ```$ python3 --version```
-如果不是python3.6的版本，则如下操作
+如果不是python3.8的版本，则如下操作
 
 ```
 $ sudo apt-get update 
 $ sudo apt-get install software-properties-common
-$ sudo add-apt-repository ppa:jonathonf/python-3.6 
-$ sudo apt-get install python3.6
+$ sudo add-apt-repository ppa:jonathonf/python-3.8
+$ sudo apt-get install python3.8
 ```
 
 ### pipenv的安装
@@ -150,7 +150,7 @@ $ sudo apt-get install python3.6
 > Tips: 其他 pipenv操作
 ```
 $ pipenv install flask # 安装指定模块，并写入到 Pipfile中
-$ pipenv install flask==1.0.2 # 安装指定版本的模块
+$ pipenv install flask==2.0.3 # 安装指定版本的模块
 $ pipenv uninstall flask # 卸载指定模块
 $ pipenv update flask # 更新指定模块
 $ pip list # 查看安装列表
@@ -165,10 +165,11 @@ $ exit # 退出当前虚拟环境
 ```
 $ git clone https://github.com/Allen7D/mini-shop-server.git
 $ cd mini-shop-server 
-$ mkdir .venv # 生成.venv文件夹，用于存放该项目的python解释器(包括后续所有安装的包依赖)
-$ pipenv --python 3.6 # 指定某 Python 版本创建环境
+$ mkdir .venv # 在当前目录下生成.venv文件夹，用于存放该项目的python解释器(包括后续所有安装的包依赖)
+$ pipenv --python 3.8 # 指定某 Python 版本创建环境
 $ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
-$ pipenv install # 安装包依赖
+$ pipenv install # 安装生产环境的包依赖
+$ pipenv install --dev # 安装开发环境的包依赖
 $ python server.py run # 启动方式1:默认5000端口
 $ python server.py run -p 8080 # 启动方式2:改为8080端口
 $ python server.py run -h 0.0.0.0 -p 8080 # 启动方式3:以本地IP地址访问

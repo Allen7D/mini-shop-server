@@ -23,7 +23,7 @@ class APIException(HTTPException):
             self.msg = msg
         super(APIException, self).__init__()
 
-    def get_body(self, environ=None):
+    def get_body(self, environ=None, scope=None):
         body = dict(
             msg=self.msg,
             error_code=self.error_code,
@@ -32,7 +32,8 @@ class APIException(HTTPException):
         text = json.dumps(body)  # 返回文本
         return text
 
-    def get_headers(self, environ=None):
+    def get_headers(self, environ=None, scope=None):
+        """添加scope参数以兼容Flask 2.0+"""
         return [('Content-type', 'application/json; charset=utf-8')]
 
     @staticmethod
@@ -40,6 +41,10 @@ class APIException(HTTPException):
         full_path = str(request.full_path)
         main_path = full_path.split('?')[0]
         return main_path
+
+    def __call__(self, environ, start_response):
+        """确保异常类可以作为WSGI应用被调用"""
+        return super(APIException, self).__call__(environ, start_response)
 
 
 ############################################
@@ -67,7 +72,7 @@ class Success(APIException):
             msg = msg if msg else '删除成功'
         super(Success, self).__init__(code, error_code, msg)
 
-    def get_body(self, environ=None):
+    def get_body(self, environ=None, scope=None):
         body = dict(
             error_code=self.error_code,
             msg=self.msg,

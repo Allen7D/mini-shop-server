@@ -7,7 +7,7 @@ from functools import wraps
 
 from flask import current_app, g, request
 from flask_httpauth import HTTPBasicAuth as _HTTPBasicAuth
-from itsdangerous import TimedJSONWebSignatureSerializer \
+from itsdangerous import URLSafeTimedSerializer \
     as Serializer, BadSignature, SignatureExpired
 
 from app.models.user import User
@@ -131,7 +131,7 @@ def decrypt_token(token):
     '''
     s = Serializer(current_app.config['SECRET_KEY'])
     try:
-        data = s.loads(token)  # token在请求头
+        data = s.loads(token, max_age=7200)  # token在请求头，设置最大有效期
     except BadSignature:
         raise AuthFailed(msg='token 无效', error_code=1002)
     except SignatureExpired:
@@ -144,10 +144,10 @@ def decrypt_token(token):
 
 def generate_auth_token(uid, ac_type, scope=None, expiration=7200):
     '''生成令牌'''
-    s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+    s = Serializer(current_app.config['SECRET_KEY'])
     token = s.dumps({
         'uid': uid,
         'type': ac_type,
         'scope': scope
     })
-    return {'token': token.decode('ascii')}
+    return {'token': token}

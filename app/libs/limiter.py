@@ -3,7 +3,7 @@
   Created by Allen7D on 2019/1/21.
 """
 from functools import wraps
-from werkzeug.contrib.cache import SimpleCache  # 新包地址 https://github.com/pallets/cachelib
+from cachelib import SimpleCache  # werkzeug.contrib.cache 已移至独立的 cachelib 包
 from flask import request
 
 __author__ = 'Allen7D'

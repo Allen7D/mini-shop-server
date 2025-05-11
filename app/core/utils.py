@@ -14,7 +14,8 @@ def jsonify(*args, **kwargs):
     indent = None
     separators = (',', ':')
 
-    if current_app.config['JSONIFY_PRETTYPRINT_REGULAR'] or current_app.debug:
+    # 使用debug模式作为判断是否美化输出的依据
+    if current_app.debug:
         indent = 2
         separators = (', ', ': ')
 
@@ -26,7 +27,7 @@ def jsonify(*args, **kwargs):
         data = args or kwargs
     return current_app.response_class(
         dumps(data, indent=indent, separators=separators) + '\n',
-        mimetype=current_app.config['JSONIFY_MIMETYPE']
+        mimetype='application/json'
     ).json
 
 

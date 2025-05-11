@@ -4,7 +4,7 @@
   参数校验
 """
 
-from flask import request, _request_ctx_stack
+from flask import request
 from wtforms import BooleanField, StringField, IntegerField, PasswordField, FileField, FieldList
 from wtforms.validators import DataRequired, ValidationError, length, Email, Regexp, EqualTo, Optional, \
     NumberRange
@@ -41,7 +41,7 @@ class IDMustBeNaturalNumValidator(BaseValidator):
 # id序列的校验(不论ids在path还是query)
 class IDCollectionValidator(BaseValidator):
     def __init__(self):
-        view_args = _request_ctx_stack.top.request.view_args  # path中
+        view_args = request.view_args  # path中
         args = dict(request.args.to_dict(), **view_args)  # query中
         super(BaseValidator, self).__init__(data={}, **args)
 

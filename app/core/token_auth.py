@@ -97,6 +97,7 @@ def verify_group(token, password):
     current_user = User.get_or_404(id=uid)
     group_id = current_user.group_id
     # 非admin用户，先进行校验
+    print('group_id', group_id)
     if not current_user.is_admin:
         if group_id is None:
             raise AuthFailed(msg='您还不属于任何权限组，请联系系统管理员获得权限')

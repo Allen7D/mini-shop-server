@@ -19,7 +19,6 @@ api = Redprint(name='menu', module='菜单管理', api_doc=api_doc, alias='cms_m
 
 @api.route('', methods=['GET'])
 @api.doc(args=['query.group_id'], auth=True)
-@auth.admin_required
 def get_routes():
     """根据权限组ID, 获取菜单"""
     gid = MenuGroupIdValidator().group_id.data
@@ -28,7 +27,6 @@ def get_routes():
 
 @api.route('', methods=['PUT'])
 @api.doc(args=['body.routes', 'body.group_id'], auth=True)
-@auth.admin_required
 def delete_route():
     """覆盖权限组的菜单列表"""
     MenuDao.cover_menus(**request.json)

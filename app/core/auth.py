@@ -68,6 +68,7 @@ def get_ep_id(name):
 def is_in_auth_scope(group_id, endpoint):
     meta = current_app.config['EP_META'].get(endpoint)
     allowed = False
+    print(group_id, meta.name, meta.module)
     if meta:
         allowed = Auth.get(group_id=group_id, name=meta.name, module=meta.module)
     return True if allowed else False

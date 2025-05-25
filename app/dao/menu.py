@@ -18,7 +18,7 @@ class MenuDao(object):
     def get_routes(gid: int) -> dir:
         id2route_node = {route.id: dict(route) for route in Group.get_or_404(id=gid).route}
         id2route_node_clone = id2route_node.copy()
-
+        
         def add_parent_node(cur_route_node):
             if cur_route_node['parent_id'] == cur_route_node['id'] == 0:
                 pass

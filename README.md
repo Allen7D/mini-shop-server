@@ -8,7 +8,8 @@
 </h4>
 
 <div align="center">
-  <img alt="img" src="" width="550px">
+  <img alt="img" src="https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/20250722162452.png" width="550px">
+  
   <div>
     <a href="http://47.114.33.143:9000/apidocs/#/" target="__blank">线上 API 文档</a>
   </div>

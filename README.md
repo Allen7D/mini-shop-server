@@ -8,11 +8,25 @@
 </h4>
 
 <div align="center">
-  <img alt="img" src="" width="550px">
+
+  [![Python Version](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+  [![Flask Version](https://img.shields.io/badge/Flask-2.0.3-green.svg)](https://flask.palletsprojects.com/)
+  [![API Docs](https://img.shields.io/badge/API%20Docs-Swagger-orange.svg)](http://47.114.33.143:9000/apidocs/#/)
+  [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+  [![Stars](https://img.shields.io/github/stars/Allen7D/mini-shop-server.svg)](https://github.com/Allen7D/mini-shop-server)
+</div>
+
+**Mini Shop Server** 是一个基于现代化 Flask 框架构建的微信小程序商城后端系统，专为中小型企业和开发者提供完整、可靠、易扩展的电商后端解决方案。
+
+
+<div align="center">
+  <img alt="img" src="https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/20250722162452.png" width="550px">
+  
   <div>
     <a href="http://47.114.33.143:9000/apidocs/#/" target="__blank">线上 API 文档</a>
   </div>
 </div>
+
 
 * 本项目的开发环境是 Mac OS，生产环境是 Linux Ubuntu 16.04
 * 感谢慕课网的[七月老师](https://www.imooc.com/t/4294850)，本项目初期是基于他的课程思路
@@ -137,7 +151,7 @@ $ uv add flask                    # 添加依赖
 $ uv add flask==2.0.3             # 添加指定版本依赖
 $ uv remove flask                 # 删除依赖
 $ uv run python server.py         # 在虚拟环境中运行命令
-$ ource .venv/bin/activate        # 激活虚拟环境
+$ source .venv/bin/activate        # 激活虚拟环境
 $ uv python list                  # 查看可用Python版本
 $ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
 ```
@@ -145,6 +159,7 @@ $ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
 ### 本地启动
 ```bash
 $ git clone https://github.com/Allen7D/mini-shop-server.git
+$ git clone --depth=1 -b master --single-branch git@github.com:Allen7D/mini-shop-server.git  # 浅克隆(只克隆指定分支，且只下载最近的提交历史)
 $ cd mini-shop-server 
 $ uv sync                         # 创建虚拟环境并安装所有依赖
 $ uv run python server.py run     # 启动方式1:默认5000端口

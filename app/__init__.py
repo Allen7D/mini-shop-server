@@ -17,6 +17,7 @@ from app.extensions.api_docs.swagger import apply_swagger
 from app.extensions.default_view import apply_default_view
 from app.extensions.orm_admin import apply_orm_admin
 
+__version__ = "1.0.0"
 __author__ = 'Allen7D'
 
 

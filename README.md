@@ -21,7 +21,8 @@
 - 基于原生的 Flask 构建 RESTful API
 - 更灵活的 API文档生成方式(可带 **Token**)
 - AOP(面向切面编程)设计，实现 **参数校验层** & **异常统一处理层**
-- Ubuntu 16.04上 Nginx + Gunicorn + Pipenv部署
+- 现代化包管理：使用 uv 替代 pipenv，提供更快的依赖安装和解析
+- Ubuntu 16.04+ 上 Nginx + Gunicorn + uv 部署
 
 ## 🔩 内置
 1. 用户管理：提供用户的相关配置
@@ -52,9 +53,9 @@
 
 
 ## 开发工具
-* Python 3.8（虚拟环境：pipenv）
+* Python 3.8（虚拟环境：uv）
 * MySQL
-* PyCharm（开发工具）
+* PyCharm 或 VSCode（开发工具）
 * Navicat（数据库可视化管理工具）
 
 ## 开发环境搭建
@@ -117,64 +118,89 @@ $ sudo add-apt-repository ppa:jonathonf/python-3.8
 $ sudo apt-get install python3.8
 ```
 
-### pipenv的安装
-如果还未安装pip3包管理工具，请先执行如下语句<br>
-```$ sudo apt install python3-pip```
-
-安装 pipenv<br>
-```$ pip3 install pipenv```
-
-> Tips: 其他 pipenv操作
+### uv的安装
+安装 uv 包管理工具 (推荐方式)
+```bash
+$ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
-$ pipenv install flask # 安装指定模块，并写入到 Pipfile中
-$ pipenv install flask==2.0.3 # 安装指定版本的模块
-$ pipenv uninstall flask # 卸载指定模块
-$ pipenv update flask # 更新指定模块
-$ pip list # 查看安装列表
-$ pipenv graph # 查看安装列表，及其相应的以来
-$ pipenv --venv # 虚拟环境信息
-$ pipenv --py # Python解释器信息
-$ pipenv --rm # 卸载当前虚拟环境
-$ exit # 退出当前虚拟环境
+
+或者使用 pip 安装
+```bash
+$ pip install uv
+```
+
+> Tips: uv 常用操作命令
+```bash
+$ uv --version                    # 查看版本
+$ uv sync                         # 安装依赖
+$ uv add flask                    # 添加依赖
+$ uv add flask==2.0.3             # 添加指定版本依赖
+$ uv remove flask                 # 删除依赖
+$ uv run python server.py         # 在虚拟环境中运行命令
+$ ource .venv/bin/activate        # 激活虚拟环境
+$ uv python list                  # 查看可用Python版本
+$ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
 ```
 
 ### 本地启动
-```
+```bash
 $ git clone https://github.com/Allen7D/mini-shop-server.git
 $ cd mini-shop-server 
-$ mkdir .venv # 在当前目录下生成.venv文件夹，用于存放该项目的python解释器(包括后续所有安装的包依赖)
-$ pipenv --python 3.8 # 指定某 Python 版本创建环境
-$ pipenv shell # 激活虚拟环境 or 如果没有虚拟环境，则构建新的(默认版本)
-$ pipenv install # 安装生产环境的包依赖
-$ pipenv install --dev # 安装开发环境的包依赖
-$ python server.py run # 启动方式1:默认5000端口
-$ python server.py run -p 8080 # 启动方式2:改为8080端口
-$ python server.py run -h 0.0.0.0 -p 8080 # 启动方式3:以本地IP地址访问
+$ uv sync                         # 创建虚拟环境并安装所有依赖
+$ uv run python server.py run     # 启动方式1:默认5000端口
+$ uv run python server.py run -p 8080                 # 启动方式2:改为8080端口
+$ uv run python server.py run -h 0.0.0.0 -p 8080     # 启动方式3:以本地IP地址访问
+
+# 或者激活虚拟环境后运行
+$ source .venv/bin/activate       # 激活虚拟环境
+$ python server.py run            # 在虚拟环境中直接运行
 ```
 
 ### 生成临时管理员信息 
-```$ python fake.py```
+```bash
+$ uv run python fake.py
+```
 
-### Pycharm的配置<sup>[[1]](#ref_1)</sup>
-Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开启「Debug模式」
+### IDE 配置
 
-1. 获取该虚拟环境下 Python的解释器的路径
+#### PyCharm 配置 uv 环境
 
-<div align="center">
-  <img alt="img" src="./media/python_interpreter.jpg" width="80%">
-</div>
+1. 获取 uv 虚拟环境的 Python 解释器路径
+```bash
+$ uv run which python
+# 或者
+$ uv python find
+```
 
-2. 配置指定端口号
-**`Run > Edit Configurations`** <br>
-写入 `run -h 0.0.0.0 8080` <br>
-等同于，在终端执行 `python server.py run -h 0.0.0.0 -p 8080`
+2. PyCharm 中配置 Python 解释器
+   - 打开 **`File > Settings > Project > Python Interpreter`**
+   - 点击 **`Add Interpreter > Existing environment`**  
+   - 选择 `.venv/bin/python`（Linux/Mac）或 `.venv/Scripts/python.exe`（Windows）
 
-<div align="center">
-  <img alt="img" src="./media/debug_configurations.jpg" width="80%">
-</div>
+3. 配置运行配置
+   - **`Run > Edit Configurations`**
+   - Script path: `server.py`
+   - Parameters: `run -h 0.0.0.0 -p 8080`
 
-3. 开启 Debug
-**`Run > Debug 'server'`**
+#### VSCode 配置 uv 环境
+
+1. 安装 Python 扩展
+2. 打开命令面板 (`Ctrl+Shift+P`)
+3. 选择 **`Python: Select Interpreter`**
+4. 选择项目中的 `.venv/bin/python` 解释器
+5. VSCode 会自动识别虚拟环境
+
+![image.png](https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/20250516155005.png)
+![image.png](https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/20250516155015.png)
+
+
+创建 `.vscode/settings.json` 配置文件：
+```json
+{
+    "python.defaultInterpreterPath": "./.venv/bin/python",
+    "python.terminal.activateEnvironment": true
+}
+```
 
 ## 目录结构
 <details>
@@ -235,7 +261,9 @@ Pycharm中 配置 Pipenv生成的虚拟环境，并使用 **`指定端口`** 开
 ├── fake.py             # 生成临时用户
 ├── server.py           # 启动程序(项目入口)
 ├── config.ini
-├── Pipfile             # 包依赖文件
+├── pyproject.toml      # uv 项目配置和依赖文件
+├── uv.lock             # uv 锁定文件 (自动生成)
+├── Pipfile             # 旧的 pipenv 配置文件 (可删除)
 ├── code.md             # 错误码(用于前后端开发)
 ├── README.md           # 项目说明文档
 ├── zerd.sql
@@ -278,14 +306,25 @@ Controller层(业务层)
 Flassger 中 securityDefinitions 设置使用 basicAuth (详见config/setting.py)
 
 ## 服务器部署
-本项目选择在 Ubuntu 16.04 上，用 Nginx + Gunicorn + Pipenv 部署<sup>[[3]](#ref_3)</sup>，其中 Gunicorn 取代 uWsgi。
+本项目选择在 Ubuntu 16.04+ 上，用 Nginx + Gunicorn + uv 部署<sup>[[3]](#ref_3)</sup>，其中 Gunicorn 取代 uWsgi。
 > Flask 与 uWsgi 结合有许多难以处理的 bug
 
-
-
-### 运行
+### 服务器安装 uv
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
-gunicorn -w 4 -b 127.0.0.1:8080 server:app # 在8080端口开启 gunicorn
+
+### 部署步骤
+```bash
+# 1. 克隆项目
+git clone https://github.com/Allen7D/mini-shop-server.git
+cd mini-shop-server
+
+# 2. 使用 uv 安装依赖
+uv sync
+
+# 3. 运行服务
+uv run gunicorn -w 4 -b 127.0.0.1:8080 server:app # 在8080端口开启 gunicorn
 fuser -k 8080/tcp # 关闭占用8080端口的服务
 ```
 

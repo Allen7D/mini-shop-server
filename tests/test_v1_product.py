@@ -20,7 +20,7 @@ class APITestCase(unittest.TestCase):
         app = create_app()
         app.config.update(
             TESTING=True,
-            SQLALCHEMY_DATABASE_URI='mysql+cymysql://root:159951@localhost:3306/test?charset=utf8',
+            SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:159951@localhost:3306/test?charset=utf8',
             SQLALCHEMY_ENCODING='utf-8',
             SQLALCHEMY_TRACK_MODIFICATIONS = False  # 屏蔽 sql alchemy 的 FSADeprecationWarning
         )

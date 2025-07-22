@@ -151,7 +151,8 @@ $ uv add flask                    # 添加依赖
 $ uv add flask==2.0.3             # 添加指定版本依赖
 $ uv remove flask                 # 删除依赖
 $ uv run python server.py         # 在虚拟环境中运行命令
-$ source .venv/bin/activate        # 激活虚拟环境
+$ source .venv/bin/activate       # 激活虚拟环境
+$ source .venv/Scripts/activate   # windows 上激活虚拟环境
 $ uv python list                  # 查看可用Python版本
 $ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
 ```
@@ -168,6 +169,7 @@ $ uv run python server.py run -h 0.0.0.0 -p 8080     # 启动方式3:以本地IP
 
 # 或者激活虚拟环境后运行
 $ source .venv/bin/activate       # 激活虚拟环境
+$ source .venv/Scripts/activate   # windows 上激活虚拟环境
 $ python server.py run            # 在虚拟环境中直接运行
 ```
 

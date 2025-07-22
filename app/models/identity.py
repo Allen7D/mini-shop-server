@@ -6,7 +6,7 @@
   判断 _password，如果是站内则加密，站外的token则不加密
 """
 
-from werkzeug.security import generate_password_hash, check_password_hash
+import hashlib
 from sqlalchemy import Column, ForeignKey, SmallInteger, Integer, String
 from flask import current_app
 
@@ -52,7 +52,8 @@ class Identity(Base):
     def password(self, raw):
         # 站内登录方式(用户名、手机、邮箱)的密码需要加密
         if ClientTypeEnum(self.type) in current_app.config['CLINET_INNER_TYPES']:
-            self._credential = generate_password_hash(raw)
+            # 使用 SHA256 哈希（64字符）
+            self._credential = hashlib.sha256(raw.encode('utf-8')).hexdigest()
         # 第三方应用的token
         else:
             self._credential = raw
@@ -61,7 +62,8 @@ class Identity(Base):
     def check_password(self, raw, e=None):
         if not self._credential:
             return False
-        is_correct = check_password_hash(self._credential, raw)
+        # 使用 SHA256 验证
+        is_correct = self._credential == hashlib.sha256(raw.encode('utf-8')).hexdigest()
         if not is_correct and e:
             raise e
         return is_correct

@@ -146,6 +146,8 @@ $ pip install uv
 > Tips: uv 常用操作命令
 ```bash
 $ uv --version                    # 查看版本
+$ uv python list                  # 查看可用Python版本
+$ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
 $ uv sync                         # 安装依赖
 $ uv add flask                    # 添加依赖
 $ uv add flask==2.0.3             # 添加指定版本依赖
@@ -153,8 +155,6 @@ $ uv remove flask                 # 删除依赖
 $ uv run python server.py         # 在虚拟环境中运行命令
 $ source .venv/bin/activate       # 激活虚拟环境
 $ source .venv/Scripts/activate   # windows 上激活虚拟环境
-$ uv python list                  # 查看可用Python版本
-$ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
 ```
 
 ### 本地启动
@@ -162,6 +162,7 @@ $ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
 $ git clone https://github.com/Allen7D/mini-shop-server.git
 $ git clone --depth=1 -b master --single-branch git@github.com:Allen7D/mini-shop-server.git  # 浅克隆(只克隆指定分支，且只下载最近的提交历史)
 $ cd mini-shop-server 
+$ uv venv --python 3.8            # 创建指定 Python 3.8 版本的虚拟环境
 $ uv sync                         # 创建虚拟环境并安装所有依赖
 $ uv run python server.py run     # 启动方式1:默认5000端口
 $ uv run python server.py run -p 8080                 # 启动方式2:改为8080端口
@@ -291,7 +292,7 @@ $ uv python find
 ### 开发思路
 业务逻辑主要放在 Model 层
 <div align="center">
-  <img alt="img" src="./media/arch.png" width="700px">
+  <img alt="img" src="https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/arch.png" width="700px">
   <p>项目架构体系</p>
 </div>
 
@@ -357,7 +358,7 @@ fuser -k 8080/tcp # 关闭占用8080端口的服务
 - 'prod'(product 生产环境)
 
 <div align="center">
-  <img alt="img" src="./media/env_var.png" width="80%">
+  <img alt="img" src="https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/env_var.png" width="600px">
 </div>
 
 1. PyCharm的状态栏的「Run > Edit Configurations」中编辑环境变量<br>

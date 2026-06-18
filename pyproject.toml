@@ -24,7 +24,7 @@ dependencies = [
     "flask-httpauth==4.7.0",
     "flask-wtf==1.1.1",
     "flask-cors==3.0.10",
-    "requests==2.31.0",
+    "requests==2.32.4",
     "wechatpy==1.8.18",
     "gunicorn==21.2.0",
     "email-validator==2.1.0",

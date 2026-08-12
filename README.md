@@ -523,5 +523,5 @@ stdout_logfile=/tmp/blog_stdout.log
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Allen7D/mini-shop-server&type=Date)](https://star-history.com/#Allen7D/mini-shop-server&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=Allen7D/mini-shop-server&type=Date)](https://star-history.dera.page/#Allen7D/mini-shop-server&Date)
 

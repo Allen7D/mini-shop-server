@@ -4,6 +4,7 @@
 """
 import os
 
+from dotenv import load_dotenv
 from flask import Flask
 from werkzeug.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
@@ -33,12 +34,11 @@ def create_app():
 
 
 def load_config(app):
-    if os.environ.get('ENV_MODE') == 'dev:local':
-        app.config.from_object('app.config.local_secure')
-        app.config.from_object('app.config.local_setting')
-    else:
-        app.config.from_object('app.config.secure')
-        app.config.from_object('app.config.setting')
+    # 从项目根目录的 .env 文件加载环境变量(不覆盖已存在的系统环境变量)
+    load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
+
+    app.config.from_object('app.config.secure')
+    app.config.from_object('app.config.setting')
 
     app.config.from_object('app.extensions.file.config')
 

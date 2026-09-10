@@ -348,22 +348,24 @@ fuser -k 8080/tcp # 关闭占用8080端口的服务
 
 ## 本地&线上同步推进
 ### 业务场景
-本地与线上的 Swagger API 文档的接口的地址是不同的，但都依赖同一个配置文件 **`app\config\setting.py`**。<br>
-而个人项目有着本地和线上同步，开发和测试同步的需求，会不断修改 **`app\config\setting.py`** 文件。 
+本地与线上使用不同的密钥、数据库等敏感配置，这些内容不应以明文提交到代码仓库。
 
 ### 解决
-**`本地`** 和 **`线上`** 自动根据所处的环境变量「ENV_MODE」决定，选择不同的配置文件。
-- 'dev:local'(local development 本地开发环境) 
-- 'dev'(development 开发环境 ) 
-- 'prod'(product 生产环境)
+统一使用 `.env`(已 gitignore) 存放敏感配置，启动时由 `python-dotenv` 加载，`app/config/secure.py` 从环境变量读取。
 
-<div align="center">
-  <img alt="img" src="https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/env_var.png" width="600px">
-</div>
+### 使用步骤
+1. 复制模板并填入真实值(Windows 使用 `copy`)：
+   ```bash
+   cp .env.example .env
+   ```
+2. 编辑 `.env`，填写 `SECRET_KEY`、`SQLALCHEMY_DATABASE_URI`、`APP_ID`/`APP_SECRET` 等
+3. 安装依赖并启动：
+   ```bash
+   uv sync
+   uv run python server.py run
+   ```
 
-1. PyCharm的状态栏的「Run > Edit Configurations」中编辑环境变量<br>
-2. 设置ENV_MODE=dev:local<br>
-3. 代码
+> `.env` 已在 `.gitignore` 中，不会被提交；系统环境变量优先于 `.env`，生产环境可直接注入环境变量。
 
 
 

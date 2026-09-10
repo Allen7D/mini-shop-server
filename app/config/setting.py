@@ -9,7 +9,6 @@ __author__ = 'Allen7D'
 
 '''
 应用于Swagger的URL，会自动添加协议前缀(http://或者https://)，因为会切换协议前缀
-local_setting.py中 SERVER_URL = '127.0.0.1:8010'
 '''
 SERVER_URL = 'server.mini-shop.ivinetrue.com'  # 外部（云服务器）地址
 # 所有红图的路径

@@ -9,7 +9,7 @@
 
 <div align="center">
 
-  [![Python Version](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+  [![Python Version](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://python.org)
   [![Flask Version](https://img.shields.io/badge/Flask-2.0.3-green.svg)](https://flask.palletsprojects.com/)
   [![API Docs](https://img.shields.io/badge/API%20Docs-Swagger-orange.svg)](http://47.114.33.143:9000/apidocs/#/)
   [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -67,14 +67,14 @@
 
 
 ## 开发工具
-* Python 3.8（虚拟环境：uv）
+* Python 3.12（虚拟环境：uv）
 * PostgreSQL
 * PyCharm 或 VSCode（开发工具）
 * Navicat（数据库可视化管理工具）
 
 ## 开发环境搭建
 * PostgreSQL安装、运行，数据库的导入
-* Python 3.8
+* Python 3.12
 
 ### PostgreSQL的安装和数据导入
 #### 一、安装
@@ -123,15 +123,15 @@ $ pg_dump -h localhost -U postgres zerd > zerd_pg.sql
 ```
 
 
-### Python3.8版本的安装
+### Python3.12版本的安装
 查询本地的python3的版本 ```$ python3 --version```
-如果不是python3.8的版本，则如下操作
+如果不是python3.12的版本，则如下操作
 
 ```
 $ sudo apt-get update 
 $ sudo apt-get install software-properties-common
-$ sudo add-apt-repository ppa:jonathonf/python-3.8
-$ sudo apt-get install python3.8
+$ sudo add-apt-repository ppa:deadsnakes/ppa
+$ sudo apt-get install python3.12
 ```
 
 ### uv的安装
@@ -149,7 +149,7 @@ $ pip install uv
 ```bash
 $ uv --version                    # 查看版本
 $ uv python list                  # 查看可用Python版本
-$ uv venv --python 3.8            # 创建指定Python版本的虚拟环境
+$ uv venv --python 3.12           # 创建指定Python版本的虚拟环境
 $ uv sync                         # 安装依赖
 $ uv add flask                    # 添加依赖
 $ uv add flask==2.0.3             # 添加指定版本依赖
@@ -164,7 +164,7 @@ $ source .venv/Scripts/activate   # windows 上激活虚拟环境
 $ git clone https://github.com/Allen7D/mini-shop-server.git
 $ git clone --depth=1 -b master --single-branch git@github.com:Allen7D/mini-shop-server.git  # 浅克隆(只克隆指定分支，且只下载最近的提交历史)
 $ cd mini-shop-server 
-$ uv venv --python 3.8            # 创建指定 Python 3.8 版本的虚拟环境
+$ uv venv --python 3.12           # 创建指定 Python 3.12 版本的虚拟环境
 $ uv sync                         # 创建虚拟环境并安装所有依赖
 $ uv run python server.py run     # 启动方式1:默认5000端口
 $ uv run python server.py run -p 8080                 # 启动方式2:改为8080端口

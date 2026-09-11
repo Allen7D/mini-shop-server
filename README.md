@@ -68,56 +68,58 @@
 
 ## 开发工具
 * Python 3.8（虚拟环境：uv）
-* MySQL
+* PostgreSQL
 * PyCharm 或 VSCode（开发工具）
 * Navicat（数据库可视化管理工具）
 
 ## 开发环境搭建
-* MySQL安装、运行，数据库的导入
+* PostgreSQL安装、运行，数据库的导入
 * Python 3.8
 
-### MySQL的安装和数据导入
+### PostgreSQL的安装和数据导入
 #### 一、安装
 ```
-$ sudo apt-get install mysql-server
+$ sudo apt-get install postgresql postgresql-contrib
 ```
-安装过程中，会让你输入密码。<br>
+安装完成后，为 postgres 用户设置密码：
+```
+$ sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'postgres123';"
+```
 请务必记住密码!<br>
 务必记住密码！<br>
 记住密码！<br>
 
 查看是否安装成功
 
-```$ sudo netstat -tap | grep mysql```
+```$ sudo netstat -tap | grep postgres```
 
 #### 二、运行
 ```
-$ mysql -u root -p # 执行完毕后输入密码
-$ mysql -u root -p123456 # 直接输入密码，进入(我的密码是: 123456)
+$ sudo -u postgres psql              # 以 postgres 用户进入 psql 命令行
+$ psql -h localhost -U postgres -W   # 指定主机和用户连接(输入密码)
 ```
 
- **`-u`** 表示选择登陆的用户名，  **`-p`** 表示登陆的用户密码<br>
- 上面命令输入之后，会提示输入密码(Enter password)
+ **`-U`** 表示连接的用户名，  **`-h`** 表示主机地址<br>
+ 上面命令执行之后，会提示输入密码(Enter password)
 
 #### 三、导入
-下载 MySQL数据  [SQL文件](https://server.mini-shop.ivinetrue.com/static/files/zerd.sql)
+使用项目根目录下的 [zerd_pg.sql](./zerd_pg.sql)（PostgreSQL 版本的种子数据）
 
-> mysql的每条执行以「分号」结尾
+> PostgreSQL 的每条执行以「分号」结尾
 ```
-mysql> create database zerd; # 建立数据库(zerd)
-mysql> use zerd; # 进入该数据库
-mysql> source /home/ubuntu/mini-shop-server/zerd.sql; # 导入「mini-shop-server」目录下的sql文件
+$ createdb -h localhost -U postgres zerd                 # 建立数据库(zerd)
+$ psql -h localhost -U postgres -d zerd -f zerd_pg.sql   # 导入「mini-shop-server」目录下的 sql 文件
 ```
 > Tips: 其他数据库操作<br>
 ```
 // 1. 获取存在的所有表
-show tables; 
+postgres=# \dt
 // 2. 导入成功，可以直接查询(user表)
-mysql> select * from user;
+postgres=# select * from "user";
 // 3. 删除数据库(zerd库)
-mysql> drop database zerd;
+postgres=# drop database zerd;
 // 4. 导出数据库
-mysql> 
+$ pg_dump -h localhost -U postgres zerd > zerd_pg.sql
 ```
 
 
@@ -284,7 +286,7 @@ $ uv python find
 ├── Pipfile             # 旧的 pipenv 配置文件 (可删除)
 ├── code.md             # 错误码(用于前后端开发)
 ├── README.md           # 项目说明文档
-├── zerd.sql
+├── zerd_pg.sql
 └── LICENSE
 </code></pre>
 </details>
@@ -512,7 +514,7 @@ stdout_logfile=/tmp/blog_stdout.log
 
 【6】<span id="ref_6"></span>[Nginx配置HTTPS](https://blog.csdn.net/cloume/article/details/78252319)
 
-【7】<span id="ref_7"></span>[Linux下导入、导出mysql数据库命令的实现方法](https://www.jb51.net/article/131791.htm)
+【7】<span id="ref_7"></span>[PostgreSQL 数据库备份与恢复](https://www.postgresql.org/docs/current/backup.html)
 
 【8】<span id="ref_8"></span>[Automatically enable HTTPS on your website with EFF's Certbot.](https://certbot.eff.org/lets-encrypt/ubuntuxenial-nginx)
 

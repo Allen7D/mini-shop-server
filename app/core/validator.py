@@ -65,12 +65,12 @@ class BaseValidator(PropVelifyMixin, WTForm):
 
     @property
     def dt_data(self):
-        '''返回结果以dict的形式，常用于数据库相关操作'''
+        '''返回结果以dict的形式，常用于数据库相关操作, data['name']'''
         return self._data._asdict()
 
     @property
     def nt_data(self):
-        '''返回结果以namedtuple的形式，优化数据解析'''
+        '''返回结果以namedtuple的形式，优化数据解析, data.name'''
         return self._data
 
     @property

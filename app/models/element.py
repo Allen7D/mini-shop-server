@@ -16,5 +16,5 @@ class Element(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(50), comment='名称')
     sign = Column(String(50), comment='元素标识') # system.notice.add
-    route_id = Column(Integer, ForeignKey('route.id'), primary_key=True)
-    groups = relationship('Group', secondary='group_2_element', back_populates='elements')
+    route_id = Column(Integer, ForeignKey('route.id'))
+    groups = relationship('Group', secondary='group_element', back_populates='elements')

@@ -3,6 +3,8 @@
   Created by Chai on 2020/7/13.
   ↓↓↓ 页面元素管理接口 ↓↓↓
 """
+from flask import g
+
 from app.core.error import Success
 from app.extensions.api_docs.cms import element as api_doc
 from app.extensions.api_docs.redprint import Redprint

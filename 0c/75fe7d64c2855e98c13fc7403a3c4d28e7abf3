@@ -1,0 +1,42 @@
+.python-version
+  s_eda92ac75fb975::t_6c569dba951fe4 1
+README.md
+  s_eda92ac75fb975::t_f87797ac3bd810 70
+  s_eda92ac75fb975::t_6120e477abc47c 77
+  s_eda92ac75fb975::t_733dda562c1a10 126,128,133-134
+  s_eda92ac75fb975::t_43d8f0e35d8e44 152
+  s_eda92ac75fb975::t_190037e5ec589c 167
+pyproject.toml
+  s_eda92ac75fb975::t_511a99530e5cec 44,71
+  s_eda92ac75fb975::t_2a4eb5097922e7 7
+  s_eda92ac75fb975::t_0762ad01b8146f 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "0c75fe7d64c2855e98c13fc7403a3c4d28e7abf3",
+  "prompts": {},
+  "sessions": {
+    "s_eda92ac75fb975": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa3b64cd683d814dc04d193",
+        "model": "DeepSeek-V4-Pro-Official__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "runtime_client": "trae-tob-git-ai",
+        "tool_type": "agent",
+        "tool_id": "Edit",
+        "session_id": "6aa3b64cd683d814dc04d193",
+        "dedupe_key": "6aa3b64cd683d814dc04d193:6aa3c0e1d683d814dc04d2a4:afterEdit:62b6651d",
+        "client_type": "ide",
+        "edit_kind": "file_edit",
+        "tool_use_id": "6aa3c0e1d683d814dc04d2a4",
+        "operation_id": "6aa3c0e1d683d814dc04d2a4",
+        "source_scene": "unknown",
+        "external_session_id": "6aa3b64cd683d814dc04d193"
+      }
+    }
+  }
+}

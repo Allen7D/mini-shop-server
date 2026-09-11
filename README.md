@@ -57,6 +57,7 @@
 - [亮点](#亮点)
 - [开发工具](#开发工具)
 - [开发环境搭建](#开发环境搭建)
+- [Docker 一键启动](#docker-一键启动推荐)
 - [服务器部署](#服务器部署)
 - [本地&线上同步推进](#本地&线上同步推进)：针对个人项目
 - [上传&下载](#上传&下载)
@@ -220,6 +221,39 @@ $ uv python find
     "python.defaultInterpreterPath": "./.venv/bin/python",
     "python.terminal.activateEnvironment": true
 }
+```
+
+## Docker 一键启动（推荐）
+无需手动安装 Python/PostgreSQL，只需安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)，即可一条命令拉起「应用 + 数据库」两个容器。
+
+> `Dockerfile` + `.dockerignore` + `docker-compose.yml` 已内置；`db` 容器首次初始化会自动执行 `zerd_pg.sql` 建表并灌入种子数据。
+
+```bash
+# 1. 构建并一键启动（首次会拉取镜像+构建，稍慢）
+$ docker compose up -d --build
+
+# 2. 查看容器状态
+$ docker compose ps
+
+# 3. 查看应用日志
+$ docker compose logs -f app
+```
+
+启动后访问：
+- API 文档：http://localhost:8080/apidocs/#/
+- 静态资源：http://localhost:8080/static/images/1@theme.png
+
+如需生成临时管理员账号（openid=999/777，见 `fake.py`）：
+```bash
+$ docker compose exec app uv run python fake.py
+```
+
+微信小程序相关配置（`APP_ID/APP_SECRET` 等）可在 `docker-compose.yml` 中取消注释并填写。
+
+停止 / 重置：
+```bash
+$ docker compose down      # 停止
+$ docker compose down -v   # 停止并删除数据库数据卷（重置数据）
 ```
 
 ## 目录结构

@@ -1,0 +1,29 @@
+# 环境与密钥
+.env
+.env.*
+!.env.example
+
+# 虚拟环境与缓存
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 版本控制
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# 测试与日志
+.pytest_cache/
+*.log
+
+# 不进入镜像的大文件(mysql 环境下的人才需要)
+zerd.sql
+
+# 本地上传目录(容器内用镜像自带的 static)
+app/static/uploads/
+app/static/files/

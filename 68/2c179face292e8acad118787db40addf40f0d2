@@ -1,0 +1,84 @@
+app/models/group.py
+  s_831b20a2e58313::t_bd6c39c26e85c9 21
+  s_831b20a2e58313::t_bbdd5ce33d9651 1-20,22-27
+app/models/m2m.py
+  s_831b20a2e58313::t_2385850011c9d1 43
+  s_831b20a2e58313::t_f2505fc2fae9f8 40-42
+  s_831b20a2e58313::t_7a44a45281083c 44-45
+zerd_pg.sql
+  h_a0275a31bf9a1d 1-64,66-68,73-81,84-86,91-95,97-99,110-226,228-230,520-528,530-534,540-734,736-740,775-908,910-971,973-1001,1003-1006,1008,1010-1012,1015
+  s_831b20a2e58313::t_525aa86e6c53f9 972
+  s_831b20a2e58313::t_46ce56bd49836d 65,69-72,82-83,87-90,96,100-109,227,231-519,529,535-539,735,741-774,909
+  s_831b20a2e58313::t_ea690a3ced2c35 1037-1038
+  s_831b20a2e58313::t_ba4d04d6eac6c7 1039-1243
+  s_831b20a2e58313::t_760f282c77bf39 1002,1007,1009,1013-1014
+app/config/secure.py
+  s_831b20a2e58313::t_d96b34e1cdb4d7 16
+app/core/validator.py
+  h_a0275a31bf9a1d 2-4,6,9,11,13-14,17,25,33,37,41-42,49,55,65,68,70,73,75
+app/api/cms/order.py
+  s_831b20a2e58313::t_fe3ec761858f35 28-29
+  s_831b20a2e58313::t_9ba84a948ebf3d 1,5-13,15,17,20-26,32,35-42,45-54,57-65
+  h_a0275a31bf9a1d 2-4,14,16,18-19,27,30-31,33-34,43-44,55-56
+app/models/identity.py
+  s_831b20a2e58313::t_aaec217367b27d 54-55
+  s_831b20a2e58313::t_13daef09d46837 25
+  s_831b20a2e58313::t_c31cda50f7ce7b 64-65
+  h_a0275a31bf9a1d 2-7,11,14,16-17,27,32,37,41,45,49,59
+  s_831b20a2e58313::t_05e1639c672d08 66-68
+pyproject.toml
+  h_a0275a31bf9a1d 21
+app/models/element.py
+  s_831b20a2e58313::t_eef428a17fe042 19
+  s_831b20a2e58313::t_bd6c39c26e85c9 20
+  s_831b20a2e58313::t_cfb1a9c0bb862e 16-18
+.env.example
+  s_831b20a2e58313::t_9e68db4d6c59dd 9-12
+  s_831b20a2e58313::t_73a9eb7a804148 7-8
+  s_831b20a2e58313::t_c02d72498e2b24 13
+app/__init__.py
+  s_831b20a2e58313::t_d96b34e1cdb4d7 108
+tests/test_v1_product.py
+  s_831b20a2e58313::t_31dbd8f8729f62 24
+  s_831b20a2e58313::t_11213324325cee 5
+app/api/cms/element.py
+  s_831b20a2e58313::t_4f8972bfe6a694 6-7
+  s_831b20a2e58313::t_c1f7e4ed2bac12 3-5
+  s_831b20a2e58313::t_156a1d70210264 8-10
+app/api/cms/admin.py
+  s_831b20a2e58313::t_599577cf1c865d 1,6,8-16,18,20,22-28,30-31,34-43,46-53,56-63,66-74,77-83,86-92
+  h_a0275a31bf9a1d 2-5,7,17,19,21,29,32-33,44-45,54-55,64-65,75-76,84-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "682c179face292e8acad118787db40addf40f0d2",
+  "prompts": {},
+  "humans": {
+    "h_a0275a31bf9a1d": {
+      "author": "Allen7D <462870781@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_831b20a2e58313": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa36339d683d814dc04c8e2",
+        "model": "DeepSeek-V4-Pro-Official__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "operation_id": "6aa3afb3d683d814dc04d120",
+        "tool_use_id": "6aa3afb3d683d814dc04d120",
+        "display_model_name": "DeepSeek-V4-Pro 正式版",
+        "source_scene": "agent",
+        "runtime_client": "trae-tob-git-ai",
+        "tool_name": "RunCommand",
+        "edit_kind": "bash",
+        "external_session_id": "6aa36339d683d814dc04c8e2",
+        "session_id": "6aa36339d683d814dc04c8e2",
+        "client_type": "ide"
+      }
+    }
+  }
+}

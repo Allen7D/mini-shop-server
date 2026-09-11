@@ -13,7 +13,7 @@ DEBUG = False
 SECRET_KEY = os.environ.get('SECRET_KEY')  # 加密
 TOKEN_EXPIRATION = 30 * 24 * 3600  # 有效期: 30天
 
-# MySQL 数据库配置
+# PostgreSQL 数据库配置
 SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
 SQLALCHEMY_ENCODING = 'utf-8'
 SQLALCHEMY_TRACK_MODIFICATIONS = False  # 屏蔽 sql alchemy 的 FSADeprecationWarning

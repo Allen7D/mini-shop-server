@@ -99,7 +99,7 @@ def handle_error(app):
             return e
         elif isinstance(e, HTTPException):
             return APIException(code=e.code, error_code=1007, msg=str(e.description))
-        elif isinstance(e, IntegrityError) and 'Duplicate entry' in e.orig.errmsg:
+        elif isinstance(e, IntegrityError) and 'duplicate key' in str(e.orig).lower():
             return RepeatException(msg='数据的unique字段重复')
         else:
             if not app.config['DEBUG']:

@@ -2,6 +2,7 @@
 """
   Created by Allen7D on 2020/4/16.
 """
+import os
 import unittest
 
 from app import db, create_app, connect_db
@@ -20,7 +21,7 @@ class APITestCase(unittest.TestCase):
         app = create_app()
         app.config.update(
             TESTING=True,
-            SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:159951@localhost:3306/test?charset=utf8',
+            SQLALCHEMY_DATABASE_URI=os.environ.get('TEST_DATABASE_URI'),
             SQLALCHEMY_ENCODING='utf-8',
             SQLALCHEMY_TRACK_MODIFICATIONS = False  # 屏蔽 sql alchemy 的 FSADeprecationWarning
         )

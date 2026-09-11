@@ -40,6 +40,6 @@ class Order2Product(Model):
 
 
 class Group2Element(Model):
-    __tablename__ = 'group_2_element'
+    __tablename__ = 'group_element'
     group_id = Column(Integer,  ForeignKey('group.id'), primary_key=True)
     element_id = Column(Integer, ForeignKey('element.id'), primary_key=True)

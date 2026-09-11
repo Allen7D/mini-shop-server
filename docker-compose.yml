@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mini-shop-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: zerd
+    # 不映射宿主 5432 端口，避免与本机已有的 pg 冲突；app 通过 compose 内部网络访问 db:5432
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      # 首次初始化数据库自动执行建表+种子数据脚本
+      - ./zerd_pg.sql:/docker-entrypoint-initdb.d/zerd_pg.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d zerd"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: mini-shop-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SECRET_KEY: "docker-quick-start-secret-key"
+      SQLALCHEMY_DATABASE_URI: "postgresql+pg8000://postgres:postgres123@db:5432/zerd"
+      # 微信小程序相关配置(可选，本地联调可留空)
+      # APP_ID: "your-app-id"
+      # APP_SECRET: "your-app-secret"
+      # OPEN_APP_ID: ""
+      # OPEN_APP_SECRET: ""
+      # OPEN_STATE: ""
+      # ACCOUNT_APP_ID: ""
+      # ACCOUNT_APP_SECRET: ""
+    ports:
+      - "8080:8080"
+
+volumes:
+  pg_data:

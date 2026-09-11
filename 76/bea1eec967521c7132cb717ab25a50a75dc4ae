@@ -1,0 +1,48 @@
+.dockerignore
+  s_0a791df764847b::t_63ea6f8e2bc764 1-29
+README.md
+  s_0a791df764847b::t_e6b8b12abbcf83 60
+  s_0a791df764847b::t_6b875542588d60 226-257
+  s_0a791df764847b::t_e25add6d6380f9 258
+Dockerfile
+  s_0a791df764847b::t_de5ff395df89e1 1-2,4-11,15-27
+  s_0a791df764847b::t_49a12887fba9b5 12-14
+  s_0a791df764847b::t_adfc028e93cd70 3
+docker-compose.yml
+  s_0a791df764847b::t_af8228abb308b2 1-9,12-44
+  h_a0275a31bf9a1d 10-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "76bea1eec967521c7132cb717ab25a50a75dc4ae",
+  "prompts": {},
+  "humans": {
+    "h_a0275a31bf9a1d": {
+      "author": "Allen7D <462870781@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_0a791df764847b": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa3c0c4d683d814dc04d28f",
+        "model": "DeepSeek-V4-Pro-Official__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "session_id": "6aa3c0c4d683d814dc04d28f",
+        "tool_id": "Edit",
+        "runtime_client": "trae-tob-git-ai",
+        "external_session_id": "6aa3c0c4d683d814dc04d28f",
+        "tool_use_id": "6aa3d0add683d814dc04d47e",
+        "source_scene": "unknown",
+        "client_type": "ide",
+        "tool_type": "agent",
+        "edit_kind": "file_edit",
+        "dedupe_key": "6aa3c0c4d683d814dc04d28f:6aa3d0add683d814dc04d47e:afterEdit:62b6651d",
+        "operation_id": "6aa3d0add683d814dc04d47e"
+      }
+    }
+  }
+}

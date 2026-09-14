@@ -1,0 +1,46 @@
+README.md
+  h_a0275a31bf9a1d 180,274
+  s_0a791df764847b::t_8866d0a5b7b87f 231,233-237,239-241,243,245,263,265-267,311-313
+  s_0a791df764847b::t_1982e8660d28e0 270-273,275-290,293,296-310
+  s_0a791df764847b::t_df635f3862ff62 246-250,253,255-261
+  s_0a791df764847b::t_c9950a4e27338e 262
+  s_0a791df764847b::t_23ecf4ef532d43 314
+Dockerfile
+  s_0a791df764847b::t_489a6a52ed0dbf 27-28
+fake.py
+  s_0a791df764847b::t_6eeb69dc70d745 4-5,9,11,15-16,20-21,24-37
+  h_a0275a31bf9a1d 17-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "1465689b4cf4da373476f466c45ef46348c43d83",
+  "prompts": {},
+  "humans": {
+    "h_a0275a31bf9a1d": {
+      "author": "Allen7D <462870781@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_0a791df764847b": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa3c0c4d683d814dc04d28f",
+        "model": "DeepSeek-V4-Pro-Official__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "client_type": "ide",
+        "source_scene": "agent",
+        "tool_use_id": "6aa7b3a4d683d814dc04d88c",
+        "operation_id": "6aa7b3a4d683d814dc04d88c",
+        "external_session_id": "6aa3c0c4d683d814dc04d28f",
+        "tool_name": "Edit",
+        "edit_kind": "file_edit",
+        "session_id": "6aa3c0c4d683d814dc04d28f",
+        "runtime_client": "trae-tob-git-ai",
+        "display_model_name": "DeepSeek-V4-Pro 正式版"
+      }
+    }
+  }
+}

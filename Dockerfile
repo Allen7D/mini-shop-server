@@ -24,4 +24,5 @@ RUN uv sync --frozen
 EXPOSE 8080
 
 # 使用 Gunicorn 启动生产服务
-CMD ["uv", "run", "gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "server:app"]
+# 对于快速启动/本地演示场景，单 worker 完全够用
+CMD ["uv", "run", "gunicorn", "-w", "1", "-b", "0.0.0.0:8080", "server:app"]

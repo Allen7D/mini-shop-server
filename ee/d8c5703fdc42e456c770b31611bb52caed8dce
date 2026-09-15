@@ -1,0 +1,83 @@
+docs/arch.svg
+  s_733100acdd27d8::t_10a0d2a34f3bc5 62,64-65,67,69,71,84,109,111
+  s_d5013920ebbc12::t_efa08b1225a8bf 38,40,42
+  s_50383110762f87::t_9787e4dac830e0 2-10,12-33,35,37,39,41,43,45,47-48,50-54,56,58-59,86-88,90,92,94-96,98,100,102-104,106,108,113-114,116,119,122,125,128,130-131,136,138,140-142,144,147,149-151,155,157
+  s_733100acdd27d8::t_6fa50804780a23 1,11,34,36,49,55,57,66,68,70,85,89,91,93,97,99,101,105,107,110,112,115,117-118,120-121,123-124,126-127,129,132-135,137,139,143,145-146,148
+  h_a0275a31bf9a1d 44,46,60-61,63,72,75,77-78,80-81,83,152-154,156
+  s_733100acdd27d8::t_d6c04609d835ed 73-74,76,79,82
+README.md
+  h_a0275a31bf9a1d 41-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "eed8c5703fdc42e456c770b31611bb52caed8dce",
+  "prompts": {},
+  "humans": {
+    "h_a0275a31bf9a1d": {
+      "author": "Allen7D <462870781@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_50383110762f87": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa3cd2dd683d814dc04d404",
+        "model": "glm-5.3-flash__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "tool_use_id": "6aa7bf04d683d814dc04d8f7",
+        "edit_kind": "file_edit",
+        "external_session_id": "6aa3cd2dd683d814dc04d404",
+        "display_model_name": "GLM-5.3-Flash",
+        "source_scene": "agent",
+        "operation_id": "6aa7bf04d683d814dc04d8f7",
+        "client_type": "ide",
+        "runtime_client": "trae-tob-git-ai",
+        "session_id": "6aa3cd2dd683d814dc04d404",
+        "tool_name": "Edit"
+      }
+    },
+    "s_733100acdd27d8": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa8b5a4d683d814dc04db12",
+        "model": "DeepSeek-V4-Pro-Official__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "tool_name": "Edit",
+        "runtime_client": "trae-tob-git-ai",
+        "operation_id": "6aa8b6e4d683d814dc04db26",
+        "source_scene": "agent",
+        "display_model_name": "DeepSeek-V4-Pro 正式版",
+        "external_session_id": "6aa8b5a4d683d814dc04db12",
+        "session_id": "6aa8b5a4d683d814dc04db12",
+        "client_type": "ide",
+        "tool_use_id": "6aa8b6e4d683d814dc04db26",
+        "edit_kind": "file_edit"
+      }
+    },
+    "s_d5013920ebbc12": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa8e4a7d683d814dc04dbc5",
+        "model": "DeepSeek-V4-Pro-Official__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "edit_kind": "file_edit",
+        "external_session_id": "6aa8e4a7d683d814dc04dbc5",
+        "tool_name": "Edit",
+        "source_scene": "agent",
+        "operation_id": "6aa8e8e2d683d814dc04dc1c",
+        "tool_use_id": "6aa8e8e2d683d814dc04dc1c",
+        "display_model_name": "DeepSeek-V4-Pro 正式版",
+        "session_id": "6aa8e4a7d683d814dc04dbc5",
+        "client_type": "ide",
+        "runtime_client": "trae-tob-git-ai"
+      }
+    }
+  }
+}

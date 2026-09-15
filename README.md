@@ -39,6 +39,11 @@
 - 现代化包管理：使用 uv 替代 pipenv，提供更快的依赖安装和解析
 - Ubuntu 16.04+ 上 Nginx + Gunicorn + uv 部署
 
+<div align="center">
+  <img alt="img" src="docs/arch.svg" width="700px">
+  <p>项目架构体系</p>
+</div>
+
 ## 🔩 内置
 1. 用户管理：提供用户的相关配置
 2. 权限组(角色)管理：接口权限分配和菜单权限分配
@@ -381,13 +386,6 @@ $ docker compose up -d
 └── LICENSE
 </code></pre>
 </details>
-
-### 开发思路
-业务逻辑主要放在 Model 层
-<div align="center">
-  <img alt="img" src="https://raw.githubusercontent.com/Allen7D/ImageHosting/main/images/arch.png" width="700px">
-  <p>项目架构体系</p>
-</div>
 
 ### 业务逻辑分成
 DAO层(数据访问层)，全称为data access object

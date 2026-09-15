@@ -1,0 +1,14 @@
+README.md
+  h_a0275a31bf9a1d 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "c7d27ea82f591cf7d568205a1422ccb708ea17b0",
+  "prompts": {},
+  "humans": {
+    "h_a0275a31bf9a1d": {
+      "author": "Allen7D <462870781@qq.com>"
+    }
+  }
+}

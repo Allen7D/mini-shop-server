@@ -1,0 +1,37 @@
+docs/arch.svg
+  h_a0275a31bf9a1d 141,156-158,160
+  s_50383110762f87::t_9787e4dac830e0 1-140,142-155,159,161
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "481165365e66adfa2e6e231740d879053f6aa1ac",
+  "prompts": {},
+  "humans": {
+    "h_a0275a31bf9a1d": {
+      "author": "Allen7D <462870781@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_50383110762f87": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa3cd2dd683d814dc04d404",
+        "model": "glm-5.3-flash__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "tool_name": "Edit",
+        "operation_id": "6aa7bf04d683d814dc04d8f7",
+        "source_scene": "agent",
+        "display_model_name": "GLM-5.3-Flash",
+        "runtime_client": "trae-tob-git-ai",
+        "session_id": "6aa3cd2dd683d814dc04d404",
+        "edit_kind": "file_edit",
+        "external_session_id": "6aa3cd2dd683d814dc04d404",
+        "tool_use_id": "6aa7bf04d683d814dc04d8f7",
+        "client_type": "ide"
+      }
+    }
+  }
+}

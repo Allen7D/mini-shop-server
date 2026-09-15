@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="780" viewBox="0 0 960 780"
+  font-family="'PingFang SC','Microsoft YaHei','Hiragino Sans GB',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+      orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d4b06a" />
+    </marker>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="960" height="780" rx="14" fill="#0e0d0b" />
+
+  <!-- ================= top: WeChat server ================= -->
+  <rect x="340" y="24" width="240" height="56" rx="8" fill="#191817" stroke="#d4b06a"
+    stroke-width="1.5" />
+  <text x="460" y="47" text-anchor="middle" font-size="15" font-weight="bold" fill="#e8c987">微信服务器</text>
+  <text x="460" y="67" text-anchor="middle" font-size="11" fill="#c9b98f">开放接口 / 支付 / 消息推送</text>
+
+  <!-- WeChat server <-> mini program -->
+  <line x1="580" y1="48" x2="778" y2="48" stroke="#d4b06a" stroke-width="1.5"
+    marker-start="url(#arr)" marker-end="url(#arr)" />
+
+  <!-- WeChat server <-> Flask app -->
+  <line x1="460" y1="80" x2="460" y2="116" stroke="#d4b06a" stroke-width="1.5"
+    marker-start="url(#arr)" marker-end="url(#arr)" />
+
+  <!-- ================= right: clients ================= -->
+  <rect x="782" y="20" width="156" height="64" rx="8" fill="#191817" stroke="#d4b06a"
+    stroke-width="1.5" />
+  <text x="860" y="46" text-anchor="middle" font-size="14" font-weight="bold" fill="#e8c987">微信小程序</text>
+  <text x="860" y="66" text-anchor="middle" font-size="11" fill="#c9b98f">mini-shop-wx</text>
+
+  <!-- mini program -> app (elbow) -->
+  <path d="M 860,84 L 860,311 L 742,311" fill="none" stroke="#d4b06a" stroke-width="1.5"
+    marker-start="url(#arr)" marker-end="url(#arr)" />
+  <text x="806" y="303" text-anchor="middle" font-size="10" fill="#b9a06a">HTTPS · Token</text>
+
+  <rect x="782" y="460" width="156" height="64" rx="8" fill="#191817" stroke="#d4b06a"
+    stroke-width="1.5" />
+  <text x="860" y="486" text-anchor="middle" font-size="14" font-weight="bold" fill="#e8c987">CMS
+    管理端</text>
+  <text x="860" y="506" text-anchor="middle" font-size="11" fill="#c9b98f">mini-shop-cms</text>
+
+  <path d="M 742,362 L 860,362 L 860,460" fill="none" stroke="#d4b06a" stroke-width="1.5"
+    marker-start="url(#arr)" marker-end="url(#arr)" />
+  <text x="806" y="382" text-anchor="middle" font-size="10" fill="#b9a06a">HTTPS · Token</text>
+
+  <!-- ================= center: Flask app ================= -->
+  <rect x="240" y="120" width="490" height="596" rx="10" fill="#141312" stroke="#d4b06a"
+    stroke-width="2" />
+  <text x="485" y="148" text-anchor="middle" font-size="17" font-weight="bold" fill="#e8c987">mini-shop-server
+    · Flask RESTful API</text>
+
+  <!-- deployment strip -->
+  <rect x="262" y="164" width="446" height="34" rx="6" fill="#221f1a" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="485" y="185" text-anchor="middle" font-size="13" fill="#f0e6d2">Nginx ⇄ Gunicorn · Docker
+    容器化部署</text>
+
+  <!-- ========== AOP 横切（包裹 API / Service / DAO / Model） ========== -->
+  <rect x="262" y="206" width="446" height="360" rx="10" fill="none" stroke="#e8c987"
+    stroke-width="1.5" stroke-dasharray="6,4" />
+  <text x="274" y="222" font-size="12" font-weight="bold" fill="#e8c987">AOP 横切</text>
+
+  <!-- Before advice（前置切面） -->
+  <rect x="272" y="230" width="212" height="30" rx="5" fill="#1c1a16" stroke="#e8c987"
+    stroke-width="1" stroke-dasharray="4,3" />
+  <text x="378" y="250" text-anchor="middle" font-size="12" fill="#e8c987">Token 鉴权</text>
+
+  <rect x="492" y="230" width="206" height="30" rx="5" fill="#1c1a16" stroke="#e8c987"
+    stroke-width="1" stroke-dasharray="4,3" />
+  <text x="595" y="250" text-anchor="middle" font-size="12" fill="#e8c987">参数校验层</text>
+
+  <!-- API layer -->
+  <rect x="272" y="288" width="426" height="46" rx="6" fill="#191817" stroke="#b99a5f"
+    stroke-width="1.2" />
+  <text x="282" y="316" font-size="12" fill="#c9b98f">API 层</text>
+  <rect x="334" y="300" width="140" height="24" rx="5" fill="#26231e" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="404" y="316" text-anchor="middle" font-size="12" fill="#f0e6d2">api/v1 商城接口</text>
+  <rect x="520" y="300" width="140" height="24" rx="5" fill="#26231e" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="591" y="316" text-anchor="middle" font-size="12" fill="#f0e6d2">api/cms 管理接口</text>
+
+  <line x1="485" y1="334" x2="485" y2="360" stroke="#d4b06a" stroke-width="1.5"
+    marker-end="url(#arr)" />
+
+  <!-- Service layer -->
+  <rect x="272" y="362" width="426" height="30" rx="6" fill="#191817" stroke="#b99a5f"
+    stroke-width="1.2" />
+  <text x="485" y="381" text-anchor="middle" font-size="13" fill="#f0e6d2">Service 层（业务逻辑 · 事务）</text>
+
+  <line x1="485" y1="392" x2="485" y2="418" stroke="#d4b06a" stroke-width="1.5"
+    marker-end="url(#arr)" />
+
+  <!-- DAO layer -->
+  <rect x="272" y="420" width="426" height="30" rx="6" fill="#191817" stroke="#b99a5f"
+    stroke-width="1.2" />
+  <text x="485" y="439" text-anchor="middle" font-size="13" fill="#f0e6d2">DAO 层（数据访问 · 原子操作）</text>
+
+  <line x1="485" y1="450" x2="485" y2="476" stroke="#d4b06a" stroke-width="1.5"
+    marker-end="url(#arr)" />
+
+  <!-- Model layer -->
+  <rect x="272" y="478" width="426" height="30" rx="6" fill="#191817" stroke="#b99a5f"
+    stroke-width="1.2" />
+  <text x="485" y="497" text-anchor="middle" font-size="13" fill="#f0e6d2">Model 层（SQLAlchemy ORM）</text>
+
+  <!-- After-throwing advice（异常统一处理） -->
+  <rect x="272" y="532" width="426" height="28" rx="5" fill="#1c1a16" stroke="#e8c987"
+    stroke-width="1" stroke-dasharray="4,3" />
+  <text x="485" y="550" text-anchor="middle" font-size="12" fill="#e8c987">异常统一处理</text>
+
+  <!-- extensions strip -->
+  <rect x="262" y="578" width="446" height="112" rx="6" fill="#191817" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="274" y="598" font-size="12" fill="#c9b98f">扩展（extensions）</text>
+  <rect x="272" y="608" width="212" height="28" rx="5" fill="#26231e" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="378" y="626" text-anchor="middle" font-size="12" fill="#f0e6d2">Swagger 文档 · Flasgger</text>
+  <rect x="490" y="608" width="212" height="28" rx="5" fill="#26231e" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="596" y="626" text-anchor="middle" font-size="12" fill="#f0e6d2">文件上传 · 本地 / 七牛云</text>
+  <rect x="272" y="642" width="212" height="28" rx="5" fill="#26231e" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="378" y="660" text-anchor="middle" font-size="12" fill="#f0e6d2">ORM Admin · 后台管理</text>
+  <rect x="490" y="642" width="212" height="28" rx="5" fill="#26231e" stroke="#8a734a"
+    stroke-width="1" />
+  <text x="596" y="660" text-anchor="middle" font-size="12" fill="#f0e6d2">内存缓存 · cachelib</text>
+
+  <!-- ================= left: PostgreSQL ================= -->
+  <rect x="58" y="444" width="144" height="72" fill="#191817" stroke="#8a734a" stroke-width="1.2" />
+  <ellipse cx="130" cy="444" rx="72" ry="12" fill="#26231e" stroke="#8a734a" stroke-width="1.2" />
+  <ellipse cx="130" cy="516" rx="72" ry="12" fill="#191817" stroke="#8a734a" stroke-width="1.2" />
+  <text x="130" y="489" text-anchor="middle" font-size="14" font-weight="bold" fill="#e8c987">
+    PostgreSQL</text>
+  <text x="130" y="508" text-anchor="middle" font-size="10" fill="#c9b98f">pg8000</text>
+
+  <line x1="206" y1="493" x2="268" y2="493" stroke="#d4b06a" stroke-width="1.5"
+    marker-start="url(#arr)" marker-end="url(#arr)" />
+
+  <!-- file storage -->
+  <rect x="58" y="590" width="144" height="64" rx="8" fill="#191817" stroke="#8a734a"
+    stroke-width="1.2" />
+  <text x="130" y="616" text-anchor="middle" font-size="14" font-weight="bold" fill="#e8c987">文件存储</text>
+  <text x="130" y="636" text-anchor="middle" font-size="11" fill="#c9b98f">本地 / 七牛云</text>
+
+  <line x1="206" y1="622" x2="268" y2="622" stroke="#d4b06a" stroke-width="1.5"
+    marker-start="url(#arr)" marker-end="url(#arr)" />
+
+  <!-- legend -->
+  <line x1="760" y1="746" x2="810" y2="746" stroke="#e8c987" stroke-width="1.2" stroke-dasharray="5,3" />
+  <text x="820" y="750" font-size="11" fill="#c9b98f">AOP 横切面</text>
+  <line x1="760" y1="770" x2="810" y2="770" stroke="#d4b06a" stroke-width="1.5"
+    marker-start="url(#arr)" marker-end="url(#arr)" />
+  <text x="820" y="774" font-size="11" fill="#c9b98f">数据流</text>
+</svg>

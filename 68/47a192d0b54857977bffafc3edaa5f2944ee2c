@@ -1,0 +1,39 @@
+docs/arch.svg
+  h_a0275a31bf9a1d 44,46,61
+  s_d5013920ebbc12::t_efa08b1225a8bf 38,40,42
+README.md
+  h_a0275a31bf9a1d 41-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "6847a192d0b54857977bffafc3edaa5f2944ee2c",
+  "prompts": {},
+  "humans": {
+    "h_a0275a31bf9a1d": {
+      "author": "Allen7D <462870781@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_d5013920ebbc12": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6aa8e4a7d683d814dc04dbc5",
+        "model": "DeepSeek-V4-Pro-Official__dev"
+      },
+      "human_author": "Allen7D <462870781@qq.com>",
+      "custom_attributes": {
+        "session_id": "6aa8e4a7d683d814dc04dbc5",
+        "operation_id": "6aa8e8e2d683d814dc04dc1c",
+        "external_session_id": "6aa8e4a7d683d814dc04dbc5",
+        "edit_kind": "file_edit",
+        "client_type": "ide",
+        "tool_name": "Edit",
+        "tool_use_id": "6aa8e8e2d683d814dc04dc1c",
+        "display_model_name": "DeepSeek-V4-Pro 正式版",
+        "source_scene": "agent",
+        "runtime_client": "trae-tob-git-ai"
+      }
+    }
+  }
+}

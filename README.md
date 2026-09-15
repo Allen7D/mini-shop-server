@@ -11,6 +11,7 @@
 
   [![Python Version](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://python.org)
   [![Flask Version](https://img.shields.io/badge/Flask-2.0.3-green.svg)](https://flask.palletsprojects.com/)
+  [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Allen7D/mini-shop-server)
   [![API Docs](https://img.shields.io/badge/API%20Docs-Swagger-orange.svg)](http://47.114.33.143:9000/apidocs/#/)
   [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
   [![Stars](https://img.shields.io/github/stars/Allen7D/mini-shop-server.svg)](https://github.com/Allen7D/mini-shop-server)

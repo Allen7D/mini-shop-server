@@ -2,11 +2,12 @@
 """
   Created by Allen7D on 2018/5/31.
 """
-from flask import g, request, current_app
+from flask import g
 from sqlalchemy import Column, Integer, String, SmallInteger
 from sqlalchemy.orm import relationship, backref
 
 from app.libs.enums import ScopeEnum, ClientTypeEnum
+from app.libs.url import local_asset_url
 from app.core.db import EntityModel as Base, db
 from app.models.group import Group
 from app.models.address import Address
@@ -57,11 +58,7 @@ class User(Base):
     @property
     def avatar(self):
         if self._avatar is not None:
-            host_url = request.host_url
-            host_url = host_url.split(',')[-1] if ',' in host_url else host_url
-            host_url = host_url[:-1]  # 当前host的路径 http://192.168.10.80:8010
-            static_url_path = current_app.static_url_path[1:] + '/avatars'  # static/avatars
-            return '{0}/{1}/{2}'.format(host_url, static_url_path, self._avatar)
+            return local_asset_url('avatars', self._avatar)
         return self._avatar
 
     @property

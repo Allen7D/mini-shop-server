@@ -30,6 +30,24 @@ class Redprint(object):
 
         return decorator
 
+    def _http(self, method: str, rule: str, **options):
+        return self.route(rule, methods=[method], **options)
+
+    def get(self, rule: str, **options):
+        return self._http('GET', rule, **options)
+
+    def post(self, rule: str, **options):
+        return self._http('POST', rule, **options)
+
+    def put(self, rule: str, **options):
+        return self._http('PUT', rule, **options)
+
+    def delete(self, rule: str, **options):
+        return self._http('DELETE', rule, **options)
+
+    def patch(self, rule: str, **options):
+        return self._http('PATCH', rule, **options)
+
     def register(self, bp, url_prefix=None):
         if url_prefix is None:
             url_prefix = '/' + self.name

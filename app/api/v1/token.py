@@ -16,7 +16,7 @@ __author__ = 'Allen7D'
 api = Redprint(name='token', module='令牌', api_doc=api_doc)
 
 
-@api.route('', methods=['POST'])
+@api.post('')
 @api.doc(args=['g.body.account', 'g.body.secret', 'g.body.type'], body_desc='''登录的基本信息: 账号、密码、登录类型:
                                                            - 用户名登录(type:100)
                                                            - 邮箱账号登录(type:101)
@@ -32,7 +32,7 @@ def get_token():
     return Success(data=token)
 
 
-@api.route('/verify', methods=['POST'])
+@api.post('/verify')
 @api.doc(args=['g.body.token'], body_desc='令牌')
 def decrypt_token():
     '''解析「令牌」'''
@@ -41,7 +41,7 @@ def decrypt_token():
     return Success(data=token_info)
 
 
-@api.route('/open_redirect_url', methods=['GET'])
+@api.get('/open_redirect_url')
 @api.doc()
 def get_open_redirect_url():
     '''微信授权跳转链接

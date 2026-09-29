@@ -2,12 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "运行 server.py",
+            "name": "Flask: 调试模式",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/server.py",
+            "module": "flask",
+            "args": [
+                "run",
+                "--host", "127.0.0.1",
+                "--port", "5000"
+            ],
             "console": "integratedTerminal",
             "env": {
+                "FLASK_APP": "server",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "1"
             }

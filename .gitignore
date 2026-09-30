@@ -17,3 +17,7 @@ guide/
 tmp/
 .env
 Pipfile.lock.back
+
+# 测试运行时生成的共享令牌缓存(应隔离到临时目录,不应入库)
+token.json
+tests/token.json

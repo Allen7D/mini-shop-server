@@ -1,41 +1,26 @@
 # _*_ coding: utf-8 _*_
 """
-  Created by Allen7D on 2020/4/12.
+  集成测试工具。
+
+  说明：早期版本把 token 持久化到共享的 token.json，导致测试之间存在
+  顺序耦合(test_get_token 会覆盖其它测试读取的 token)。现已改为在每个
+  测试内自行登录获取 token，不再依赖磁盘上的共享文件。
 """
-import json
 import base64
 
-from flask import request, g
 
-__author__ = 'Allen7D'
-
-
-def write_token(data):
-    obj = json.dumps(data)
-    with open('token.json', 'w') as f:
-        f.write(obj)
-
-
-def get_token(key='token'):
-    with open('token.json', 'r') as f:
-        obj = json.loads(f.read())
-        return obj[key]
+def login(client, account: str, secret: str, login_type: int = 101) -> str:
+    """登录并返回 token 字符串。"""
+    rv = client.post('/v1/token', json={
+        'account': account,
+        'secret': secret,
+        'type': login_type
+    })
+    assert rv.status_code == 200, f'登录失败: {rv.get_json()}'
+    return rv.get_json()['data']['token']
 
 
-def get_authorization():
-    with open('token.json', 'r') as f:
-        obj = json.loads(f.read())
-        bytes_token = bytes(obj['token'] + ':', 'utf-8')
-        encode_token = str(base64.b64encode(bytes_token)).strip('b\'')
-        return 'Basic {}'.format(encode_token)
-
-
-def format_print(json_data):
-    message = '[%s] -> [%s] from:%s' % (
-        request.method,
-        request.path,
-        request.remote_addr
-    ) + '\n' + json.dumps(json_data, indent=4, ensure_ascii=False)
-    print('>' * 22 + '[Test Response]' + '>' * 23)
-    print(message)
-    print('<' * 60)
+def authorization(token: str) -> str:
+    """把 token 编码成 Basic auth 请求头(Basic base64(token:))。"""
+    raw = base64.b64encode(bytes(token + ':', 'utf-8')).decode()
+    return 'Basic ' + raw

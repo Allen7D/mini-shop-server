@@ -10,7 +10,17 @@ import base64
 
 
 def login(client, account: str, secret: str, login_type: int = 101) -> str:
-    """登录并返回 token 字符串。"""
+    """登录并返回 token 字符串。
+
+    :param client: Flask 测试客户端(test_client)，用于发起登录请求。
+    :param account: 登录账号，邮箱登录时传邮箱地址。
+    :param secret: 登录密码。
+    :param login_type: 登录方式。101 = 邮箱登录。
+
+    :return: 登录成功后返回的 token 字符串(token 取自响应 data.token)。
+
+    :raises AssertionError: 登录接口必须返回 200，否则断言失败并携带响应内容。
+    """
     rv = client.post('/v1/token', json={
         'account': account,
         'secret': secret,
@@ -21,6 +31,11 @@ def login(client, account: str, secret: str, login_type: int = 101) -> str:
 
 
 def authorization(token: str) -> str:
-    """把 token 编码成 Basic auth 请求头(Basic base64(token:))。"""
+    """把 token 编码成 Basic auth 请求头(Basic base64(token:))。
+
+    :param token: 登录接口返回的 token 字符串。
+
+    :return: Basic auth 请求头字符串。
+    """
     raw = base64.b64encode(bytes(token + ':', 'utf-8')).decode()
     return 'Basic ' + raw

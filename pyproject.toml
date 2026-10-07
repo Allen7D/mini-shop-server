@@ -27,7 +27,7 @@ dependencies = [
     "requests==2.31.0",
     "python-dotenv==1.0.1",
     "wechatpy==1.8.18",
-    "gunicorn==21.2.0",
+    "gunicorn==23.0.0",
     "email-validator==2.1.0",
     "psutil==5.9.6",
     "qiniu==7.12.1",
